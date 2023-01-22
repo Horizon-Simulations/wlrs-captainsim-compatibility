@@ -1,0 +1,1 @@
+{"version":3,"file":"FlightPathCalculatorControlEvents.d.ts","sourceRoot":"","sources":["../../flightplan/FlightPathCalculatorControlEvents.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,2BAA2B,EAAE,MAAM,wBAAwB,CAAC;AAErE;;GAEG;AACH,MAAM,WAAW,iCAAiC;IAChD,4DAA4D;IAC5D,sBAAsB,EAAE,OAAO,CAAC,2BAA2B,CAAC,CAAC;CAC9D"}
