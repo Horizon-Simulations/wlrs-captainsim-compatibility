@@ -1,7 +1,7 @@
 <img src="./worldlinerrs/banner/logo/WorldlinerRS.png" width=30% height=30%>
 
 # WorldlinerRS Compatibility Mod for Captain Sim B777 and B767 Packages
-## About
+
 The WorldlinerRS Project is an open source project to improve Captain Sim based B777 and B767 in Microsoft Flight Simulator to a enjoyable and flyable level.
 
 The project itself is mainly based on [Salty Simulations 747](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH).
@@ -46,12 +46,19 @@ The project itself is mainly based on [Salty Simulations 747](https://github.com
  BEW         229600 lbs (104145 kgs)
  ```
 
+## How to contribute?
+If you would like to contribute to the project, see [Contributing.md](./Contributing.md)
+
+## Known issues and limitations
+
+The project is build-up on top of a payware product from [Captain Sim](https://captainsim.net/). This leads to limitation in key/button assigment in order interact with cockpit elements e.g. ADIRU button. Many of these are unclickable at all. Many features in the aircraft are still based on default B747-8i by Asobo which may displays some missing items.  
+
 ## FAQ
 
 ...
 
 ## License
 
-This Compatibility Mod for Captain Sim Boeing 777 Series is a modified version based on [Salty Simulations 747 Project](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH). This project is distributed under the GNU General Public License version 3. See [LICENSE](https://github.com/masterrob94/masterrob94-salty-777/blob/master/LICENSE).
+This Compatibility Mod for Captain Sim Boeing 777 Series is a modified version based on [Salty Simulations 747 Project](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH). This project is distributed under the GNU General Public License version 3. See [LICENSE](./LICENSE).
 
 Microsoft Flight Simulator © Microsoft Corporation. Compatibility Mod for Captain Sim Boeing 777 Series was created under Microsoft's "Game Content Usage Rules" using assets from Microsoft Flight Simulator, and it is not endorsed by or affiliated with Microsoft.
