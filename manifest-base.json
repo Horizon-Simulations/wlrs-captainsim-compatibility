@@ -9,8 +9,8 @@
     "title": "WorldlinerRS Base Package",
     "manufacturer": "Boeing",
     "creator": "masterrob94",
-    "package_version": "2.3.1",
-    "minimum_game_version": "1.22.2",
+    "package_version": "3.0.0",
+    "minimum_game_version": "1.29.30",
     "release_notes": {
       "neutral": {
         "LastUpdate": "",
