@@ -1,6 +1,31 @@
 {
   "content": [
     {
+      "path": "data\\fonts\\BoeingCDU.ttf",
+      "size": 18700,
+      "date": 133188677799929580
+    },
+    {
+      "path": "data\\fonts\\BoeingEFIS.sfd",
+      "size": 187875,
+      "date": 133188677799939580
+    },
+    {
+      "path": "data\\fonts\\BoeingEFIS.ttf",
+      "size": 12412,
+      "date": 133188677799944600
+    },
+    {
+      "path": "data\\fonts\\Jost-500-Medium.ttf",
+      "size": 102240,
+      "date": 133188677799959600
+    },
+    {
+      "path": "data\\fonts\\MCP-704.ttf",
+      "size": 5968,
+      "date": 133188677799969580
+    },
+    {
       "path": "html_ui\\fonts\\BoeingCDU.ttf",
       "size": 18700,
       "date": 133188677799929580
@@ -1296,31 +1321,6 @@
       "date": 133188677793842930
     },
     {
-      "path": "data\\fonts\\BoeingCDU.ttf",
-      "size": 18700,
-      "date": 133188677799929580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.sfd",
-      "size": 187875,
-      "date": 133188677799939580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.ttf",
-      "size": 12412,
-      "date": 133188677799944600
-    },
-    {
-      "path": "data\\fonts\\Jost-500-Medium.ttf",
-      "size": 102240,
-      "date": 133188677799959600
-    },
-    {
-      "path": "data\\fonts\\MCP-704.ttf",
-      "size": 5968,
-      "date": 133188677799969580
-    },
-    {
       "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777F\\EICAS\\CS777F_EICAS.css",
       "size": 1888,
       "date": 133188677801422320
@@ -1474,31 +1474,6 @@
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\taxi.FLT",
       "size": 4157,
       "date": 133188677799919600
-    },
-    {
-      "path": "data\\fonts\\BoeingCDU.ttf",
-      "size": 18700,
-      "date": 133188677799929580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.sfd",
-      "size": 187875,
-      "date": 133188677799939580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.ttf",
-      "size": 12412,
-      "date": 133188677799944600
-    },
-    {
-      "path": "data\\fonts\\Jost-500-Medium.ttf",
-      "size": 102240,
-      "date": 133188677799959600
-    },
-    {
-      "path": "data\\fonts\\MCP-704.ttf",
-      "size": 5968,
-      "date": 133188677799969580
     },
     {
       "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-300ER\\EICAS\\CS777-300ER_EICAS.css",
@@ -1656,31 +1631,6 @@
       "date": 133188677799779150
     },
     {
-      "path": "data\\fonts\\BoeingCDU.ttf",
-      "size": 18700,
-      "date": 133188677799929580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.sfd",
-      "size": 187875,
-      "date": 133188677799939580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.ttf",
-      "size": 12412,
-      "date": 133188677799944600
-    },
-    {
-      "path": "data\\fonts\\Jost-500-Medium.ttf",
-      "size": 102240,
-      "date": 133188677799959600
-    },
-    {
-      "path": "data\\fonts\\MCP-704.ttf",
-      "size": 5968,
-      "date": 133188677799969580
-    },
-    {
       "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\CS777-200ER_EICAS.css",
       "size": 1888,
       "date": 133188677801294940
@@ -1834,31 +1784,6 @@
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\taxi.FLT",
       "size": 4157,
       "date": 133188677799487580
-    },
-    {
-      "path": "data\\fonts\\BoeingCDU.ttf",
-      "size": 18700,
-      "date": 133188677799929580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.sfd",
-      "size": 187875,
-      "date": 133188677799939580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.ttf",
-      "size": 12412,
-      "date": 133188677799944600
-    },
-    {
-      "path": "data\\fonts\\Jost-500-Medium.ttf",
-      "size": 102240,
-      "date": 133188677799959600
-    },
-    {
-      "path": "data\\fonts\\MCP-704.ttf",
-      "size": 5968,
-      "date": 133188677799969580
     },
     {
       "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS767-400ER\\EICAS\\CS767-400ER_EICAS.css",
