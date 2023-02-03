@@ -37,6 +37,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        tag_name: dev
         release_name: Development Main
     - name: Upload Release
       uses: ncipollo/release-action@v1.12.0

@@ -1,31 +1,6 @@
 {
   "content": [
     {
-      "path": "data\\fonts\\BoeingCDU.ttf",
-      "size": 18700,
-      "date": 133188677799929580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.sfd",
-      "size": 187875,
-      "date": 133188677799939580
-    },
-    {
-      "path": "data\\fonts\\BoeingEFIS.ttf",
-      "size": 12412,
-      "date": 133188677799944600
-    },
-    {
-      "path": "data\\fonts\\Jost-500-Medium.ttf",
-      "size": 102240,
-      "date": 133188677799959600
-    },
-    {
-      "path": "data\\fonts\\MCP-704.ttf",
-      "size": 5968,
-      "date": 133188677799969580
-    },
-    {
       "path": "html_ui\\fonts\\BoeingCDU.ttf",
       "size": 18700,
       "date": 133188677799929580
@@ -1392,8 +1367,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\cameras.cfg",
-      "size": 30986,
-      "date": 133188677799794180
+      "size": 30983,
+      "date": 133199032677356880
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\Climb.flt",
@@ -1412,8 +1387,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\engines.cfg",
-      "size": 7147,
-      "date": 133192415749771040
+      "size": 7143,
+      "date": 133199032385882960
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\final.FLT",
@@ -1422,8 +1397,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\flight_model.cfg",
-      "size": 32428,
-      "date": 133193139818475790
+      "size": 31712,
+      "date": 133199070760723260
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\gameplay.cfg",
@@ -1448,7 +1423,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\panel\\panel.cfg",
       "size": 1857,
-      "date": 133193818661827380
+      "date": 133199044145475680
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\panel\\panel.xml",
@@ -1577,8 +1552,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\flight_model.cfg",
-      "size": 32587,
-      "date": 133188677799678940
+      "size": 31869,
+      "date": 133199064310269800
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\gameplay.cfg",
@@ -1602,8 +1577,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\panel.cfg",
-      "size": 1998,
-      "date": 133188677799764210
+      "size": 1887,
+      "date": 133199043850089820
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\panel.xml",
@@ -1703,7 +1678,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\cameras.cfg",
       "size": 30983,
-      "date": 133193895723080400
+      "date": 133199032677356880
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\Climb.flt",
@@ -1723,7 +1698,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\engines.cfg",
       "size": 7157,
-      "date": 133193878481253180
+      "date": 133199032385887940
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\final.FLT",
@@ -1732,8 +1707,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\flight_model.cfg",
-      "size": 31855,
-      "date": 133193894960702930
+      "size": 31884,
+      "date": 133199070760723260
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\gameplay.cfg",
