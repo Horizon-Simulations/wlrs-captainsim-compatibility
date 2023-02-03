@@ -1386,9 +1386,14 @@
       "date": 133188677799804240
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\engines.cfg",
+      "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\engines.aam1.cfg",
       "size": 7143,
       "date": 133199032385882960
+    },
+    {
+      "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\engines.cfg",
+      "size": 8628,
+      "date": 133199116897733570
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\final.FLT",
@@ -1397,8 +1402,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\flight_model.cfg",
-      "size": 31712,
-      "date": 133199070760723260
+      "size": 32159,
+      "date": 133199118420158270
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\gameplay.cfg",
@@ -1437,8 +1442,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\systems.cfg",
-      "size": 24151,
-      "date": 133193153708043490
+      "size": 23822,
+      "date": 133199076816843100
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\target_performance.cfg",
