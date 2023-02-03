@@ -43,14 +43,14 @@ function* readdir(d) {
 const MS_FILETIME_EPOCH = 116444736000000000n;
 const base = path.resolve(__dirname, '..', 'wlrs-captainsim-boeing-base');
 const base_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-boeing-base');
-const b77l = path.resolve(__dirname, '..', 'wlrs-captainsim-b77l');
-const b77l_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b77l');
-const b77w = path.resolve(__dirname, '..', 'wlrs-captainsim-b77w');
-const b77w_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b77w');
-const b772 = path.resolve(__dirname, '..', 'wlrs-captainsim-b772');
-const b772_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b772');
-const b764 = path.resolve(__dirname, '..', 'wlrs-captainsim-b764');
-const b764_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b764');
+const b77l = path.resolve(__dirname, '..', 'wlrs-captainsim-b77lrf-ge90');
+const b77l_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b77lrf-ge90');
+const b77w = path.resolve(__dirname, '..', 'wlrs-captainsim-b77w-ge90');
+const b77w_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b77w-ge90');
+const b772 = path.resolve(__dirname, '..', 'wlrs-captainsim-b772-ge90');
+const b772_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b772-ge90');
+const b764 = path.resolve(__dirname, '..', 'wlrs-captainsim-b764-cf6');
+const b764_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b764-cf6');
 
 const contentEntries = [];
 let totalPackageSize = 0;
@@ -111,7 +111,7 @@ fs.writeFileSync(path.join(b77l, 'layout.json'), JSON.stringify({
 }, null, 2));
 
 fs.writeFileSync(path.join(b77l, 'manifest.json'), JSON.stringify({
-    ...require('../manifest-b77l.json'),
+    ...require('../manifest-b77lrf-ge90.json'),
     package_version: require('../package.json').version,
     total_package_size: totalPackageSize.toString().padStart(20, '0'),
 }, null, 2));
@@ -151,7 +151,7 @@ fs.writeFileSync(path.join(b77w, 'layout.json'), JSON.stringify({
 }, null, 2));
 
 fs.writeFileSync(path.join(b77w, 'manifest.json'), JSON.stringify({
-    ...require('../manifest-b77w.json'),
+    ...require('../manifest-b77w-ge90.json'),
     package_version: require('../package.json').version,
     total_package_size: totalPackageSize.toString().padStart(20, '0'),
 }, null, 2));
@@ -191,7 +191,7 @@ fs.writeFileSync(path.join(b772, 'layout.json'), JSON.stringify({
 }, null, 2));
 
 fs.writeFileSync(path.join(b772, 'manifest.json'), JSON.stringify({
-    ...require('../manifest-b772.json'),
+    ...require('../manifest-b772-ge90.json'),
     package_version: require('../package.json').version,
     total_package_size: totalPackageSize.toString().padStart(20, '0'),
 }, null, 2));
@@ -231,7 +231,7 @@ fs.writeFileSync(path.join(b764, 'layout.json'), JSON.stringify({
 }, null, 2));
 
 fs.writeFileSync(path.join(b764, 'manifest.json'), JSON.stringify({
-    ...require('../manifest-b764.json'),
+    ...require('../manifest-b764-cf6.json'),
     package_version: require('../package.json').version,
     total_package_size: totalPackageSize.toString().padStart(20, '0'),
 }, null, 2));
