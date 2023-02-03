@@ -25,7 +25,6 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: npm run package --if-present
-    - uses: actions/checkout@master
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.1
       with:
