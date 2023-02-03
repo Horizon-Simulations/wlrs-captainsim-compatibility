@@ -1558,7 +1558,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\flight_model.cfg",
       "size": 32272,
-      "date": 133199153330144600
+      "date": 133199167290430140
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\gameplay.cfg",
@@ -1872,8 +1872,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\flight_model.cfg",
-      "size": 31115,
-      "date": 133199154759787950
+      "size": 31177,
+      "date": 133199167714380850
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\gameplay.cfg",
