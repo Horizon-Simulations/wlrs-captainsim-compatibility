@@ -1386,11 +1386,6 @@
       "date": 133188677799804240
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\engines.aam1.cfg",
-      "size": 7143,
-      "date": 133199032385882960
-    },
-    {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\engines.cfg",
       "size": 8628,
       "date": 133199116897733570
@@ -1403,7 +1398,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\flight_model.cfg",
       "size": 32159,
-      "date": 133199118420158270
+      "date": 133199676435720000
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777F_GE110B1\\gameplay.cfg",
@@ -1557,8 +1552,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\flight_model.cfg",
-      "size": 32272,
-      "date": 133199167290430140
+      "size": 32274,
+      "date": 133199667373597710
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\gameplay.cfg",
@@ -1598,7 +1593,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\systems.cfg",
       "size": 23894,
-      "date": 133199137617661900
+      "date": 133199667063310880
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\target_performance.cfg",
@@ -1718,7 +1713,7 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\flight_model.cfg",
       "size": 33417,
-      "date": 133199147531971600
+      "date": 133199679784795260
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\gameplay.cfg",
@@ -1732,8 +1727,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\model\\m772_201.xml",
-      "size": 31025,
-      "date": 133188677799402340
+      "size": 30149,
+      "date": 133199384522169260
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\model\\m772_201_interior.xml",
@@ -1741,9 +1736,14 @@
       "date": 133188677799417400
     },
     {
+      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\panel\\fadec.wasm",
+      "size": 589549,
+      "date": 133199348319520530
+    },
+    {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\panel\\panel.cfg",
       "size": 1887,
-      "date": 133193814642004270
+      "date": 133199369891952110
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\panel\\panel.xml",
@@ -1757,8 +1757,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\systems.cfg",
-      "size": 23816,
-      "date": 133198966513225260
+      "size": 23525,
+      "date": 133199384653212640
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\target_performance.cfg",
