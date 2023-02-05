@@ -111,8 +111,6 @@
     </Animation>
   </PartInfo>
 
-
-  
   <PartInfo>
     <Name>l_truck</Name>
     <AnimLength>200</AnimLength>
@@ -680,9 +678,6 @@
       </Parameter>
     </Visibility>
   </PartInfo>
-  
-  
-  
   <!-- antennas -->
 <PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x1 &amp;</Code></Parameter></Visibility></PartInfo>
 <PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x2 &amp;</Code></Parameter></Visibility></PartInfo>
@@ -703,8 +698,7 @@
     <Include ModelBehaviorFile="Asobo\Common.xml"/>
     <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
-    
-    
+    <Include ModelBehaviorFile="RobSim\index.xml"/>
     <Component ID="INTERACTIVE_POINTS">
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
         <ID>12</ID>
@@ -729,7 +723,6 @@
       </UseTemplate>
       -->
     </Component>
-
     
     <Component ID="FX_CONTRAIL_QUAD">
       <OverrideTemplateParameters>
@@ -749,7 +742,52 @@
         </UseTemplate>
       </Component>
     </Component>
-    
+
+    <Component ID="ENGINE">
+      <UseTemplate Name="Salty_777_ENGINE_Turbine_Template">
+          <ID>1</ID>
+          <ANIM_NODE_ID>N2_1_anim</ANIM_NODE_ID>
+          <ANIM_NAME>N2_1_anim</ANIM_NAME>
+          <STILL_NODE_ID>N2_1_stil</STILL_NODE_ID>
+          <SLOW_NODE_ID>N2_1_slow</SLOW_NODE_ID>
+          <BLURRED_NODE_ID>N2_1_blur</BLURRED_NODE_ID>          
+      </UseTemplate>
+      <UseTemplate Name="Salty_777_ENGINE_Turbine_Template">
+          <ID>2</ID>
+          <ANIM_NODE_ID>N2_2_anim</ANIM_NODE_ID>
+          <ANIM_NAME>N2_2_anim</ANIM_NAME>
+          <STILL_NODE_ID>N2_2_stil</STILL_NODE_ID>
+          <SLOW_NODE_ID>N2_2_slow</SLOW_NODE_ID>
+          <BLURRED_NODE_ID>N2_2_blur</BLURRED_NODE_ID>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_ENGINE_Turbine_ReverseThrust_Template">
+          <ID>1</ID>
+          <ANIM_NAME>thrust_rev_1</ANIM_NAME>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_ENGINE_Turbine_ReverseThrust_Template">
+          <ID>2</ID>
+          <ANIM_NAME>thrust_rev_2</ANIM_NAME>
+      </UseTemplate>
+    </Component>
+
+    <Component ID="FX_CONTRAIL_QUAD">
+      <OverrideTemplateParameters>
+        <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
+        <FX_OFFSET_X>0</FX_OFFSET_X>
+        <FX_OFFSET_Y>0</FX_OFFSET_Y>
+        <FX_OFFSET_Z>0</FX_OFFSET_Z>
+        <FX_GUID>{F42CE638-11EB-4FC8-B9B0-111A220D681F}</FX_GUID>
+        <FX_NAME>FX_CONTRAILS</FX_NAME>
+      </OverrideTemplateParameters>
+      <Component ID="FX_CONTRAIL_QUAD_LEFT_IN" Node="L1_EngineFX">
+        <UseTemplate Name="ASOBO_GT_FX">
+        </UseTemplate>
+      </Component>
+      <Component ID="FX_CONTRAIL_QUAD_LEFT_OUT" Node="L2_EngineFX">
+        <UseTemplate Name="ASOBO_GT_FX">
+        </UseTemplate>
+      </Component>
+    </Component>
     <Component ID="FX_CONTRAIL_RIBBON">
       <OverrideTemplateParameters>
         <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
@@ -768,7 +806,6 @@
         </UseTemplate>
       </Component>
     </Component>
-
     <Component ID="LANDING_FX">
       <UseTemplate Name="ASOBO_WET_LG_GR_LANDING_FX">
         <FX_CONTACT_POINT_ID>0</FX_CONTACT_POINT_ID>
@@ -843,7 +880,6 @@
         <FX_NODE>RightFrontBaseWheel</FX_NODE>
       </UseTemplate>
     </Component>
-    
   </Behaviors>
 
 </ModelInfo>

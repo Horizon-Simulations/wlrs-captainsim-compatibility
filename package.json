@@ -10,7 +10,7 @@
     "lint": "eslint --cache **/*.{js,mjs,jsx,ts,tsx}",
     "lint-fix": "npm run lint -- --fix",
     "test": "jest",
-    "package": "node scripts/build_release.js",
+    "package": "node scripts/build_base.js && node scripts/build_behavior.js && node scripts/build_b772-ge90.js && node scripts/build_b77f-ge90.js && node scripts/build_b77w-ge90.js && node scripts/build_b764-cf6.js",
     "build:pfd": "npx rollup -c src/instruments/src/PFD/rollup.config.js",
     "dev-pfd": "rollup -wc src/instruments/src/PFD/rollup.config.js"
   },
