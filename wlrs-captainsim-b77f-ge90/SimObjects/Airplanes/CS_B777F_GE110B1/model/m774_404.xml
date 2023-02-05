@@ -3,7 +3,7 @@
 <ModelInfo>
 
 	<LODS>
-		<LOD minSize="0" ModelFile="m773_305.gltf"/>
+		<LOD minSize="0" ModelFile="m774_404.gltf"/>
 	</LODS>
 
   <Animation name="c_wheel" guid="BC935F16-43CD-4046-8EF3-06E44A5940AB" length="200" type="Sim" typeparam2="c_wheel" typeparam="AutoPlay"/>

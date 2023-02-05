@@ -6,7 +6,7 @@
     }
   ],
   "content_type": "AIRCRAFT",
-  "title": "WorldlinerRS B777-200ER-GE90",
+  "title": "WorldlinerRS B777-200LRF-GE90",
   "manufacturer": "Boeing",
   "creator": "masterrob94",
   "package_version": "3.0.0",
@@ -17,5 +17,5 @@
       "OlderHistory": ""
     }
   },
-  "total_package_size": "00000000000001753035"
+  "total_package_size": "00000000000001751623"
 }

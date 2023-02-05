@@ -1249,51 +1249,6 @@
       "path": "html_ui\\Pages\\VCockpit\\Instruments\\NavSystems\\Shared\\RobSim_NavSystem.js",
       "size": 127242,
       "date": 133188677801487520
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\ADIRUButton.xml",
-      "size": 1692,
-      "date": 133188677793807820
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_Autopilot.xml",
-      "size": 56603,
-      "date": 133188677793817840
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_EICASButton.xml",
-      "size": 3590,
-      "date": 133188677793822900
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_Engines.xml",
-      "size": 9347,
-      "date": 133188677793827940
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_FCUPanel.xml",
-      "size": 2033,
-      "date": 133188677793827940
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_FMC.xml",
-      "size": 5158,
-      "date": 133188677793832930
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_NDPanel.xml",
-      "size": 12382,
-      "date": 133188677793837900
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\index.xml",
-      "size": 423,
-      "date": 133188677793847940
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\Salty_Boeing.xml",
-      "size": 39310,
-      "date": 133188677793842930
     }
   ]
 }
