@@ -1,5 +1,4 @@
-<Behaviors>
-	<Include ModelBehaviorFile="Asobo\Common.xml"/>
+<ModelBehaviors>
 	<Template Name="RobSim_B777_ADIRU_Switch_Template">
 		<Parameters Type="Default">
 			<ID>1</ID>
@@ -49,4 +48,4 @@
 			<NORMALIZED_TIME_2>0.5</NORMALIZED_TIME_2>
 		</UseTemplate>
 	</Template>
-</Behaviors>
+</ModelBehaviors>

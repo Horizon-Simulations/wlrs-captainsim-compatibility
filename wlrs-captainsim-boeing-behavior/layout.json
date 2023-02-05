@@ -2,53 +2,48 @@
   "content": [
     {
       "path": "ModelBehaviorDefs\\RobSim\\ADIRUButton.xml",
-      "size": 1732,
-      "date": 133200790802276580
+      "size": 1642,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\B777_Autopilot.xml",
-      "size": 56643,
-      "date": 133200790748235570
+      "size": 55396,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\B777_EICASButton.xml",
-      "size": 3630,
-      "date": 133200790683909870
+      "size": 3487,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\B777_Engines.xml",
-      "size": 9502,
-      "date": 133200790523784320
+      "size": 9347,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\B777_FCUPanel.xml",
-      "size": 2073,
-      "date": 133200790378793180
+      "size": 1990,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\B777_FMC.xml",
-      "size": 5198,
-      "date": 133200790309283840
+      "size": 5019,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\B777_NDPanel.xml",
-      "size": 12422,
-      "date": 133200790167813300
-    },
-    {
-      "path": "ModelBehaviorDefs\\RobSim\\backup_engine_anim.txt",
-      "size": 1097,
-      "date": 133200104271626640
+      "size": 12070,
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\index.xml",
       "size": 413,
-      "date": 133200784608734270
+      "date": 133034258880000000
     },
     {
       "path": "ModelBehaviorDefs\\RobSim\\Salty_Boeing.xml",
-      "size": 39300,
-      "date": 133200784742485460
+      "size": 38348,
+      "date": 133034258880000000
     }
   ]
 }

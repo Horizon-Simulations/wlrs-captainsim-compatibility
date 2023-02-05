@@ -1,4 +1,4 @@
-<Behaviors>
+<ModelBehaviors>
 	<Template Name="ASOBO_GT_Knob_Dummy_Boeing">
 		<Parameters Type="Default">
 		</Parameters>
@@ -960,4 +960,4 @@
 			</UseTemplate>
 		</Component>
 	</Template>
-</Behaviors>
+</ModelBehaviors>
