@@ -1,5 +1,4 @@
-<Behaviors>
-	<Include ModelBehaviorFile="Asobo\Common.xml"/>
+<ModelBehaviors>
     <Template Name="RobSim_AUTOPILOT_Push_FlightDirector_Template">
 		<Parameters Type="Default">
 			<ID>1</ID>
@@ -1206,4 +1205,4 @@
 			</Condition>
 		</Component>
 	</Template>
-</Behaviors>
+</ModelBehaviors>

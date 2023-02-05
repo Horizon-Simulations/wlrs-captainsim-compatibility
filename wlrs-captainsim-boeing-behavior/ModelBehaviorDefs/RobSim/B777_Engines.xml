@@ -1,7 +1,4 @@
-<Behaviors>
-    <Include ModelBehaviorFile="Asobo\Common.xml"/>
-    <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
-    <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
+<ModelBehaviors>
     <Template Name="Salty_777_200ER_ENGINE_Turbine_Template">
         <DefaultTemplateParameters>
             <ID>1</ID>
@@ -189,4 +186,4 @@
             </True>
         </Condition>
     </Template>
-</Behaviors>
+</ModelBehaviors>

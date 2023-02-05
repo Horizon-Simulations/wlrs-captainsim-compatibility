@@ -1,5 +1,4 @@
-<Behaviors>
-	<Include ModelBehaviorFile="Asobo\Common.xml"/>
+<ModelBehaviors>
 	<Template Name="Robsim_BOEING_Push_Heading_Track_Template">
 		<Parameters Type="Default">
           	<NODE_ID>G04_006_SW2</NODE_ID>
@@ -42,4 +41,4 @@
 			<TT_VALUE_OFF>'VS'</TT_VALUE_OFF>
 		</UseTemplate>
 	</Template>
-</Behaviors>
+</ModelBehaviors>

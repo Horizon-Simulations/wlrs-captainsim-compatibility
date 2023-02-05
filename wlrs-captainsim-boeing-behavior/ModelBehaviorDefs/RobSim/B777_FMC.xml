@@ -1,5 +1,4 @@
-<Behaviors>
-	<Include ModelBehaviorFile="Asobo\Common.xml"/>
+<ModelBehaviors>
 	<Include ModelBehaviorFile="Asobo\Generic.xml"/>
 	<Include RelativeFile="Inputs\\Airliner_Inputs.xml"/>
     <!-- FMC shared default parameters -->
@@ -138,4 +137,4 @@
 		<UseTemplate Name="ASOBO_FMC_Screen">
 		</UseTemplate>
 	</Template>
-</Behaviors>
+</ModelBehaviors>
