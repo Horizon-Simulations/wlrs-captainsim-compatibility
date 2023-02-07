@@ -102,8 +102,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\flight_model.cfg",
-      "size": 32264,
-      "date": 133200888306757330
+      "size": 31807,
+      "date": 133200947003450860
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\gameplay.cfg",
@@ -117,8 +117,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\model\\m773_305.xml",
-      "size": 31713,
-      "date": 133200877552755410
+      "size": 30828,
+      "date": 133200947003455840
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\model\\m773_305_interior.xml",
@@ -128,12 +128,12 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\Captain_Sim.m773.sys.wasm",
       "size": 1199141,
-      "date": 133034258880000000
+      "date": 133200947003510910
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\panel.cfg",
       "size": 1919,
-      "date": 133034258880000000
+      "date": 133200947003521010
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\panel.xml",

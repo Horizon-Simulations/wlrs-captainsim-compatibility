@@ -102,8 +102,8 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\flight_model.cfg",
-      "size": 31218,
-      "date": 133200890864268830
+      "size": 30767,
+      "date": 133200947003070200
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\gameplay.cfg",
@@ -123,12 +123,12 @@
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\panel\\Captain_Sim.m767.sys.wasm",
       "size": 1221574,
-      "date": 133034258880000000
+      "date": 133200947003125330
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\panel\\panel.cfg",
       "size": 1919,
-      "date": 133034258880000000
+      "date": 133200947003135380
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B767-400ER_CF6\\panel\\panel.xml",
