@@ -7,7 +7,7 @@
     "esModuleInterop": true, /* Emits additional JS to work with CommonJS modules */
     "skipLibCheck": true, /* Skip type checking on library .d.ts files */
     "forceConsistentCasingInFileNames": true, /* Ensures correct import casing */
-    "outDir": "./build", /* Sets the output folder to ./build */
+    "outDir": "build", /* Sets the output folder to ./build */
     "moduleResolution": "node", /* Enables compatibility with MSFS SDK bare global imports */
     "jsxFactory": "FSComponent.buildComponent", /* Required for FSComponent framework JSX */
     "jsxFragmentFactory": "FSComponent.Fragment", /* Required for FSComponent framework JSX */

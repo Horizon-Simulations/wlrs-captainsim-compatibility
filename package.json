@@ -12,6 +12,7 @@
     "test": "jest",
     "package": "node scripts/build_base.js && node scripts/build_behavior.js && node scripts/build_b772-ge90.js && node scripts/build_b77f-ge90.js && node scripts/build_b77w-ge90.js && node scripts/build_b764-cf6.js",
     "build:pfd": "npx rollup -c src/instruments/src/PFD/rollup.config.js",
+    "build:fmc": "npx rollup -c src/systems/fmc/rollup.config.js",
     "dev-pfd": "rollup -wc src/instruments/src/PFD/rollup.config.js"
   },
   "author": "WorldlinerRS",
@@ -43,12 +44,12 @@
     "eslint": "^8.25.0",
     "fs-extra": "^10.1.0",
     "jsdom": "^20.0.1",
-    "msfssdk": "file:../msfs-avionics-mirror/src/sdk/build",
+    "msfssdk": "file:msfs-avionics-mirror/src/sdk/build",
     "postcss-color-functional-notation": "^4.2.4",
     "rollup": "^2.79.1",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-css-only": "^3.1.0",
-    "rollup-plugin-import-css": "^3.0.3",
+    "rollup-plugin-import-css": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-scss": "^4.0.0",
@@ -57,7 +58,7 @@
     "rollup-plugin-typescript2": "^0.34.1",
     "safe-stable-stringify": "^2.4.0",
     "tailwindcss": "^3.1.8",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "geolib": "^3.3.3",
