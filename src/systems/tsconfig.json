@@ -1,0 +1,21 @@
+
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "baseUrl": ".",
+      "typeRoots": [
+        "../typings",
+        "../../types/msfstypes",
+        "../../node_modules/@types"
+      ],
+      "moduleResolution": "node",
+      "paths": {
+        "@aims/*": ["./aims/src/*"],
+        "@instruments/common/*": ["./instruments/src/Common/*"],
+        "@shared/*": ["./shared/src/*"],
+        "@tcas/*": ["./tcas/src/*"],
+        "@msfstypes/*": ["../../types/msfstypes/*"],
+        "@typings/*": ["../typings/*"]
+      }
+    },
+  }
