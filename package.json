@@ -12,7 +12,8 @@
     "test": "jest",
     "package": "node scripts/build_base.js && node scripts/build_behavior.js && node scripts/build_b772-ge90.js && node scripts/build_b77f-ge90.js && node scripts/build_b77w-ge90.js && node scripts/build_b764-cf6.js",
     "build:pfd": "npx rollup -c src/instruments/src/PFD/rollup.config.js",
-    "build:fmc": "npx rollup -c src/systems/fmc/rollup.config.js",
+    "build:fmc": "npx rollup -c src/systems/instruments/fmc/rollup.config.js",
+    "build:aims": "npx rollup -c src/systems/aims/rollup.config.js",
     "dev-pfd": "rollup -wc src/instruments/src/PFD/rollup.config.js"
   },
   "author": "WorldlinerRS",
@@ -44,7 +45,7 @@
     "eslint": "^8.25.0",
     "fs-extra": "^10.1.0",
     "jsdom": "^20.0.1",
-    "msfssdk": "file:msfs-avionics-mirror/src/sdk/build",
+    "msfssdk": "file:msfs-avionics-mirror/src/sdk",
     "postcss-color-functional-notation": "^4.2.4",
     "rollup": "^2.79.1",
     "rollup-plugin-copy": "^3.4.0",

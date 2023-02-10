@@ -192,14 +192,14 @@ export class PseudoWaypoints implements GuidanceComponent {
             // TODO EFIS message;
             break;
         case PseudoWaypointSequencingAction.APPROACH_PHASE_AUTO_ENGAGE:
-            const apLateralMode = SimVar.GetSimVarValue('L:A32NX_FMA_LATERAL_MODE', 'Number');
+            const apLateralMode = SimVar.GetSimVarValue('L:B77HS_FMA_LATERAL_MODE', 'Number');
             const agl = Simplane.getAltitudeAboveGround();
 
             if (agl < 9500 && (apLateralMode === LateralMode.NAV || apLateralMode === LateralMode.LOC_CPT || apLateralMode === LateralMode.LOC_TRACK)) {
                 // Request APPROACH phase engagement for 5 seconds
-                SimVar.SetSimVarValue('L:A32NX_FM_ENABLE_APPROACH_PHASE', 'Bool', true).then(() => [
+                SimVar.SetSimVarValue('L:B77HS_FM_ENABLE_APPROACH_PHASE', 'Bool', true).then(() => [
                     setTimeout(() => {
-                        SimVar.SetSimVarValue('L:A32NX_FM_ENABLE_APPROACH_PHASE', 'Bool', false);
+                        SimVar.SetSimVarValue('L:B77HS_FM_ENABLE_APPROACH_PHASE', 'Bool', false);
                     }, 5_000),
                 ]);
             }

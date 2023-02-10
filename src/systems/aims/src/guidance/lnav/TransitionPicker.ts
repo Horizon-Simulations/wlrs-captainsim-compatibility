@@ -10,7 +10,7 @@ import { HALeg, HFLeg, HMLeg } from '@aims/guidance/lnav/legs/HX';
 import { RFLeg } from '@aims/guidance/lnav/legs/RF';
 import { TFLeg } from '@aims/guidance/lnav/legs/TF';
 import { VMLeg } from '@aims/guidance/lnav/legs/VM';
-import { Transition } from '@aims/guidance/lnav/transition';
+import { Transition } from '@aims/guidance/lnav/Transition';
 import { FixedRadiusTransition } from '@aims/guidance/lnav/transitions/FixedRadiusTransition';
 import { PathCaptureTransition } from '@aims/guidance/lnav/transitions/PathCaptureTransition';
 import { CourseCaptureTransition } from '@aims/guidance/lnav/transitions/CourseCaptureTransition';

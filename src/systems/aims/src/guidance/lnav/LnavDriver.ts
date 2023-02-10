@@ -18,7 +18,7 @@ import { GuidanceConstants } from '@aims/guidance/GuidanceConstants';
 import { VMLeg } from '@aims/guidance/lnav/legs/VM';
 import { XFLeg } from '@aims/guidance/lnav/legs/XF';
 import { Coordinates } from '@aims/flightplanning/data/geo';
-import { aimsFlightPhase } from '@shared/flightphase';
+import { AimsFlightPhase } from '@shared/flightphase';
 import { GuidanceController, GuidanceComponent } from '@aims/guidance';
 
 /**
@@ -70,7 +70,7 @@ export class LnavDriver implements GuidanceComponent {
     }
 
     init(): void {
-        console.log('[aims/Guidance] LnavDriver initialized!');
+        console.log('[Aims/Guidance] LnavDriver initialized!');
     }
 
     update(_: number): void {
@@ -175,13 +175,13 @@ export class LnavDriver implements GuidanceComponent {
                 if (this.lastLaw !== params.law) {
                     this.lastLaw = params.law;
 
-                    SimVar.SetSimVarValue('L:A32NX_FG_CURRENT_LATERAL_LAW', 'number', params.law);
+                    SimVar.SetSimVarValue('L:B77HS_FG_CURRENT_LATERAL_LAW', 'number', params.law);
                 }
 
                 // Send bank limit to FG
                 const bankLimit = params?.phiLimit ?? maxBank(tas, false);
 
-                SimVar.SetSimVarValue('L:A32NX_FG_PHI_LIMIT', 'Degrees', bankLimit);
+                SimVar.SetSimVarValue('L:B77HS_FG_PHI_LIMIT', 'Degrees', bankLimit);
 
                 switch (params.law) {
                 case ControlLaw.LATERAL_PATH:
@@ -209,22 +209,22 @@ export class LnavDriver implements GuidanceComponent {
                     // Set FG inputs
 
                     if (!this.lastAvail) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_AVAIL', 'Bool', true);
+                        SimVar.SetSimVarValue('L:B77HS_FG_AVAIL', 'Bool', true);
                         this.lastAvail = true;
                     }
 
                     if (crossTrackError !== this.lastXTE) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_CROSS_TRACK_ERROR', 'nautical miles', crossTrackError);
+                        SimVar.SetSimVarValue('L:B77HS_FG_CROSS_TRACK_ERROR', 'nautical miles', crossTrackError);
                         this.lastXTE = crossTrackError;
                     }
 
                     if (trackAngleError !== this.lastTAE) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_TRACK_ANGLE_ERROR', 'degree', trackAngleError);
+                        SimVar.SetSimVarValue('L:B77HS_FG_TRACK_ANGLE_ERROR', 'degree', trackAngleError);
                         this.lastTAE = trackAngleError;
                     }
 
                     if (phiCommand !== this.lastPhi) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', phiCommand);
+                        SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', phiCommand);
                         this.lastPhi = phiCommand;
                     }
 
@@ -233,12 +233,12 @@ export class LnavDriver implements GuidanceComponent {
                     const { heading, phiCommand: forcedPhiHeading } = params;
 
                     if (!this.lastAvail) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_AVAIL', 'Bool', true);
+                        SimVar.SetSimVarValue('L:B77HS_FG_AVAIL', 'Bool', true);
                         this.lastAvail = true;
                     }
 
                     if (this.lastXTE !== 0) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_CROSS_TRACK_ERROR', 'nautical miles', 0);
+                        SimVar.SetSimVarValue('L:B77HS_FG_CROSS_TRACK_ERROR', 'nautical miles', 0);
                         this.lastXTE = 0;
                     }
 
@@ -257,27 +257,27 @@ export class LnavDriver implements GuidanceComponent {
                         const forcedTurnPhi = this.turnState === LnavTurnState.ForceLeftTurn ? -maxBank(tas, true) : maxBank(tas, true);
 
                         if (forcedTurnPhi !== this.lastPhi) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', forcedTurnPhi);
+                            SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', forcedTurnPhi);
                             this.lastPhi = forcedTurnPhi;
                         }
 
                         if (this.lastTAE !== 0) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_TRACK_ANGLE_ERROR', 'degree', 0);
+                            SimVar.SetSimVarValue('L:B77HS_FG_TRACK_ANGLE_ERROR', 'degree', 0);
                             this.lastTAE = 0;
                         }
                     } else {
                         if (deltaHeading !== this.lastTAE) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_TRACK_ANGLE_ERROR', 'degree', deltaHeading);
+                            SimVar.SetSimVarValue('L:B77HS_FG_TRACK_ANGLE_ERROR', 'degree', deltaHeading);
                             this.lastTAE = deltaHeading;
                         }
 
                         if (forcedPhiHeading !== undefined) {
                             if (forcedPhiHeading !== this.lastPhi) {
-                                SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', forcedPhiHeading);
+                                SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', forcedPhiHeading);
                                 this.lastPhi = forcedPhiHeading;
                             }
                         } else if (this.lastPhi !== 0) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', 0);
+                            SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', 0);
                             this.lastPhi = 0;
                         }
                     }
@@ -287,12 +287,12 @@ export class LnavDriver implements GuidanceComponent {
                     const { course, phiCommand: forcedPhiCourse } = params;
 
                     if (!this.lastAvail) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_AVAIL', 'Bool', true);
+                        SimVar.SetSimVarValue('L:B77HS_FG_AVAIL', 'Bool', true);
                         this.lastAvail = true;
                     }
 
                     if (this.lastXTE !== 0) {
-                        SimVar.SetSimVarValue('L:A32NX_FG_CROSS_TRACK_ERROR', 'nautical miles', 0);
+                        SimVar.SetSimVarValue('L:B77HS_FG_CROSS_TRACK_ERROR', 'nautical miles', 0);
                         this.lastXTE = 0;
                     }
 
@@ -307,27 +307,27 @@ export class LnavDriver implements GuidanceComponent {
                         const forcedTurnPhi = this.turnState === LnavTurnState.ForceLeftTurn ? -maxBank(tas, true) : maxBank(tas, true);
 
                         if (forcedTurnPhi !== this.lastPhi) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', forcedTurnPhi);
+                            SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', forcedTurnPhi);
                             this.lastPhi = forcedTurnPhi;
                         }
 
                         if (this.lastTAE !== 0) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_TRACK_ANGLE_ERROR', 'degree', 0);
+                            SimVar.SetSimVarValue('L:B77HS_FG_TRACK_ANGLE_ERROR', 'degree', 0);
                             this.lastTAE = 0;
                         }
                     } else {
                         if (deltaCourse !== this.lastTAE) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_TRACK_ANGLE_ERROR', 'degree', deltaCourse);
+                            SimVar.SetSimVarValue('L:B77HS_FG_TRACK_ANGLE_ERROR', 'degree', deltaCourse);
                             this.lastTAE = deltaCourse;
                         }
 
                         if (forcedPhiCourse !== undefined) {
                             if (forcedPhiCourse !== this.lastPhi) {
-                                SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', forcedPhiCourse);
+                                SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', forcedPhiCourse);
                                 this.lastPhi = forcedPhiCourse;
                             }
                         } else if (this.lastPhi !== 0) {
-                            SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', 0);
+                            SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', 0);
                             this.lastPhi = 0;
                         }
                     }
@@ -342,10 +342,10 @@ export class LnavDriver implements GuidanceComponent {
             }
 
             if (LnavConfig.DEBUG_GUIDANCE) {
-                SimVar.SetSimVarValue('L:A32NX_FM_TURN_STATE', 'Enum', this.turnState);
+                SimVar.SetSimVarValue('L:B77HS_FM_TURN_STATE', 'Enum', this.turnState);
             }
 
-            SimVar.SetSimVarValue('L:A32NX_GPS_WP_DISTANCE', 'nautical miles', dtg ?? 0);
+            SimVar.SetSimVarValue('L:B77HS_GPS_WP_DISTANCE', 'nautical miles', dtg ?? 0);
 
             // Update EFIS active waypoint info
 
@@ -353,9 +353,9 @@ export class LnavDriver implements GuidanceComponent {
 
             // Sequencing
 
-            const flightPhase = SimVar.GetSimVarValue('L:A32NX_aims_FLIGHT_PHASE', 'Enum') as aimsFlightPhase;
+            const flightPhase = SimVar.GetSimVarValue('L:B77HS_aims_FLIGHT_PHASE', 'Enum') as AimsFlightPhase;
 
-            const canSequence = !activeLeg.disableAutomaticSequencing && flightPhase >= aimsFlightPhase.Takeoff;
+            const canSequence = !activeLeg.disableAutomaticSequencing && flightPhase >= AimsFlightPhase.Takeoff;
 
             let withinSequencingArea = true;
             if (params.law === ControlLaw.LATERAL_PATH) {
@@ -387,10 +387,10 @@ export class LnavDriver implements GuidanceComponent {
         /* Set FG parameters */
 
         if (!available && this.lastAvail !== false) {
-            SimVar.SetSimVarValue('L:A32NX_FG_AVAIL', 'Bool', false);
-            SimVar.SetSimVarValue('L:A32NX_FG_CROSS_TRACK_ERROR', 'nautical miles', 0);
-            SimVar.SetSimVarValue('L:A32NX_FG_TRACK_ANGLE_ERROR', 'degree', 0);
-            SimVar.SetSimVarValue('L:A32NX_FG_PHI_COMMAND', 'degree', 0);
+            SimVar.SetSimVarValue('L:B77HS_FG_AVAIL', 'Bool', false);
+            SimVar.SetSimVarValue('L:B77HS_FG_CROSS_TRACK_ERROR', 'nautical miles', 0);
+            SimVar.SetSimVarValue('L:B77HS_FG_TRACK_ANGLE_ERROR', 'degree', 0);
+            SimVar.SetSimVarValue('L:B77HS_FG_PHI_COMMAND', 'degree', 0);
 
             this.lastAvail = false;
             this.lastTAE = null;
@@ -412,7 +412,7 @@ export class LnavDriver implements GuidanceComponent {
         const termination = activeLeg instanceof XFLeg ? activeLeg.fix.infos.coordinates : activeLeg.getPathEndPoint();
 
         const efisTrueBearing = termination ? Avionics.Utils.computeGreatCircleHeading(this.ppos, termination) : -1;
-        const efisBearing = termination ? A32NX_Util.trueToMagnetic(
+        const efisBearing = termination ? B77HS_Util.trueToMagnetic(
             efisTrueBearing,
             Facilities.getMagVar(this.ppos.lat, this.ppos.long),
         ) : -1;
@@ -423,15 +423,15 @@ export class LnavDriver implements GuidanceComponent {
 
         // FIXME should be NCD if no FM position
 
-        SimVar.SetSimVarValue('L:A32NX_EFIS_L_TO_WPT_BEARING', 'Degrees', efisBearing);
-        SimVar.SetSimVarValue('L:A32NX_EFIS_L_TO_WPT_TRUE_BEARING', 'Degrees', efisTrueBearing);
-        SimVar.SetSimVarValue('L:A32NX_EFIS_L_TO_WPT_DISTANCE', 'Number', efisDistance);
-        SimVar.SetSimVarValue('L:A32NX_EFIS_L_TO_WPT_ETA', 'Seconds', efisEta);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_L_TO_WPT_BEARING', 'Degrees', efisBearing);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_L_TO_WPT_TRUE_BEARING', 'Degrees', efisTrueBearing);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_L_TO_WPT_DISTANCE', 'Number', efisDistance);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_L_TO_WPT_ETA', 'Seconds', efisEta);
 
-        SimVar.SetSimVarValue('L:A32NX_EFIS_R_TO_WPT_BEARING', 'Degrees', efisBearing);
-        SimVar.SetSimVarValue('L:A32NX_EFIS_R_TO_WPT_TRUE_BEARING', 'Degrees', efisTrueBearing);
-        SimVar.SetSimVarValue('L:A32NX_EFIS_R_TO_WPT_DISTANCE', 'Number', efisDistance);
-        SimVar.SetSimVarValue('L:A32NX_EFIS_R_TO_WPT_ETA', 'Seconds', efisEta);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_R_TO_WPT_BEARING', 'Degrees', efisBearing);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_R_TO_WPT_TRUE_BEARING', 'Degrees', efisTrueBearing);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_R_TO_WPT_DISTANCE', 'Number', efisDistance);
+        SimVar.SetSimVarValue('L:B77HS_EFIS_R_TO_WPT_ETA', 'Seconds', efisEta);
     }
 
     private static legEta(ppos: Coordinates, gs: Knots, termination: Coordinates): number {
@@ -476,15 +476,15 @@ export class LnavDriver implements GuidanceComponent {
         console.log('[aims/Guidance] LNAV - sequencing discontinuity');
 
         // Lateral mode is NAV
-        const lateralModel = SimVar.GetSimVarValue('L:A32NX_FMA_LATERAL_MODE', 'Enum');
-        const verticalMode = SimVar.GetSimVarValue('L:A32NX_FMA_VERTICAL_MODE', 'Enum');
+        const lateralModel = SimVar.GetSimVarValue('L:B77HS_FMA_LATERAL_MODE', 'Enum');
+        const verticalMode = SimVar.GetSimVarValue('L:B77HS_FMA_VERTICAL_MODE', 'Enum');
 
         let reverted = false;
 
         if (lateralModel === LateralMode.NAV) {
             // Set HDG (current heading)
             SimVar.SetSimVarValue('H:A320_Neo_FCU_HDG_PULL', 'number', 0);
-            SimVar.SetSimVarValue('L:A32NX_FM_HEADING_SYNC', 'boolean', true);
+            SimVar.SetSimVarValue('L:B77HS_FM_HEADING_SYNC', 'boolean', true);
             reverted = true;
         }
 
