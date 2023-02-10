@@ -1,0 +1,104 @@
+{
+  "content": [
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/Climb.flt",
+      "size": 4232,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/ai.cfg",
+      "size": 873,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/approach.FLT",
+      "size": 4226,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/apron.FLT",
+      "size": 3901,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cameras.cfg",
+      "size": 29490,
+      "date": 133200868568875060
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cockpit.cfg",
+      "size": 1412,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cruise.FLT",
+      "size": 4081,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/engines.cfg",
+      "size": 8442,
+      "date": 133200947003150350
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/final.FLT",
+      "size": 4228,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/flight_model.cfg",
+      "size": 32803,
+      "date": 133200947003155330
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/gameplay.cfg",
+      "size": 1110,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/hangar.flt",
+      "size": 3486,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201.xml",
+      "size": 30828,
+      "date": 133200947003160350
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201_interior.xml",
+      "size": 309841,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/panel.cfg",
+      "size": 1817,
+      "date": 133205224210157490
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/panel.xml",
+      "size": 39977,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/runway.FLT",
+      "size": 4067,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/systems.cfg",
+      "size": 23816,
+      "date": 133200866119460540
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/target_performance.cfg",
+      "size": 2167,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/taxi.FLT",
+      "size": 4157,
+      "date": 133034258880000000
+    }
+  ]
+}

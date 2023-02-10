@@ -27,7 +27,7 @@ module.exports = {
             targets: [
                 {
                     src: 'aims/src/utils/LzUtf8.js',
-                    dest: join(root, 'wlrs-captainsim-boeing-base/html_ui/Pages/horizon/aims/'),
+                    dest: join(root, 'hs-boeing-base/html_ui/Pages/JS/Horizon/aims/'),
                 },
             ],
         }),
@@ -52,7 +52,7 @@ module.exports = {
         }),
     ],
     output: {
-        file: join(root, 'wlrs-captainsim-boeing-base/html_ui/Pages/horizon/aims/aims.js'),
+        file: join(root, 'hs-boeing-base/html_ui/Pages/JS/Horizon/aims/aims.js'),
         format: 'umd',
         name: 'Aims',
     },

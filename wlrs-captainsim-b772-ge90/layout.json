@@ -1,164 +1,164 @@
 {
   "content": [
     {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\CS777-200ER_EICAS.css",
-      "size": 1888,
-      "date": 133188677801294940
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\CS777-200ER_EICAS.html",
-      "size": 4319,
-      "date": 133188677801294940
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\Pages\\CS777-200ER_LowerEICAS_DRS.css",
-      "size": 1129,
-      "date": 133188677801294940
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\Pages\\CS777-200ER_LowerEICAS_DRS.html",
-      "size": 3271,
-      "date": 133188677801305710
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\Pages\\CS777-200ER_LowerEICAS_DRS.js",
-      "size": 2101,
-      "date": 133188677801310780
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\Pages\\CS777-200ER_LowerEICAS_GEAR.css",
-      "size": 1394,
-      "date": 133188677801310780
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\Pages\\CS777-200ER_LowerEICAS_GEAR.html",
-      "size": 4611,
-      "date": 133188677801321980
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\EICAS\\Pages\\CS777-200ER_LowerEICAS_GEAR.js",
-      "size": 1583,
-      "date": 133188677801321980
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\FMC\\CS777-200ER_FMC.css",
-      "size": 2512,
-      "date": 133188677801327070
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\FMC\\CS777-200ER_FMC.html",
-      "size": 13615,
-      "date": 133188677801332060
-    },
-    {
-      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\CS777-200ER\\FMC\\CS777-200ER_FMC_IdentPage.js",
-      "size": 1073,
-      "date": 133188677801342050
-    },
-    {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\ai.cfg",
-      "size": 873,
-      "date": 133034258880000000
-    },
-    {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\approach.FLT",
-      "size": 4226,
-      "date": 133034258880000000
-    },
-    {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\apron.FLT",
-      "size": 3901,
-      "date": 133034258880000000
-    },
-    {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\cameras.cfg",
-      "size": 29490,
-      "date": 133200868568875060
-    },
-    {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\Climb.flt",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/Climb.flt",
       "size": 4232,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\cockpit.cfg",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/ai.cfg",
+      "size": 873,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/approach.FLT",
+      "size": 4226,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/apron.FLT",
+      "size": 3901,
+      "date": 133034258880000000
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cameras.cfg",
+      "size": 29490,
+      "date": 133200868568875060
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cockpit.cfg",
       "size": 1412,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\cruise.FLT",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cruise.FLT",
       "size": 4081,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\engines.cfg",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/engines.cfg",
       "size": 8442,
-      "date": 133200868424734430
+      "date": 133200947003150350
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\final.FLT",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/final.FLT",
       "size": 4228,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\flight_model.cfg",
-      "size": 33260,
-      "date": 133200892939384800
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/flight_model.cfg",
+      "size": 32803,
+      "date": 133200947003155330
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\gameplay.cfg",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/gameplay.cfg",
       "size": 1110,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\hangar.flt",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/hangar.flt",
       "size": 3486,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\model\\m772_201.xml",
-      "size": 31713,
-      "date": 133200877845006610
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201.xml",
+      "size": 30828,
+      "date": 133200947003160350
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\model\\m772_201_interior.xml",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201_interior.xml",
       "size": 309841,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\panel\\Captain_Sim.m777.sys.wasm",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/Captain_Sim.m777.sys.wasm",
       "size": 1199141,
-      "date": 133034258880000000
+      "date": 133200947003220450
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\panel\\panel.cfg",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/panel.cfg",
       "size": 1919,
-      "date": 133034258880000000
+      "date": 133202624738061000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\panel\\panel.xml",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/panel.xml",
       "size": 39977,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\runway.FLT",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/runway.FLT",
       "size": 4067,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\systems.cfg",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/systems.cfg",
       "size": 23816,
       "date": 133200866119460540
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\target_performance.cfg",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/target_performance.cfg",
       "size": 2167,
       "date": 133034258880000000
     },
     {
-      "path": "SimObjects\\Airplanes\\CS_B777-200ER_GE90B\\taxi.FLT",
+      "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/taxi.FLT",
       "size": 4157,
       "date": 133034258880000000
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/CS777-200ER_EICAS.css",
+      "size": 1888,
+      "date": 133188677801294940
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/CS777-200ER_EICAS.html",
+      "size": 4319,
+      "date": 133188677801294940
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/Pages/CS777-200ER_LowerEICAS_DRS.css",
+      "size": 1129,
+      "date": 133188677801294940
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/Pages/CS777-200ER_LowerEICAS_DRS.html",
+      "size": 3271,
+      "date": 133188677801305710
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/Pages/CS777-200ER_LowerEICAS_DRS.js",
+      "size": 2101,
+      "date": 133188677801310780
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/Pages/CS777-200ER_LowerEICAS_GEAR.css",
+      "size": 1394,
+      "date": 133188677801310780
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/Pages/CS777-200ER_LowerEICAS_GEAR.html",
+      "size": 4611,
+      "date": 133188677801321980
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/Pages/CS777-200ER_LowerEICAS_GEAR.js",
+      "size": 1583,
+      "date": 133188677801321980
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/FMC/CS777-200ER_FMC.css",
+      "size": 2512,
+      "date": 133188677801327070
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/FMC/CS777-200ER_FMC.html",
+      "size": 13615,
+      "date": 133188677801332060
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/FMC/CS777-200ER_FMC_IdentPage.js",
+      "size": 1073,
+      "date": 133188677801342050
     }
   ]
 }
