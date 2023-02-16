@@ -1,4 +1,4 @@
-class A32NX_BaroSelector {
+class B77HS_BaroSelector {
     init() {
         this.totalDeltaTime = 0;
         this.callbackDispatchedAt = null;

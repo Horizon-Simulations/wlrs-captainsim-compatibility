@@ -1,13 +1,13 @@
-class A32NX_APU {
+class B77HS_APU {
     constructor() {
-        console.log('A32NX_APU constructed');
+        console.log('B77HS_APU constructed');
     }
     init() {
-        console.log('A32NX_APU init');
+        console.log('B77HS_APU init');
         this.lastAPUBleedState = -1;
     }
     update(_deltaTime) {
-        const apuBleedOn = SimVar.GetSimVarValue("L:A32NX_OVHD_PNEU_APU_BLEED_PB_IS_ON", "Bool");
+        const apuBleedOn = SimVar.GetSimVarValue("L:B77HS_OVHD_PNEU_APU_BLEED_PB_IS_ON", "Bool");
         if (apuBleedOn !== this.lastAPUBleedState) {
             this.lastAPUBleedState = apuBleedOn;
             if (apuBleedOn === 1) {
@@ -17,8 +17,8 @@ class A32NX_APU {
             }
         }
 
-        const apuN = Arinc429Word.fromSimVarValue("L:A32NX_APU_N");
-        const bleedAirValveOpen = SimVar.GetSimVarValue("L:A32NX_APU_BLEED_AIR_VALVE_OPEN", "Bool");
+        const apuN = Arinc429Word.fromSimVarValue("L:B77HS_APU_N");
+        const bleedAirValveOpen = SimVar.GetSimVarValue("L:B77HS_APU_BLEED_AIR_VALVE_OPEN", "Bool");
         let psi = 0;
         if (apuN.isNormalOperation() && apuN.value > 95 && bleedAirValveOpen) {
             if (this.APUBleedTimer > 0) {

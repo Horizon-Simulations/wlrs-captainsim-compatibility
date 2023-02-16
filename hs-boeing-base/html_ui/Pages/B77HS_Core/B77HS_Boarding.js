@@ -1,6 +1,6 @@
 function airplaneCanBoard() {
-    const busDC2 = SimVar.GetSimVarValue("L:A32NX_ELEC_DC_2_BUS_IS_POWERED", "Bool");
-    const busDCHot1 = SimVar.GetSimVarValue("L:A32NX_ELEC_DC_HOT_1_BUS_IS_POWERED", "Bool");
+    const busDC2 = SimVar.GetSimVarValue("L:B77HS_ELEC_DC_2_BUS_IS_POWERED", "Bool");
+    const busDCHot1 = SimVar.GetSimVarValue("L:B77HS_ELEC_DC_HOT_1_BUS_IS_POWERED", "Bool");
     const gs = SimVar.GetSimVarValue("GPS GROUND SPEED", "knots");
     const isOnGround = SimVar.GetSimVarValue("SIM ON GROUND", "Bool");
     const eng1Running = SimVar.GetSimVarValue("ENG COMBUSTION:1", "Bool");
@@ -13,22 +13,22 @@ function setDefaultWeights(simbriefPaxWeight, simbriefBagWeight) {
     const perPaxWeight = (simbriefPaxWeight === 0) ? Math.round(NXUnits.kgToUser(84)) : simbriefPaxWeight;
     const perBagWeight = (simbriefBagWeight === 0) ? Math.round(NXUnits.kgToUser(20)) : simbriefBagWeight;
     const conversionFactor = (getUserUnit() == "Kilograms") ? 0.4535934 : 1;
-    SimVar.SetSimVarValue("L:A32NX_WB_PER_PAX_WEIGHT", "Number", parseInt(perPaxWeight));
-    SimVar.SetSimVarValue("L:A32NX_WB_PER_BAG_WEIGHT", "Number", parseInt(perBagWeight));
-    SimVar.SetSimVarValue("L:A32NX_EFB_UNIT_CONVERSION_FACTOR", "Number", conversionFactor);
+    SimVar.SetSimVarValue("L:B77HS_WB_PER_PAX_WEIGHT", "Number", parseInt(perPaxWeight));
+    SimVar.SetSimVarValue("L:B77HS_WB_PER_BAG_WEIGHT", "Number", parseInt(perBagWeight));
+    SimVar.SetSimVarValue("L:B77HS_EFB_UNIT_CONVERSION_FACTOR", "Number", conversionFactor);
 }
 
-class A32NX_Boarding {
+class B77HS_Boarding {
     constructor() {
         this.boardingState = "finished";
         this.time = 0;
-        const payloadConstruct = new A32NX_PayloadConstructor();
+        const payloadConstruct = new B77HS_PayloadConstructor();
         this.paxStations = payloadConstruct.paxStations;
         this.cargoStations = payloadConstruct.cargoStations;
     }
 
     async init() {
-        const inDeveloperState = SimVar.GetSimVarValue("L:A32NX_DEVELOPER_STATE", "Bool");
+        const inDeveloperState = SimVar.GetSimVarValue("L:B77HS_DEVELOPER_STATE", "Bool");
         if (!inDeveloperState) {
             // Set default pax (0)
             await this.setPax(0);
@@ -67,7 +67,7 @@ class A32NX_Boarding {
     }
 
     loadPaxPayload() {
-        const PAX_WEIGHT = SimVar.GetSimVarValue("L:A32NX_WB_PER_PAX_WEIGHT", "Number");
+        const PAX_WEIGHT = SimVar.GetSimVarValue("L:B77HS_WB_PER_PAX_WEIGHT", "Number");
         return Promise.all(Object.values(this.paxStations).map(paxStation => {
             return SimVar.SetSimVarValue(`PAYLOAD STATION WEIGHT:${paxStation.stationIndex}`, getUserUnit(), paxStation.pax * PAX_WEIGHT);
         }));
@@ -89,7 +89,7 @@ class A32NX_Boarding {
     async update(_deltaTime) {
         this.time += _deltaTime;
 
-        const boardingStartedByUser = SimVar.GetSimVarValue("L:A32NX_BOARDING_STARTED_BY_USR", "Bool");
+        const boardingStartedByUser = SimVar.GetSimVarValue("L:B77HS_BOARDING_STARTED_BY_USR", "Bool");
         const boardingRate = NXDataStore.get("CONFIG_BOARDING_RATE", 'REAL');
 
         if (!boardingStartedByUser) {
@@ -129,27 +129,27 @@ class A32NX_Boarding {
 
         // Sound Controllers
         if ((currentPax < paxTarget) && boardingStartedByUser == true) {
-            await SimVar.SetSimVarValue("L:A32NX_SOUND_PAX_BOARDING", "Bool", true);
+            await SimVar.SetSimVarValue("L:B77HS_SOUND_PAX_BOARDING", "Bool", true);
             this.isBoarding = true;
         } else {
-            await SimVar.SetSimVarValue("L:A32NX_SOUND_PAX_BOARDING", "Bool", false);
+            await SimVar.SetSimVarValue("L:B77HS_SOUND_PAX_BOARDING", "Bool", false);
         }
 
-        await SimVar.SetSimVarValue("L:A32NX_SOUND_PAX_DEBOARDING", "Bool", currentPax > paxTarget && boardingStartedByUser == true);
+        await SimVar.SetSimVarValue("L:B77HS_SOUND_PAX_DEBOARDING", "Bool", currentPax > paxTarget && boardingStartedByUser == true);
 
         if ((currentPax == paxTarget) && this.isBoarding == true) {
-            await SimVar.SetSimVarValue("L:A32NX_SOUND_BOARDING_COMPLETE", "Bool", true);
+            await SimVar.SetSimVarValue("L:B77HS_SOUND_BOARDING_COMPLETE", "Bool", true);
             this.isBoarding = false;
             return;
         }
-        await SimVar.SetSimVarValue("L:A32NX_SOUND_BOARDING_COMPLETE", "Bool", false);
+        await SimVar.SetSimVarValue("L:B77HS_SOUND_BOARDING_COMPLETE", "Bool", false);
 
-        await SimVar.SetSimVarValue("L:A32NX_SOUND_PAX_AMBIENCE", "Bool", currentPax > 0);
+        await SimVar.SetSimVarValue("L:B77HS_SOUND_PAX_AMBIENCE", "Bool", currentPax > 0);
 
         if (currentPax === paxTarget && currentLoad === loadTarget && isAllPaxStationFilled && isAllCargoStationFilled) {
             // Finish boarding
             this.boardingState = "finished";
-            await SimVar.SetSimVarValue("L:A32NX_BOARDING_STARTED_BY_USR", "Bool", false);
+            await SimVar.SetSimVarValue("L:B77HS_BOARDING_STARTED_BY_USR", "Bool", false);
 
         } else if ((currentPax < paxTarget) || (currentLoad < loadTarget)) {
             this.boardingState = "boarding";

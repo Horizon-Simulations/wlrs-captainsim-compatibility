@@ -25,7 +25,7 @@ const BASE_HEAT_DIFFERENTIAL_FACTOR = 0.000015;
 * */
 const MIN_TEMP_DELTA = 0.1;
 
-class A32NX_BrakeTemp {
+class B77HS_BrakeTemp {
 
     /**
      * @param brakePosition {number}
@@ -69,37 +69,37 @@ class A32NX_BrakeTemp {
         } else {
             //actual physical temperatures of the brakes
             currentBrakeTemps = [
-                SimVar.GetSimVarValue("L:A32NX_BRAKE_TEMPERATURE_1", "celsius"),
-                SimVar.GetSimVarValue("L:A32NX_BRAKE_TEMPERATURE_2", "celsius"),
-                SimVar.GetSimVarValue("L:A32NX_BRAKE_TEMPERATURE_3", "celsius"),
-                SimVar.GetSimVarValue("L:A32NX_BRAKE_TEMPERATURE_4", "celsius")
+                SimVar.GetSimVarValue("L:B77HS_BRAKE_TEMPERATURE_1", "celsius"),
+                SimVar.GetSimVarValue("L:B77HS_BRAKE_TEMPERATURE_2", "celsius"),
+                SimVar.GetSimVarValue("L:B77HS_BRAKE_TEMPERATURE_3", "celsius"),
+                SimVar.GetSimVarValue("L:B77HS_BRAKE_TEMPERATURE_4", "celsius")
             ];
             //temps reported by the thermal probes in the brake assembly
             currentReportedBrakeTemps = [
-                SimVar.GetSimVarValue("L:A32NX_REPORTED_BRAKE_TEMPERATURE_1", "celsius"),
-                SimVar.GetSimVarValue("L:A32NX_REPORTED_BRAKE_TEMPERATURE_2", "celsius"),
-                SimVar.GetSimVarValue("L:A32NX_REPORTED_BRAKE_TEMPERATURE_3", "celsius"),
-                SimVar.GetSimVarValue("L:A32NX_REPORTED_BRAKE_TEMPERATURE_4", "celsius")
+                SimVar.GetSimVarValue("L:B77HS_REPORTED_BRAKE_TEMPERATURE_1", "celsius"),
+                SimVar.GetSimVarValue("L:B77HS_REPORTED_BRAKE_TEMPERATURE_2", "celsius"),
+                SimVar.GetSimVarValue("L:B77HS_REPORTED_BRAKE_TEMPERATURE_3", "celsius"),
+                SimVar.GetSimVarValue("L:B77HS_REPORTED_BRAKE_TEMPERATURE_4", "celsius")
             ];
         }
-        const GearLeftPosition = SimVar.GetSimVarValue("L:A32NX_GEAR_LEFT_POSITION", "Percent Over 100");
+        const GearLeftPosition = SimVar.GetSimVarValue("L:B77HS_GEAR_LEFT_POSITION", "Percent Over 100");
         const GearLeftExtended = GearLeftPosition >= 0.25;
-        const GearRightExtended = SimVar.GetSimVarValue("L:A32NX_GEAR_RIGHT_POSITION", "Percent Over 100") >= 0.25;
-        const currentBrakeFanState = SimVar.GetSimVarValue("L:A32NX_BRAKE_FAN", "Bool");
-        const brakeFanButtonIsPressed = SimVar.GetSimVarValue("L:A32NX_BRAKE_FAN_BTN_PRESSED", "Bool");
+        const GearRightExtended = SimVar.GetSimVarValue("L:B77HS_GEAR_RIGHT_POSITION", "Percent Over 100") >= 0.25;
+        const currentBrakeFanState = SimVar.GetSimVarValue("L:B77HS_BRAKE_FAN", "Bool");
+        const brakeFanButtonIsPressed = SimVar.GetSimVarValue("L:B77HS_BRAKE_FAN_BTN_PRESSED", "Bool");
         // if the fan button is pressed down and the left main gear is down and locked, the fan is on
         const brakeFanIsOn = brakeFanButtonIsPressed && (GearLeftPosition == 100);
         let fanMultiplier = 1;
         let fanDifferentialFactor = 1;
         if (brakeFanIsOn) {
             if (!currentBrakeFanState) {
-                SimVar.SetSimVarValue("L:A32NX_BRAKE_FAN", "Bool", true);
+                SimVar.SetSimVarValue("L:B77HS_BRAKE_FAN", "Bool", true);
             }
             fanMultiplier = 4.35;
             fanDifferentialFactor = 0.28;
         } else {
             if (currentBrakeFanState) {
-                SimVar.SetSimVarValue("L:A32NX_BRAKE_FAN", "Bool", false);
+                SimVar.SetSimVarValue("L:B77HS_BRAKE_FAN", "Bool", false);
             }
         }
         const currentBrakeLeft = SimVar.GetSimVarValue("BRAKE LEFT POSITION", "position 32k");
@@ -193,13 +193,13 @@ class A32NX_BrakeTemp {
 
         // Set simvars
         for (let i = 0; i < currentBrakeTemps.length; ++i) {
-            SimVar.SetSimVarValue(`L:A32NX_BRAKE_TEMPERATURE_${i + 1}`, "celsius", currentBrakeTemps[i]);
-            SimVar.SetSimVarValue(`L:A32NX_REPORTED_BRAKE_TEMPERATURE_${i + 1}`, "celsius", currentReportedBrakeTemps[i]);
+            SimVar.SetSimVarValue(`L:B77HS_BRAKE_TEMPERATURE_${i + 1}`, "celsius", currentBrakeTemps[i]);
+            SimVar.SetSimVarValue(`L:B77HS_REPORTED_BRAKE_TEMPERATURE_${i + 1}`, "celsius", currentReportedBrakeTemps[i]);
             if (currentReportedBrakeTemps[i] > 300) {
                 brakesHot = 1;
             }
         }
 
-        SimVar.SetSimVarValue("L:A32NX_BRAKES_HOT", "Bool", brakesHot);
+        SimVar.SetSimVarValue("L:B77HS_BRAKES_HOT", "Bool", brakesHot);
     }
 }

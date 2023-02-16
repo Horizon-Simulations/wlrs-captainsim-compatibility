@@ -1,7 +1,7 @@
 const WING_FUELRATE_GAL_SEC = 3.99;
 const CENTER_MODIFIER = 3.0198;
 
-class A32NX_Refuel {
+class B77HS_Refuel {
     constructor() {}
 
     init() {
@@ -14,16 +14,16 @@ class A32NX_Refuel {
         const ROutCurrentSimVar = SimVar.GetSimVarValue("FUEL TANK RIGHT AUX QUANTITY", "Gallons");
         const total = Math.round(Math.max((LInnCurrentSimVar + (LOutCurrentSimVar) + (RInnCurrentSimVar) + (ROutCurrentSimVar) + (centerCurrentSimVar)), 0));
         const totalConverted = Math.round(NXUnits.kgToUser(total * fuelWeight));
-        SimVar.SetSimVarValue("L:A32NX_REFUEL_STARTED_BY_USR", "Bool", false);
-        SimVar.SetSimVarValue("L:A32NX_FUEL_TOTAL_DESIRED", "Number", total);
-        SimVar.SetSimVarValue("L:A32NX_FUEL_DESIRED", "Number", totalConverted); // TODO this looks sus... should not be user units in simvars
-        SimVar.SetSimVarValue("L:A32NX_FUEL_DESIRED_PERCENT", "Number", Math.round((total / totalFuelGallons) * 100));
-        SimVar.SetSimVarValue("L:A32NX_FUEL_CENTER_DESIRED", "Number", centerCurrentSimVar);
-        SimVar.SetSimVarValue("L:A32NX_FUEL_LEFT_MAIN_DESIRED", "Number", LInnCurrentSimVar);
-        SimVar.SetSimVarValue("L:A32NX_FUEL_LEFT_AUX_DESIRED", "Number", LOutCurrentSimVar);
-        SimVar.SetSimVarValue("L:A32NX_FUEL_RIGHT_MAIN_DESIRED", "Number", RInnCurrentSimVar);
-        SimVar.SetSimVarValue("L:A32NX_FUEL_RIGHT_AUX_DESIRED", "Number", ROutCurrentSimVar);
-        SimVar.SetSimVarValue("L:A32NX_EFB_REFUEL_RATE_SETTING", "Number", 0);
+        SimVar.SetSimVarValue("L:B77HS_REFUEL_STARTED_BY_USR", "Bool", false);
+        SimVar.SetSimVarValue("L:B77HS_FUEL_TOTAL_DESIRED", "Number", total);
+        SimVar.SetSimVarValue("L:B77HS_FUEL_DESIRED", "Number", totalConverted); // TODO this looks sus... should not be user units in simvars
+        SimVar.SetSimVarValue("L:B77HS_FUEL_DESIRED_PERCENT", "Number", Math.round((total / totalFuelGallons) * 100));
+        SimVar.SetSimVarValue("L:B77HS_FUEL_CENTER_DESIRED", "Number", centerCurrentSimVar);
+        SimVar.SetSimVarValue("L:B77HS_FUEL_LEFT_MAIN_DESIRED", "Number", LInnCurrentSimVar);
+        SimVar.SetSimVarValue("L:B77HS_FUEL_LEFT_AUX_DESIRED", "Number", LOutCurrentSimVar);
+        SimVar.SetSimVarValue("L:B77HS_FUEL_RIGHT_MAIN_DESIRED", "Number", RInnCurrentSimVar);
+        SimVar.SetSimVarValue("L:B77HS_FUEL_RIGHT_AUX_DESIRED", "Number", ROutCurrentSimVar);
+        SimVar.SetSimVarValue("L:B77HS_EFB_REFUEL_RATE_SETTING", "Number", 0);
     }
 
     defuelTank(multiplier) {
@@ -34,28 +34,28 @@ class A32NX_Refuel {
     }
 
     update(_deltaTime) {
-        const refuelStartedByUser = SimVar.GetSimVarValue("L:A32NX_REFUEL_STARTED_BY_USR", "Bool");
+        const refuelStartedByUser = SimVar.GetSimVarValue("L:B77HS_REFUEL_STARTED_BY_USR", "Bool");
         if (!refuelStartedByUser) {
             return;
         }
-        const busDC2 = SimVar.GetSimVarValue("L:A32NX_ELEC_DC_2_BUS_IS_POWERED", "Bool");
-        const busDCHot1 = SimVar.GetSimVarValue("L:A32NX_ELEC_DC_HOT_1_BUS_IS_POWERED", "Bool");
+        const busDC2 = SimVar.GetSimVarValue("L:B77HS_ELEC_DC_2_BUS_IS_POWERED", "Bool");
+        const busDCHot1 = SimVar.GetSimVarValue("L:B77HS_ELEC_DC_HOT_1_BUS_IS_POWERED", "Bool");
         const gs = SimVar.GetSimVarValue("GPS GROUND SPEED", "knots");
         const onGround = SimVar.GetSimVarValue("SIM ON GROUND", "Bool");
         const eng1Running = SimVar.GetSimVarValue("ENG COMBUSTION:1", "Bool");
         const eng2Running = SimVar.GetSimVarValue("ENG COMBUSTION:2", "Bool");
         const refuelRate = NXDataStore.get("REFUEL_RATE_SETTING", "0"); // default = real
-        SimVar.SetSimVarValue("L:A32NX_EFB_REFUEL_RATE_SETTING", "Number", parseInt(refuelRate));
+        SimVar.SetSimVarValue("L:B77HS_EFB_REFUEL_RATE_SETTING", "Number", parseInt(refuelRate));
         if (refuelRate !== '2') {
             if (!onGround || eng1Running || eng2Running || gs > 0.1 || (!busDC2 && !busDCHot1)) {
                 return;
             }
         }
-        const centerTargetSimVar = SimVar.GetSimVarValue("L:A32NX_FUEL_CENTER_DESIRED", "Number");
-        const LInnTargetSimVar = SimVar.GetSimVarValue("L:A32NX_FUEL_LEFT_MAIN_DESIRED", "Number");
-        const LOutTargetSimVar = SimVar.GetSimVarValue("L:A32NX_FUEL_LEFT_AUX_DESIRED", "Number");
-        const RInnTargetSimVar = SimVar.GetSimVarValue("L:A32NX_FUEL_RIGHT_MAIN_DESIRED", "Number");
-        const ROutTargetSimVar = SimVar.GetSimVarValue("L:A32NX_FUEL_RIGHT_AUX_DESIRED", "Number");
+        const centerTargetSimVar = SimVar.GetSimVarValue("L:B77HS_FUEL_CENTER_DESIRED", "Number");
+        const LInnTargetSimVar = SimVar.GetSimVarValue("L:B77HS_FUEL_LEFT_MAIN_DESIRED", "Number");
+        const LOutTargetSimVar = SimVar.GetSimVarValue("L:B77HS_FUEL_LEFT_AUX_DESIRED", "Number");
+        const RInnTargetSimVar = SimVar.GetSimVarValue("L:B77HS_FUEL_RIGHT_MAIN_DESIRED", "Number");
+        const ROutTargetSimVar = SimVar.GetSimVarValue("L:B77HS_FUEL_RIGHT_AUX_DESIRED", "Number");
         const centerCurrentSimVar = SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "Gallons");
         const LInnCurrentSimVar = SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "Gallons");
         const LOutCurrentSimVar = SimVar.GetSimVarValue("FUEL TANK LEFT AUX QUANTITY", "Gallons");
@@ -168,6 +168,6 @@ class A32NX_Refuel {
         }
 
         // DONE FUELING
-        SimVar.SetSimVarValue("L:A32NX_REFUEL_STARTED_BY_USR", "Bool", false);
+        SimVar.SetSimVarValue("L:B77HS_REFUEL_STARTED_BY_USR", "Bool", false);
     }
 }

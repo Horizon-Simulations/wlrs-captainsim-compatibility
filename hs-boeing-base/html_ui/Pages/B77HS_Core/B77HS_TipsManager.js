@@ -1,4 +1,4 @@
-class A32NX_TipsManager {
+class B77HS_TipsManager {
     constructor() {
         this.notif = new NXNotifManager();
         this.checkThrottleCalibration();
@@ -14,21 +14,21 @@ class A32NX_TipsManager {
 
     checkThrottleCalibration() {
         let once = false;
-        let input = Math.round(SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_INPUT:1", "Number") * 100) / 100;
+        let input = Math.round(SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_INPUT:1", "Number") * 100) / 100;
 
-        const throttleConfig = SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_LOADED_CONFIG:1", "Boolean");
+        const throttleConfig = SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_LOADED_CONFIG:1", "Boolean");
 
         if (!throttleConfig) {
             const checkThrottle = setInterval(() => {
-                if (SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_LOADED_CONFIG:1", "Boolean")) {
+                if (SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_LOADED_CONFIG:1", "Boolean")) {
                     clearInterval(checkThrottle);
                     return;
                 }
-                if (input === Math.round(SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_INPUT:1", "Number") * 100) / 100) {
-                    const fwcFlightPhase = SimVar.GetSimVarValue("L:A32NX_FWC_FLIGHT_PHASE", "Enum");
-                    const atPhase = SimVar.GetSimVarValue("L:A32NX_AUTOTHRUST_MODE_MESSAGE", "Enum");
-                    const clbLow = Math.round(SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_CLIMB_LOW:1", "Number") * 100) / 100;
-                    const clbHigh = Math.round(SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_CLIMB_HIGH:1", "Number") * 100) / 100;
+                if (input === Math.round(SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_INPUT:1", "Number") * 100) / 100) {
+                    const fwcFlightPhase = SimVar.GetSimVarValue("L:B77HS_FWC_FLIGHT_PHASE", "Enum");
+                    const atPhase = SimVar.GetSimVarValue("L:B77HS_AUTOTHRUST_MODE_MESSAGE", "Enum");
+                    const clbLow = Math.round(SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_CLIMB_LOW:1", "Number") * 100) / 100;
+                    const clbHigh = Math.round(SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_CLIMB_HIGH:1", "Number") * 100) / 100;
 
                     // If thrust lever is within 0.03 range of the default CLB detent limits in CRZ and A/THR MODE is LVR CLB
                     if ((input >= (clbLow - 0.03) && input <= (clbHigh + 0.03)) && fwcFlightPhase === 6 && atPhase === 3) {
@@ -37,7 +37,7 @@ class A32NX_TipsManager {
                         once = false;
                     }
                 } else {
-                    input = Math.round(SimVar.GetSimVarValue("L:A32NX_THROTTLE_MAPPING_INPUT:1", "Number") * 100) / 100;
+                    input = Math.round(SimVar.GetSimVarValue("L:B77HS_THROTTLE_MAPPING_INPUT:1", "Number") * 100) / 100;
                 }
             }, 300000);
         }
@@ -45,7 +45,7 @@ class A32NX_TipsManager {
 
     checkAssistenceConfiguration() {
         // only check when actually flying, otherwise return
-        if (SimVar.GetSimVarValue("L:A32NX_IS_READY", "Number") !== 1) {
+        if (SimVar.GetSimVarValue("L:B77HS_IS_READY", "Number") !== 1) {
             this.wasAnyAssistanceActive = false;
             return;
         }

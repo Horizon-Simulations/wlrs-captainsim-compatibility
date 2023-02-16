@@ -21,15 +21,15 @@
   --displayRed: #ff0000;
   --displayYellow: #ffff00;
 
-  --mcduWhite: #ffffff;
-  --mcduLightGrey: #666666;
-  --mcduGrey: #787878;
-  --mcduGreen: #00ff00;
-  --mcduAmber: #ff9a00;
-  --mcduCyan: #00ffff;
-  --mcduYellow: #ffff00;
-  --mcduRed: #ff0000;
-  --mcduMagenta: #ff94ff;
+  --cduWhite: #ffffff;
+  --cduLightGrey: #666666;
+  --cduGrey: #787878;
+  --cduGreen: #00ff00;
+  --cduAmber: #ff9a00;
+  --cduCyan: #00ffff;
+  --cduYellow: #ffff00;
+  --cduRed: #ff0000;
+  --cduMagenta: #ff94ff;
 }
 
 div {

@@ -151,7 +151,7 @@ const _buildBMatrix6 = (value) => {
     ]));
 };
 //TODO Refactor this when you have time
-class A32NX_FuelPred {
+class B77HS_FuelPred {
 
     /**
      * Computes a flight time when a user inputs they're own weight for alternate fuel
@@ -221,21 +221,21 @@ class A32NX_FuelPred {
     }
 }
 
-A32NX_FuelPred.refWeight = 55;
+B77HS_FuelPred.refWeight = 55;
 
-A32NX_FuelPred.computations = {
+B77HS_FuelPred.computations = {
     TIME:"time",
     FUEL:"fuel",
     CORRECTIONS:"corrections"
 };
 
-A32NX_FuelPred.correction = {
+B77HS_FuelPred.correction = {
     LOW_AIR_CONDITIONING : -0.005,
     ENGINE_ANTI_ICE_ON : 0.02,
     TOTAL_ANTI_ICE_ON : 0.05,
 };
 
-A32NX_FuelPred.altCorrection = {
+B77HS_FuelPred.altCorrection = {
     LOW_AIR_CONDITIONING: -0.05,
     ENGINE_ANTI_ICE_ON: 0.02,
     TOTAL_ANTI_ICE_ON: 0.09,

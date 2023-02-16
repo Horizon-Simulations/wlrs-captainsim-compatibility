@@ -1,4 +1,4 @@
-class A32NX_PayloadConstructor {
+class B77HS_PayloadConstructor {
     constructor() {
         this.paxStations = {
             rows1_6: {
@@ -10,7 +10,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 0 + 1,
                 position: 20.0,
                 seatsRange: [1, 36],
-                simVar: "A32NX_PAX_TOTAL_ROWS_1_6"
+                simVar: "B77HS_PAX_TOTAL_ROWS_1_6"
             },
             rows7_13: {
                 name: 'ROWS [7-13]',
@@ -21,7 +21,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 1 + 1,
                 position: 0.9,
                 seatsRange: [37, 78],
-                simVar: "A32NX_PAX_TOTAL_ROWS_7_13"
+                simVar: "B77HS_PAX_TOTAL_ROWS_7_13"
             },
             rows14_21: {
                 name: 'ROWS [14-21]',
@@ -32,7 +32,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 2 + 1,
                 position: -17.3,
                 seatsRange: [79, 126],
-                simVar: "A32NX_PAX_TOTAL_ROWS_14_21"
+                simVar: "B77HS_PAX_TOTAL_ROWS_14_21"
             },
             rows22_29: {
                 name: 'ROWS [22-29]',
@@ -43,7 +43,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 3 + 1,
                 position: -36.3,
                 seatsRange: [127, 174],
-                simVar: "A32NX_PAX_TOTAL_ROWS_22_29"
+                simVar: "B77HS_PAX_TOTAL_ROWS_22_29"
             },
         };
 
@@ -55,7 +55,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 4 + 1,
                 position: 16.3,
                 visible: true,
-                simVar: 'A32NX_CARGO_FWD_BAGGAGE_CONTAINER',
+                simVar: 'B77HS_CARGO_FWD_BAGGAGE_CONTAINER',
             },
             aftCont: {
                 name: 'AFT CONTAINER',
@@ -64,7 +64,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 5 + 1,
                 position: -25.1,
                 visible: true,
-                simVar: 'A32NX_CARGO_AFT_CONTAINER',
+                simVar: 'B77HS_CARGO_AFT_CONTAINER',
             },
             aftBag: {
                 name: 'AFT BAGGAGE',
@@ -73,7 +73,7 @@ class A32NX_PayloadConstructor {
                 stationIndex: 6 + 1,
                 position: -35.1,
                 visible: true,
-                simVar: 'A32NX_CARGO_AFT_BAGGAGE',
+                simVar: 'B77HS_CARGO_AFT_BAGGAGE',
             },
             aftBulk: {
                 name: 'AFT BULK/LOOSE',
@@ -82,13 +82,13 @@ class A32NX_PayloadConstructor {
                 stationIndex: 7 + 1,
                 position: -44.4,
                 visible: true,
-                simVar: 'A32NX_CARGO_AFT_BULK_LOOSE',
+                simVar: 'B77HS_CARGO_AFT_BULK_LOOSE',
             },
         };
     }
 }
 
-const payloadConstruct = new A32NX_PayloadConstructor();
+const payloadConstruct = new B77HS_PayloadConstructor();
 const paxStations = payloadConstruct.paxStations;
 const cargoStations = payloadConstruct.cargoStations;
 const MAX_SEAT_AVAILABLE = 174;
@@ -104,7 +104,7 @@ function getZfwcg() {
     const emptyWeight = (SimVar.GetSimVarValue("EMPTY WEIGHT", getUserUnit()));
     const emptyPosition = -9.42; // Value from flight_model.cfg
     const emptyMoment = emptyPosition * emptyWeight;
-    const PAX_WEIGHT = SimVar.GetSimVarValue("L:A32NX_WB_PER_PAX_WEIGHT", "Number");
+    const PAX_WEIGHT = SimVar.GetSimVarValue("L:B77HS_WB_PER_PAX_WEIGHT", "Number");
 
     const paxTotalMass = Object.values(paxStations).map((station) => (SimVar.GetSimVarValue(`L:${station.simVar}`, "Number") * PAX_WEIGHT)).reduce((acc, cur) => acc + cur, 0);
     const paxTotalMoment = Object.values(paxStations).map((station) => (SimVar.GetSimVarValue(`L:${station.simVar}`, "Number") * PAX_WEIGHT) * station.position).reduce((acc, cur) => acc + cur, 0);

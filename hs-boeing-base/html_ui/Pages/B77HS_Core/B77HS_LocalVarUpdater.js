@@ -6,10 +6,10 @@
 
 const FLAPS_IN_MOTION_MIN_DELTA = 0.1;
 
-class A32NX_LocalVarUpdater {
+class B77HS_LocalVarUpdater {
     constructor() {
         // Initial data for deltas
-        this.lastFlapsPosition = SimVar.GetSimVarValue("L:A32NX_LEFT_FLAPS_POSITION_PERCENT", "Percent");
+        this.lastFlapsPosition = SimVar.GetSimVarValue("L:B77HS_LEFT_FLAPS_POSITION_PERCENT", "Percent");
         // track which compartment has gotten temperature initialization
         this.initializedCabinTemp = {
             "CKPT":false,
@@ -19,19 +19,19 @@ class A32NX_LocalVarUpdater {
 
         this.updaters = [
             {
-                varName: "L:A32NX_NO_SMOKING_MEMO",
+                varName: "L:B77HS_NO_SMOKING_MEMO",
                 type: "Bool",
                 selector: this._noSmokingMemoSelector,
                 refreshInterval: 1000,
             },
             {
-                varName: "L:A32NX_FLAPS_IN_MOTION",
+                varName: "L:B77HS_FLAPS_IN_MOTION",
                 type: "Bool",
                 selector: this._flapsInMotionSelector.bind(this),
                 refreshInterval: 50,
             },
             {
-                varName: "L:A32NX_SLIDES_ARMED",
+                varName: "L:B77HS_SLIDES_ARMED",
                 type: "Bool",
                 selector: this._areSlidesArmed.bind(this),
                 refreshInterval: 100,
@@ -65,7 +65,7 @@ class A32NX_LocalVarUpdater {
     }
 
     _noSmokingMemoSelector() {
-        const gearPercent = SimVar.GetSimVarValue("L:A32NX_GEAR_CENTER_POSITION", "Percent");
+        const gearPercent = SimVar.GetSimVarValue("L:B77HS_GEAR_CENTER_POSITION", "Percent");
         const noSmokingSwitch = SimVar.GetSimVarValue("L:XMLVAR_SWITCH_OVHD_INTLT_NOSMOKING_Position", "Position");
 
         // Switch is ON
@@ -82,7 +82,7 @@ class A32NX_LocalVarUpdater {
     }
 
     _flapsInMotionSelector() {
-        const currentFlapsPosition = SimVar.GetSimVarValue("L:A32NX_LEFT_FLAPS_POSITION_PERCENT", "Percent");
+        const currentFlapsPosition = SimVar.GetSimVarValue("L:B77HS_LEFT_FLAPS_POSITION_PERCENT", "Percent");
         const lastFlapsPosition = this.lastFlapsPosition;
 
         this.lastFlapsPosition = currentFlapsPosition;
@@ -97,7 +97,7 @@ class A32NX_LocalVarUpdater {
         (SimVar.GetSimVarValue('LIGHT BEACON ON', 'bool') &&
             SimVar.GetSimVarValue('INTERACTIVE POINT OPEN:0', 'percent') < 5 && // Pilot side front door for ramp/stairs
             SimVar.GetSimVarValue('INTERACTIVE POINT OPEN:3', 'percent') < 5 && // Rear door, FO side for catering
-            SimVar.GetSimVarValue('L:A32NX_FWD_DOOR_CARGO_LOCKED', 'bool') // Cargo door FO side
+            SimVar.GetSimVarValue('L:B77HS_FWD_DOOR_CARGO_LOCKED', 'bool') // Cargo door FO side
         );
     }
 

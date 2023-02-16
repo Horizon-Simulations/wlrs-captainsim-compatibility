@@ -1,4 +1,4 @@
-class A32NX_ADIRS {
+class B77HS_ADIRS {
     init() {
         this.copyConfiguredAlignTimeToSimVar();
     }
@@ -25,6 +25,6 @@ class A32NX_ADIRS {
                 break;
         }
 
-        SimVar.SetSimVarValue("L:A32NX_CONFIG_ADIRS_IR_ALIGN_TIME", "Enum", alignTime);
+        SimVar.SetSimVarValue("L:B77HS_CONFIG_ADIRS_IR_ALIGN_TIME", "Enum", alignTime);
     }
 }

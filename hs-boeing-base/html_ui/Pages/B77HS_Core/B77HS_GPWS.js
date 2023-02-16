@@ -1,6 +1,6 @@
-class A32NX_GPWS {
+class B77HS_GPWS {
     constructor(_core) {
-        console.log('A32NX_GPWS constructed');
+        console.log('B77HS_GPWS constructed');
         this.core = _core;
 
         this.minimumsState = 0;
@@ -68,34 +68,34 @@ class A32NX_GPWS {
                     {},
                 ],
                 onChange: (current, _) => {
-                    SimVar.SetSimVarValue("L:A32NX_GPWS_GS_Warning_Active", "Bool", current >= 1);
+                    SimVar.SetSimVarValue("L:B77HS_GPWS_GS_Warning_Active", "Bool", current >= 1);
                 }
             }
         ];
 
         this.PrevShouldPullUpPlay = 0;
 
-        this.AltCallState = A32NX_Util.createMachine(AltCallStateMachine);
+        this.AltCallState = B77HS_Util.createMachine(AltCallStateMachine);
         this.AltCallState.setState("ground");
-        this.RetardState = A32NX_Util.createMachine(RetardStateMachine);
+        this.RetardState = B77HS_Util.createMachine(RetardStateMachine);
         this.RetardState.setState("landed");
     }
 
     init() {
-        console.log('A32NX_GPWS init');
+        console.log('B77HS_GPWS init');
 
         this.radnav.init(NavMode.FOUR_SLOTS);
 
-        SimVar.SetSimVarValue("L:A32NX_GPWS_GS_Warning_Active", "Bool", 0);
-        SimVar.SetSimVarValue("L:A32NX_GPWS_Warning_Active", "Bool", 0);
+        SimVar.SetSimVarValue("L:B77HS_GPWS_GS_Warning_Active", "Bool", 0);
+        SimVar.SetSimVarValue("L:B77HS_GPWS_Warning_Active", "Bool", 0);
     }
 
     update(deltaTime, _core) {
         this.gpws(deltaTime);
     }
     gpws(deltaTime) {
-        const radioAlt1 = Arinc429Word.fromSimVarValue(`L:A32NX_RA_1_RADIO_ALTITUDE`);
-        const radioAlt2 = Arinc429Word.fromSimVarValue(`L:A32NX_RA_2_RADIO_ALTITUDE`);
+        const radioAlt1 = Arinc429Word.fromSimVarValue(`L:B77HS_RA_1_RADIO_ALTITUDE`);
+        const radioAlt2 = Arinc429Word.fromSimVarValue(`L:B77HS_RA_2_RADIO_ALTITUDE`);
         const radioAlt = radioAlt1.isFailureWarning() || radioAlt1.isNoComputedData() ? radioAlt2 : radioAlt1;
         const radioAltValid = radioAlt.isNormalOperation();
         const onGround = SimVar.GetSimVarValue("SIM ON GROUND", "Bool");
@@ -105,14 +105,14 @@ class A32NX_GPWS {
 
         const mda = SimVar.GetSimVarValue("L:AIRLINER_MINIMUM_DESCENT_ALTITUDE", "feet");
         const dh = SimVar.GetSimVarValue("L:AIRLINER_DECISION_HEIGHT", "feet");
-        const phase = SimVar.GetSimVarValue("L:A32NX_FMGC_FLIGHT_PHASE", "Enum");
+        const phase = SimVar.GetSimVarValue("L:B77HS_FMGC_FLIGHT_PHASE", "Enum");
 
         if (
             radioAltValid && radioAlt.value >= 10 && radioAlt.value <= 2450 &&
-            !SimVar.GetSimVarValue("L:A32NX_GPWS_SYS_OFF", "Bool")
+            !SimVar.GetSimVarValue("L:B77HS_GPWS_SYS_OFF", "Bool")
         ) { //Activate between 10 - 2450 radio alt unless SYS is off
-            const FlapPushButton = SimVar.GetSimVarValue("L:A32NX_GPWS_FLAPS3", "Bool");
-            const FlapPosition = SimVar.GetSimVarValue("L:A32NX_FLAPS_HANDLE_INDEX", "Number");
+            const FlapPushButton = SimVar.GetSimVarValue("L:B77HS_GPWS_FLAPS3", "Bool");
+            const FlapPosition = SimVar.GetSimVarValue("L:B77HS_FLAPS_HANDLE_INDEX", "Number");
             const FlapsInLandingConfig = FlapPushButton ? (FlapPosition === 3) : (FlapPosition === 4);
             const vSpeed = Simplane.getVerticalSpeed();
             const Airspeed = SimVar.GetSimVarValue("AIRSPEED INDICATED", "Knots");
@@ -137,8 +137,8 @@ class A32NX_GPWS {
                 this.Mode4MaxRAAlt = NaN;
             }
 
-            SimVar.SetSimVarValue("L:A32NX_GPWS_GS_Warning_Active", "Bool", 0);
-            SimVar.SetSimVarValue("L:A32NX_GPWS_Warning_Active", "Bool", 0);
+            SimVar.SetSimVarValue("L:B77HS_GPWS_GS_Warning_Active", "Bool", 0);
+            SimVar.SetSimVarValue("L:B77HS_GPWS_Warning_Active", "Bool", 0);
         }
 
         this.GPWSComputeLightsAndCallouts();
@@ -243,7 +243,7 @@ class A32NX_GPWS {
         }
 
         const illuminateGpwsLight = activeTypes.some((type) => type.gpwsLight);
-        SimVar.SetSimVarValue("L:A32NX_GPWS_Warning_Active", "Bool", illuminateGpwsLight);
+        SimVar.SetSimVarValue("L:B77HS_GPWS_Warning_Active", "Bool", illuminateGpwsLight);
     }
 
     /**
@@ -369,7 +369,7 @@ class A32NX_GPWS {
             mode.current = 0;
             return;
         }
-        const FlapModeOff = SimVar.GetSimVarValue("L:A32NX_GPWS_FLAP_OFF", "Bool");
+        const FlapModeOff = SimVar.GetSimVarValue("L:B77HS_GPWS_FLAP_OFF", "Bool");
 
         // Mode 4 A and B logic
         if (!gearExtended && phase === FmgcFlightPhases.APPROACH) {
@@ -406,16 +406,16 @@ class A32NX_GPWS {
      * @constructor
      */
     GPWSMode5(mode, radioAlt) {
-        if (radioAlt > 1000 || radioAlt < 30 || SimVar.GetSimVarValue("L:A32NX_GPWS_GS_OFF", "Bool")) {
+        if (radioAlt > 1000 || radioAlt < 30 || SimVar.GetSimVarValue("L:B77HS_GPWS_GS_OFF", "Bool")) {
             mode.current = 0;
             return;
         }
         const localizer = this.radnav.getBestILSBeacon();
-        if (localizer.id <= 0 || !SimVar.GetSimVarValue('L:A32NX_RADIO_RECEIVER_GS_IS_VALID', 'number')) {
+        if (localizer.id <= 0 || !SimVar.GetSimVarValue('L:B77HS_RADIO_RECEIVER_GS_IS_VALID', 'number')) {
             mode.current = 0;
             return;
         }
-        const error = SimVar.GetSimVarValue('L:A32NX_RADIO_RECEIVER_GS_DEVIATION', 'number');
+        const error = SimVar.GetSimVarValue('L:B77HS_RADIO_RECEIVER_GS_DEVIATION', 'number');
         const dots = -error * 2.5; //According to the FCOM, one dot is approx. 0.4 degrees. 1/0.4 = 2.5
 
         const minAltForWarning = dots < 2.9 ? -75 * dots + 247.5 : 30;
@@ -551,7 +551,7 @@ class A32NX_GPWS {
         switch (this.RetardState.value) {
             case "overRetard":
                 if (radioAlt < 20) {
-                    if (!SimVar.GetSimVarValue("L:A32NX_AUTOPILOT_ACTIVE", "Bool")) {
+                    if (!SimVar.GetSimVarValue("L:B77HS_AUTOPILOT_ACTIVE", "Bool")) {
                         this.RetardState.action("play");
                         this.core.soundManager.addPeriodicSound(soundList.retard, 1.1);
                     } else if (radioAlt < 10) {
@@ -561,10 +561,10 @@ class A32NX_GPWS {
                 }
                 break;
             case "retardPlaying":
-                if (SimVar.GetSimVarValue("L:A32NX_AUTOTHRUST_TLA:1", "number") < 2.6 || SimVar.GetSimVarValue("L:A32NX_AUTOTHRUST_TLA:2", "number") < 2.6) {
+                if (SimVar.GetSimVarValue("L:B77HS_AUTOTHRUST_TLA:1", "number") < 2.6 || SimVar.GetSimVarValue("L:B77HS_AUTOTHRUST_TLA:2", "number") < 2.6) {
                     this.RetardState.action("land");
                     this.core.soundManager.removePeriodicSound(soundList.retard);
-                } else if (SimVar.GetSimVarValue("L:A32NX_FMGC_FLIGHT_PHASE", "Enum") === FmgcFlightPhases.GOAROUND || radioAlt > 20) {
+                } else if (SimVar.GetSimVarValue("L:B77HS_FMGC_FLIGHT_PHASE", "Enum") === FmgcFlightPhases.GOAROUND || radioAlt > 20) {
                     this.RetardState.action("go_around");
                     this.core.soundManager.removePeriodicSound(soundList.retard);
                 }

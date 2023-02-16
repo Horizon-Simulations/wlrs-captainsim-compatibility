@@ -2,8 +2,8 @@
   "content": [
     {
       "path": "html_ui/CSS/B77HS_Display_Common.css",
-      "size": 3001,
-      "date": 133205052372013390
+      "size": 2992,
+      "date": 133205291791120640
     },
     {
       "path": "html_ui/Fonts/BoeingCDU.ttf",
@@ -36,96 +36,6 @@
       "date": 133188677799969580
     },
     {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_ADIRS.js",
-      "size": 790,
-      "date": 133203284216916350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_APU.js",
-      "size": 1832,
-      "date": 133203284216916350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_ATSU.js",
-      "size": 12730,
-      "date": 133203284216921360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_BaroSelector.js",
-      "size": 3035,
-      "date": 133203284216921360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_Boarding.js",
-      "size": 10406,
-      "date": 133203284216926350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_BrakeTemp.js",
-      "size": 10907,
-      "date": 133203284216931360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_Core.js",
-      "size": 3545,
-      "date": 133203284216931360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_DMC.js",
-      "size": 1728,
-      "date": 133203284216936350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_FADEC.js",
-      "size": 2123,
-      "date": 133203284216936350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_FWC.js",
-      "size": 19752,
-      "date": 133203284216941340
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_FuelPred.js",
-      "size": 10297,
-      "date": 133203284216946350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_GPWS.js",
-      "size": 27125,
-      "date": 133203284216946350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_LocalVarUpdater.js",
-      "size": 3904,
-      "date": 133203284216951360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_PayloadManager.js",
-      "size": 5807,
-      "date": 133203284216951360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_Refuel.js",
-      "size": 9320,
-      "date": 133203284216951360
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_SoundManager.js",
-      "size": 4509,
-      "date": 133203284216956350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_Speeds.js",
-      "size": 3747,
-      "date": 133203284216956350
-    },
-    {
-      "path": "html_ui/Pages/B77HS_Core/A32NX_TipsManager.js",
-      "size": 3845,
-      "date": 133203284216956350
-    },
-    {
       "path": "html_ui/Pages/B77HS_Core/AIMS/B77HS_MessageQueue.js",
       "size": 2084,
       "date": 133205175676312930
@@ -134,6 +44,96 @@
       "path": "html_ui/Pages/B77HS_Core/Adirs.js",
       "size": 2749,
       "date": 133203284216961340
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_ADIRS.js",
+      "size": 790,
+      "date": 133205316949098850
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_APU.js",
+      "size": 1832,
+      "date": 133205317061426340
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_ATSU.js",
+      "size": 12730,
+      "date": 133203284216921360
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_BaroSelector.js",
+      "size": 3035,
+      "date": 133205318007308960
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_Boarding.js",
+      "size": 10406,
+      "date": 133205317930093470
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_BrakeTemp.js",
+      "size": 10907,
+      "date": 133205317861633580
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_Core.js",
+      "size": 3545,
+      "date": 133205317796109000
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_DMC.js",
+      "size": 1728,
+      "date": 133205319307916340
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_FADEC.js",
+      "size": 2123,
+      "date": 133205319101443760
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_FWC.js",
+      "size": 19752,
+      "date": 133205318855156860
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_FuelPred.js",
+      "size": 10297,
+      "date": 133205318969828820
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_GPWS.js",
+      "size": 27125,
+      "date": 133205318727395620
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_LocalVarUpdater.js",
+      "size": 3904,
+      "date": 133205318511673570
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_PayloadManager.js",
+      "size": 5807,
+      "date": 133205318396479820
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_Refuel.js",
+      "size": 9320,
+      "date": 133205318280516900
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_SoundManager.js",
+      "size": 4509,
+      "date": 133203284216956350
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_Speeds.js",
+      "size": 3747,
+      "date": 133205319318988620
+    },
+    {
+      "path": "html_ui/Pages/B77HS_Core/B77HS_TipsManager.js",
+      "size": 3845,
+      "date": 133205317733561360
     },
     {
       "path": "html_ui/Pages/B77HS_Core/DisplayUnit.js",
@@ -186,29 +186,29 @@
       "date": 133203284217146750
     },
     {
-      "path": "html_ui/Pages/JS/Horizon/B77HS_Avionics.js",
+      "path": "html_ui/Pages/JS/B77HS_Avionics.js",
       "size": 2776,
       "date": 133205164639700100
     },
     {
-      "path": "html_ui/Pages/JS/Horizon/B77HS_ObjectDumper.js",
+      "path": "html_ui/Pages/JS/B77HS_ObjectDumper.js",
       "size": 4927,
       "date": 133203284216911380
     },
     {
-      "path": "html_ui/Pages/JS/Horizon/B77HS_Util.js",
-      "size": 13711,
-      "date": 133205164703109780
+      "path": "html_ui/Pages/JS/B77HS_Util.js",
+      "size": 13491,
+      "date": 133205383535417630
     },
     {
       "path": "html_ui/Pages/JS/Horizon/aims/LzUtf8.js",
       "size": 44129,
-      "date": 133205270592065070
+      "date": 133205403120151700
     },
     {
       "path": "html_ui/Pages/JS/Horizon/aims/aims.js",
       "size": 1541125,
-      "date": 133205270595337970
+      "date": 133205403123456110
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/B77HS_BaseAirliners.js",
@@ -221,14 +221,24 @@
       "date": 133205027573341840
     },
     {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/CDU/B777HS_CDU.html",
-      "size": 3382,
-      "date": 133205260844887900
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/CDU/B77HS_CDU.css",
+      "size": 4069,
+      "date": 133205291729399580
     },
     {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/CDU/B777HS_CDU_MainDisplay.js",
-      "size": 53349,
-      "date": 133205269773986700
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/CDU/B77HS_CDU.html",
+      "size": 5173,
+      "date": 133205402624049460
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/CDU/B77HS_CDU_InitPage.js",
+      "size": 33655,
+      "date": 133205401839177660
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/CDU/B77HS_CDU_MainDisplay.js",
+      "size": 53466,
+      "date": 133205398097704910
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/horizon-simulations-boeing/FMC/B77HS_FMCDataManager.js",

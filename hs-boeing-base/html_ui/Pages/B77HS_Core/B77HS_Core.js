@@ -1,66 +1,66 @@
 const ENABLE_TOTAL_UPDATE_TIME_TRACING = false;
 
-class A32NX_Core {
+class B77HS_Core {
     constructor() {
         this.modules = [
             {
                 name: 'ADIRS',
-                module: new A32NX_ADIRS(),
+                module: new B77HS_ADIRS(),
                 updateInterval: 100,
             },
             {
                 name: 'APU',
-                module: new A32NX_APU(),
+                module: new B77HS_APU(),
                 updateInterval: 100,
             },
             {
                 name: 'BaroSelector',
-                module: new A32NX_BaroSelector(),
+                module: new B77HS_BaroSelector(),
                 updateInterval: 300,
             },
             {
                 name: 'BrakeTemp',
-                module: new A32NX_BrakeTemp(),
+                module: new B77HS_BrakeTemp(),
                 updateInterval: 150,
             },
             {
                 name: 'Refuel',
-                module: new A32NX_Refuel(),
+                module: new B77HS_Refuel(),
                 updateInterval: 150,
             },
             {
                 name: 'Boarding',
-                module: new A32NX_Boarding(),
+                module: new B77HS_Boarding(),
                 updateInterval: 150,
             },
             {
                 name: 'LocalVars',
-                module: new A32NX_LocalVarUpdater(),
+                module: new B77HS_LocalVarUpdater(),
                 updateInterval: 50,
             },
             {
                 name: 'FADEC #1',
-                module: new A32NX_FADEC(1),
+                module: new B77HS_FADEC(1),
                 updateInterval: 100,
             },
             {
                 name: 'FADEC #2',
-                module: new A32NX_FADEC(2),
+                module: new B77HS_FADEC(2),
                 updateInterval: 100,
             },
             {
                 name: 'FWC',
-                module: new A32NX_FWC(2),
+                module: new B77HS_FWC(2),
                 updateInterval: 50,
             },
             {
                 name: 'GPWS',
-                module: new A32NX_GPWS(this),
+                module: new B77HS_GPWS(this),
                 updateInterval: 75,
             },
             {
                 name: 'Speeds',
-                module: new A32NX_Speeds(),
+                module: new B77HS_Speeds(),
                 updateInterval: 500,
             }
         ];
@@ -69,12 +69,12 @@ class A32NX_Core {
             this.moduleThrottlers[moduleDefinition.name] = new UpdateThrottler(moduleDefinition.updateInterval);
         }
 
-        this.soundManager = new A32NX_SoundManager();
-        this.tipsManager = new A32NX_TipsManager();
+        this.soundManager = new B77HS_SoundManager();
+        this.tipsManager = new B77HS_TipsManager();
     }
 
     init(startTime) {
-        this.getDeltaTime = A32NX_Util.createDeltaTimeCalculator(startTime);
+        this.getDeltaTime = B77HS_Util.createDeltaTimeCalculator(startTime);
         this.modules.forEach(moduleDefinition => {
             if (typeof moduleDefinition.module.init === "function") {
                 moduleDefinition.module.init();
