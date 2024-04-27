@@ -1,0 +1,20 @@
+{
+    "dependencies": [
+        {
+            "name": "fs-base-aircraft-common",
+            "package_version": "0.1.127"
+        }
+    ],
+    "content_type": "AIRCRAFT",
+    "title": "WorldlinerRS B777-300ER-Pratt-and-Whittney-4090",
+    "manufacturer": "Boeing",
+    "creator": "masterrob94",
+    "package_version": "3.0.1",
+    "minimum_game_version": "1.29.30",
+    "release_notes": {
+      "neutral": {
+        "LastUpdate": "",
+        "OlderHistory": ""
+      }
+    }
+  }
