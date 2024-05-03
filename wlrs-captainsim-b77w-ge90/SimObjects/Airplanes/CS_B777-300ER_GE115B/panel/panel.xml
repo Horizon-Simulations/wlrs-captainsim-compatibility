@@ -77,6 +77,7 @@
     <Electric>
 		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
     </Electric>
+	<AlwaysUpdate>True</AlwaysUpdate>
   </Instrument>
   
   <Instrument>
@@ -106,6 +107,8 @@
       <Simvar name="CIRCUIT ON:21" unit="Boolean"/>
     </Electric>
   </Instrument>
+
+
 
 	<!-- Annunciations -->
 
@@ -193,6 +196,37 @@
 		  </Condition>
 		</Annunciation>
 
+
+		<!--add stuff here-->
+		<Annunciation>
+		  <Type>Warning</Type>
+		  <Text>FUEL OFF</Text>
+		  <Condition>
+		  	<And>
+				<Equal>
+				<Simvar name="FUEL TANK SELECTOR:1" unit="number"/>
+				<Constant>0</Constant>
+				</Equal>
+
+				<GreaterEqual>
+						<Simvar name="TURB ENG N2:2" unit="percent"/>
+						<Constant>60</Constant>
+				</GreaterEqual>
+
+				<GreaterEqual>
+					<Simvar name="TURB ENG N2:1" unit="percent"/>
+					<Constant>60</Constant>
+				</GreaterEqual>
+
+
+			</And>
+		  </Condition>
+		</Annunciation>
+
+
+
+		<!--end-->
+
 		<Annunciation>
 			<Type>Warning</Type>
 			<Text>OVERSPEED</Text>
@@ -271,11 +305,11 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>55</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>55</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -295,11 +329,11 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>55</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>55</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -315,21 +349,21 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="ELEVATOR TRIM PCT" unit="Percent"/>
-						<Constant>29</Constant>
+						<Constant>40</Constant>
 					</GreaterEqual>
 					<LowerEqual>
 						<Simvar name="ELEVATOR TRIM PCT" unit="Percent"/>
-						<Constant>-64</Constant>
+						<Constant>-60</Constant>
 					</LowerEqual>
 				</Or>
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>55</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>55</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -349,24 +383,17 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>65</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>75</Constant>
+						<Constant>65</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
 			</Condition>
 		</Annunciation>
 
-		<Annunciation>
-			<Type>Warning</Type>
-			<Text></Text>
-			<Condition>
-				<Simvar name="STALL WARNING" unit="Boolean"/>
-			</Condition>
-		</Annunciation>
 
 		<Annunciation>
 		  <Type>Caution</Type>
@@ -625,10 +652,16 @@
 		  <Type>Advisory</Type>
 		  <Text>BLEED OFF APU</Text>
 		  <Condition>
-			<Equal>
-				<Simvar name="BLEED AIR APU" unit="Boolean"/>
-				<Constant>0</Constant>
-			</Equal>
+		  	<And>
+				<Equal>
+					<Simvar name="BLEED AIR APU" unit="Boolean"/>
+					<Constant>0</Constant>
+				</Equal>
+				<GreaterEqual>
+			  		<Simvar name="APU PCT RPM" unit="percent"/>
+			  		<Constant>100</Constant>
+				</GreaterEqual>
+			</And>
 		  </Condition>
 		</Annunciation>
 
@@ -637,9 +670,14 @@
 		  <Text>ICING WING</Text>
 		  <Condition>
 			<And>
+			<!--change made here-->
+				<LowerEqual>
+					<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
+					<Constant>10</Constant>
+				</LowerEqual>
 				<GreaterEqual>
 					<Simvar name="STRUCTURAL ICE PCT" unit="percent"/>
-					<Constant>5</Constant>
+					<Constant>10</Constant>
 				</GreaterEqual>
 				<Equal>
 			  		<Simvar name="STRUCTURAL DEICE SWITCH" unit="Boolean"/>
@@ -654,9 +692,13 @@
 		  <Text>ICING ENG</Text>
 		  <Condition>
 			<And>
+					<LowerEqual>
+						<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
+						<Constant>10</Constant>
+					</LowerEqual>
 					<GreaterEqual>
 						<Simvar name="STRUCTURAL ICE PCT" unit="percent"/>
-						<Constant>5</Constant>
+						<Constant>10</Constant>
 					</GreaterEqual>
 				<Or>
 					<Equal>
@@ -676,30 +718,21 @@
 		  <Type>Advisory</Type>
 		  <Text>ANTI-ICE ON</Text>
 		  <Condition>
-			<And>
-					<GreaterEqual>
-						<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
-						<Constant>10</Constant>
-					</GreaterEqual>
-					<LowerEqual>
-						<Simvar name="STRUCTURAL ICE PCT" unit="percent"/>
-						<Constant>5</Constant>
-					</LowerEqual>
+			<!-- changes made here-->
 				<Or>
 					<Equal>
-			  			<Simvar name="ENG ANTI ICE:1" unit="Boolean"/>
-			  			<Constant>1</Constant>
+						<Simvar name="ENG ANTI ICE:1" unit="Boolean"/>
+						<Constant>1</Constant>
 					</Equal>
 					<Equal>
-			  			<Simvar name="ENG ANTI ICE:2" unit="Boolean"/>
-			  			<Constant>1</Constant>
+						<Simvar name="ENG ANTI ICE:2" unit="Boolean"/>
+						<Constant>1</Constant>
 					</Equal>
 					<Equal>
-			  			<Simvar name="STRUCTURAL DEICE SWITCH" unit="Boolean"/>
-			  			<Constant>1</Constant>
+						<Simvar name="STRUCTURAL DEICE SWITCH" unit="Boolean"/>
+						<Constant>1</Constant>
 					</Equal>
 				</Or>
-			</And>
 		  </Condition>
 		</Annunciation>
 
@@ -785,7 +818,7 @@
 		  <Condition>
 		    <GreaterEqual>
 			  <Simvar name="APU PCT RPM" unit="percent"/>
-			  <Constant>95</Constant>
+			  <Constant>100</Constant>
 			</GreaterEqual>
 		  </Condition>
 		</Annunciation>
@@ -833,7 +866,7 @@
 
 		<Annunciation>
 		  <Type>Advisory</Type>
-		  <Text>AUTOBRAKE</Text>
+		  <Text>AUTOBRAKE NOT SET</Text>
 		  <Condition>
 		  <And>
 			<Equal>
@@ -852,10 +885,17 @@
 		  <Type>Advisory</Type>
 		  <Text>TCAS OFF</Text>
 		  <Condition>
-			<Equal>
-				<Simvar name="TRANSPONDER STATE:1" unit="Enum"/>
-				<Constant>1</Constant>
-			</Equal>
+			<!--change here-->		<!--this will not show on EICAS when spawn cold and dark, only when the value changes, the variable been created, it would be record and change-->
+			<Or>
+				<Equal>
+					<Simvar name="TRANSPONDER STATE:1" unit="Enum"/>
+					<Constant>1</Constant>
+				</Equal>
+				<Equal>
+					<Simvar name="TRANSPONDER STATE:1" unit="Enum"/>
+					<Constant>3</Constant>
+				</Equal>
+			</Or>
 		  </Condition>
 		</Annunciation>
 
@@ -863,9 +903,49 @@
 		  <Type>Memo</Type>
 		  <Text>SEATBELTS ON</Text>
 		  <Condition>
-			<Simvar name="CABIN SEATBELTS ALERT SWITCH" unit="bool"/>
-		  </Condition>
+				<Or>
+					<And>
+						<Equal>
+							<Simvar name="L:WT_SEAT_BELTS_MODE" unit="Number"/>
+							<Constant>1</Constant> 
+						</Equal>
+						<LowerEqual>
+							<Simvar name="INDICATED ALTITUDE" unit="feet"/>
+							<Constant>10000</Constant>
+						</LowerEqual>
+					</And>
+					<Equal>
+						<Simvar name="L:WT_SEAT_BELTS_MODE" unit="Number"/>
+						<Constant>2</Constant>  
+					</Equal>
+				</Or>
+			</Condition>
 		</Annunciation>
+
+		<Annunciation>
+			<Type>Memo</Type>
+			<Text>NO SMOKING ON</Text>
+			<!-- Check if the no smoking switch is in AUTO position and altitude is below 10000ft -->
+			<Condition>
+				<Or>
+					<And>
+						<Equal>
+							<Simvar name="L:O08_001_GL3" unit="Number"/>
+							<Constant>1</Constant> 
+						</Equal>
+						<LowerEqual>
+							<Simvar name="INDICATED ALTITUDE" unit="feet"/>
+							<Constant>10000</Constant>
+						</LowerEqual>
+					</And>
+					<Equal>
+						<Simvar name="L:O08_001_GL3" unit="Number"/>
+						<Constant>2</Constant>  
+					</Equal>
+				</Or>
+			</Condition>
+		</Annunciation>
+
 		
 		<Annunciation>
 		  <Type>Memo</Type>
@@ -889,7 +969,7 @@
 			</Equal>
 			<GreaterEqual>
 				<Simvar name="TURB ENG N2:1" unit="percent"/>
-				<Constant>60</Constant>
+				<Constant>70</Constant>
 			</GreaterEqual>
 		  </And>
 		  </Condition>
@@ -906,7 +986,7 @@
 			</Equal>
 			<GreaterEqual>
 				<Simvar name="TURB ENG N2:2" unit="percent"/>
-				<Constant>60</Constant>
+				<Constant>70</Constant>
 			</GreaterEqual>
 		  </And>
 		  </Condition>
@@ -916,10 +996,18 @@
 		  <Type>Advisory</Type>
 		  <Text>ELEC GEN OFF APU</Text>
 		  <Condition>
-		    <Equal>
-			  <Simvar name="APU GENERATOR SWITCH:1" unit="Bool"/>
-			  <Constant>0</Constant>
-			</Equal>
+		  	<And>
+				<Equal>
+				<Simvar name="APU GENERATOR SWITCH:1" unit="Bool"/>
+				<Constant>0</Constant>
+				</Equal>
+
+				<GreaterEqual>
+			  		<Simvar name="APU PCT RPM" unit="percent"/>
+			  		<Constant>100</Constant>
+				</GreaterEqual>
+				
+			</And>
 		  </Condition>
 		</Annunciation>
 	</Annunciations>
@@ -927,6 +1015,7 @@
 	<!-- Voices Alerts -->
   
 	<VoicesAlerts>
+
 
 		<Alert>
 			<Type>Warning</Type>
@@ -1170,7 +1259,7 @@
 						<And>
 							<Lower>
 								<Simvar name="PLANE ALT ABOVE GROUND" unit="feet"/>
-								<Constant>750</Constant>
+								<Constant>800</Constant>
 							</Lower>
 							<Or>
 								<Lower>
@@ -1204,7 +1293,7 @@
 						<Or>
 							<GreaterEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND" unit="feet"/>
-								<Constant>750</Constant>
+								<Constant>800</Constant>
 							</GreaterEqual>
 							<And>
 								<Equal>
@@ -1244,7 +1333,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>5</Constant>
+								<Constant>18</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1274,7 +1363,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>10</Constant>
+								<Constant>23</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1304,7 +1393,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>20</Constant>
+								<Constant>33</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1334,7 +1423,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>30</Constant>
+								<Constant>43</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1364,7 +1453,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>40</Constant>
+								<Constant>53</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1394,7 +1483,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>50</Constant>
+								<Constant>63</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1424,7 +1513,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>100</Constant>
+								<Constant>113</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1454,7 +1543,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>200</Constant>
+								<Constant>213</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1484,7 +1573,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>300</Constant>
+								<Constant>313</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1514,7 +1603,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>400</Constant>
+								<Constant>413</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1544,7 +1633,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>500</Constant>
+								<Constant>513</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1574,7 +1663,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>1000</Constant>
+								<Constant>1013</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>
@@ -1604,7 +1693,7 @@
 						<Transition to="Alerting">
 							<LowerEqual>
 								<Simvar name="PLANE ALT ABOVE GROUND MINUS CG" unit="feet"/>
-								<Constant>2500</Constant>
+								<Constant>2513</Constant>
 							</LowerEqual>
 						</Transition>
 					</State>

@@ -1,5 +1,6 @@
 var B777_LowerEICAS_Stat;
 (function (B777_LowerEICAS_Stat) {
+    //can't find the class file to modify: TODO - update APU and HYD stats
     class Display extends Airliners.EICASTemplateElement {
         constructor() {
             super();
