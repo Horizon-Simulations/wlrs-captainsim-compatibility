@@ -38,8 +38,6 @@ The project itself is mainly based on [Salty Simulations 747](https://github.com
  BEW         353800 lbs (160530 kgs)
  ```
 
-
- ```
 ### Boeing 777-300ER
 
  ```
