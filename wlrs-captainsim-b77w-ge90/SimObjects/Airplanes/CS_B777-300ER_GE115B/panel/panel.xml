@@ -196,37 +196,6 @@
 		  </Condition>
 		</Annunciation>
 
-
-		<!--add stuff here-->
-		<Annunciation>
-		  <Type>Warning</Type>
-		  <Text>FUEL OFF</Text>
-		  <Condition>
-		  	<And>
-				<Equal>
-				<Simvar name="FUEL TANK SELECTOR:1" unit="number"/>
-				<Constant>0</Constant>
-				</Equal>
-
-				<GreaterEqual>
-						<Simvar name="TURB ENG N2:2" unit="percent"/>
-						<Constant>60</Constant>
-				</GreaterEqual>
-
-				<GreaterEqual>
-					<Simvar name="TURB ENG N2:1" unit="percent"/>
-					<Constant>60</Constant>
-				</GreaterEqual>
-
-
-			</And>
-		  </Condition>
-		</Annunciation>
-
-
-
-		<!--end-->
-
 		<Annunciation>
 			<Type>Warning</Type>
 			<Text>OVERSPEED</Text>
@@ -899,9 +868,21 @@
 		  </Condition>
 		</Annunciation>
 
+		<!--
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>ELEC BATTERY OFF</Text>
+		  <Condition>
+			<Equal>
+				<Simvar name="ELECTRICAL MASTER BATTERY" unit="Bool"/>
+				<Constant>1</Constant>
+			</Equal>
+		  </Condition>
+		</Annunciation>
+		-->
 		<Annunciation>
 		  <Type>Memo</Type>
-		  <Text>SEATBELTS ON</Text>
+		  <Text>PASS SIGNS ON</Text>
 		  <Condition>
 				<Or>
 					<And>
