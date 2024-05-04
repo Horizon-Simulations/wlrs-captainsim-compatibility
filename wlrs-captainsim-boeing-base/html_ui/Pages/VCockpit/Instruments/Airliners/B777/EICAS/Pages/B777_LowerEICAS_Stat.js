@@ -16,13 +16,27 @@ var B777_LowerEICAS_Stat;
             this.date = document.querySelector("#date");
             this.utcTime = document.querySelector("#utctime");
             this.elapsedTime = document.querySelector("#time");
-
+            this.apuRPM = document.querySelector('#RPM');
+            this.apuEGT = document.querySelector('#EGT');
+            //this.apuPress = document.querySelector('#press;');
+            //this.apuTemp = document.querySelector('#temp;');
+            //this.apuQty = document.querySelector('#qty;');
+            this.hydraulicL = document.querySelector('#pressL');
+            this.hydraulicC = document.querySelector('#pressC');
+            this.hydraulicR = document.querySelector('#pressR');
             // Call updateClock every second
             setInterval(this.updateClock.bind(this), 1000);
         }
+
         update(_deltaTime) {
-            //var apuRPM = SimVar.GetSimVarValue("APU PCT RPM", "percent over 100");
+            this.apuRPM.textContent = (SimVar.GetSimVarValue("APU PCT RPM", "percent")).toFixed(1);  //
+            this.apuEGT.textContent = (SimVar.GetSimVarValue("APU EXHAUST GAS TEMPERATURE", "celsius")).toFixed(1);
+            this.hydraulicL.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:1", "psi")).toFixed(1);
+            this.hydraulicC.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:3", "psi")).toFixed(1);
+            this.hydraulicR.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:2", "psi")).toFixed(1);
         }
+        
+
         updateClock() {
             var utc = new Date();
             var utcHours = utc.getUTCHours() <= 9 ? "0" + utc.getUTCHours() : utc.getUTCHours();
