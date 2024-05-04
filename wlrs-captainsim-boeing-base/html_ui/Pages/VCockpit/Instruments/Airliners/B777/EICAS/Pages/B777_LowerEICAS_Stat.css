@@ -2,7 +2,7 @@
   --eicasWhite: white;
   --eicasBlack: black;
   --eicasGrey: #c8c8c8;
-  --eicasBlue: #009696;
+  --eicasBlue: #059600;
   --eicasGreen: lime;
   --eicasOrange: #db7200;
   --eicasRed: red;
@@ -28,10 +28,16 @@ b777-lower-eicas-stat svg {
   height: 100%; }
 b777-lower-eicas-stat text {
   fill: var(--eicasBlue);
-  font-size: 18px; }
+  font-size: 19px; }
 b777-lower-eicas-stat #values-info text, b777-lower-eicas-stat #clock-values text {
   fill: var(--eicasWhite);
   font-size: 22px; }
+
+b777-lower-eicas-stat #unit text {
+  fill: var(--eicasWhite);
+  font-size: 17px;
+}  
+
 b777-lower-eicas-stat #clock-labels {
   transform: translateX(40px);
 }

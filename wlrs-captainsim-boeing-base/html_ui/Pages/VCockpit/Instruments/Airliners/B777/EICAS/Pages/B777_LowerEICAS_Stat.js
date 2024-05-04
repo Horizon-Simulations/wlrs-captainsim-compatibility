@@ -1,12 +1,11 @@
 var B777_LowerEICAS_Stat;
 (function (B777_LowerEICAS_Stat) {
-    //can't find the class file to modify: TODO - update APU and HYD stats
     class Display extends Airliners.EICASTemplateElement {
         constructor() {
             super();
             this.isInitialised = false;
         }
-        get templateID() { return "B777LowerEICASStatTemplate" }
+        get templateID() { return "B777LowerEICASStatTemplate"; }
         connectedCallback() {
             super.connectedCallback();
             TemplateElement.call(this, this.init.bind(this));
@@ -14,35 +13,23 @@ var B777_LowerEICAS_Stat;
         init() {
             this.isInitialised = true;
             this.months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-            this.date = document.querySelector("#date"),
+            this.date = document.querySelector("#date");
             this.utcTime = document.querySelector("#utctime");
             this.elapsedTime = document.querySelector("#time");
+
+            // Call updateClock every second
+            setInterval(this.updateClock.bind(this), 1000);
         }
         update(_deltaTime) {
-            if (!this.isInitialised) {
-                return;
-            }
-            this.updateClock();
+            //var apuRPM = SimVar.GetSimVarValue("APU PCT RPM", "percent over 100");
         }
         updateClock() {
             var utc = new Date();
-            if (utc.getUTCHours() <= 9) {
-                var utcHours = "0" + utc.getUTCHours();
-            } else {
-                var utcHours = utc.getUTCHours();
-            }
-            if (utc.getUTCMinutes() <= 9) {
-                var utcMinutes = "0" + utc.getUTCMinutes();
-            } else {
-                var utcMinutes = utc.getUTCMinutes();
-            }
-            if (utc.getUTCSeconds() <= 9) {
-                var utcSeconds = "0" + utc.getUTCSeconds();
-            } else {
-                var utcSeconds = utc.getUTCSeconds();
-            }
+            var utcHours = utc.getUTCHours() <= 9 ? "0" + utc.getUTCHours() : utc.getUTCHours();
+            var utcMinutes = utc.getUTCMinutes() <= 9 ? "0" + utc.getUTCMinutes() : utc.getUTCMinutes();
+            var utcSeconds = utc.getUTCSeconds() <= 9 ? "0" + utc.getUTCSeconds() : utc.getUTCSeconds();
             var combinedUTC = utcHours + ":" + utcMinutes + ":" + utcSeconds;
-            var combinedDate = utc.getUTCDate() + " " + this.months[utc.getUTCMonth()] + " " + utc.getUTCFullYear();
+            var combinedDate = utc.getUTCDate() + " " + this.months[utc.getUTCMonth()] + " " + (utc.getUTCFullYear()%1000);
             this.utcTime.textContent = combinedUTC;
             this.date.textContent = combinedDate;
         }
