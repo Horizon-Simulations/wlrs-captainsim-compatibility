@@ -117,12 +117,12 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\model\\m773_305.xml",
-      "size": 31713,
+      "size": 51087,
       "date": 133200877552755410
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\model\\m773_305_interior.xml",
-      "size": 316845,
+      "size": 423555,
       "date": 133034258880000000
     },
     {
@@ -132,12 +132,12 @@
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\panel.cfg",
-      "size": 1919,
+      "size": 2272,
       "date": 133034258880000000
     },
     {
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\panel\\panel.xml",
-      "size": 39977,
+      "size": 41810,
       "date": 133034258880000000
     },
     {
@@ -159,6 +159,6 @@
       "path": "SimObjects\\Airplanes\\CS_B777-300ER_GE115B\\taxi.FLT",
       "size": 4157,
       "date": 133034258880000000
-    }
+    }  
   ]
 }
