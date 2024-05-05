@@ -13,6 +13,12 @@ var B777_UpperEICAS;
             this.allAntiIceStatus = new Array();
             this.gallonToMegagrams = 0;
             this.gallonToMegapounds = 0;
+
+            this.fuelTankDisplay = null;
+            this.fuelTankLeft = 0.0;
+            this.fuelTankCenter = 0.0;
+            this.fuelTankRight = 0.0;
+
             this.units;
         }
         get templateID() { return "B777UpperEICASTemplate"; }
@@ -64,6 +70,10 @@ var B777_UpperEICAS;
             this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI2_Value"), 2));
             this.gallonToMegagrams = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilogram") * 0.001;
             this.gallonToMegapounds = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "lbs") * 0.001;
+            this.fuelTankDisplay = this.querySelector("#FuelTankInfo");
+            this.fuelTankLeft = this.querySelector("#tankL");
+            this.fuelTankCenter = this.querySelector("#tankC");
+            this.fuelTankRight = this.querySelector("#tankR");
             this.isInitialised = true;
         }
         update(_deltaTime) {
@@ -121,6 +131,21 @@ var B777_UpperEICAS;
                     this.unitTextSVG.textContent = "KGS X";
                 else
                     this.unitTextSVG.textContent = "LBS X";
+            }
+            
+            //both fuel master off
+            if (SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") == true && SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool") == true) {     // 
+                this.fuelTankDisplay.style.display = "none";
+            }
+            //both fuel master on
+            if (SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") == false && SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") == false) {     //
+                let factor = this.gallonToMegapounds;
+                if (this.units)
+                    factor = this.gallonToMegagrams;
+                this.fuelTankDisplay.style.display = "block";
+                this.fuelTankLeft.textContent = (SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallons") * factor).toFixed(1);
+                this.fuelTankCenter.textContent = (SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallons") * factor).toFixed(1);
+                this.fuelTankRight.textContent = (SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallons") * factor).toFixed(1);
             }
         }
         updateReferenceThrust() {

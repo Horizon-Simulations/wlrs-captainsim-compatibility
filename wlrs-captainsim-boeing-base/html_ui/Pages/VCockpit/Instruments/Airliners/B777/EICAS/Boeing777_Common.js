@@ -200,8 +200,8 @@ var Boeing;
                 this.trimBand = _root.querySelector(".trimBand");
                 let bar = _root.querySelector(".bar");
                 if (bar != null) {
-                    let barHeight = bar.y2.baseVal.value - bar.y1.baseVal.value - 110.75;
-                    this.valueToArrowY = (barHeight * 0.5) / this.maxValue;
+                    let barHeight = bar.y2.baseVal.value - bar.y1.baseVal.value - 120.75;       //here
+                    this.valueToArrowY = (((barHeight * 0.5) / this.maxValue));
                 }
                 if (this.takeoffText != null) {
                     this.takeoffText.style.display = "none";

@@ -9,7 +9,7 @@
   --eicasWhite: white;
   --eicasBlack: black;
   --eicasGrey: #c8c8c8;
-  --eicasBlue: cyan;
+  --eicasBlu: #00ccff;
   --eicasGreen: lime;
   --eicasOrange: rgb(255, 217, 0);
   --eicasYellow: yellow;
@@ -61,11 +61,11 @@ b777-upper-eicas {
     font-size: 45px;
     text-anchor: start;}
   b777-upper-eicas text.Label {
-    fill: cyan;
+    fill: var(--eicasBlu);
     letter-spacing: 0px !important;
-    font-size: 18px; }
+    font-size: 17px; }
   b777-upper-eicas text.VLabel {
-    fill: cyan;
+    fill: var(--eicasBlu);
     font-size: 15px;
     glyph-orientation-vertical: 0;
     writing-mode: vertical-lr; }
@@ -79,6 +79,10 @@ b777-upper-eicas {
     font-size: 22px; }
   b777-upper-eicas text.Hidden {
       font-size: 0px; }
+  b777-upper-eicas rect.ValueGreen {
+    stroke: lime;
+    stroke-width: 4px;
+    fill: none; }
   b777-upper-eicas rect.ValueGreen {
     stroke: lime;
     stroke-width: 4px;
@@ -100,10 +104,19 @@ b777-upper-eicas {
     fill: var(--eicasWhite);
     font-size: 26px;
     text-anchor: end;}
+    
+  b777-upper-eicas #FuelTankInfo rect {
+    stroke-width: 1.4px;
+    stroke: var(--eicasBlu);
+    fill: none; }
+  b777-upper-eicas #FuelTankInfo #textBox {
+    stroke-width: 0px;
+    fill: var(--eicasBlack); } 
+
   b777-upper-eicas #GearInfo text {
     text-anchor: middle; }
   b777-upper-eicas #GearInfo rect {
-    stroke-width: 2px;
+    stroke-width: 3px;
     fill: none; }
   b777-upper-eicas #GearInfo line {
     stroke: var(--eicasWhite);
