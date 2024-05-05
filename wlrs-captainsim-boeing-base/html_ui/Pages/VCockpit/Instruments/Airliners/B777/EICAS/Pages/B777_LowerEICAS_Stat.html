@@ -2,6 +2,19 @@
 <link rel="stylesheet" href="./B777_LowerEICAS_Stat.css" />
 <script type="text/html" id="B777LowerEICASStatTemplate">
     <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" style="background:black;">
+        
+        <g id="Frame">
+            <g id="Box">
+                <rect x="60" y="7" rx="8" ry="8" width="470" height="100"/>
+                <rect x="60" y="158" rx="8" ry="8" width="470" height="75"/> 
+                <rect x="60" y="263" rx="8" ry="8" width="470" height="55"/>
+            </g>
+            <g id="TextBox">
+                <rect x="248" y="0" rx="0" ry="0" width="91" height="20"/>
+                <rect x="274" y="150" rx="0" ry="0" width="32" height="20"/>
+                <rect x="259" y="250" rx="0" ry="0" width="62" height="20"/>
+            </g>
+        </g>
 
         <g id="labels-info">
             <text x="250" y="15">HYDRAULIC</text>
@@ -19,7 +32,8 @@
             <text x="237" y="215">OIL TEMP</text>
             <text x="405" y="215">OIL QTY</text>
             <text x="260" y="270">OXYGEN</text>
-            <text x="210" y="300">CREW PRESS</text>          
+            <text x="70" y="300">CREW PRESS</text>   
+            <text x="365" y="300">PASS PRESS</text>            
         </g>
 
         <g id="values-info">
@@ -29,19 +43,20 @@
             <text x="437" y="65">0.92</text>
             
             <!--hyrdraulic PRESS-->
-            <text x="180" y="90" class="hydraulic" id="pressL">90</text>
-            <text x="320" y="90" class="hydraulic" id="pressC">89</text>
-            <text x="460" y="90" class="hydraulic" id="pressR">70</text>
+            <text x="180" y="90" class="hydraulic" id="pressL">0</text>
+            <text x="320" y="90" class="hydraulic" id="pressC">0</text>
+            <text x="460" y="90" class="hydraulic" id="pressR">0</text>
 
             <!--APU-->
-            <text x="202" y="190" class="apu" id="RPM">100.0</text>    <!--RPM-->
+            <text x="202" y="190" class="apu" id="RPM"></text>    <!--RPM-->
             <text x="375" y="190" class="apu" id="EGT">999</text>  <!--EGT-->
             <text x="165" y="215" class="apu" id="press">74</text>   <!--oil press-->
             <text x="340" y="215" class="apu" id="temp">75</text>   <!--oil temp-->
             <text x="485" y="215" class="apu" id="qty">6.5</text>   <!--oil qty-->
 
             <!--Oxygen-->
-            <text x="318" y="300">1750</text>   <!--crew-->
+            <text x="178" y="300">1750</text>   <!--crew-->
+            <text x="473" y="300">1440</text>   <!--pass-->
         </g>
 
         <g id="unit">
@@ -61,6 +76,7 @@
             <text x="365" y="545" class="utc" id="date">01 JAN 24</text>
             <text x="470" y="545" id="time">00:00</text>
         </g>
+
     </svg>
 </script>
 

@@ -29,8 +29,10 @@ var B777_LowerEICAS_Stat;
         }
 
         update(_deltaTime) {
-            this.apuRPM.textContent = (SimVar.GetSimVarValue("APU PCT RPM", "percent")).toFixed(1);  //
-            this.apuEGT.textContent = (SimVar.GetSimVarValue("APU EXHAUST GAS TEMPERATURE", "celsius")).toFixed(1);
+            if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 1) {
+            this.apuRPM.textContent = (SimVar.GetSimVarValue("APU PCT RPM", "percent")).toFixed(1);  
+            this.apuEGT.textContent = (SimVar.GetSimVarValue("APU EXHAUST GAS TEMPERATURE", "celsius")).toFixed(1); //INOP
+            }
             this.hydraulicL.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:1", "psi")).toFixed(0);
             this.hydraulicC.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:3", "psi")).toFixed(0);
             this.hydraulicR.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:2", "psi")).toFixed(0);
