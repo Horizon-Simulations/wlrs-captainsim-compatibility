@@ -1,4 +1,4 @@
-<img src="./worldlinerrs/banner/logo/WorldlinerRS.png" width=30% height=30%>
+![HS-Logo](./branding/Horizon_Simulations.png)
 
 # Horizon Simulations Compatibility Mod for Captain Sim B777 and B767 Packages
 
