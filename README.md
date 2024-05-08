@@ -1,10 +1,10 @@
 <img src="./worldlinerrs/banner/logo/WorldlinerRS.png" width=30% height=30%>
 
-# WorldlinerRS Compatibility Mod for Captain Sim B777 and B767 Packages
+# Horizon Simulations Compatibility Mod for Captain Sim B777 and B767 Packages
 
-The WorldlinerRS Project is an open source project to improve Captain Sim based B777 and B767 in Microsoft Flight Simulator to a enjoyable and flyable level.
+The Horizon Simulations Compatibility Mod Project is an open source project to improve Captain Sim based B777 and B767 in Microsoft Flight Simulator to a enjoyable and flyable level.
 
-The project itself is mainly based on [Salty Simulations 747](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH).
+The project itself is mainly based on [Salty Simulations 747](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH). Originally created by: TJC-Aviation and masterrob94, all credit for the repository and the original files goes to them.
 
 ## Aircraft Variants
 
