@@ -1,6 +1,6 @@
 # Welcome
  
- Welcome to the compatibility mod repository by WorldlinerRS. Thank you for your interest in contributing to the project. Full details and guidelines on how to ensure this project is managed well are described below.
+ Welcome to the compatibility mod repository by Horizon Simulations. Thank you for your interest in contributing to the project. Full details and guidelines on how to ensure this project is managed well are described below.
 
  ## Required Software
 
