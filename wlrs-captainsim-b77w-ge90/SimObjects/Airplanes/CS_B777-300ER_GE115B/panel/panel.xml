@@ -1,6 +1,6 @@
 <PlaneHTMLConfig>
-  
-  <Instrument>
+	
+   <Instrument>
     <Name>B777_PFD</Name>
     <Electric>
 		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
@@ -298,11 +298,11 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>55</Constant>
+						<Constant>80</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>55</Constant>
+						<Constant>80</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -328,11 +328,11 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>55</Constant>
+						<Constant>80</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>55</Constant>
+						<Constant>80</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -363,7 +363,29 @@
 			</Condition>
 		</Annunciation>
 
-
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>THURST ASYM</Text>
+		  <Condition>
+		  	<Or>
+				<GreaterEqual>
+					<Subtract>
+						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:1" unit="percent"/>
+						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:2" unit="percent"/>
+					</Subtract>
+					<Constant>30</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Subtract>
+						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:2" unit="percent"/>
+						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:1" unit="percent"/>
+					</Subtract>
+					<Constant>30</Constant>
+				</GreaterEqual>
+			</Or>
+		  </Condition>
+		</Annunciation>
+		
 		<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>ENG SHUTDOWN</Text>
@@ -639,7 +661,6 @@
 		  <Text>ICING WING</Text>
 		  <Condition>
 			<And>
-			<!--change made here-->
 				<LowerEqual>
 					<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
 					<Constant>10</Constant>
@@ -687,7 +708,6 @@
 		  <Type>Advisory</Type>
 		  <Text>ANTI-ICE ON</Text>
 		  <Condition>
-			<!-- changes made here-->
 				<Or>
 					<Equal>
 						<Simvar name="ENG ANTI ICE:1" unit="Boolean"/>
@@ -791,6 +811,61 @@
 			</GreaterEqual>
 		  </Condition>
 		</Annunciation>
+		
+		<!--revise later-->	
+		<Annunciation>
+			<Type>Memo</Type>
+			<Text>APU COOL DOWN</Text>
+			<Condition>
+				<And>
+					<Lower>
+						<Simvar name="APU PCT RPM" unit="percent"/>
+						<MaxSinceStart>
+							<Simvar name="APU PCT RPM" unit="percent"/>
+						</MaxSinceStart>
+					</Lower>
+					<Inequal>
+						<Simvar name="APU PCT RPM" unit="percent"/>
+						<Constant>100</Constant>
+					</Inequal>
+					<GreaterEqual>
+						<Simvar name="APU PCT RPM" unit="percent"/>
+						<Constant>5</Constant>
+					</GreaterEqual>
+				</And>
+
+
+			<!--
+				<StateMachine>
+					<State id="Off" value="0">
+						<Transition to="On">
+							<Lower>
+								<Simvar name="APU PCT RPM" unit="percent"/>
+								<Constant>99</Constant>
+							</Lower>
+						</Transition>
+					</State>
+					<State id="On" value="0">
+						<Transition to="Alerting">
+							<Greater>
+								<Simvar name="APU PCT RPM" unit="percent"/>
+								<Constant>99</Constant>
+							</Greater>
+						</Transition>
+					</State>
+					<State id="Alerting" value="1">
+						<Transition to="On">
+							<LowerEqual>
+								<Simvar name="APU PCT RPM" unit="percent"/>
+								<Constant>2</Constant>
+							</LowerEqual>
+						</Transition>
+					</State>
+				</StateMachine>
+			-->
+			</Condition>
+		</Annunciation>
+
 
 		<Annunciation>
 		  <Type>Memo</Type>

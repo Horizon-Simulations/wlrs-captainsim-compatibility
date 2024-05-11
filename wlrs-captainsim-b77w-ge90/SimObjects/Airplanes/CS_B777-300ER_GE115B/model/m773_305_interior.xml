@@ -1357,25 +1357,40 @@
           </Component>
         </Component>
       </Component>
+
+      <Component ID="No_Smok_sw" Node="O08_001_GL3">
+        <Simvar Name="NO_SMOKING_STATE" Type="INT" /> 
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>6</ANIM_LAG>
+          <ANIM_LENGTH>2</ANIM_LENGTH>
+          <ANIM_NAME>O08_001_GL3</ANIM_NAME>
+          <ANIM_CODE>(L:O08_001_GL3)</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>No Smoking: %((L:O08_001_GL3))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
+          <CALLBACKCODE>
+            (L:O08_001_GL3) sp0 3 sp1
+            (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
+            (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
+            l2 0 max l1 1 - min (&gt;L:O08_001_GL3)
+          </CALLBACKCODE>
+        </UseTemplate>
+        <AnimationTriggers Animation="O08_001_GL3">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="2" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+      </Component>
+
       <Component ID="Passenger_Panel">
-        
-        <UseTemplate Name="ASOBO_GT_Push_Button_Airliner">
-          <!--777 INOP-->
-          <NODE_ID>btn_passenger_signs00</NODE_ID>
-          <SEQ1_NODE_ID>btn_passenger_signs00_decal</SEQ1_NODE_ID>
-          <NO_SEQ2/>
-        </UseTemplate>
-        <UseTemplate Name="ASOBO_GT_Knob_Dummy_Boeing">
-
-          <!--777 INOP-->
-          <NODE_ID>btn_passenger_signs02</NODE_ID>
-          <ANIM_NAME>btn_passenger_signs02</ANIM_NAME>
-          <ANIM_CODE>100</ANIM_CODE>
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
-        </UseTemplate>
-
         <!--copied from asobo 78X-->
-        
         <UseTemplate Name="Asobo_Interaction_Base_Template">
           <IE_NAME>Knob_Seatbelts</IE_NAME>
           <NODE_ID>PASSENGERS_SWITCH_SEATBELTSIGN</NODE_ID>
@@ -1402,6 +1417,27 @@
 					<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
 					<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
         </UseTemplate>
+
+        <!--INOP-->
+        <UseTemplate Name="Asobo_Interaction_Base_Template">
+          <IE_NAME>Knob_Seatbelts</IE_NAME>
+					<NODE_ID>switch_cabin_chime</NODE_ID>
+					<ANIM_NAME>switch_cabin_chime</ANIM_NAME>
+					<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
+					<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
+					<WWISE_EVENT_1>autopilot_push_button_on</WWISE_EVENT_1>
+					<WWISE_EVENT_2>autopilot_push_button_off</WWISE_EVENT_2>
+					<IE_NAME>Switch_Cabin_Chime</IE_NAME>
+					<INTERACTION_TYPE>Push</INTERACTION_TYPE>
+					<IS_MOMENTARY>True</IS_MOMENTARY>
+					<TOOLTIP_TITLE>@TT_Package.CABIN_CHIME_TITLE</TOOLTIP_TITLE>
+					<TT_DESCRIPTION_ID>@TT_Package.CABIN_CHIME_ACTION</TT_DESCRIPTION_ID>
+					<LOCALVAR_TO_WATCH>WT_CABIN_CHIME_TOGGLE</LOCALVAR_TO_WATCH>
+					<GET_STATE_EXTERNAL>(L:WT_CABIN_CHIME_TOGGLE) sp0</GET_STATE_EXTERNAL>
+					<SET_STATE_EXTERNAL>(L:WT_CABIN_CHIME_TOGGLE) ! (&gt;L:WT_CABIN_CHIME_TOGGLE)</SET_STATE_EXTERNAL>
+					<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_NA)</TT_VALUE_ON>
+					<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_NA)</TT_VALUE_OFF>
+				</UseTemplate>
         
         </Component>
       <CameraTitle>Instruments07</CameraTitle>
@@ -1857,14 +1893,16 @@
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
           <ID>2</ID>
         </UseTemplate>
+
         <UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
           <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
           <NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
           <ANIM_NAME>ovhd_knob_electrics_apu</ANIM_NAME>
           <EMISSIVE_NODE_SIMVAR_POWER_SETTING>LIGHT PANEL POWER SETTING:1</EMISSIVE_NODE_SIMVAR_POWER_SETTING>
           <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-          <SWITCH_POSITION_VAR>XMLVAR_APU_StarterKnob_Pos</SWITCH_POSITION_VAR>
+          <SWITCH_POSITION_VAR>APU STARTER SWITCH</SWITCH_POSITION_VAR>
           <ACTIVE_FUEL_PUMP_ON_RPM>7</ACTIVE_FUEL_PUMP_ON_RPM>
+          
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
           <!--777 INOP-->
@@ -2235,6 +2273,7 @@
             <ANIM_NAME>afds_knob_std_l</ANIM_NAME>
             <BUTTON_NODE_ID>btn_afds_std_l1</BUTTON_NODE_ID>
             <BUTTON_ANIM_NAME>afds_push_std_l1</BUTTON_ANIM_NAME>
+            <STR_STATE_ON>HPA</STR_STATE_ON>
           </UseTemplate>
           <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">
             <NODE_ID>knob_afds_std_l2</NODE_ID>
@@ -2330,8 +2369,9 @@
             <ANIM_NAME>afds_knob_std_r</ANIM_NAME>
             <BUTTON_NODE_ID>btn_afds_tfc_r</BUTTON_NODE_ID>
             <BUTTON_ANIM_NAME>afds_push_tfc_r</BUTTON_ANIM_NAME>
+            <STR_STATE_ON>HPA</STR_STATE_ON>
           </UseTemplate>
-          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">
+          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">    <!--which baro?-->
             <NODE_ID>knob_afds_std_r2</NODE_ID>
             <ANIM_NAME_KNOB>afds_knob_std_r2</ANIM_NAME_KNOB>
             <ANIM_NAME_PUSH>afds_push_std_r</ANIM_NAME_PUSH>
@@ -4997,7 +5037,7 @@
         <UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
           <NODE_ID>SAFETY_Knob_Wipers</NODE_ID>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+        <UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">  <!--no smok switch-->
           <NODE_ID>O08_001_GL3</NODE_ID>
         </UseTemplate>
         
@@ -6926,12 +6966,11 @@
     </Component>
 
 
-    <Component ID="ADIRU_sw" Node="O01_002_BUT">    <!--change here-->
+    <Component ID="ADIRU_sw" Node="O01_002_BUT">    
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
         <ANIM_LENGTH>1</ANIM_LENGTH>
         <ANIM_NAME>O01_002_BUT</ANIM_NAME>
-        <!--<ANIM_CODE>1</ANIM_CODE>-->
         <ANIM_CODE>(L:O01_002_BUT)</ANIM_CODE>
       </UseTemplate>
 
@@ -6950,47 +6989,11 @@
 
     </Component>
 
-
     <Component ID="ADIRU_off_lt" Node="O01_002_LT2">
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O01_002_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
-
-
-
-    <Component ID="No_Smok_sw" Node="O08_001_GL3">
-      <Simvar Name="NO_SMOKING_STATE" Type="INT" />   <!--simvar declare here-->
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>2</ANIM_LENGTH>
-        <ANIM_NAME>O08_001_GL3</ANIM_NAME>
-        <!--<ANIM_CODE>1</ANIM_CODE>-->
-        <ANIM_CODE>(L:O08_001_GL3)</ANIM_CODE>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID>No Smoking: %((L:O08_001_GL3))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
-        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (L:O08_001_GL3) sp0 3 sp1
-          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
-          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
-          l2 0 max l1 1 - min (&gt;L:O08_001_GL3)
-        </CALLBACKCODE>
-      </UseTemplate>
-      <AnimationTriggers Animation="O08_001_GL3">
-        <EventTrigger Frame="0" Direction="Both">
-          <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-        </EventTrigger>
-        <EventTrigger Frame="1" Direction="Both">
-          <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-        </EventTrigger>
-        <EventTrigger Frame="2" Direction="Both">
-          <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-        </EventTrigger>
-      </AnimationTriggers>
-    </Component>
-
 
     <Component ID="L_Demand_sw" Node="O07_006_GL3">
       <UseTemplate Name="ASOBO_GT_Anim">
@@ -7715,20 +7718,6 @@
 
       <!--Power_Switch-->
       <Component ID="V06_011_SW2" Node="V06_011_SW2">
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_LAG>500</ANIM_LAG>
           <ANIM_NAME>V06_011_SW2</ANIM_NAME>
@@ -8702,7 +8691,6 @@
     
     
     <Component ID="Pilot_windows">
-      
       <Component ID="Pilot_window_handle_l" Node="A01_003_AC1">
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <TOOLTIPID>PILOT WINDOW %((L:cs777_pilot_wnd_l))%{case}%{:0}(Click to open)%{:1}(Click to close)%{end}</TOOLTIPID>
@@ -8744,7 +8732,6 @@
 
 
     <Component ID="Cabin_Doors">
-
       <Component ID="Door_1L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
