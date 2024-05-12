@@ -8742,21 +8742,21 @@
       <Component ID="Door_2L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:2, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_3L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_3</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_3_a) (A:INTERACTIVE POINT OPEN:3, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_3_a) (A:INTERACTIVE POINT OPEN:4, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_4L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_4</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_4_a)  (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_4_a)  (A:INTERACTIVE POINT OPEN:3, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
