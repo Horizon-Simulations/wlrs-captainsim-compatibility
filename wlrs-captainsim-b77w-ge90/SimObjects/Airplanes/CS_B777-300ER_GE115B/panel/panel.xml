@@ -560,7 +560,7 @@
 		  <Text>DOOR ENTRY 1L</Text>
 		  <Condition>
 			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:10" unit="percent"/>
+			  <Simvar name="INTERACTIVE POINT OPEN:0" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
@@ -568,10 +568,21 @@
 		
 		<Annunciation>
 		  <Type>Advisory</Type>
-		  <Text>DOOR ENTRY 5R</Text>
+		  <Text>DOOR ENTRY 1R</Text>
 		  <Condition>
 			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:1" unit="percent"/>
+			  <Simvar name="INTERACTIVE POINT OPEN:4" unit="percent"/>
+			  <Constant>40</Constant>
+			</Greater>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>DOOR ENTRY 4R</Text>
+		  <Condition>
+			<Greater>
+			  <Simvar name="INTERACTIVE POINT OPEN:7" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
@@ -589,19 +600,34 @@
 		</Annunciation>
 
 		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>DOOR AFT CARGO</Text>
+		  <Condition>
+			<Greater>
+			  <Simvar name="INTERACTIVE POINT OPEN:13" unit="percent"/>
+			  <Constant>40</Constant>
+			</Greater>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
 		  <Type>Memo</Type>
 		  <Text>DOORS AUTO</Text>
 		  <Condition>
-		  <And>
-			<Equal>
-			  <Simvar name="INTERACTIVE POINT OPEN:10" unit="percent"/>
-			  <Constant>0</Constant>
-			</Equal>
-			<Equal>
-			  <Simvar name="INTERACTIVE POINT OPEN:1" unit="percent"/>
-			  <Constant>0</Constant>
-			</Equal>
-		  </And>
+			<And>
+				<Equal>
+					<Simvar name="INTERACTIVE POINT OPEN:0" unit="percent"/>
+					<Constant>0</Constant>
+				</Equal>
+				<Equal>
+					<Simvar name="INTERACTIVE POINT OPEN:4" unit="percent"/>
+					<Constant>0</Constant>
+				</Equal>
+				<LowerEqual>
+					<Simvar name="INDICATED ALTITUDE" unit="feet"/>
+					<Constant>10000</Constant>
+				</LowerEqual>
+			</And>
 		  </Condition>
 		</Annunciation>
 		
@@ -815,7 +841,7 @@
 		<!--revise later-->	
 		<Annunciation>
 			<Type>Memo</Type>
-			<Text>APU COOL DOWN</Text>
+			<Text>APU COOLDOWN</Text>
 			<Condition>
 				<And>
 					<Lower>
