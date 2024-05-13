@@ -715,28 +715,18 @@
     <Include ModelBehaviorFile="Asobo\Common.xml"/>
     <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
+    <Include ModelBehaviorFile="RobSim\index.xml"/>
     
     
     
    	<Component ID="ENGINE">
-			<DefaultTemplateParameters>
-				<STILL_NODE_ID_COUNT>1</STILL_NODE_ID_COUNT>
-			</DefaultTemplateParameters>
-			<UseTemplate Name="ASOBO_ENGINE_Turbine_Template">
-				<ID>1</ID>
-				<ANIM_NODE_ID>N1_1_anim</ANIM_NODE_ID>
-				<ANIM_NAME>N1_1_anim</ANIM_NAME>
-				<STILL_NODE_ID>N1_1_still</STILL_NODE_ID>
-				<SLOW_NODE_ID>N1_1_slow</SLOW_NODE_ID>
-				<BLURRED_NODE_ID>N1_1_blurred</BLURRED_NODE_ID>
+			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+				<ENG_ID>1</ENG_ID>
+				<ANIM_NODE>N1_1_anim</ANIM_NODE>
 			</UseTemplate>
-			<UseTemplate Name="ASOBO_ENGINE_Turbine_Template">
-				<ID>2</ID>
-				<ANIM_NODE_ID>N1_2_anim</ANIM_NODE_ID>
-				<ANIM_NAME>N1_2_anim</ANIM_NAME>
-				<STILL_NODE_ID>N1_2_still</STILL_NODE_ID>
-				<SLOW_NODE_ID>N1_2_slow</SLOW_NODE_ID>
-				<BLURRED_NODE_ID>N1_2_blurred</BLURRED_NODE_ID>
+			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+				<ENG_ID>2</ENG_ID>
+				<ANIM_NODE>N1_2_anim</ANIM_NODE>
 			</UseTemplate>
 		</Component>
     
