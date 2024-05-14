@@ -699,6 +699,7 @@
     <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
     <Include ModelBehaviorFile="RobSim\index.xml"/>
+
     <Component ID="INTERACTIVE_POINTS">
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
         <ID>12</ID>
@@ -744,31 +745,15 @@
     </Component>
 
     <Component ID="ENGINE">
-      <UseTemplate Name="Salty_777_ENGINE_Turbine_Template">
-          <ID>1</ID>
-          <ANIM_NODE_ID>N2_1_anim</ANIM_NODE_ID>
-          <ANIM_NAME>N2_1_anim</ANIM_NAME>
-          <STILL_NODE_ID>N2_1_stil</STILL_NODE_ID>
-          <SLOW_NODE_ID>N2_1_slow</SLOW_NODE_ID>
-          <BLURRED_NODE_ID>N2_1_blur</BLURRED_NODE_ID>          
-      </UseTemplate>
-      <UseTemplate Name="Salty_777_ENGINE_Turbine_Template">
-          <ID>2</ID>
-          <ANIM_NODE_ID>N2_2_anim</ANIM_NODE_ID>
-          <ANIM_NAME>N2_2_anim</ANIM_NAME>
-          <STILL_NODE_ID>N2_2_stil</STILL_NODE_ID>
-          <SLOW_NODE_ID>N2_2_slow</SLOW_NODE_ID>
-          <BLURRED_NODE_ID>N2_2_blur</BLURRED_NODE_ID>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_ENGINE_Turbine_ReverseThrust_Template">
-          <ID>1</ID>
-          <ANIM_NAME>thrust_rev_1</ANIM_NAME>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_ENGINE_Turbine_ReverseThrust_Template">
-          <ID>2</ID>
-          <ANIM_NAME>thrust_rev_2</ANIM_NAME>
-      </UseTemplate>
-    </Component>
+			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+				<ENG_ID>1</ENG_ID>
+				<ANIM_NODE>N1_1_anim</ANIM_NODE>
+			</UseTemplate>
+			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+				<ENG_ID>2</ENG_ID>
+				<ANIM_NODE>N1_2_anim</ANIM_NODE>
+			</UseTemplate>
+		</Component>
 
     <Component ID="FX_CONTRAIL_QUAD">
       <OverrideTemplateParameters>
