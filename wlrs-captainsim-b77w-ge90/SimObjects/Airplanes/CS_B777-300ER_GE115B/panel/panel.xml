@@ -362,7 +362,7 @@
 			</And>
 			</Condition>
 		</Annunciation>
-
+		<!--		SINCE CS777 DON'T HAVE THURST ASYM COMP YET, I'LL JUST LEAVE THIS ON FOR SITUAIONAL SUPPORT
 		<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>THURST ASYM</Text>
@@ -370,22 +370,22 @@
 		  	<Or>
 				<GreaterEqual>
 					<Subtract>
-						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:1" unit="percent"/>
-						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:2" unit="percent"/>
+						<Simvar name="TURB ENG N1:1" unit="percent"/>
+						<Simvar name="TURB ENG N1:2" unit="percent"/>
 					</Subtract>
 					<Constant>30</Constant>
 				</GreaterEqual>
 				<GreaterEqual>
 					<Subtract>
-						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:2" unit="percent"/>
-						<Simvar name="GENERAL ENG THROTTLE LEVER POSITION:1" unit="percent"/>
+						<Simvar name="TURB ENG N1:1" unit="percent"/>
+						<Simvar name="TURB ENG N1:1" unit="percent"/>
 					</Subtract>
 					<Constant>30</Constant>
 				</GreaterEqual>
 			</Or>
 		  </Condition>
 		</Annunciation>
-		
+		-->
 		<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>ENG SHUTDOWN</Text>
