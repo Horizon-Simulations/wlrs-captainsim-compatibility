@@ -415,6 +415,7 @@
     <AnimLength>100</AnimLength>
     <Animation>
       <Parameter>
+        <Lag>70</Lag>
         <Sim>
           <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
           <Scale>1</Scale>
