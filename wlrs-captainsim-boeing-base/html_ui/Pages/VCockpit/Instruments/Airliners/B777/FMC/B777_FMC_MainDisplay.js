@@ -478,7 +478,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
         let dWeightCoeff = (this.getWeight(true) - 550) / (1000 - 550);
         dWeightCoeff = Utils.Clamp(dWeightCoeff, 0, 1);
-        dWeightCoeff = 0.95 + (1.3 - 0.95) * dWeightCoeff;
+        dWeightCoeff = 0.95 + (1.32 - 0.95) * dWeightCoeff;
         let flapsHandleIndex = this.getTakeOffFLapHandle();
         let temp = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         let index = this._getIndexFromTemp(temp);
@@ -507,7 +507,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
         let dWeightCoeff = (this.getWeight(true) - 550) / (1000 - 550);
         dWeightCoeff = Utils.Clamp(dWeightCoeff, 0, 1);
-        dWeightCoeff = 0.95 + (1.3 - 0.95) * dWeightCoeff;
+        dWeightCoeff = 1 + (1.37 - 1) * dWeightCoeff;
         let flapsHandleIndex = this.getTakeOffFLapHandle();
         let temp = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         let index = this._getIndexFromTemp(temp);
