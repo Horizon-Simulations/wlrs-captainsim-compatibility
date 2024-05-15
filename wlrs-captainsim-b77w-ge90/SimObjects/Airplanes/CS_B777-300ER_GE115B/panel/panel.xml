@@ -838,7 +838,6 @@
 		  </Condition>
 		</Annunciation>
 		
-		<!--revise later-->	
 		<Annunciation>
 			<Type>Memo</Type>
 			<Text>APU COOLDOWN</Text>
@@ -856,8 +855,12 @@
 					</Inequal>
 					<GreaterEqual>
 						<Simvar name="APU PCT RPM" unit="percent"/>
-						<Constant>5</Constant>
+						<Constant>3</Constant>
 					</GreaterEqual>
+					<Equal>
+						<Simvar name="APU SWITCH" unit="Bool"/>
+						<Constant>0</Constant>
+					</Equal>
 				</And>
 
 
