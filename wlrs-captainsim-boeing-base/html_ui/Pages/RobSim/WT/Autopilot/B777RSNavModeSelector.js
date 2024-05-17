@@ -2,7 +2,7 @@
  * A class that handles state transitions to the different autopilot modes of
  * the CJ4.
  */
- class B777RSNavModeSelector {
+class B777RSNavModeSelector {
 
   /**
    * Creates a new instance of the CJ4NavModeSelector.
@@ -279,7 +279,7 @@
     if (this._inputDataStates.autopilot.state) {
       if (this.currentLateralActiveState === LateralNavModeState.TO || this.currentLateralActiveState === LateralNavModeState.GA
         || this.currentVerticalActiveState === VerticalNavModeState.TO || this.currentVerticalActiveState === VerticalNavModeState.GA) {
-        //SimVar.SetSimVarValue("K:AUTO_THROTTLE_TO_GA", "number", 0);
+          SimVar.SetSimVarValue("K:AUTO_THROTTLE_TO_GA", "number", 0);//
       }
     }
   }
