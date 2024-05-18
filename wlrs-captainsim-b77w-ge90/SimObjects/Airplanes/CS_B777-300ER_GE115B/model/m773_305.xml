@@ -883,6 +883,8 @@
           0 (&gt;L:cs777_anim_ctrl_wheel_chocks, bool)
           0 (&gt;L:cs777_anim_ctrl_ep_hatch, bool)
           0 (&gt;L:cs777_anim_ctrl_plugs, bool)
+          0 (&gt;L:cs777_pilot_wnd_l, bool)
+          0 (&gt;L:cs777_pilot_wnd_r, bool)
           0 (&gt;L:cs777_anim_ctrl_l_door_1, bool)
           0 (&gt;L:cs777_anim_ctrl_l_door_2, bool)
           0 (&gt;L:cs777_anim_ctrl_l_emer_door, bool)
