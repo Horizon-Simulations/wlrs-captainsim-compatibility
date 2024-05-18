@@ -49,7 +49,7 @@ var Boeing;
 })(Boeing || (Boeing = {}));
 var Boeing_FMA;
 (function (Boeing_FMA) {
-    class ApproachStatus {
+    class ApproachStatus {  //note
         static get isFlareArmed() {
             return (this.flareState == 1);
         }
@@ -87,6 +87,7 @@ var Boeing_FMA;
     ApproachStatus.rolloutState = 0;
     ApproachStatus.rolloutDelay = 0;
     Boeing_FMA.ApproachStatus = ApproachStatus;
+
     class Annunciation {
         constructor(_fma, _divElement, _highlightElement) {
             this.divElement = null;
@@ -241,8 +242,11 @@ var Boeing_FMA;
             else if (this.lateralMode == "APPR LOC1") {
                 return 6;
             }
-            else if (this.lateralMode == "TO" || this.lateralMode == "GA" || this.lateralMode == "ROLL") {
+            else if (this.lateralMode == "TO" || this.lateralMode == "GA") {
                 return 8;
+            }
+            else if (this.lateralMode == "ROLL") { //ROLL or ROLLOUT?
+                return 7;
             }
             return -1;
         }
@@ -279,6 +283,11 @@ var Boeing_FMA;
             else if (this.lateralArmed === "LNV1") {
                 return 2;
             }
+            /*
+            else if (this.lateralArmed === "ROLLOUT") {     //to be revised, ROLL or ROLLOUT?
+                return 4;
+            }
+            */
             return -1;
         }
         getCurrentModeText() {
@@ -319,6 +328,17 @@ var Boeing_FMA;
             else if (Simplane.getAutoPilotFlightDirectorActive(1)) {
                 return 1;
             }
+            /*
+            else if (   asign L:vars or pull data to get autoland state) {
+                return 2;
+            }
+            else if (   asign L:vars or pull data to get autoland state) {
+                return 3;
+            }
+            else if (   asign L:vars or pull data to get autoland state) {
+                return 4;
+            }
+            */
             return -1;
         }
         getCurrentModeText() {
@@ -371,6 +391,9 @@ var Boeing_FMA;
             else if (this.verticalMode === "GS") {
                 return 4;
             }
+            else if (this.verticalMode === "FLARE") {
+                return 1;
+            }
             return -1;
         }
         getCurrentModeText() {
@@ -403,6 +426,11 @@ var Boeing_FMA;
                 else if (this.verticalMode !== "GS" && this.verticalMode !== "GP") {
                     return 2;
                 }
+                /*
+                else if (this.verticalMode === "FLARE") {
+                    return 0;
+                }
+                */
             }
             else if (SimVar.GetSimVarValue("L:AP_VNAV_ARMED", "number") === 1 && SimVar.GetSimVarValue("L:WT_CJ4_VNAV_ON", "number") === 0) {
                 return 3;
