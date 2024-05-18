@@ -388,12 +388,21 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
                 this.radioDecisionHeight.setAttribute("font-size", "14");
                 this.radioDecisionHeight.setAttribute("font-family", "BoeingEFIS");
                 this.radioDecisionHeight.setAttribute("fill", "lime");
+
+                this.radioAltitudeBox = document.createElementNS(Avionics.SVG.NS, "rect");
+                this.radioAltitudeBox.setAttribute("x", "-31");
+                this.radioAltitudeBox.setAttribute("y", "85");
+                this.radioAltitudeBox.setAttribute("height", "30");
+                this.radioAltitudeBox.setAttribute("width", "60");
+                this.radioAltitudeBox.setAttribute("fill", "black");
+                this.radioAltitudeGroup.appendChild(this.radioAltitudeBox);
                 this.radioAltitudeGroup.appendChild(this.radioDecisionHeight);
+
                 this.radioAltitude = document.createElementNS(Avionics.SVG.NS, "text");
                 this.radioAltitude.textContent = "";
-                this.radioAltitude.setAttribute("x", "135");
-                this.radioAltitude.setAttribute("y", "-190");
-                this.radioAltitude.setAttribute("text-anchor", "end");
+                this.radioAltitude.setAttribute("x", "-1");
+                this.radioAltitude.setAttribute("y", "110");
+                this.radioAltitude.setAttribute("text-anchor", "middle");
                 this.radioAltitude.setAttribute("font-size", "26");
                 this.radioAltitude.setAttribute("font-family", "BoeingEFIS");
                 this.radioAltitude.setAttribute("fill", "white");
@@ -496,7 +505,7 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
                         textVal = absVal - (absVal % 10);
                     }     
                 }
-                this.radioAltitude.textContent = (textVal * Math.sign(val)).toString();
+                this.radioAltitude.textContent = (textVal * Math.sign(val) - 6).toString(); //add offset here to match
                 if (this.radioAltitudeColorLimit > 0) {
                     if (val >= this.radioAltitudeColorLimit)
                         this.radioAltitude.setAttribute("fill", this.radioAltitudeColorOk);
