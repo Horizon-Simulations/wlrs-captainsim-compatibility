@@ -499,13 +499,13 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
                 {
                     let absVal = Math.abs(val);
                     if (absVal <= 100) {
-                        textVal = absVal - (absVal % 2);
+                        textVal = absVal - (absVal % 2) - 6; //add offset here to match
                     }        
                     else {
                         textVal = absVal - (absVal % 10);
                     }     
                 }
-                this.radioAltitude.textContent = (textVal * Math.sign(val) - 6).toString(); //add offset here to match
+                this.radioAltitude.textContent = (textVal * Math.sign(val)).toString(); 
                 if (this.radioAltitudeColorLimit > 0) {
                     if (val >= this.radioAltitudeColorLimit)
                         this.radioAltitude.setAttribute("fill", this.radioAltitudeColorOk);
