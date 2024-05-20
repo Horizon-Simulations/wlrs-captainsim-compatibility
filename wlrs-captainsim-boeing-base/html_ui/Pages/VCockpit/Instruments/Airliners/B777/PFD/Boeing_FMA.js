@@ -88,7 +88,6 @@ var Boeing_FMA;
             if (SimVar.GetSimVarValue("A:GENERAL ENG THROTTLE LEVER POSITION:1", "percent") > 70 &&  this.rolloutState === 2) {
                 SimVar.SetSimVarValue("L:FORCE_TOGA", "bool", "true");
             }
-
         }
     }
     ApproachStatus.flareState = 0;
@@ -242,6 +241,7 @@ var Boeing_FMA;
             }
             else if (ApproachStatus.isRolloutActive) {
                 SimVar.SetSimVarValue("L:ROLLOUT_ACTIVE", "bool", true); 
+                SimVar.SetSimVarValue("L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE", "bool", false);
                 return 7;
             }
             else if (this.lateralMode == "HDGHOLD") {
