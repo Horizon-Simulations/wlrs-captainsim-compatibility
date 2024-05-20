@@ -154,7 +154,7 @@
 					<State id="Off" value="0">
 						<Transition to="On">
 							<Equal>
-								<Simvar name="AUTOPILOT THROTTLE ARM" unit="Boolean"/>
+								<Simvar name="L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE" unit="Boolean"/>
 								<Constant>1</Constant>
 							</Equal>
 						</Transition>
@@ -162,7 +162,7 @@
 					<State id="On" value="0">
 						<Transition to="Alerting">
 							<Equal>
-								<Simvar name="AUTOPILOT THROTTLE ARM" unit="Boolean"/>
+								<Simvar name="L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE" unit="Boolean"/>
 								<Constant>0</Constant>
 							</Equal>
 						</Transition>
@@ -170,7 +170,7 @@
 					<State id="Alerting" value="1">
 						<Transition to="On">
 							<Equal>
-								<Simvar name="AUTOPILOT THROTTLE ARM" unit="Boolean"/>
+								<Simvar name="L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE" unit="Boolean"/>
 								<Constant>1</Constant>
 							</Equal>
 						</Transition>
@@ -209,7 +209,7 @@
 		
 		<Annunciation>
 			<Type>Warning</Type>
-			<Text>FIRE ENG L</Text>
+			<Text>| FIRE ENG L</Text>
 			<Condition>
 				<Simvar name="ENG ON FIRE:1" unit="Bool"/>
 			</Condition>
@@ -217,7 +217,7 @@
 
 		<Annunciation>
 			<Type>Warning</Type>
-			<Text>FIRE ENG R</Text>
+			<Text>| FIRE ENG R</Text>
 			<Condition>
 				<Simvar name="ENG ON FIRE:2" unit="Bool"/>
 			</Condition>
@@ -225,7 +225,7 @@
 
 		<Annunciation>
 			<Type>Warning</Type>
-			<Text>FIRE APU</Text>
+			<Text>| FIRE APU</Text>
 			<Condition>
 				<Simvar name="APU ON FIRE DETECTED" unit="Bool"/>
 			</Condition>
