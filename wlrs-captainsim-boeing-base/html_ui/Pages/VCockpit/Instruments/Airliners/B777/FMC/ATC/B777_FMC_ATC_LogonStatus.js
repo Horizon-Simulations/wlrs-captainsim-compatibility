@@ -3,7 +3,7 @@ class FMC_ATC_LogonStatus {
             "logonTo": "",
             "fltNo": "",
             "sendLabel": "",
-            "sendStatus": "",
+            "sendStatus": "(INOP)",
             "atcCtrLabel": "ATC CTR",
             "actCtr": "",
             "nextCtrLabel": "NEXT CTR",

@@ -6,7 +6,7 @@ class FMC_SAT_Index {
         const updateView = () => {
             store.printCell = store.printCell;
             fmc.setTemplate([
-                ["ATC INDEX"],
+                ["ATC INDEX (INOP)"],
                 ["", ""],
                 ["<EMERGENCY", "POS REPORT>"],
                 ["", ""],
