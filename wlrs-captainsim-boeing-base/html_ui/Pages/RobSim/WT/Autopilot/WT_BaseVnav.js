@@ -188,7 +188,6 @@ class WT_BaseVnav {
      * Update data if needed.
      */
     update() {
-
         this._activeWaypoint = this.allWaypoints[this.flightplan.activeWaypointIndex];
         this._currentFlightSegment = this._fpm.getSegmentFromWaypoint(this._activeWaypoint);
         if (this.vnavState !== VnavState.NONE && (!this.allWaypoints || this.allWaypoints.length < 2)) {

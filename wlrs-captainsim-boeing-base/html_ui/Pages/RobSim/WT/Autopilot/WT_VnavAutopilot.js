@@ -286,7 +286,18 @@ class WT_VerticalAutopilot {
     /**
      * Update data if needed.
      */
+
+    
     update() {
+        let signal =  SimVar.GetSimVarValue("L:FLARE_ACTIVE", "bool");
+        SimVar.SetSimVarValue("L:FLARE_test", "number", 99999);
+        if (signal) {
+            //SET NOSE PITCH OR SET FPM, IDK WHERE TO SET AHHHHH    //note: this is super loosy, so maybe find someway else
+            this.vsSlot2Value = 2000;
+            SimVar.SetSimVarValue("L:FLARE_test", "number", this.vsSlot2Value);
+        }
+                
+
         this._vnavState = this.checkVnavState();
         this._glidepathStatus = this.checkGlidepathStatus();
         this._glideslopeStatus = this.checkGlideslopeStatus();
@@ -298,10 +309,11 @@ class WT_VerticalAutopilot {
                 SimVar.SetSimVarValue("L:AP_VS_ACTIVE", "number", 0);
                 SimVar.SetSimVarValue("L:AP_ALT_HOLD_ACTIVE", "number", 0);
                 this._navModeSelector.activateSpeedMode();
-                this._navModeSelector.currentVerticalActiveState = VerticalNavModeState.GS;
+                this._navModeSelector.currentVerticalActiveState = VerticalNavModeState.GS;       //capture glideslope and set current vertical mode to active
             }
             return;
         }
+    
         switch (this._vnavPathStatus) {
             case VnavPathStatus.NONE:
                 break;
@@ -468,12 +480,13 @@ class WT_VerticalAutopilot {
     }
 
     setArmedApproachVerticalState() {
+        let altitude = Simplane.getAltitudeAboveGround();
         if (this._glidepathStatus === GlidepathStatus.GP_ARMED) {
             this._navModeSelector.setArmedApproachVerticalState(VerticalNavModeState.GP);
         }
         else if (this._glideslopeStatus === GlideslopeStatus.GS_ARMED) {
             this._navModeSelector.setArmedApproachVerticalState(VerticalNavModeState.GS);
-        }
+        } 
         else {
             if (this._navModeSelector.currentArmedApproachVerticalState !== VerticalNavModeState.NONE) {
                 this._navModeSelector.setArmedApproachVerticalState();
@@ -500,6 +513,10 @@ class WT_VerticalAutopilot {
                 this._navModeSelector.setArmedVnavState();
             }
         }
+    }
+
+    activateFlarePitch() {
+
     }
 
     canPathArm() {
@@ -566,7 +583,7 @@ class WT_VerticalAutopilot {
 
     canGlideslopeActivate() {
         const gsi = SimVar.GetSimVarValue("NAV GSI:3", "number");
-        if (gsi < 50 && gsi > -50 && gsi != 0) {
+        if (gsi < 75 && gsi > -75 && gsi != 0) {
             return true;
         }
         return false;
@@ -652,7 +669,6 @@ class WT_VerticalAutopilot {
         if (distance) {
             correctedgsi = gsi * Math.max(Math.min(distance, 10), 1);
         }
-
         return correctedgsi;
     }
 
@@ -1482,6 +1498,7 @@ class WT_VerticalAutopilot {
                 break;
             case VerticalNavModeState.GS:
             case VerticalNavModeState.GP:
+            case VerticalNavModeState.FLARE_ACTIVE:
                 this.altitudeArmedState = VerticalNavModeState.NONE;
                 break;
         }
@@ -1609,6 +1626,8 @@ GlideslopeStatus.NONE = 'NONE';
 GlideslopeStatus.GS_CAN_ARM = 'GS_CAN_ARM';
 GlideslopeStatus.GS_ARMED = 'GS_ARMED';
 GlideslopeStatus.GS_ACTIVE = 'GS_ACTIVE';
+GlideslopeStatus.FLARE_ACTIVE = 'FLARE_ACTIVE'
+
 
 class SimAltitudeSlot { }
 SimAltitudeSlot.SELECTED = 1;

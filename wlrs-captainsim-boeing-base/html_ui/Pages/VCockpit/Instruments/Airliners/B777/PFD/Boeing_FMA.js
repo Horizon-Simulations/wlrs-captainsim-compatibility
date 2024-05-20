@@ -84,6 +84,11 @@ var Boeing_FMA;
                     }
                 }
             }
+            //GA after touch down, DELTE IF BUG
+            if (SimVar.GetSimVarValue("A:GENERAL ENG THROTTLE LEVER POSITION:1", "percent") > 70 &&  this.rolloutState === 2) {
+                SimVar.SetSimVarValue("L:FORCE_TOGA", "bool", "true");
+            }
+
         }
     }
     ApproachStatus.flareState = 0;
@@ -154,6 +159,7 @@ var Boeing_FMA;
     }
     Annunciation.HIGHLIGHT_LENGTH = 10 * 1000;
     Boeing_FMA.Annunciation = Annunciation;
+    //Active Lateral Mode (first column)
     class Column1Top extends Annunciation {
         constructor() {
             super(...arguments);
@@ -225,12 +231,17 @@ var Boeing_FMA;
         }
     }
     Boeing_FMA.Column1Top = Column1Top;
+    //Lateral current state (column 2)
     class Column2Top extends Annunciation {
-        getActiveMode() {
+        getActiveMode() {         
             if(!Simplane.getAutoPilotActive(0) && !Simplane.getAutoPilotFlightDirectorActive(1)){
                 return -1;
             }
-            else if (ApproachStatus.isRolloutActive) { 
+            else if (this.lateralMode == "TO" || this.lateralMode == "GA" || this.lateralMode == "ROLL") {  //roll here is take off roll
+                return 8;
+            }
+            else if (ApproachStatus.isRolloutActive) {
+                SimVar.SetSimVarValue("L:ROLLOUT_ACTIVE", "bool", true); 
                 return 7;
             }
             else if (this.lateralMode == "HDGHOLD") {
@@ -247,10 +258,7 @@ var Boeing_FMA;
             }
             else if (this.lateralMode == "APPR LOC1") {
                 return 6;
-            }
-            else if (this.lateralMode == "TO" || this.lateralMode == "GA") {
-                return 8;
-            }
+            }   
             return -1;
         }
         getCurrentModeText() {
@@ -272,9 +280,13 @@ var Boeing_FMA;
         }
     }
     Boeing_FMA.Column2Top = Column2Top;
+    //Armed Lateral mode (second column)
     class Column2Middle extends Annunciation {
         getActiveMode() {
             if(!Simplane.getAutoPilotActive(0) && !Simplane.getAutoPilotFlightDirectorActive(1)){
+                return -1;
+            }
+            else if (this.lateralArmed === "FORCE TOGA") {
                 return -1;
             }
             else if (ApproachStatus.isRolloutArmed) {
@@ -303,6 +315,7 @@ var Boeing_FMA;
         }
     }
     Boeing_FMA.Column2Middle = Column2Middle;
+    //Flight mode
     class Column2Bottom extends Annunciation {
         constructor(_parent, _divElement, _highlightElement, _arrowsElement) {
             super(_parent, _divElement, _highlightElement);
@@ -354,6 +367,7 @@ var Boeing_FMA;
         }
     }
     Boeing_FMA.Column2Bottom = Column2Bottom;
+    //Active Vertical mode (third column)
     class Column3Top extends Annunciation {
         getActiveMode() {
             let roundedAlt = Math.round(Simplane.getAltitude() / 100) * 100;
@@ -383,16 +397,17 @@ var Boeing_FMA;
             else if (this.verticalMode === "VS") {
                 return 10;
             }
-            else if (ApproachStatus.isFlareActive) {
-                return 1;
-            }
             else if (this.verticalMode === "TO" || this.verticalMode === "GA") {
                 return 6;
+            }
+            else if (ApproachStatus.isFlareActive) {
+                SimVar.SetSimVarValue("L:FLARE_ACTIVE", "bool", true);
+                return 1;
             }
             else if (this.verticalMode === "GP") {
                 return 5;
             }
-            else if (this.verticalMode === "GS") {
+            else if (this.verticalMode === "GS" && !Simplane.getIsGrounded()) {
                 return 4;
             }
             return -1;
@@ -415,6 +430,7 @@ var Boeing_FMA;
         }
     }
     Boeing_FMA.Column3Top = Column3Top;
+    //Armed third column (veritcal state)
     class Column3Middle extends Annunciation {
         getActiveMode() {
             if(!Simplane.getAutoPilotActive(0) && !Simplane.getAutoPilotFlightDirectorActive(1)){
@@ -424,11 +440,11 @@ var Boeing_FMA;
                 if (this.approachType === "rnav" && this.verticalMode !== "GP") {
                     return 1;
                 }
-                else if (this.verticalMode !== "GS" && this.verticalMode !== "GP") {
-                    return 2;
-                }
-                else if (ApproachStatus.isFlareArmed) {
+                else if (ApproachStatus.isFlareArmed){
                     return 0;
+                }
+                else if (this.verticalMode !== "GS" && this.verticalMode !== "GP" && !Simplane.getIsGrounded()) {
+                    return 2;
                 }
             }
             else if (SimVar.GetSimVarValue("L:AP_VNAV_ARMED", "number") === 1 && SimVar.GetSimVarValue("L:WT_CJ4_VNAV_ON", "number") === 0) {
