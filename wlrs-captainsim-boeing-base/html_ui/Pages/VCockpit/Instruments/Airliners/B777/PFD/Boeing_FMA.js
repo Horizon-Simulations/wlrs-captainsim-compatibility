@@ -50,6 +50,9 @@ var Boeing;
 var Boeing_FMA;
 (function (Boeing_FMA) {
     class ApproachStatus {  //note
+        static get landMode() {
+            return (this.landCategory);
+        }
         static get isFlareArmed() {
             return (this.flareState == 1);
         }
@@ -63,10 +66,13 @@ var Boeing_FMA;
             return (this.rolloutState == 2);
         }
         static update(_deltaTime) {
+            this.landCategory = -1;     //-1: not initialized/visual; 0: NO AUTOLAND; 1: RNAV; 2: LAND2; 3: LAND3
             this.flareState = 0;
             this.rolloutState = 0;
+            var alt = Simplane.getAltitudeAboveGround();
+
             if (Simplane.getCurrentFlightPhase() == FlightPhase.FLIGHT_PHASE_APPROACH) {
-                var alt = Simplane.getAltitudeAboveGround();
+
                 if (alt <= 1500) {
                     if (alt < 1.5) {
                         this.rolloutDelay += _deltaTime;
@@ -83,6 +89,9 @@ var Boeing_FMA;
                         this.rolloutState = 2;
                     }
                 }
+            }
+            if (alt <= 1500 && this.flareState == 1 && this.rolloutState == 1) {
+                SimVar.SetSimVarValue("L:FLARE_STATUS", "number", 1);
             }
             //GA after touch down, DELTE IF BUG
             if (SimVar.GetSimVarValue("A:GENERAL ENG THROTTLE LEVER POSITION:1", "percent") > 70 &&  this.rolloutState === 2) {
@@ -336,23 +345,21 @@ var Boeing_FMA;
             }
         }
         getActiveMode() {
-            if (Simplane.getAutoPilotActive()) {
+            if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  3) {
+                return 2;
+            }
+            //else if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  __) {  //not yet implemented
+            //    return 3;
+            //}
+            else if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  0) {
+                return 4;
+            }
+            else if (Simplane.getAutoPilotActive()) {
                 return 0;
             }
             else if (Simplane.getAutoPilotFlightDirectorActive(1)) {
                 return 1;
             }
-            /*
-            else if (   asign L:vars or pull data to get autoland state) {
-                return 2;
-            }
-            else if (   asign L:vars or pull data to get autoland state) {
-                return 3;
-            }
-            else if (   asign L:vars or pull data to get autoland state) {
-                return 4;
-            }
-            */
             return -1;
         }
         getCurrentModeText() {
@@ -401,7 +408,7 @@ var Boeing_FMA;
                 return 6;
             }
             else if (ApproachStatus.isFlareActive) {
-                SimVar.SetSimVarValue("L:FLARE_ACTIVE", "bool", true);
+                SimVar.SetSimVarValue("L:FLARE_STATUS", "number", 2);
                 return 1;
             }
             else if (this.verticalMode === "GP") {

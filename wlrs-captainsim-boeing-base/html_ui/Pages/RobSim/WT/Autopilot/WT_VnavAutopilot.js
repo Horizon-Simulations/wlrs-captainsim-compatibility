@@ -289,18 +289,18 @@ class WT_VerticalAutopilot {
 
     
     update() {
-        let signal =  SimVar.GetSimVarValue("L:FLARE_ACTIVE", "bool");
-        if (signal) {
-            //SET NOSE PITCH OR SET FPM, IDK WHERE TO SET AHHHHH    //note: this is super loosy, so maybe find someway else
-            this.vsSlot2Value = 2000;
-            SimVar.SetSimVarValue("L:FLARE_test", "number", this.vsSlot2Value);
-        }
-        SimVar.SetSimVarValue("L:FLARE_test", "number", 99999);
+        let signal =  SimVar.GetSimVarValue("L:FLARE_STATUS", "number");    //-1: not initialized, 0: initialuize; 1: armed; 2: active
         if (SimVar.GetSimVarValue("L:G04_021_SW2", "bool")) {
             SimVar.SetSimVarValue("L:XMLVAR_Autopilot_Altitude_Increment", "number", 1000);
             }
         else {
             SimVar.SetSimVarValue("L:XMLVAR_Autopilot_Altitude_Increment", "number", 100);
+        }
+
+        if (signal == 2) {
+            //SET NOSE PITCH OR SET FPM, IDK WHERE TO SET AHHHHH    //note: this is super loosy, so maybe find someway else
+            this.vsSlot2Value = +2000;
+            SimVar.SetSimVarValue("L:FLARE_test", "number", this.vsSlot2Value);
         }
                 
 

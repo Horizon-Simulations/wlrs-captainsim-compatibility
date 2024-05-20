@@ -107,7 +107,7 @@ class B777RSNavModeSelector {
       grounded: new ValueStateTracker(() => Simplane.getIsGrounded(), () => NavModeEvent.GROUNDED),
       autopilot: new ValueStateTracker(() => Simplane.getAutoPilotActive(), () => NavModeEvent.AP_CHANGED),
       autothrottle: new ValueStateTracker(() => SimVar.GetSimVarValue("L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE", "bool"), () => NavModeEvent.AT_CHANGED),
-      flareActive: new ValueStateTracker(() => SimVar.GetSimVarValue("L:FLARE_ACTIVE", "bool"), () => NavModeEvent.FLARE_ACTIVE),
+      flareStatus: new ValueStateTracker(() => SimVar.GetSimVarValue("L:FLARE_STATUS", "number") == 1, () => NavModeEvent.FLARE_ACTIVE),
       rollOutActive: new ValueStateTracker(() => SimVar.GetSimVarValue("L:ROLLOUT_ACTIVE", "bool"), () => NavModeEvent.ROLLOUT_ACTIVE)
     };
 
@@ -288,6 +288,24 @@ class B777RSNavModeSelector {
   }
 
   handleFlareActive() {
+    //this.approachMode = WT_ApproachType.ILS;
+    if (this.approachMode === WT_ApproachType.ILS){
+      SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 3);
+    }
+    else {
+      if (this.approachMode === WT_ApproachType.RNAV) {
+        SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 1);
+      }
+      else {
+        if (this.approachMode === WT_ApproachType.VISUAL) {
+          SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 0);
+        }
+        else {
+            SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", -1);
+
+        }
+      }
+    }
     if (this._inputDataStates.flareActive.state)  {
       this.currentVerticalActiveState = VerticalNavModeState.FLARE_ACTIVE;
     }
@@ -912,11 +930,12 @@ class B777RSNavModeSelector {
     Coherent.call("GENERAL_ENG_THROTTLE_MANAGED_MODE_SET", ThrottleMode.TOGA);
     this.activateThrustRefMode();
 
+
     if (Simplane.getIsGrounded()) {
       this.togaPushedForTO = true;
     } 
 
-    if (SimVar.GetSimVarValue("L:AIRLINER_FLIGHT_PHASE", "number") === 2) {
+    if (SimVar.GetSimVarValue("L:AIRLINER_FLIGHT_PHASE", "number") === 2) { //take off
       this.setProperAltitudeArmedState();
       this.currentLateralActiveState = LateralNavModeState.TO;
       this.currentVerticalActiveState = VerticalNavModeState.TO;
@@ -947,9 +966,8 @@ class B777RSNavModeSelector {
           SimVar.SetSimVarValue("K:VS_SLOT_INDEX_SET", "number", 1);
         }
         this.currentVerticalActiveState = VerticalNavModeState.GA;
-        this.currentArmedVnavState = VerticalNavModeState.GA;
-        
-        
+        this.currentArmedVnavState = VerticalNavModeState.ALTS;
+
         SimVar.SetSimVarValue("L:AP_APP_ARMED", "bool", 0);
         SimVar.SetSimVarValue("L:AP_LOC_ARMED", "bool", 0);
         SimVar.SetSimVarValue("L:AP_LNAV_ARMED", "bool", 0);
