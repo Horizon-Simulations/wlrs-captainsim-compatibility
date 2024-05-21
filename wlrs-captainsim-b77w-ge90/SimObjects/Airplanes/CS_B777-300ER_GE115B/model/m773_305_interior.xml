@@ -1800,7 +1800,7 @@
         <UseTemplate Name="ASOBO_AIRLINER_Jettison_Knob_Template">
           <NODE_ID>O11_003_KNB</NODE_ID>
           <ANIM_NAME>O11_003_KNB</ANIM_NAME>
-          <ANIM_CODE>50</ANIM_CODE>
+          <!--<ANIM_CODE>50</ANIM_CODE>-->
           <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_FUEL_Push_Valve_Template">
@@ -2037,34 +2037,14 @@
         </Component>
 
         <Component ID="DEICE_Engine_Switches">
-          <Parameters Type="Override">
-            <DEICE_ENGINE_TYPE>ON_AUTO_OFF</DEICE_ENGINE_TYPE>
-            <ARROW_TYPE>Curved</ARROW_TYPE>
-            <NUM_STATES>3</NUM_STATES>
-            <POS_OFF>0</POS_OFF>
-            <POS_AUTO>1</POS_AUTO>
-            <POS_ON>2</POS_ON>
-            <TYPE>BOEING</TYPE>
-          </Parameters>
-          <UseTemplate Name="ASOBO_DEICE_Knob_Engine_Template">
-            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-            <NODE_ID>switch_ovhd_anti_ice_nacelle_01</NODE_ID>
-            <ANIM_NAME>overhead_anti_ice_switch_eng0</ANIM_NAME>            
-            <SWITCH_TYPE>OFF_AUTO_ON</SWITCH_TYPE>
-            <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
-            <ARROW_TYPE>Curved</ARROW_TYPE>
+          <UseTemplate Name="WT_B777_Engine_Anti_Ice_Knob_Template">
             <ID>1</ID>
+            <ANIM_ID>0</ANIM_ID>
           </UseTemplate>
-
-          <UseTemplate Name="ASOBO_DEICE_Knob_Engine_Template">
-            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-            <NODE_ID>switch_ovhd_anti_ice_nacelle_02</NODE_ID>
-            <ANIM_NAME>overhead_anti_ice_switch_eng1</ANIM_NAME>            
-            <SWITCH_TYPE>OFF_AUTO_ON</SWITCH_TYPE>
-            <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
-            <ARROW_TYPE>Curved</ARROW_TYPE>
+          <UseTemplate Name="WT_B777_Engine_Anti_Ice_Knob_Template">
             <ID>2</ID>
-          </UseTemplate>
+            <ANIM_ID>1</ANIM_ID>
+          </UseTemplate>         
         </Component>
 
         <UseTemplate Name="ASOBO_DEICE_Switch_Airframe_Template">
@@ -2576,7 +2556,7 @@
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
           <TYPE>B777</TYPE>
         </UseTemplate>
-        <UseTemplate Name="RobSim_AUTOPILOT_Knob_Altitude_Template">
+        <UseTemplate Name="RobSim_AUTOPILOT_Knob_Altitude_Template">    <!--heeeeerrrrrreeee-->
           <NODE_ID>knob_autopilot_alt</NODE_ID>
           <ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
           <ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
