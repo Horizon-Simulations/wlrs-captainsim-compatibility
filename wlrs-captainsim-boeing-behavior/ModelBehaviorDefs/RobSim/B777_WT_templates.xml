@@ -474,21 +474,20 @@
 	<Template Name="WT_B777_Engine_Anti_Ice_Knob_Template">
 		<Parameters Type="Default">
 			<ID>1</ID>
+			<ANIM_ID>0</ANIM_ID>
 			<WWISE_PREFIX>deice_engine</WWISE_PREFIX>
 		</Parameters>
 
 		<Parameters Type="Default">
 			<IE_NAME>Knob_Engine_#ID#</IE_NAME>
-			<NODE_ID>DEICE_Knob_Engine_#ID#</NODE_ID>
-			<ANIM_NAME>DEICE_Knob_Engine_#ID#</ANIM_NAME>
-			<PART_ID>DEICE_Engine</PART_ID>
-			<OTHER_PART_ID>DEICE_Engine_#ID#</OTHER_PART_ID>
+			<NODE_ID>switch_ovhd_anti_ice_nacelle_0#ID#</NODE_ID>
+			<ANIM_NAME>overhead_anti_ice_switch_eng#ANIM_ID#</ANIM_NAME>
+			<PART_ID>DEICE_Engine_Switches</PART_ID>
 		</Parameters>
 
 		<Parameters Type="Override">
 			<VAR_NAME>B777_Engine_AntiIce_Knob_State:#ID#</VAR_NAME>
 		</Parameters>
-
 		<UseTemplate Name="ASOBO_Interaction_Base_Template">
 			<INPUT_EVENT_ID_SOURCE>DEICE</INPUT_EVENT_ID_SOURCE>
 			<USE_INPUT_EVENT_ID>DEICE</USE_INPUT_EVENT_ID>
@@ -501,6 +500,7 @@
 			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
 			<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
 			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
+			<ARROW_TYPE>Curved</ARROW_TYPE>
 			<GET_STATE_EXTERNAL>(L:#VAR_NAME#)</GET_STATE_EXTERNAL>
 			<SET_STATE_EXTERNAL>(O:DEICE_#IE_NAME#_Position) (&gt;L:#VAR_NAME#)</SET_STATE_EXTERNAL>
 			<LOCAL_VAR_TO_WATCH_0>#VAR_NAME#</LOCAL_VAR_TO_WATCH_0>
@@ -508,13 +508,36 @@
 			<TT_DESCRIPTION_ID>@TT_Package.DEICE_ANTI_ICE_ENGINE_ACTION_SET</TT_DESCRIPTION_ID>
 			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
 		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Update">
+			<FREQUENCY>10</FREQUENCY>	<!--update 10 times/s-->
+			<UPDATE_CODE>
+				(L:B777_Engine_AntiIce_Knob_State:#ID#) 1 == if{
+					(A:STRUCTURAL ICE PCT, percent) 8 &gt; if{
+						1 (&gt;B:DEICE_Engine_#ID#, bool)
+						1 (&gt;L:DEICE_Engine_#ID#, bool)
+					}
+					else{
+						0 (&gt;B:DEICE_Engine_#ID#, bool)
+						0 (&gt;L:DEICE_Engine_#ID#, bool)
+					}
+				}
+				else (L:B777_Engine_AntiIce_Knob_State:#ID#) 2 == if{
+					1 (&gt;B:DEICE_Engine_#ID#, bool)
+					1 (&gt;L:DEICE_Engine_#ID#, bool)
+				}
+				else (L:B777_Engine_AntiIce_Knob_State:#ID#) 0 == if{
+					0 (&gt;B:DEICE_Engine_#ID#, bool)
+					0 (&gt;L:DEICE_Engine_#ID#, bool)
+				}
+			</UPDATE_CODE>
+		</UseTemplate>	
 	</Template>
+
 
 	<Template Name="WT_B777_Wing_Anti_Ice_Knob_Template">
 		<Parameters Type="Default">
 			<WWISE_PREFIX>deice_engine</WWISE_PREFIX>
 		</Parameters>
-
 		<Parameters Type="Default">
 			<IE_NAME>Knob_Wing</IE_NAME>
 			<NODE_ID>DEICE_Knob_Wing</NODE_ID>
