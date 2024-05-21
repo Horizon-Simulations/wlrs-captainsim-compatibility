@@ -44,6 +44,11 @@
       "path": "ModelBehaviorDefs\\RobSim\\Salty_Boeing.xml",
       "size": 38348,
       "date": 133034258880000000
+    },
+    {
+      "path": "ModelBehaviorDefs\\RobSim\\B777_WT_templates.xml",
+      "size": 38348,
+      "date": 133034258880000000
     }
   ]
 }
