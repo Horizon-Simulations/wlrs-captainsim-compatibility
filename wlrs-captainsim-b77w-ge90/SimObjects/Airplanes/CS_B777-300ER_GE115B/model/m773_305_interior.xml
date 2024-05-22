@@ -1585,34 +1585,59 @@
             <ID>2</ID>
           </UseTemplate>
         </Component>
-        <UseTemplate Name="ASOBO_GT_Knob_Dummy_Boeing">
-          <!--777 INOP-->
+      <!--HYD ELEC KNOB-->
+        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
+          <ID>01</ID>
+					<LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_LEFT</LOCAL_VAR>
+					<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
+					<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
+					<PART_ID>HYDRAULIC_Knob_Demand</PART_ID>
           <NODE_ID>knob_ovhd_hyd_demand_pump_sel_01</NODE_ID>
           <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_01</ANIM_NAME>
-          <ANIM_CODE>33</ANIM_CODE>
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_GT_Knob_Dummy_Boeing">
-          <!--777 INOP-->
+        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
+          <ID>02</ID>
+					<LOCAL_VAR>XMLVAR_HYDRAULICS_C1</LOCAL_VAR>
+					<TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
+					<TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
+					<TOOLTIP_TITLE_INDEX>'C1'</TOOLTIP_TITLE_INDEX>
+					<PART_ID>HYDRAULICS_Knob_C</PART_ID>
           <NODE_ID>knob_ovhd_hyd_demand_pump_sel_02</NODE_ID>
           <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_02</ANIM_NAME>
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
-          <ANIM_CODE>50</ANIM_CODE>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_GT_Knob_Dummy_Boeing">
-          <!--777 INOP-->
+        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
+          <ID>03</ID>
+          <LOCAL_VAR>XMLVAR_HYDRAULICS_C2</LOCAL_VAR>
+					<TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
+					<TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
+					<TOOLTIP_TITLE_INDEX>'C2'</TOOLTIP_TITLE_INDEX>
+					<PART_ID>HYDRAULICS_Knob_C</PART_ID>
           <NODE_ID>knob_ovhd_hyd_demand_pump_sel_03</NODE_ID>
           <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_03</ANIM_NAME>
-          <ANIM_CODE>50</ANIM_CODE>
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_GT_Knob_Dummy_Boeing">
-          <!--777 INOP-->
+        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
+          <ID>04</ID>
+					<LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_RIGHT</LOCAL_VAR>
+					<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
+					<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
+					<PART_ID>HYDRAULIC_Knob_Demand</PART_ID>
           <NODE_ID>knob_ovhd_hyd_demand_pump_sel_04</NODE_ID>
           <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_04</ANIM_NAME>
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
-          <ANIM_CODE>33</ANIM_CODE>
         </UseTemplate>
+        <!-- Set pumps off when C&D -->
+				<UseTemplate Name="ASOBO_GT_Update">
+					<UPDATE_ONCE>True</UPDATE_ONCE>
+					<UPDATE_CODE>   <!--unsure-->
+						(A:ELECTRICAL MASTER BATTERY, bool) ! if{
+							0 (&gt;B:AIRLINER_hydraulic_pump_1_Set)
+							0 (&gt;B:AIRLINER_hydraulic_pump_2_Set)
+							0 (&gt;B:AIRLINER_hydraulic_elec_pump_3_Set)
+							0 (&gt;B:AIRLINER_hydraulic_elec_pump_4_Set)
+							0 (&gt;B:AIRLINER_hydraulic_elec_pump_5_Set)
+							0 (&gt;B:AIRLINER_hydraulic_elec_pump_6_Set)
+						}
+					</UPDATE_CODE>
+				</UseTemplate>
       </Component>
 
       <Component ID="Fire_Supression_Panel">
@@ -1645,12 +1670,17 @@
 					}
           </UPDATE_CODE>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_ENGINE_Switch_Starter_Template">
+        <UseTemplate Name="ASOBO_ENGINE_Switch_Starter_Template"> <!--NEED TEST-->
+          <ID>1</ID>
+          <OverrideTemplateParameters>
+            <STATE_START>0</STATE_START>
+						<STATE_NORM>1</STATE_NORM>
+						<STATE_CONT>2</STATE_CONT>
+          </OverrideTemplateParameters>
+          <TYPE>3Values_StarterIgnition</TYPE>
           <NODE_ID>switch_ovhd_start_fuel_engine_light_01</NODE_ID>
           <ANIM_NAME>ovhd_switch_start_fuel_engine_light_01</ANIM_NAME>
-          <TYPE>2Values_StarterIgnition</TYPE>
           <IGNITION_ACTIVE_TYPE>1</IGNITION_ACTIVE_TYPE>
-          <ID>1</ID>
           <ANIM_EVENT_EFFECT_NAME>CAM_ENGINE01</ANIM_EVENT_EFFECT_NAME>
           <NORMALIZED_TIME>0.5</NORMALIZED_TIME>
           <DIRECTION>Forward</DIRECTION>

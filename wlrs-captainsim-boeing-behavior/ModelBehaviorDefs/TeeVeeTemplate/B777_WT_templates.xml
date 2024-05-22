@@ -432,7 +432,7 @@
 			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
 		</UseTemplate>
 		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
-			<NODE_ID>#NODE_ID#_SEQ2</NODE_ID>
+			<NODE_ID>#NODE_ID#_SEQ2</NODE_ID>	<!--unsure-->
 			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
 			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt;</EMISSIVE_CODE>
 		</UseTemplate>
@@ -441,7 +441,6 @@
 	<Template Name="WT_B777_Hydraulics_Elec_Knob_Template">
 		<Parameters Type="Default">
 			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
-			<DECAL_ID></DECAL_ID>
 			<ID>1</ID>
 			<LOCAL_VAR></LOCAL_VAR>
 		</Parameters>
@@ -464,7 +463,6 @@
 			<WWISE_EVENT>engine_starter_switch</WWISE_EVENT>
 		</UseTemplate>
 		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
-			<NODE_ID>Decals_Text_#DECAL_ID#</NODE_ID>
 			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt; (A:HYDRAULIC SWITCH:#ID#, Bool) and (L:#LOCAL_VAR#, Number) 0 == or</EMISSIVE_CODE>
 		</UseTemplate>
 	</Template>
@@ -531,7 +529,6 @@
 		</UseTemplate>	
 		-->
 	</Template>
-
 
 	<Template Name="WT_B777_Wing_Anti_Ice_Knob_Template">
 		<Parameters Type="Default">
