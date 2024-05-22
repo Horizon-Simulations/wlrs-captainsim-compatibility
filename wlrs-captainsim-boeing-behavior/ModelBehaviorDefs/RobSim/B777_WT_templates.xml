@@ -47,14 +47,14 @@
 	<!-- Battery Switch -->
 	<Template Name="WT_B777_Battery_Switch_Template">
 		<Parameters Type="Default">
-			<MAIN_HOT_BATT_BUS_ID>5</MAIN_HOT_BATT_BUS_ID>
-			<APU_HOT_BATT_BUS_ID>9</APU_HOT_BATT_BUS_ID>	<!--not added-->
-			<MAIN_BATT_BUS_ID>4</MAIN_BATT_BUS_ID>
-			<APU_BATT_BUS_ID>3</APU_BATT_BUS_ID>	<!--not added-->
+			<MAIN_HOT_BATT_BUS_ID>8</MAIN_HOT_BATT_BUS_ID>
+			<APU_HOT_BATT_BUS_ID>9</APU_HOT_BATT_BUS_ID>
+			<MAIN_BATT_BUS_ID>2</MAIN_BATT_BUS_ID>
+			<APU_BATT_BUS_ID>3</APU_BATT_BUS_ID>
 
-			<NODE_ID>push_ovhd_electrics_battery</NODE_ID>
-			<ANIM_NAME>ovhd_push_electrics_battery</ANIM_NAME>
-			<PART_ID>Electrical_Panel</PART_ID>
+			<NODE_ID>ELECTRICAL_Push_Battery</NODE_ID>
+			<ANIM_NAME>ELECTRICAL_Push_Battery</ANIM_NAME>
+			<PART_ID>ELECTRICAL_Switch_Battery_Master</PART_ID>
 
 			<WWISE_EVENT_1>battery_switch_on</WWISE_EVENT_1>
 			<WWISE_EVENT_2>battery_switch_off</WWISE_EVENT_2>
@@ -165,7 +165,7 @@
 
 			<SEQ1_EMISSIVE_CODE>#MAIN_BATT_BUS_ID# (A:1:BUS CONNECTION ON:#MAIN_HOT_BATT_BUS_ID#, Bool)</SEQ1_EMISSIVE_CODE>
 			<SEQ2_EMISSIVE_CODE>#MAIN_BATT_BUS_ID# (A:1:BUS CONNECTION ON:#MAIN_HOT_BATT_BUS_ID#, Bool) !</SEQ2_EMISSIVE_CODE>
-			<FAILURE_CIRCUIT>81</FAILURE_CIRCUIT>	<!--not sure-->
+			<FAILURE_CIRCUIT>74</FAILURE_CIRCUIT>
 
 			<TOOLTIP_TITLE>@TT_Package.ELECTRICAL_BATTERY_TITLE</TOOLTIP_TITLE>
 			<TOOLTIP_ENTRY_0>#FULL_IE_NAME#</TOOLTIP_ENTRY_0>
@@ -175,8 +175,8 @@
 	<Template Name="WT_B777_Airliner_Ext_Pwr_Switch_Template">
 		<Parameters Type="Default">
 			<ID>1</ID>
-			<NODE_ID>push_ovhd_electrics_ext_pwr_01</NODE_ID>
-			<ANIM_NAME>ovhd_push_electrics_ext_pwr_01</ANIM_NAME>
+			<NODE_ID>ELECTRICAL_Switch_ExternalPower_FWD_1</NODE_ID>
+			<ANIM_NAME>ELECTRICAL_Switch_ExternalPower_FWD_1</ANIM_NAME>
 		</Parameters>
 		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
 			<IS_MOMENTARY>True</IS_MOMENTARY>
@@ -232,18 +232,33 @@
 			</UPDATE_CODE>
 		</UseTemplate>
 	</Template>
-	
-	<Template Name="TEEVEE_CABIN_CHIME_BUTTON">
+
+	<Template Name="WT_B777_CONTRAST_Knob_Template">
 		<Parameters Type="Default">
-			<IE_NAME></IE_NAME>
+			<ID>1</ID>
+			<INCREMENT>10</INCREMENT>
+			<LOCAL_VAR></LOCAL_VAR>
+			<IE>Screen_Contrast</IE>
+			<NODE_ID></NODE_ID>
+			<ANIM_NAME></ANIM_NAME>
+			<INIT_VALUE>100</INIT_VALUE>
 		</Parameters>
-		<UseTemplate Name="ASOBO_GT_Push_Button_Airliner">
-			<LEFT_SINGLE_CODE>(&gt;B:#FULL_IE_NAME#_Toggle)</LEFT_SINGLE_CODE>
-			<NORMALIZED_TIME_1>0.1</NORMALIZED_TIME_1>
-			<NORMALIZED_TIME_2>0.5</NORMALIZED_TIME_2>
-			<FAILURE_CIRCUIT>81</FAILURE_CIRCUIT>	<!--not sure-->
-			<TOOLTIP_TITLE>@TT_Package.ELECTRICAL_BATTERY_TITLE</TOOLTIP_TITLE>
-			<TOOLTIP_ENTRY_0>#FULL_IE_NAME#</TOOLTIP_ENTRY_0>
+		<UseTemplate Name="ASOBO_Interaction_Base_Template">
+			<IE_NAME>#IE#_#ID#</IE_NAME>
+			<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
+			<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#)</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>
+				p0 (L:#LOCAL_VAR#) &gt; if{
+						(L:#LOCAL_VAR#) #INCREMENT# + 100 min (&gt;L:#LOCAL_VAR#)
+				} els{
+						(L:#LOCAL_VAR#) #INCREMENT# - 0.0 max (&gt;L:#LOCAL_VAR#)
+				}
+			</SET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
+			<COUNT>100</COUNT>
+			<WWISE_EVENT>lighting_knob_generic</WWISE_EVENT>
 		</UseTemplate>
 		<UseTemplate Name="ASOBO_GT_Update">
 			<UPDATE_ONCE>True</UPDATE_ONCE>
@@ -371,7 +386,6 @@
 		<Parameters Type="Default">
 			<NODE_ID>AudioPanel_Knob_VOR_ADF_Selector_#ID#</NODE_ID>
 			<ANIM_NAME>AudioPanel_Knob_Mode_Beacon_#ID#</ANIM_NAME>
-			<LOCAL_VAR>L:HYD_ELEC:</LOCAL_VAR>
 			<IE_NAME>#NODE_ID#</IE_NAME>
 			<UPDATE_IDENT_VARS>
 				(L:#LOCAL_VAR#) s0
@@ -418,8 +432,7 @@
 			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
 		</UseTemplate>
 		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
-			<NODE_ID></NODE_ID>
-			<ANIM_NAME></ANIM_NAME>
+			<NODE_ID>#NODE_ID#_SEQ2</NODE_ID>
 			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
 			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt;</EMISSIVE_CODE>
 		</UseTemplate>
@@ -428,14 +441,12 @@
 	<Template Name="WT_B777_Hydraulics_Elec_Knob_Template">
 		<Parameters Type="Default">
 			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
-			<ID>01</ID>
-			<NODE_ID>knob_ovhd_hyd_demand_pump_sel_#ID#</NODE_ID>
-			<ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_#ID#</ANIM_NAME>
-			<LOCAL_VAR>#ID#</LOCAL_VAR>
+			<DECAL_ID></DECAL_ID>
+			<ID>1</ID>
+			<LOCAL_VAR></LOCAL_VAR>
 		</Parameters>
 		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
-			<IE_NAME>ovhd_knob_hyd_demand_pump_sel_#ID#</IE_NAME>
-			<ANIM_NAME>
+			<IE_NAME>hydraulic_elec_pump_#ID#</IE_NAME>
 			<KNOB_TYPE>X_STATES</KNOB_TYPE>
 			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
 			<NUM_STATES>3</NUM_STATES>
@@ -451,6 +462,10 @@
 			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#, Number)</GET_STATE_EXTERNAL>
 			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
 			<WWISE_EVENT>engine_starter_switch</WWISE_EVENT>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+			<NODE_ID>Decals_Text_#DECAL_ID#</NODE_ID>
+			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt; (A:HYDRAULIC SWITCH:#ID#, Bool) and (L:#LOCAL_VAR#, Number) 0 == or</EMISSIVE_CODE>
 		</UseTemplate>
 	</Template>
 

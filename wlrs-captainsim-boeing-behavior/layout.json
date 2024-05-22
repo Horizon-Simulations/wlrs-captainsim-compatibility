@@ -46,12 +46,7 @@
       "date": 133034258880000000
     },
     {
-      "path": "ModelBehaviorDefs\\teeveeTemplate\\index.xml",
-      "size": 413,
-      "date": 133034258880000000
-    },
-    {
-      "path": "ModelBehaviorDefs\\teeveeTemplate\\B777_WT_templates.xml",
+      "path": "ModelBehaviorDefs\\RobSim\\B777_WT_templates.xml",
       "size": 38348,
       "date": 133034258880000000
     }
