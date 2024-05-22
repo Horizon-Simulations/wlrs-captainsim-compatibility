@@ -696,7 +696,7 @@
 					<Constant>10</Constant>
 				</GreaterEqual>
 				<Equal>
-			  		<Simvar name="STRUCTURAL DEICE SWITCH" unit="Boolean"/>
+			  		<Simvar name="L:B777_Wing_AntiIce_Knob_State" unit="Number"/>
 			  		<Constant>0</Constant>
 				</Equal>
 			</And>
@@ -708,21 +708,21 @@
 		  <Text>ICING ENG</Text>
 		  <Condition>
 			<And>
-					<LowerEqual>
-						<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
-						<Constant>10</Constant>
-					</LowerEqual>
-					<GreaterEqual>
-						<Simvar name="STRUCTURAL ICE PCT" unit="percent"/>
-						<Constant>10</Constant>
-					</GreaterEqual>
+				<LowerEqual>
+					<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
+					<Constant>10</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="STRUCTURAL ICE PCT" unit="percent"/>
+					<Constant>10</Constant>
+				</GreaterEqual>
 				<Or>
 					<Equal>
-						<Simvar name="ENG ANTI ICE:1" unit="Boolean"/>
+						<Simvar name="L:B777_Engine_AntiIce_Knob_State:1" unit="Number"/>
 						<Constant>0</Constant>
 					</Equal>
 					<Equal>
-						<Simvar name="ENG ANTI ICE:2" unit="Boolean"/>
+						<Simvar name="L:B777_Engine_AntiIce_Knob_State:2" unit="Number"/>
 						<Constant>0</Constant>
 					</Equal>
 				</Or>
@@ -730,24 +730,35 @@
 		  </Condition>
 		</Annunciation>
 
+	
 		<Annunciation>
 		  <Type>Advisory</Type>
 		  <Text>ANTI-ICE ON</Text>
 		  <Condition>
+		  	<And>
 				<Or>
 					<Equal>
-						<Simvar name="ENG ANTI ICE:1" unit="Boolean"/>
-						<Constant>1</Constant>
+						<Simvar name="L:B777_Engine_AntiIce_Knob_State:1" unit="Number"/>	
+						<Constant>2</Constant>
 					</Equal>
 					<Equal>
-						<Simvar name="ENG ANTI ICE:2" unit="Boolean"/>
-						<Constant>1</Constant>
+						<Simvar name="L:B777_Engine_AntiIce_Knob_State:2" unit="Number"/>
+						<Constant>2</Constant>
 					</Equal>
 					<Equal>
-						<Simvar name="STRUCTURAL DEICE SWITCH" unit="Boolean"/>
-						<Constant>1</Constant>
+						<Simvar name="L:B777_Wing_AntiIce_Knob_State" unit="Number"/>
+						<Constant>2</Constant>
 					</Equal>
 				</Or>
+				<GreaterEqual>
+					<Simvar name="AMBIENT TEMPERATURE" unit="celcius"/>
+					<Constant>10</Constant>
+				</GreaterEqual>
+				<LowerEqual>
+					<Simvar name="STRUCTURAL ICE PCT" unit="percent"/>
+					<Constant>10</Constant>
+				</LowerEqual>
+			</And>
 		  </Condition>
 		</Annunciation>
 

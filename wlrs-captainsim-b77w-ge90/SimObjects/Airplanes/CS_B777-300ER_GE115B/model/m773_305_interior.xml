@@ -2046,14 +2046,7 @@
             <ANIM_ID>1</ANIM_ID>
           </UseTemplate>         
         </Component>
-
-        <UseTemplate Name="ASOBO_DEICE_Switch_Airframe_Template">
-          <NODE_ID>switch_ovhd_anti_ice_wing</NODE_ID>
-          <ANIM_NAME>ovhd_switch_anti_ice_wing</ANIM_NAME>
-          <NUM_STATES>3</NUM_STATES>
-          <SWITCH_TYPE>OFF_AUTO_ON</SWITCH_TYPE>
-          <SWITCH_DIRECTION>Horizontal</SWITCH_DIRECTION>
-          <TT_ICON>MOVE_X</TT_ICON>
+        <UseTemplate Name="WT_B777_Wing_Anti_Ice_Knob_Template">
         </UseTemplate>
       </Component>
 
