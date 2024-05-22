@@ -66,8 +66,10 @@ var B777_UpperEICAS;
             this.gearDisplay = new Boeing.GearDisplay(this.querySelector("#GearInfo"));
             this.flapsDisplay = new Boeing.FlapsDisplay(this.querySelector("#FlapsInfo"), this.querySelector("#FlapsLine"), this.querySelector("#FlapsValue"), this.querySelector("#FlapsBar"), this.querySelector("#FlapsGauge"));
             this.stabDisplay = new Boeing.StabDisplay(this.querySelector("#StabInfo"), 15, 1);
-            this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI1_Value"), 1));
-            this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI2_Value"), 2));
+            this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI_LEFT"), 1));
+            this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI_RIGHT"), 2));
+            this.allAntiIceStatus.push(new EngineAntiIceStatus(this.querySelector("#EAI_LEFT"), 1));
+            this.allAntiIceStatus.push(new EngineAntiIceStatus(this.querySelector("#EAI_RIGHT"), 2));            
             this.gallonToMegagrams = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilogram") * 0.001;
             this.gallonToMegapounds = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "lbs") * 0.001;
             this.fuelTankDisplay = this.querySelector("#FuelTankInfo");
@@ -406,12 +408,48 @@ var B777_UpperEICAS;
     }
     class EngineAntiIceStatus extends AntiIceStatus {
         getCurrentActiveState() {
-            return SimVar.GetSimVarValue("ENG ANTI ICE:" + this.index, "bool");
+            let ambientTemp = Simplane.getAmbientTemperature();
+            let strucIcePercent = SimVar.GetSimVarValue("STRUCTURAL ICE PCT", "percent");
+            let knobPos = SimVar.GetSimVarValue("L:B777_Engine_AntiIce_Knob_State:" + this.index, "Number");
+            
+            if (knobPos == 0)
+                {
+                    return false;
+                }
+            else {
+                if (knobPos == 2) {
+                    return true;
+                }
+                else {
+                    if (ambientTemp <= 10 && strucIcePercent >= 10) {
+                        return true
+                    }
+                }
+            }
+            return false;
         }
     }
     class WingAntiIceStatus extends AntiIceStatus {
         getCurrentActiveState() {
-            return SimVar.GetSimVarValue("STRUCTURAL DEICE SWITCH", "bool");
+            let ambientTemp = Simplane.getAmbientTemperature();
+            let strucIcePercent = SimVar.GetSimVarValue("STRUCTURAL ICE PCT", "percent");
+            let knobPos = SimVar.GetSimVarValue("L:B777_Wing_AntiIce_Knob_State", "Number");
+            
+            if (knobPos == 0)
+                {
+                    return false;
+                }
+            else {
+                if (knobPos == 2) {
+                    return true;
+                }
+                else {
+                    if (ambientTemp <= 10 && strucIcePercent >= 10) {
+                        return true
+                    }
+                }
+            }
+            return false;
         }
     }
 })(B777_UpperEICAS || (B777_UpperEICAS = {}));
