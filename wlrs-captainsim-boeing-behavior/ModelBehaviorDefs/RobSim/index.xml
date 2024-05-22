@@ -7,5 +7,4 @@
     <Include RelativeFile="B777_ENGINES.xml"/>
     <Include RelativeFile="B777_FMC.xml"/>
     <Include RelativeFile="ADIRUButton.xml"/>
-    <Include RelativeFile="B777_WT_templates.xml"/>
 </ModelBehaviors>

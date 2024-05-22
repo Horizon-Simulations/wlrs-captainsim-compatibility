@@ -439,6 +439,7 @@
     <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
     <Include ModelBehaviorFile="ASOBO\Inputs\Helpers.xml"/>
     <Include ModelBehaviorFile="RobSim\index.xml"/>
+    <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
 
 
     <Component ID="INTERACTIVE_POINTS">
