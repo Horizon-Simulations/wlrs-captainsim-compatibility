@@ -1585,10 +1585,38 @@
             <NODE_ID>ovhd_hyd_sys_fault_light_02_SEQ1</NODE_ID>
             <ID>2</ID>
           </UseTemplate>
-        </Component>        
+        </Component>
+
+        <!--HYD ELEC KNOB and SW-->    
+        <!--to be tested-->
+        <UseTemplate Name="Asobo_Interaction_Base_Template">
+          <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>      <!--revise later-->
+          <NODE_ID>knob_hydraulic_elec_pump_l</NODE_ID>
+          <ANIM_NAME>O07_006_GL3</ANIM_NAME>
+          <INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+					<NUM_STATES>3</NUM_STATES>
+					<KNOB_TYPE>X_STATES</KNOB_TYPE>
+					<STR_STATE_0>Off</STR_STATE_0>
+					<STR_STATE_1>Auto</STR_STATE_1>
+					<STR_STATE_2>On</STR_STATE_2>
+					<WWISE_EVENT>knob_hydraulic_elec_pump_l</WWISE_EVENT>
+					<LOCALVAR_TO_WATCH_0>L:O07_006_GL3</LOCALVAR_TO_WATCH_0>
+					<ANIM_CODE>(L:O07_006_GL3) 2 / 100 *</ANIM_CODE>
+					<GET_STATE_EXTERNAL>(L:O07_006_GL3) sp0</GET_STATE_EXTERNAL>
+					<SET_STATE_0>0 (&gt;L:O07_006_GL3)</SET_STATE_0>
+					<SET_STATE_1>1 (&gt;L:O07_006_GL3)</SET_STATE_1>
+					<SET_STATE_2>2 (&gt;L:O07_006_GL3)</SET_STATE_2>
+					<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
+					<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
+					<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_SWITCH_INTLT_SEATBELT_TITLE</TOOLTIP_TITLE>  <!--revise later-->
+					<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_SWITCH_INTLT_SEATBELT_ACTION</TT_DESCRIPTION_ID> <!--revise later-->
+					<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
+					<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
+					<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
+        </UseTemplate>        
       </Component>
-      <!--HYD ELEC KNOB and SW-->    
-      <Component ID="L_Demand_sw" Node="O07_006_GL3"> <!--knob-->
+    <!--
+      <Component ID="L_Demand_sw" Node="O07_006_GL3">
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
         <ANIM_LENGTH>2</ANIM_LENGTH>
@@ -1618,7 +1646,8 @@
           </EventTrigger>
         </AnimationTriggers>
     </Component>
-
+    -->
+                                                                                                            
     <Component ID="C1_Demand_sw" Node="O07_007_GL3">
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
