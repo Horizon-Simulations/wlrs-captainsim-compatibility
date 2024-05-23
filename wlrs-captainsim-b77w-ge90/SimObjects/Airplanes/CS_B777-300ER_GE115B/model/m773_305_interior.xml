@@ -1534,6 +1534,7 @@
         </UseTemplate>
       </Component>
 
+      <!--HYD PANEL-->
       <Component ID="Hydraulics_Panel">
         <Component ID="Switches">
           <DefaultTemplateParameters>
@@ -1542,13 +1543,13 @@
             <SEQ1_FAILURE>(A:CIRCUIT ON:86, Bool)</SEQ1_FAILURE>
             <SEQ2_FAILURE>(A:CIRCUIT ON:87, Bool)</SEQ2_FAILURE>
           </DefaultTemplateParameters>
-          <UseTemplate Name="ASOBO_ENGINE_Switch_Hydraulic_Template">
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">
             <NODE_ID>push_ovhd_hyd_pump_switch_01</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_01</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>1</TT_DESCRIPTION_INDEX>
             <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_ENGINE_Switch_Hydraulic_Template">
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">
             <NODE_ID>push_ovhd_hyd_pump_switch_02</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_02</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>2</TT_DESCRIPTION_INDEX>
@@ -1584,61 +1585,207 @@
             <NODE_ID>ovhd_hyd_sys_fault_light_02_SEQ1</NODE_ID>
             <ID>2</ID>
           </UseTemplate>
-        </Component>
-      <!--HYD ELEC KNOB-->
-        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
-          <ID>01</ID>
-					<LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_LEFT</LOCAL_VAR>
-					<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
-					<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
-					<PART_ID>HYDRAULIC_Knob_Demand</PART_ID>
-          <NODE_ID>knob_ovhd_hyd_demand_pump_sel_01</NODE_ID>
-          <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_01</ANIM_NAME>
-        </UseTemplate>
-        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
-          <ID>02</ID>
-					<LOCAL_VAR>XMLVAR_HYDRAULICS_C1</LOCAL_VAR>
-					<TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
-					<TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
-					<TOOLTIP_TITLE_INDEX>'C1'</TOOLTIP_TITLE_INDEX>
-					<PART_ID>HYDRAULICS_Knob_C</PART_ID>
-          <NODE_ID>knob_ovhd_hyd_demand_pump_sel_02</NODE_ID>
-          <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_02</ANIM_NAME>
-        </UseTemplate>
-        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
-          <ID>03</ID>
-          <LOCAL_VAR>XMLVAR_HYDRAULICS_C2</LOCAL_VAR>
-					<TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
-					<TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
-					<TOOLTIP_TITLE_INDEX>'C2'</TOOLTIP_TITLE_INDEX>
-					<PART_ID>HYDRAULICS_Knob_C</PART_ID>
-          <NODE_ID>knob_ovhd_hyd_demand_pump_sel_03</NODE_ID>
-          <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_03</ANIM_NAME>
-        </UseTemplate>
-        <UseTemplate Name="WT_B777_Hydraulics_Elec_Knob_Template">
-          <ID>04</ID>
-					<LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_RIGHT</LOCAL_VAR>
-					<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
-					<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
-					<PART_ID>HYDRAULIC_Knob_Demand</PART_ID>
-          <NODE_ID>knob_ovhd_hyd_demand_pump_sel_04</NODE_ID>
-          <ANIM_NAME>ovhd_knob_hyd_demand_pump_sel_04</ANIM_NAME>
-        </UseTemplate>
-        <!-- Set pumps off when C&D -->
-				<UseTemplate Name="ASOBO_GT_Update">
-					<UPDATE_ONCE>True</UPDATE_ONCE>
-					<UPDATE_CODE>   <!--unsure-->
-						(A:ELECTRICAL MASTER BATTERY, bool) ! if{
-							0 (&gt;B:AIRLINER_hydraulic_pump_1_Set)
-							0 (&gt;B:AIRLINER_hydraulic_pump_2_Set)
-							0 (&gt;B:AIRLINER_hydraulic_elec_pump_3_Set)
-							0 (&gt;B:AIRLINER_hydraulic_elec_pump_4_Set)
-							0 (&gt;B:AIRLINER_hydraulic_elec_pump_5_Set)
-							0 (&gt;B:AIRLINER_hydraulic_elec_pump_6_Set)
-						}
-					</UPDATE_CODE>
-				</UseTemplate>
+        </Component>        
       </Component>
+      <!--HYD ELEC KNOB and SW-->    
+      <Component ID="L_Demand_sw" Node="O07_006_GL3"> <!--knob-->
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_LAG>6</ANIM_LAG>
+        <ANIM_LENGTH>2</ANIM_LENGTH>
+        <ANIM_NAME>O07_006_GL3</ANIM_NAME>
+        <ANIM_CODE>(L:O07_006_GL3)</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_MouseRect">
+        <TOOLTIPID></TOOLTIPID>
+        <CURSOR>Hand</CURSOR>
+        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
+        <CALLBACKCODE>
+          (L:O07_006_GL3) sp0 3 sp1
+          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
+          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
+          l2 0 max l1 1 - min (&gt;L:O07_006_GL3)
+        </CALLBACKCODE>
+      </UseTemplate>
+      <AnimationTriggers Animation="O07_006_GL3">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="2" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+    </Component>
+
+    <Component ID="C1_Demand_sw" Node="O07_007_GL3">
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_LAG>6</ANIM_LAG>
+        <ANIM_LENGTH>2</ANIM_LENGTH>
+        <ANIM_NAME>O07_007_GL3</ANIM_NAME>
+        <ANIM_CODE>(L:O07_007_GL3)</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_MouseRect">
+        <TOOLTIPID></TOOLTIPID>
+        <CURSOR>Hand</CURSOR>
+        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
+        <CALLBACKCODE>
+          (L:O07_007_GL3) sp0 3 sp1
+          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
+          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
+          l2 0 max l1 1 - min (&gt;L:O07_007_GL3)
+        </CALLBACKCODE>
+      </UseTemplate>
+    <AnimationTriggers Animation="O07_007_GL3">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="2" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+    </Component>
+
+    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">
+      <UseTemplate Name="ASOBO_GT_Visibility">
+        <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
+      </UseTemplate>
+    </Component>
+
+    <Component ID="C2_Demand_sw" Node="O07_008_GL3">
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_LAG>6</ANIM_LAG>
+        <ANIM_LENGTH>2</ANIM_LENGTH>
+        <ANIM_NAME>O07_008_GL3</ANIM_NAME>
+        <ANIM_CODE>(L:O07_008_GL3)</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_MouseRect">
+        <TOOLTIPID></TOOLTIPID>
+        <CURSOR>Hand</CURSOR>
+        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
+        <CALLBACKCODE>
+          (L:O07_008_GL3) sp0 3 sp1
+          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
+          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
+          l2 0 max l1 1 - min (&gt;L:O07_008_GL3)
+        </CALLBACKCODE>
+      </UseTemplate>
+    <AnimationTriggers Animation="O07_008_GL3">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="2" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+    </Component>
+
+    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0">
+      <UseTemplate Name="ASOBO_GT_Visibility">
+        <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
+      </UseTemplate>
+    </Component>
+
+    <Component ID="R_Demand_sw" Node="O07_009_GL3">
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_LAG>6</ANIM_LAG>
+        <ANIM_LENGTH>2</ANIM_LENGTH>
+        <ANIM_NAME>O07_009_GL3</ANIM_NAME>
+        <ANIM_CODE>(L:O07_009_GL3)</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_MouseRect">
+        <TOOLTIPID></TOOLTIPID>
+        <CURSOR>Hand</CURSOR>
+        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
+        <CALLBACKCODE>
+          (L:O07_009_GL3) sp0 3 sp1
+          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
+          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
+          l2 0 max l1 1 - min (&gt;L:O07_009_GL3)
+        </CALLBACKCODE>
+      </UseTemplate>
+    <AnimationTriggers Animation="O07_009_GL3">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="2" Direction="Both">
+            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+    </Component>
+
+
+    <Component ID="C1_Elec_sw" Node="O07_003_BUT">
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_LAG>6</ANIM_LAG>
+        <ANIM_LENGTH>1</ANIM_LENGTH>
+        <ANIM_NAME>O07_003_BUT</ANIM_NAME>
+        <ANIM_CODE>(L:O07_003_BUT)</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_MouseRect">
+        <TOOLTIPID></TOOLTIPID>
+        <CURSOR>Hand</CURSOR>
+        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
+        <CALLBACKCODE>
+          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_003_BUT, bool) ! (&gt;L:O07_003_BUT, bool) }
+        </CALLBACKCODE>
+      </UseTemplate>
+    <AnimationTriggers Animation="O07_003_BUT">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+    </Component>
+
+    <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">
+      <UseTemplate Name="ASOBO_GT_Visibility">
+        <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
+      </UseTemplate>
+    </Component>
+
+    <Component ID="C2_Elec_sw" Node="O07_004_BUT">
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_LAG>6</ANIM_LAG>
+        <ANIM_LENGTH>1</ANIM_LENGTH>
+        <ANIM_NAME>O07_004_BUT</ANIM_NAME>
+        <ANIM_CODE>(L:O07_004_BUT)</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_MouseRect">
+        <TOOLTIPID></TOOLTIPID>
+        <CURSOR>Hand</CURSOR>
+        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
+        <CALLBACKCODE>
+          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_004_BUT, bool) ! (&gt;L:O07_004_BUT, bool) }
+        </CALLBACKCODE>
+      </UseTemplate>
+      <AnimationTriggers Animation="O07_004_BUT">
+          <EventTrigger Frame="0" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="1" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+    </Component>
+
+    <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">
+      <UseTemplate Name="ASOBO_GT_Visibility">
+        <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
+      </UseTemplate>
+    </Component>
 
       <Component ID="Fire_Supression_Panel">
         <DefaultTemplateParameters>
@@ -1677,7 +1824,7 @@
 						<STATE_NORM>1</STATE_NORM>
 						<STATE_CONT>2</STATE_CONT>
           </OverrideTemplateParameters>
-          <TYPE>3Values_StarterIgnition</TYPE>
+          <TYPE>2Values_StarterIgnition</TYPE>
           <NODE_ID>switch_ovhd_start_fuel_engine_light_01</NODE_ID>
           <ANIM_NAME>ovhd_switch_start_fuel_engine_light_01</ANIM_NAME>
           <IGNITION_ACTIVE_TYPE>1</IGNITION_ACTIVE_TYPE>
@@ -2048,6 +2195,25 @@
           <ANIM_NAME>ovhd_push_anti_ice_window_heat_r</ANIM_NAME>
           <TYPE>BOEING</TYPE>
         </UseTemplate>
+
+        <AnimationTriggers Animation="ovhd_push_anti_ice_window_heat_l">
+          <EventTrigger Frame="10" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="60" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+
+        <AnimationTriggers Animation="ovhd_push_anti_ice_window_heat_r">
+          <EventTrigger Frame="10" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
+          </EventTrigger>
+          <EventTrigger Frame="60" Direction="Both">
+            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
+          </EventTrigger>
+        </AnimationTriggers>
+
         <Component ID="AntiIce_Pitot">
           <UseTemplate Name="ASOBO_DEICE_Update_Pitot_On">
             <ID>1</ID>
@@ -2746,11 +2912,10 @@
             <ANIM_NAME>source_select_knob_irs_l</ANIM_NAME>
             <ANIM_CODE>0</ANIM_CODE>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_GT_Knob_Dummy_Boeing">
+          <UseTemplate Name="WT_B777_Air_Data_Att_Source_Knob_Template">
             <!--777 INOP-->
             <NODE_ID>knob_source_select_air_data_l</NODE_ID>
             <ANIM_NAME>source_select_knob_air_data_l</ANIM_NAME>
-            <ANIM_CODE>0</ANIM_CODE>
           </UseTemplate>
         </Component>
         <Component ID="Source_Select_Copilot_Panel">
@@ -6990,7 +7155,15 @@
         <ANIM_NAME>O01_002_BUT</ANIM_NAME>
         <WWISE_EVENT>autopilot_knob</WWISE_EVENT>
       </UseTemplate>
-
+      <!--Turn it off on Cold and Dark-->
+      <UseTemplate Name="ASOBO_GT_Update">
+					<UPDATE_ONCE>True</UPDATE_ONCE>
+					<UPDATE_CODE>   <!--(L:O01_002_BUT, bool) ! if{-->
+						(L:O01_002_BUT, bool) if{
+							0 (&gt;L:SALTY_IRS_STATE)
+						}
+					</UPDATE_CODE>
+				</UseTemplate>
     </Component>
 
     <Component ID="ADIRU_off_lt" Node="O01_002_LT2">
@@ -6998,164 +7171,6 @@
         <VISIBILITY_CODE>(L:O01_002_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
-
-    <Component ID="L_Demand_sw" Node="O07_006_GL3">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>2</ANIM_LENGTH>
-        <ANIM_NAME>O07_006_GL3</ANIM_NAME>
-        <ANIM_CODE>1</ANIM_CODE>
-        <!--<ANIM_CODE>(L:O07_006_GL3)</ANIM_CODE>-->
-      </UseTemplate>
-      <!--
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (L:O07_006_GL3) sp0 3 sp1
-          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
-          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
-          l2 0 max l1 1 - min (&gt;L:O07_006_GL3)
-        </CALLBACKCODE>
-      </UseTemplate>
-      -->
-    </Component>
-
-    <Component ID="C1_Demand_sw" Node="O07_007_GL3">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>2</ANIM_LENGTH>
-        <ANIM_NAME>O07_007_GL3</ANIM_NAME>
-        <ANIM_CODE>1</ANIM_CODE>
-        <!--<ANIM_CODE>(L:O07_007_GL3)</ANIM_CODE>-->
-      </UseTemplate>
-      <!--
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (L:O07_007_GL3) sp0 3 sp1
-          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
-          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
-          l2 0 max l1 1 - min (&gt;L:O07_007_GL3)
-        </CALLBACKCODE>
-      </UseTemplate>
-      -->
-    </Component>
-
-    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-
-    <Component ID="C2_Demand_sw" Node="O07_008_GL3">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>2</ANIM_LENGTH>
-        <ANIM_NAME>O07_008_GL3</ANIM_NAME>
-        <ANIM_CODE>1</ANIM_CODE>
-        <!--<ANIM_CODE>(L:O07_008_GL3)</ANIM_CODE>-->
-      </UseTemplate>
-      <!--
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (L:O07_008_GL3) sp0 3 sp1
-          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
-          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
-          l2 0 max l1 1 - min (&gt;L:O07_008_GL3)
-        </CALLBACKCODE>
-      </UseTemplate>
-      -->
-    </Component>
-
-    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0">
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-
-    <Component ID="R_Demand_sw" Node="O07_009_GL3">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>2</ANIM_LENGTH>
-        <ANIM_NAME>O07_009_GL3</ANIM_NAME>
-        <ANIM_CODE>1</ANIM_CODE>
-        <!--<ANIM_CODE>(L:O07_009_GL3)</ANIM_CODE>-->
-      </UseTemplate>
-      <!--
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (L:O07_009_GL3) sp0 3 sp1
-          (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
-          (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
-          l2 0 max l1 1 - min (&gt;L:O07_009_GL3)
-        </CALLBACKCODE>
-      </UseTemplate>
-      -->
-    </Component>
-
-
-    <Component ID="C1_Elec_sw" Node="O07_003_BUT">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>1</ANIM_LENGTH>
-        <ANIM_NAME>O07_003_BUT</ANIM_NAME>
-        <ANIM_CODE>1</ANIM_CODE>
-        <!--<ANIM_CODE>(L:O07_003_BUT)</ANIM_CODE>-->
-      </UseTemplate>
-      <!--
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_003_BUT, bool) ! (&gt;L:O07_003_BUT, bool) }
-        </CALLBACKCODE>
-      </UseTemplate>
-      -->
-    </Component>
-
-    <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-
-    <Component ID="C2_Elec_sw" Node="O07_004_BUT">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>1</ANIM_LENGTH>
-        <ANIM_NAME>O07_004_BUT</ANIM_NAME>
-        <ANIM_CODE>1</ANIM_CODE>
-        <!--<ANIM_CODE>(L:O07_004_BUT)</ANIM_CODE>-->
-      </UseTemplate>
-      <!--
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_004_BUT, bool) ! (&gt;L:O07_004_BUT, bool) }
-        </CALLBACKCODE>
-      </UseTemplate>
-      -->
-    </Component>
-
-    <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-
 
     <Component ID="RAT_button" Node="O07_001_BUT">
       <UseTemplate Name="ASOBO_GT_Anim">
