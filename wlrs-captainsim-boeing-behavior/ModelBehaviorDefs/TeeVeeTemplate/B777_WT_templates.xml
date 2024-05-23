@@ -424,6 +424,7 @@
 	</Template>
 
 	<!-- HYDRAULICS -->
+
 	<Template Name="WT_B777_Hydraulics_Switch_Template">
 		<UseTemplate Name="ASOBO_ENGINE_Switch_Hydraulic_Template">
 			<EMISSIVE_DRIVES_VISIBILITY>False</EMISSIVE_DRIVES_VISIBILITY>
@@ -464,8 +465,6 @@
 			<SET_STATE_2>2 (&gt;L:#MASTER_VARIABLE#)</SET_STATE_2>
 			<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
 			<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
-			<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TOOLTIP_TITLE>
-			<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID> 
 			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
 			<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
 			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>	
@@ -643,7 +642,7 @@
 		</UseTemplate>
 	</Template>
 
-	<Template Name="WT_ELECTRICAL_Switch_EmerLights_Template">
+	<Template Name="WT_ELECTRICAL_Switch_EmerLights_Template">	<!--no anim avail-->
 		<Parameters Type="Default">
 			<ANIM_NAME>SWITCH_OVH_EMERLIGHTS</ANIM_NAME>
 			<NODE_ID>SWITCH_OVH_EMERLIGHTS</NODE_ID>

@@ -637,11 +637,10 @@
       <UseTemplate Name="ASOBO_AUTOPILOT_Push_AutoThrottle_Disengage_Template">     <!--INOP-->
         <NODE_ID>ENGINE_Switch_ATDisc_1</NODE_ID>
         <ANIM_NAME>ENGINE_Switch_ATDisc_1</ANIM_NAME>
-        <TooltipText>DIES</TooltipText>
         <NO_INDICATOR>True</NO_INDICATOR>
         <NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
-        <CLEARS_EICAS_WARNING>False</CLEARS_EICAS_WARNING>   <!--used to be True-->
-        <PLANE_PREFIX>B777</PLANE_PREFIX>
+        <CLEARS_EICAS_WARNING>True</CLEARS_EICAS_WARNING>   <!--used to be True-->
+        <PLANE_PREFIX>777</PLANE_PREFIX>
       </UseTemplate>
       <UseTemplate Name="ASOBO_AUTOPILOT_Push_AutoThrottle_Disengage_Template">   <!--INOP-->
         <NODE_ID>ENGINE_Switch_ATDisc_2</NODE_ID>
@@ -1543,19 +1542,34 @@
             <SEQ1_FAILURE>(A:CIRCUIT ON:86, Bool)</SEQ1_FAILURE>
             <SEQ2_FAILURE>(A:CIRCUIT ON:87, Bool)</SEQ2_FAILURE>
           </DefaultTemplateParameters>
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--right switch-->
             <NODE_ID>push_ovhd_hyd_pump_switch_01</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_01</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>1</TT_DESCRIPTION_INDEX>
             <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">
+
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c1 switch-->
+            <ID>2</ID>
+            <ANIM_NAME>O07_003_BUT</ANIM_NAME>
+            <NODE_ID>O07_003_BUT</NODE_ID>
+          </UseTemplate>
+
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2-->
+            <ID>3</ID>
+            <ANIM_NAME>O07_004_BUT</ANIM_NAME>
+            <NODE_ID>O07_004_BUT</NODE_ID>
+          </UseTemplate>
+
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">  <!--right switchs-->
             <NODE_ID>push_ovhd_hyd_pump_switch_02</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_02</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>2</TT_DESCRIPTION_INDEX>
-            <ID>2</ID>
+            <ID>4</ID>
           </UseTemplate>
+
         </Component>
+
         <Component ID="Safety_Indicators_Pressure">
           <DefaultTemplateParameters>
             <EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
@@ -1586,67 +1600,53 @@
             <ID>2</ID>
           </UseTemplate>
         </Component>
-
         <!--HYD ELEC KNOB and SW-->    
-        <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template">
-          <ID>1</ID>
-          <MASTER_VARIABLE>O07_006_GL3</MASTER_VARIABLE>
-          <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>
-        </UseTemplate> 
+          <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template">  <!--left knob-->
+            <ID>1</ID>
+            <MASTER_VARIABLE>O07_006_GL3</MASTER_VARIABLE>
+            <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>
+            <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
+            <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
+          </UseTemplate> 
 
-        <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template">
-          <MASTER_VARIABLE>O07_007_GL3</MASTER_VARIABLE>
-          <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME>
-        </UseTemplate>
+          <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template"> <!--c1 knob-->
+            <ID>2</ID>
+            <MASTER_VARIABLE>O07_007_GL3</MASTER_VARIABLE>
+            <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME>
+            <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
+            <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
+            <TOOLTIP_TITLE_INDEX>'C1'</TOOLTIP_TITLE_INDEX>
+          </UseTemplate>
 
-        <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template">
-          <MASTER_VARIABLE>O07_008_GL3</MASTER_VARIABLE>
-          <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME>
-        </UseTemplate> 
+          <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template"> <!--c2 knob-->
+            <ID>3</ID>
+            <MASTER_VARIABLE>O07_008_GL3</MASTER_VARIABLE>
+            <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME>
+            <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
+            <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
+            <TOOLTIP_TITLE_INDEX>'C2'</TOOLTIP_TITLE_INDEX>
+          </UseTemplate> 
 
-        <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template">
-          <MASTER_VARIABLE>O07_009_GL3</MASTER_VARIABLE>
-          <IE_NAME>knob_hydraulic_elec_pump_r</IE_NAME>
-        </UseTemplate> 
-
+          <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template"> <!--right knob-->
+            <ID>4</ID>
+            <MASTER_VARIABLE>O07_009_GL3</MASTER_VARIABLE>
+            <IE_NAME>knob_hydraulic_elec_pump_r</IE_NAME>
+            <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
+            <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
+          </UseTemplate> 
+ 
         </Component>
 
-    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">
+    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">  <!--inop until code found-->
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
 
-    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0">
+    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0"> <!--inop until code found-->
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
       </UseTemplate>
-    </Component>
-
-
-    <Component ID="C1_Elec_sw" Node="O07_003_BUT">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>1</ANIM_LENGTH>
-        <ANIM_NAME>O07_003_BUT</ANIM_NAME>
-        <ANIM_CODE>(L:O07_003_BUT)</ANIM_CODE>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_003_BUT, bool) ! (&gt;L:O07_003_BUT, bool) }
-        </CALLBACKCODE>
-      </UseTemplate>
-    <AnimationTriggers Animation="O07_003_BUT">
-          <EventTrigger Frame="0" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
-          </EventTrigger>
-          <EventTrigger Frame="1" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
-          </EventTrigger>
-        </AnimationTriggers>
     </Component>
 
     <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">
@@ -1654,32 +1654,7 @@
         <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
-
-    <Component ID="C2_Elec_sw" Node="O07_004_BUT">
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>1</ANIM_LENGTH>
-        <ANIM_NAME>O07_004_BUT</ANIM_NAME>
-        <ANIM_CODE>(L:O07_004_BUT)</ANIM_CODE>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_GT_MouseRect">
-        <TOOLTIPID></TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_004_BUT, bool) ! (&gt;L:O07_004_BUT, bool) }
-        </CALLBACKCODE>
-      </UseTemplate>
-      <AnimationTriggers Animation="O07_004_BUT">
-          <EventTrigger Frame="0" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
-          </EventTrigger>
-          <EventTrigger Frame="1" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
-          </EventTrigger>
-        </AnimationTriggers>
-    </Component>
-
+    
     <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
