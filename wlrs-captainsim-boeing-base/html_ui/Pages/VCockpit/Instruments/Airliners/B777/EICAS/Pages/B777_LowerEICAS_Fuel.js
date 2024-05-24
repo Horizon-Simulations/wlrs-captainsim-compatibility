@@ -163,6 +163,13 @@ var B777_LowerEICAS_Fuel;
                 }
             }
 
+            if (Math.abs(SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallon") - Math.abs(SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallon"))) > 274) {
+                this.querySelector("#FuelBalanceStatus").textContent = "FUEL IMBALANCE";
+            }
+            else {
+                this.querySelector("#FuelBalanceStatus").textContent = "FUEL BALANCED";
+            }
+
             if ( SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_R", "Enum") > 0 ) {
                 this.querySelector("#JettisonLines").setAttribute("style", "opacity: 100;");
                 this.querySelector("#JettisonFlowLines").setAttribute("style", "opacity: 100;");
