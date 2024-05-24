@@ -157,10 +157,10 @@ class B777_MFD_MainPage extends NavSystemPage {
                 this.map.instrument.showAirports = !this.map.instrument.showAirports;
                 this._updateNDFiltersStatuses();
                 break;
-            case "BTN_DATA":
-                this.map.instrument.showConstraints = !this.map.instrument.showConstraints;
-                this._updateNDFiltersStatuses();
-                break;
+            //case "BTN_DATA":
+            //    this.map.instrument.showConstraints = !this.map.instrument.showConstraints;
+            //    this._updateNDFiltersStatuses();
+            //   break;
             case "BTN_POS":
                 this.map.instrument.showVORs = !this.map.instrument.showVORs;
                 this._updateNDFiltersStatuses();
@@ -177,7 +177,7 @@ class B777_MFD_MainPage extends NavSystemPage {
         }
     }
     _updateNDFiltersStatuses() {
-        SimVar.SetSimVarValue("L:BTN_CSTR_FILTER_ACTIVE", "number", this.map.instrument.showConstraints ? 1 : 0);
+        //SimVar.SetSimVarValue("L:BTN_CSTR_FILTER_ACTIVE", "number", this.map.instrument.showConstraints ? 1 : 0);   //DATA btn
         SimVar.SetSimVarValue("L:BTN_VORD_FILTER_ACTIVE", "number", this.map.instrument.showVORs ? 1 : 0);
         SimVar.SetSimVarValue("L:BTN_WPT_FILTER_ACTIVE", "number", this.map.instrument.showIntersections ? 1 : 0);
         SimVar.SetSimVarValue("L:BTN_NDB_FILTER_ACTIVE", "number", this.map.instrument.showNDBs ? 1 : 0);
