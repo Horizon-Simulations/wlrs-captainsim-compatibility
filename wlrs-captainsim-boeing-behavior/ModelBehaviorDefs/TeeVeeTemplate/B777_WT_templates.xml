@@ -446,7 +446,6 @@
 			<IE_NAME></IE_NAME>
 		</Parameters>
 		<UseTemplate Name="Asobo_Interaction_Base_Template">
-		    <!--revise later-->
 			<IE_NAME>#IE_NAME#</IE_NAME>
           	<NODE_ID>#MASTER_VARIABLE#</NODE_ID>
           	<ANIM_NAME>#MASTER_VARIABLE#</ANIM_NAME>
