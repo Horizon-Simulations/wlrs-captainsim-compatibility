@@ -154,7 +154,7 @@
 					<State id="Off" value="0">
 						<Transition to="On">
 							<Equal>
-								<Simvar name="L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE" unit="Boolean"/>
+								<Simvar name="AUTOPILOT THROTTLE ARM" unit="Boolean"/>
 								<Constant>1</Constant>
 							</Equal>
 						</Transition>
@@ -162,7 +162,7 @@
 					<State id="On" value="0">
 						<Transition to="Alerting">
 							<Equal>
-								<Simvar name="L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE" unit="Boolean"/>
+								<Simvar name="AUTOPILOT THROTTLE ARM" unit="Boolean"/>
 								<Constant>0</Constant>
 							</Equal>
 						</Transition>
@@ -170,7 +170,7 @@
 					<State id="Alerting" value="1">
 						<Transition to="On">
 							<Equal>
-								<Simvar name="L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE" unit="Boolean"/>
+								<Simvar name="AUTOPILOT THROTTLE ARM" unit="Boolean"/>
 								<Constant>1</Constant>
 							</Equal>
 						</Transition>

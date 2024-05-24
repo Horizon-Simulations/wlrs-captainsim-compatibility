@@ -606,6 +606,7 @@
           <INVERT_IM_DRAG_INPUT_SCALAR>True</INVERT_IM_DRAG_INPUT_SCALAR>
         </UseTemplate>
       </Component>
+      
       <UseTemplate Name="ASOBO_ENGINE_Lever_Throttle_Template">
         <TT_DESCRIPTION_ID>@TT_Package.ENGINE_THROTTLE_ACTION</TT_DESCRIPTION_ID>
         <TT_DESCRIPTION_INDEX>1</TT_DESCRIPTION_INDEX>
@@ -620,6 +621,7 @@
         <INVERT_IM_DRAG_INPUT_SCALAR>True</INVERT_IM_DRAG_INPUT_SCALAR>
         <REVERSER_INVERT_IM_DRAG_INPUT_SCALAR>True</REVERSER_INVERT_IM_DRAG_INPUT_SCALAR>
       </UseTemplate>
+
       <UseTemplate Name="ASOBO_ENGINE_Lever_Throttle_Template">
         <TT_DESCRIPTION_ID>@TT_Package.ENGINE_THROTTLE_ACTION</TT_DESCRIPTION_ID>
         <TT_DESCRIPTION_INDEX>2</TT_DESCRIPTION_INDEX>
@@ -634,15 +636,16 @@
         <INVERT_IM_DRAG_INPUT_SCALAR>True</INVERT_IM_DRAG_INPUT_SCALAR>
         <REVERSER_INVERT_IM_DRAG_INPUT_SCALAR>True</REVERSER_INVERT_IM_DRAG_INPUT_SCALAR>
       </UseTemplate>
-      <UseTemplate Name="ASOBO_AUTOPILOT_Push_AutoThrottle_Disengage_Template">     <!--INOP-->
+      <UseTemplate Name="ASOBO_AUTOPILOT_Push_AutoThrottle_Disengage_Template">      <!--Super hard to press-->
         <NODE_ID>ENGINE_Switch_ATDisc_1</NODE_ID>
         <ANIM_NAME>ENGINE_Switch_ATDisc_1</ANIM_NAME>
         <NO_INDICATOR>True</NO_INDICATOR>
         <NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
-        <CLEARS_EICAS_WARNING>True</CLEARS_EICAS_WARNING>   <!--used to be True-->
+        <CLEARS_EICAS_WARNING>True</CLEARS_EICAS_WARNING>   
         <PLANE_PREFIX>777</PLANE_PREFIX>
+
       </UseTemplate>
-      <UseTemplate Name="ASOBO_AUTOPILOT_Push_AutoThrottle_Disengage_Template">   <!--INOP-->
+      <UseTemplate Name="ASOBO_AUTOPILOT_Push_AutoThrottle_Disengage_Template">  
         <NODE_ID>ENGINE_Switch_ATDisc_2</NODE_ID>
         <ANIM_NAME>ENGINE_Switch_ATDisc_2</ANIM_NAME>
         <NO_INDICATOR>True</NO_INDICATOR>
@@ -1542,13 +1545,13 @@
             <SEQ1_FAILURE>(A:CIRCUIT ON:86, Bool)</SEQ1_FAILURE>
             <SEQ2_FAILURE>(A:CIRCUIT ON:87, Bool)</SEQ2_FAILURE>
           </DefaultTemplateParameters>
+
           <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--right switch-->
             <NODE_ID>push_ovhd_hyd_pump_switch_01</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_01</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>1</TT_DESCRIPTION_INDEX>
             <ID>1</ID>
           </UseTemplate>
-
           <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c1 switch-->
             <ID>2</ID>
             <ANIM_NAME>O07_003_BUT</ANIM_NAME>
@@ -1567,7 +1570,6 @@
             <TT_DESCRIPTION_INDEX>2</TT_DESCRIPTION_INDEX>
             <ID>4</ID>
           </UseTemplate>
-
         </Component>
 
         <Component ID="Safety_Indicators_Pressure">
@@ -1576,14 +1578,12 @@
             <PRESSURE_THRESHOLD_PSI>2600</PRESSURE_THRESHOLD_PSI>
             <FAILURE>(A:CIRCUIT ON:86, Bool)</FAILURE>
           </DefaultTemplateParameters>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template">
-            <!--777 INOP-->
-            <NODE_ID>ovhd_hyd_demand_pump_press_light_01_SEQ1</NODE_ID>
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template"> <!--inop until code figured out-->
+            <NODE_ID>push_ovhd_hyd_pump_switch_01_SEQ2</NODE_ID>
             <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template">
-            <!--777 INOP-->
-            <NODE_ID>ovhd_hyd_demand_pump_press_light_02_SEQ1</NODE_ID>
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template">  <!--inop until code figured out-->
+            <NODE_ID>ovhd_hyd_demand_pump_press_light_02_SEQ2</NODE_ID>
             <ID>2</ID>
           </UseTemplate>  
         </Component>
@@ -1604,6 +1604,7 @@
           <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template">  <!--left knob-->
             <ID>1</ID>
             <MASTER_VARIABLE>O07_006_GL3</MASTER_VARIABLE>
+            <NODE_ID>ovhd_hyd_demand_pump_press_light_01</NODE_ID>
             <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>
             <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
             <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
@@ -1631,31 +1632,31 @@
             <ID>4</ID>
             <MASTER_VARIABLE>O07_009_GL3</MASTER_VARIABLE>
             <IE_NAME>knob_hydraulic_elec_pump_r</IE_NAME>
+            <NODE_ID>ovhd_hyd_demand_pump_press_light_02</NODE_ID>
             <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
             <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
           </UseTemplate> 
- 
         </Component>
 
-    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">  <!--inop until code found-->
+    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">  <!--C1 KNOB FAULT LIGHT-->
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
 
-    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0"> <!--inop until code found-->
+    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0"> <!--C2 KNOB FAULT LIGHT-->
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
 
-    <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">
+    <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">    <!--C1 SWITCH FAULT LIGHT-->
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
     
-    <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">
+    <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">   <!--C2 SWITCH FAULT LIGHT-->
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
@@ -2593,7 +2594,7 @@
           <AUTOPILOT_PUSH_BUTTON_ON>autopilot_largepush_button_on</AUTOPILOT_PUSH_BUTTON_ON>
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
         </UseTemplate>
-        <UseTemplate Name="RobSim_AUTOPILOT_Push_Speed_Template">     <!--the autothrottle is controlled by the AUTOPILOT AUTOTHROTTLE ARM, will code a function to enable it later (on TO/GA push, on A/T button push)-->
+        <UseTemplate Name="RobSim_AUTOPILOT_Push_Speed_Template">
           <NODE_ID>btn_autopilot_spd</NODE_ID>
           <ANIM_NAME>autopilot_push_spd</ANIM_NAME>
           <EMISSIVE_NODE_ID>btn_autopilot_spd</EMISSIVE_NODE_ID>
