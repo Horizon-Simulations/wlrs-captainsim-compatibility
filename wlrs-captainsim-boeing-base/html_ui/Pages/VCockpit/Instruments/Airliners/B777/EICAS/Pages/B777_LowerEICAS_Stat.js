@@ -41,18 +41,29 @@ var B777_LowerEICAS_Stat;
             this.hydraulicL = document.querySelector('#pressL');
             this.hydraulicC = document.querySelector('#pressC');
             this.hydraulicR = document.querySelector('#pressR');
+            this.hydQtyL = document.querySelector("#hydQtyL");
+            this.hydQtyC = document.querySelector("#hydQtyC");
+            this.hydQtyR = document.querySelector("#hydQtyR");
             // Call updateClock every second
             setInterval(this.updateClock.bind(this), 1000);
             // Call updateAPUData every 0.2 seconds
-            setInterval(this.updateAPUData.bind(this), 300);
             let updateFreq = (((80000-14000))/this.apuEGTStart.length*2); //81s s the apu start time; takes 7 s to start showing values 
             setInterval(this.updateAPUegt.bind(this), updateFreq); //0.13s for value
+            setInterval(this.updateAPUData.bind(this), updateFreq);
         }
 
         update(_deltaTime) {
+            this. updateHydraulic();
+        }
+
+        updateHydraulic() {
             this.hydraulicL.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:1", "psi")).toFixed(0);
             this.hydraulicC.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:3", "psi")).toFixed(0);
             this.hydraulicR.textContent = (SimVar.GetSimVarValue("HYDRAULIC PRESSURE:2", "psi")).toFixed(0);
+
+            this.hydQtyL.textContent = ((SimVar.GetSimVarValue("HYDRAULIC RESERVOIR PERCENT:1", "percent"))/100).toFixed(2);
+            this.hydQtyC.textContent = ((SimVar.GetSimVarValue("HYDRAULIC RESERVOIR PERCENT:2", "percent"))/100).toFixed(2);
+            this.hydQtyR.textContent = ((SimVar.GetSimVarValue("HYDRAULIC RESERVOIR PERCENT:3", "percent"))/100).toFixed(2);
         }
 
         updateClock() {
