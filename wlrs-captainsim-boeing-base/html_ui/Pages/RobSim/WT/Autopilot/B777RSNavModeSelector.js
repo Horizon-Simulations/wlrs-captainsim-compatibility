@@ -289,7 +289,7 @@ class B777RSNavModeSelector {
 
   handleFlareActive() {
     //this.approachMode = WT_ApproachType.ILS;
-    if (this.approachMode === WT_ApproachType.ILS){
+    if (this.approachMode === WT_ApproachType.ILS && this.glideslopeState === GlideslopeStatus.GS_ACTIVE){
       SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 3);
     }
     else {
@@ -325,6 +325,7 @@ class B777RSNavModeSelector {
     }
     if (Simplane.getIsGrounded()) {
       this.currentLateralActiveState = LateralNavModeState.NONE;
+      this.currentLateralArmedState = LateralNavModeState.HDGHOLD;
     }
     //GA after touch down, DELTE IF BUG
     if (SimVar.GetSimVarValue("L:FORCE_TOGA", "bool")) {
