@@ -441,6 +441,19 @@
     <Include ModelBehaviorFile="RobSim\index.xml"/>
     <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
 
+    <!--default spawn state-->
+    <Component ID="MISC">
+      <UseTemplate Name="ASOBO_GT_Update">
+        <UPDATE_ONCE>True</UPDATE_ONCE>
+        <UPDATE_CODE>
+          1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool)
+          0 (&gt;A:SPOILERS ARMED, Bool)
+          0 (&gt;L:O07_003_BUT, Bool)
+          0 (&gt;L:O07_004_BUT, Bool)
+
+        </UPDATE_CODE>
+      </UseTemplate>  
+    </Component>
 
     <Component ID="INTERACTIVE_POINTS">
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
@@ -1361,65 +1374,42 @@
         </Component>
       </Component>
 
-      <Component ID="No_Smok_sw" Node="O08_001_GL3">
-        <Simvar Name="NO_SMOKING_STATE" Type="INT" /> 
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_LAG>6</ANIM_LAG>
-          <ANIM_LENGTH>2</ANIM_LENGTH>
-          <ANIM_NAME>O08_001_GL3</ANIM_NAME>
-          <ANIM_CODE>(L:O08_001_GL3)</ANIM_CODE>
-        </UseTemplate>
-        <UseTemplate Name="ASOBO_GT_MouseRect">
-          <TOOLTIPID>No Smoking: %((L:O08_001_GL3))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
-          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown</MouseFlags>
-          <CALLBACKCODE>
-            (L:O08_001_GL3) sp0 3 sp1
-            (M:Event) 'WheelDown'   scmi 0 == if{ l0 flr 1 - sp2 } els{
-            (M:Event) 'WheelUp'     scmi 0 == if{ l0 flr 1 + sp2 } els{ l0 sp2 } }
-            l2 0 max l1 1 - min (&gt;L:O08_001_GL3)
-          </CALLBACKCODE>
-        </UseTemplate>
-        <AnimationTriggers Animation="O08_001_GL3">
-          <EventTrigger Frame="0" Direction="Both">
-            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-          </EventTrigger>
-          <EventTrigger Frame="1" Direction="Both">
-            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-          </EventTrigger>
-          <EventTrigger Frame="2" Direction="Both">
-            <SoundEvent WwiseEvent="autopilot_knob" Action="Play"/>
-          </EventTrigger>
-        </AnimationTriggers>
-      </Component>
 
       <Component ID="Passenger_Panel">
-        <!--copied from asobo 78X-->
-        <UseTemplate Name="Asobo_Interaction_Base_Template">
+        <UseTemplate Name="teevee_B777_PASSENGER_SIGN_KNOB">
           <IE_NAME>Knob_Seatbelts</IE_NAME>
           <NODE_ID>PASSENGERS_SWITCH_SEATBELTSIGN</NODE_ID>
           <ANIM_NAME>PASSENGERS_SWITCH_SEATBELTSIGN</ANIM_NAME>
-          <PART_ID>PASSENGERS_KNOB_SEATBELTS</PART_ID>
-          <INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+					<LOCALVAR_TO_WATCH_0>L:WT_SEAT_BELTS_MODE</LOCALVAR_TO_WATCH_0>
+          <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_SWITCH_INTLT_SEATBELT_TITLE</TOOLTIP_TITLE>
+			    <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_SWITCH_INTLT_SEATBELT_ACTION</TT_DESCRIPTION_ID>
+        </UseTemplate>
+
+        <UseTemplate Name="Asobo_Interaction_Base_Template">
+					<IE_NAME>Knob_NoSmoking</IE_NAME>
+					<NODE_ID>O08_001_GL3</NODE_ID>
+					<ANIM_NAME>O08_001_GL3</ANIM_NAME>
+					<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
 					<NUM_STATES>3</NUM_STATES>
 					<KNOB_TYPE>X_STATES</KNOB_TYPE>
 					<STR_STATE_0>Off</STR_STATE_0>
 					<STR_STATE_1>Auto</STR_STATE_1>
 					<STR_STATE_2>On</STR_STATE_2>
 					<WWISE_EVENT>seatbelts_switch_on</WWISE_EVENT>
-					<LOCALVAR_TO_WATCH_0>L:WT_SEAT_BELTS_MODE</LOCALVAR_TO_WATCH_0>
-					<ANIM_CODE>(L:WT_SEAT_BELTS_MODE) 2 / 100 *</ANIM_CODE>
-					<GET_STATE_EXTERNAL>(L:WT_SEAT_BELTS_MODE) sp0</GET_STATE_EXTERNAL>
-					<SET_STATE_0>0 (&gt;L:WT_SEAT_BELTS_MODE)</SET_STATE_0>
-					<SET_STATE_1>1 (&gt;L:WT_SEAT_BELTS_MODE)</SET_STATE_1>
-					<SET_STATE_2>2 (&gt;L:WT_SEAT_BELTS_MODE)</SET_STATE_2>
+					<LOCALVAR_TO_WATCH_0>L:O08_001_GL3</LOCALVAR_TO_WATCH_0>
+					<ANIM_CODE>(L:O08_001_GL3) 2 / 100 *</ANIM_CODE>
+					<GET_STATE_EXTERNAL>(L:O08_001_GL3) sp0</GET_STATE_EXTERNAL>
+					<SET_STATE_0>0 (&gt;L:O08_001_GL3)</SET_STATE_0>
+					<SET_STATE_1>1 (&gt;L:O08_001_GL3)</SET_STATE_1>
+					<SET_STATE_2>2 (&gt;L:O08_001_GL3)</SET_STATE_2>
 					<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
 					<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
-					<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_SWITCH_INTLT_SEATBELT_TITLE</TOOLTIP_TITLE>
-					<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_SWITCH_INTLT_SEATBELT_ACTION</TT_DESCRIPTION_ID>
+          <TOOLTIPID>No Smoking: %((L:O08_001_GL3))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
 					<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
 					<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
 					<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
-        </UseTemplate>
+				</UseTemplate>
+
 
         <!--INOP-->
         <UseTemplate Name="Asobo_Interaction_Base_Template">
@@ -1546,7 +1536,7 @@
             <SEQ2_FAILURE>(A:CIRCUIT ON:87, Bool)</SEQ2_FAILURE>
           </DefaultTemplateParameters>
 
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--right switch-->
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--left switch-->
             <NODE_ID>push_ovhd_hyd_pump_switch_01</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_01</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>1</TT_DESCRIPTION_INDEX>
@@ -1558,17 +1548,43 @@
             <NODE_ID>O07_003_BUT</NODE_ID>
           </UseTemplate>
 
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2-->
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2 switch-->
             <ID>3</ID>
             <ANIM_NAME>O07_004_BUT</ANIM_NAME>
             <NODE_ID>O07_004_BUT</NODE_ID>
           </UseTemplate>
 
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">  <!--right switchs-->
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">  <!--right switch-->
             <NODE_ID>push_ovhd_hyd_pump_switch_02</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_02</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>2</TT_DESCRIPTION_INDEX>
             <ID>4</ID>
+          </UseTemplate>
+        </Component>
+
+        <!--fault lights-->
+
+        <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">  <!--C1 KNOB FAULT LIGHT-->
+          <UseTemplate Name="ASOBO_GT_Visibility">
+            <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
+          </UseTemplate>
+        </Component>
+
+        <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0"> <!--C2 KNOB FAULT LIGHT-->
+          <UseTemplate Name="ASOBO_GT_Visibility">
+            <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
+          </UseTemplate>
+        </Component>
+
+        <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">    <!--C1 SWITCH FAULT LIGHT-->
+          <UseTemplate Name="ASOBO_GT_Visibility">
+            <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
+          </UseTemplate>
+        </Component>
+        
+        <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">   <!--C2 SWITCH FAULT LIGHT-->
+          <UseTemplate Name="ASOBO_GT_Visibility">
+            <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
           </UseTemplate>
         </Component>
 
@@ -1578,11 +1594,11 @@
             <PRESSURE_THRESHOLD_PSI>2600</PRESSURE_THRESHOLD_PSI>
             <FAILURE>(A:CIRCUIT ON:86, Bool)</FAILURE>
           </DefaultTemplateParameters>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template"> <!--inop until code figured out-->
-            <NODE_ID>push_ovhd_hyd_pump_switch_01_SEQ2</NODE_ID>
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template"> <!--L PUMP FAULT KNOB LIGHT-->
+            <NODE_ID>ovhd_hyd_demand_pump_press_light_01_SEQ2</NODE_ID>
             <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template">  <!--inop until code figured out-->
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template">  <!--R PUMP FAUL KNOB LIGHT-->  <!--NOT SURE--> <!--inop-->
             <NODE_ID>ovhd_hyd_demand_pump_press_light_02_SEQ2</NODE_ID>
             <ID>2</ID>
           </UseTemplate>  
@@ -1591,12 +1607,12 @@
           <DefaultTemplateParameters>
             <EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
           </DefaultTemplateParameters>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsFailure_Template">
-            <NODE_ID>ovhd_hyd_sys_fault_light_01_SEQ1</NODE_ID>
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsFailure_Template"> <!--C1 PUMP FAUL KNOB LIGHT-->
+            <NODE_ID>O07_003_BUT_SEQ2</NODE_ID>
             <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsFailure_Template">
-            <NODE_ID>ovhd_hyd_sys_fault_light_02_SEQ1</NODE_ID>
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsFailure_Template"> <!--C2 PUMP FAUL KNOB LIGHT-->
+            <NODE_ID>O07_004_BUT_SEQ2</NODE_ID>
             <ID>2</ID>
           </UseTemplate>
         </Component>
@@ -1637,30 +1653,6 @@
             <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
           </UseTemplate> 
         </Component>
-
-    <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">  <!--C1 KNOB FAULT LIGHT-->
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-
-    <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0"> <!--C2 KNOB FAULT LIGHT-->
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-
-    <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">    <!--C1 SWITCH FAULT LIGHT-->
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
-    
-    <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">   <!--C2 SWITCH FAULT LIGHT-->
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
-      </UseTemplate>
-    </Component>
 
       <Component ID="Fire_Supression_Panel">
         <DefaultTemplateParameters>
@@ -1853,7 +1845,6 @@
         <UseTemplate Name="ASOBO_AIRLINER_Jettison_Knob_Template">
           <NODE_ID>O11_003_KNB</NODE_ID>
           <ANIM_NAME>O11_003_KNB</ANIM_NAME>
-          <!--<ANIM_CODE>50</ANIM_CODE>-->
           <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_FUEL_Push_Valve_Template">
@@ -2383,7 +2374,7 @@
             <ANIM_NAME>afds_knob_rst_l</ANIM_NAME>
             <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_BOEING_Knob_Mins_Template">
+          <UseTemplate Name="WT_BOEING_Knob_Mins_Template">
             <NODE_ID>knob_afds_rst_l2</NODE_ID>
             <ANIM_NAME>afds_knob_rst_l2</ANIM_NAME>
             <BUTTON_NODE_ID>btn_afds_rst_l</BUTTON_NODE_ID>
@@ -2409,19 +2400,17 @@
             <BUTTON_NODE_ID>btn_afds_tfc_r</BUTTON_NODE_ID>
             <BUTTON_ANIM_NAME>afds_push_tfc_r</BUTTON_ANIM_NAME>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_AIRLINER_Switch_Baro_Selector_Template">
-            <NODE_ID>knob_afds_std_r</NODE_ID>
-            <ANIM_NAME>afds_knob_std_r</ANIM_NAME>
-            <BUTTON_NODE_ID>btn_afds_tfc_r</BUTTON_NODE_ID>
-            <BUTTON_ANIM_NAME>afds_push_tfc_r</BUTTON_ANIM_NAME>
-            <STR_STATE_ON>HPA</STR_STATE_ON>
+          <UseTemplate Name="ASOBO_BOEING_Switch_Mins_Selector_Template">
+            <NODE_ID>knob_afds_rst_r</NODE_ID>
+            <ANIM_NAME>afds_knob_rst_r</ANIM_NAME>
+            <ID>1</ID>
           </UseTemplate>
-          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">    <!--which baro?-->
-            <NODE_ID>knob_afds_std_r2</NODE_ID>
-            <ANIM_NAME_KNOB>afds_knob_std_r2</ANIM_NAME_KNOB>
-            <ANIM_NAME_PUSH>afds_push_std_r</ANIM_NAME_PUSH>
-            <AIRLINER_TYPE>PUSH</AIRLINER_TYPE>
-            <ID>2</ID>
+          <UseTemplate Name="WT_BOEING_Knob_Mins_Template">
+            <NODE_ID>knob_afds_rst_r2</NODE_ID>
+            <ANIM_NAME>afds_knob_rst_r2</ANIM_NAME>
+            <BUTTON_NODE_ID>btn_afds_rst_r</BUTTON_NODE_ID>
+            <BUTTON_ANIM_NAME>afds_push_rst_r</BUTTON_ANIM_NAME>
+            <ID>1</ID>
           </UseTemplate>
           <UseTemplate Name="RobSim_BOEING_Push_WXR_Template">
             <NODE_ID>btn_afds_wxr_r</NODE_ID>
@@ -7030,15 +7019,6 @@
         <ANIM_NAME>O01_002_BUT</ANIM_NAME>
         <WWISE_EVENT>autopilot_knob</WWISE_EVENT>
       </UseTemplate>
-      <!--Turn it off on Cold and Dark-->
-      <UseTemplate Name="ASOBO_GT_Update">
-					<UPDATE_ONCE>True</UPDATE_ONCE>
-					<UPDATE_CODE>   <!--(L:O01_002_BUT, bool) ! if{-->
-						(L:O01_002_BUT, bool) if{
-							0 (&gt;L:SALTY_IRS_STATE)
-						}
-					</UPDATE_CODE>
-				</UseTemplate>
     </Component>
 
     <Component ID="ADIRU_off_lt" Node="O01_002_LT2">
