@@ -198,6 +198,29 @@
 
 		<Annunciation>
 			<Type>Warning</Type>
+			<Text>WING ANTI-ICE OFF</Text>
+			<Condition>
+				<And>
+					<Equal>
+						<Simvar name="L:B777_Wing_AntiIce_Knob_State" unit="Number"/>
+						<Constant>0</Constant>
+					</Equal>
+					<Or>
+						<GreaterEqual>
+							<Simvar name="TURB ENG N1:1" unit="Percent"/>
+							<Constant>75</Constant>
+						</GreaterEqual>
+						<GreaterEqual>
+							<Simvar name="TURB ENG N1:2" unit="Percent"/>
+							<Constant>75</Constant>
+						</GreaterEqual>
+					</Or>
+				</And>
+			</Condition>
+		</Annunciation>
+
+		<Annunciation>
+			<Type>Warning</Type>
 			<Text>OVERSPEED</Text>
 			<Condition>
 				<Equal>
