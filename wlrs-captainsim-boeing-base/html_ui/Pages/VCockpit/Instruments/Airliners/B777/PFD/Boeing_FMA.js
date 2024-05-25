@@ -383,21 +383,23 @@ var Boeing_FMA;
             if(!Simplane.getAutoPilotActive(0) && !Simplane.getAutoPilotFlightDirectorActive(1)){
                 return -1;
             }
-            else if (this.verticalMode === "VPATH" || this.verticalMode === "VALTV CAP" || this.verticalMode === "VALTV" 
-                || this.verticalMode === "VALTS" && (targetAlt === crzAlt)
-                || this.verticalMode === "VALTS CAP" && (targetAlt === crzAlt)
-                || this.verticalMode === "VALT" && (roundedAlt === crzAlt)) {
+            if (this.verticalMode === "ALTS CAP" && (targetAlt === crzAlt)|| this.verticalMode === "ALTS" && (targetAlt === crzAlt)|| this.verticalMode === "ALT" && (roundedAlt === crzAlt)) {
+                return 0;
+            }
+            else if (this.verticalMode === "VPATH" || this.verticalMode === "VALTV CAP" || this.verticalMode === "VALTV" ) 
+                //|| this.verticalMode === "VALTS" && (targetAlt === crzAlt)
+                //|| this.verticalMode === "VALTS CAP" && (targetAlt === crzAlt)
+                //|| this.verticalMode === "VALT" && (roundedAlt === crzAlt)) 
+            {
                 return 7;
             }
-            else if (this.verticalMode === "VALTS" || this.verticalMode === "VALTS CAP" || this.verticalMode === "VALT") {
+            else if (this.verticalMode === "VALTS" || this.verticalMode === "VALTS CAP" || this.verticalMode === "VALT") {  //here
                 return 9;
             }
             else if (this.verticalMode === "VFLC") {
                 return 8;
             }
-            else if (this.verticalMode === "ALTS CAP" || this.verticalMode === "ALTS" || this.verticalMode === "ALT") {
-                return 0;
-            }
+            
             else if (this.verticalMode === "FLC") {
                 return 2;
             }

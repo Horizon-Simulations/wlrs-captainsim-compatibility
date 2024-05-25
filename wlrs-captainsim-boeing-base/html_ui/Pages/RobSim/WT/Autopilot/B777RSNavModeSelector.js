@@ -498,7 +498,7 @@ class B777RSNavModeSelector {
   }
 
   /**
-   * Handles when the ALT button is pressed.
+   * Handles when the ALT button is pressed. Bugs found
    */
   handleAltPressed() {
     switch (this.currentVerticalActiveState) {
@@ -537,7 +537,7 @@ class B777RSNavModeSelector {
                 SimVar.SetSimVarValue("L:AP_VNAV_ARMED", "number", 0);
         break;
     }
-    this.activateSpeedMode();
+    this.activateThrustRefMode; //this.activateSpeedMode(); 
   }
 
   /**
@@ -1431,38 +1431,37 @@ class B777RSNavModeSelector {
   }
 
   /**
-   * Handles when the plane has fully captured the assigned lock altitude.
+   * Handles when the plane has fully captured the assigned lock altitude. Reactived
    */
   handleAltCaptured() {
-    // if (this.isAltitudeLocked) {
+    if (this.isAltitudeLocked) {
+       if (this.currentVerticalActiveState === VerticalNavModeState.ALTSCAP || this.currentVerticalActiveState === VerticalNavModeState.ALTVCAP
+         || this.currentVerticalActiveState === VerticalNavModeState.ALTCAP) {
+         const altLockValue = Math.floor(Simplane.getAutoPilotDisplayedAltitudeLockValue());
+         if (altLockValue == Math.floor(this.selectedAlt1)) {
+           this.currentVerticalActiveState = VerticalNavModeState.ALTS;
+         } else if (altLockValue == Math.floor(this.selectedAlt2) || altLockValue == Math.floor(this.managedAltitudeTarget)) {
+           this.currentVerticalActiveState = VerticalNavModeState.ALTV;
+         } else {
+           this.currentVerticalActiveState = VerticalNavModeState.ALT;
+         }
+       }
 
-    //   if (this.currentVerticalActiveState === VerticalNavModeState.ALTSCAP || this.currentVerticalActiveState === VerticalNavModeState.ALTVCAP
-    //     || this.currentVerticalActiveState === VerticalNavModeState.ALTCAP) {
-    //     const altLockValue = Math.floor(Simplane.getAutoPilotDisplayedAltitudeLockValue());
-    //     if (altLockValue == Math.floor(this.selectedAlt1)) {
-    //       this.currentVerticalActiveState = VerticalNavModeState.ALTS;
-    //     } else if (altLockValue == Math.floor(this.selectedAlt2) || altLockValue == Math.floor(this.managedAltitudeTarget)) {
-    //       this.currentVerticalActiveState = VerticalNavModeState.ALTV;
-    //     } else {
-    //       this.currentVerticalActiveState = VerticalNavModeState.ALT;
-    //     }
-    //   }
+       if (SimVar.GetSimVarValue("AUTOPILOT VS SLOT INDEX", "number") != 1) {
+         SimVar.SetSimVarValue("K:VS_SLOT_INDEX_SET", "number", 1);
+       }
+       if (SimVar.GetSimVarValue("AUTOPILOT ALTITUDE SLOT INDEX", "number") != 3) {
+         SimVar.SetSimVarValue("K:ALTITUDE_SLOT_INDEX_SET", "number", 3);
+       }
 
-    //   if (SimVar.GetSimVarValue("AUTOPILOT VS SLOT INDEX", "number") != 1) {
-    //     SimVar.SetSimVarValue("K:VS_SLOT_INDEX_SET", "number", 1);
-    //   }
-    //   if (SimVar.GetSimVarValue("AUTOPILOT ALTITUDE SLOT INDEX", "number") != 3) {
-    //     SimVar.SetSimVarValue("K:ALTITUDE_SLOT_INDEX_SET", "number", 3);
-    //   }
-
-    //   //MOVED SETTING 0 VS rates from ALT CAP TO ALT CAPTURED
-    //   if (SimVar.GetSimVarValue("AUTOPILOT VERTICAL HOLD VAR:1", "feet per minute") != 0) {
-    //     Coherent.call("AP_VS_VAR_SET_ENGLISH", 1, 0);
-    //   }
-    //   if (SimVar.GetSimVarValue("AUTOPILOT VERTICAL HOLD VAR:2", "feet per minute") != 0) {
-    //     Coherent.call("AP_VS_VAR_SET_ENGLISH", 2, 0);
-    //   }
-    // }
+       //MOVED SETTING 0 VS rates from ALT CAP TO ALT CAPTURED
+       if (SimVar.GetSimVarValue("AUTOPILOT VERTICAL HOLD VAR:1", "feet per minute") != 0) {
+         Coherent.call("AP_VS_VAR_SET_ENGLISH", 1, 0);
+       }
+       if (SimVar.GetSimVarValue("AUTOPILOT VERTICAL HOLD VAR:2", "feet per minute") != 0) {
+         Coherent.call("AP_VS_VAR_SET_ENGLISH", 2, 0);
+       }
+     }
   }
 
   /**
