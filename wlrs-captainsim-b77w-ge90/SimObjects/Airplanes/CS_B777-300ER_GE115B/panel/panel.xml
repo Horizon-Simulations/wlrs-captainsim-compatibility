@@ -197,7 +197,7 @@
 		</Annunciation>
 
 		<Annunciation>
-			<Type>Warning</Type>
+			<Type>Caution</Type>
 			<Text>WING ANTI-ICE OFF</Text>
 			<Condition>
 				<And>
