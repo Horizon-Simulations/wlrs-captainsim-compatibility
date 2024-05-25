@@ -447,25 +447,43 @@
         <UPDATE_ONCE>True</UPDATE_ONCE>
         <UPDATE_CODE>
           1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool)
-          0 (&gt;A:SPOILERS ARMED, Bool)
-          0 (&gt;L:O07_003_BUT, Bool)
-          0 (&gt;L:O07_004_BUT, Bool)
+          0 (&gt;A:HYDRUALIC SWITCH:1, Bool)
+					0 (&gt;A:HYDRUALIC SWITCH:2, Bool)
+          0 (&gt;A:HYDRUALIC SWITCH:3, Bool)
+					0 (&gt;A:HYDRUALIC SWITCH:4, Bool)
 
         </UPDATE_CODE>
-      </UseTemplate>  
-    </Component>
-
-    <Component ID="INTERACTIVE_POINTS">
-      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>10</ID>
-        <ANIM_NAME>door_passenger</ANIM_NAME>
       </UseTemplate>
-      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>1</ID>
-        <ANIM_NAME>door_rear</ANIM_NAME>
-      </UseTemplate>
-    </Component>
+            <!-->
 
+      <UseInputEvent ID="PROCEDURE">
+				<PROCEDURE_ID>AUTOSTART</PROCEDURE_ID>
+				<ON_AUTOSTART>
+					1 (&gt;A:HYDRUALIC SWITCH:1)
+					1 (&gt;A:HYDRUALIC SWITCH:2)
+					(&gt;B:DEICE_Knob_Wing_Auto)
+					(&gt;B:DEICE_Knob_Engine_1_Auto)
+					(&gt;B:DEICE_Knob_Engine_2_Auto)
+				</ON_AUTOSTART>
+				<ON_AUTOSTOP>					
+					0 (&gt;B:AIRLINER_hydraulic_elec_pump_6_Set)
+					0 (&gt;B:AIRLINER_hydraulic_elec_pump_3_Set)
+					0 (&gt;B:AIRLINER_hydraulic_elec_pump_5_Set)
+					0 (&gt;B:AIRLINER_hydraulic_elec_pump_4_Set)
+					0 (&gt;L:XMLVAR_TrimAir_R)
+					0 (&gt;L:XMLVAR_TrimAir_L)
+					0 (&gt;L:XMLVAR_Packs_L_Switch)
+					0 (&gt;L:XMLVAR_Packs_R_Switch)
+					(&gt;B:DEICE_Knob_Engine_2_Off)
+					(&gt;B:DEICE_Knob_Engine_1_Off)
+					(&gt;B:DEICE_Knob_Wing_Off)
+					0 (&gt;A:HYDRUALIC SWITCH:2)
+					0 (&gt;A:HYDRUALIC SWITCH:1)
+					(&gt;K:WINDSHIELD_DEICE_OFF)
+				</ON_AUTOSTOP>
+			</UseInputEvent>
+    -->
+    </Component>
 
     <Component ID="Wipers_Ext">
       <UseTemplate Name="ASOBO_HANDLING_Wipers_Template">
@@ -1531,7 +1549,6 @@
         <Component ID="Switches">
           <DefaultTemplateParameters>
             <IS_AIRLINER>True</IS_AIRLINER>
-            <PRESS_WARNING_THRESHOLD_PSI>2600</PRESS_WARNING_THRESHOLD_PSI>
             <SEQ1_FAILURE>(A:CIRCUIT ON:86, Bool)</SEQ1_FAILURE>
             <SEQ2_FAILURE>(A:CIRCUIT ON:87, Bool)</SEQ2_FAILURE>
           </DefaultTemplateParameters>
@@ -1540,53 +1557,41 @@
             <NODE_ID>push_ovhd_hyd_pump_switch_01</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_01</ANIM_NAME>
             <TT_DESCRIPTION_INDEX>1</TT_DESCRIPTION_INDEX>
+            <FAULT_LIGHT>push_ovhd_hyd_pump_switch_01_SEQ2</FAULT_LIGHT>
             <ID>1</ID>
           </UseTemplate>
           <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c1 switch-->
-            <ID>2</ID>
+            <ID>3</ID>
             <ANIM_NAME>O07_003_BUT</ANIM_NAME>
             <NODE_ID>O07_003_BUT</NODE_ID>
+            <FAULT_LIGHT>O07_003_LT2</FAULT_LIGHT>
           </UseTemplate>
 
           <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2 switch-->
-            <ID>3</ID>
+            <ID>4</ID>
             <ANIM_NAME>O07_004_BUT</ANIM_NAME>
             <NODE_ID>O07_004_BUT</NODE_ID>
+            <FAULT_LIGHT>O07_004_LT2</FAULT_LIGHT>
           </UseTemplate>
 
           <UseTemplate Name="WT_B777_Hydraulics_Switch_Template">  <!--right switch-->
             <NODE_ID>push_ovhd_hyd_pump_switch_02</NODE_ID>
             <ANIM_NAME>ovhd_push_hyd_pump_switch_02</ANIM_NAME>
-            <TT_DESCRIPTION_INDEX>2</TT_DESCRIPTION_INDEX>
-            <ID>4</ID>
+            <TT_DESCRIPTION_INDEX>3</TT_DESCRIPTION_INDEX>
+            <FAULT_LIGHT>push_ovhd_hyd_pump_switch_02_SEQ2</FAULT_LIGHT>
+            <ID>2</ID>
           </UseTemplate>
         </Component>
+
+        
 
         <!--fault lights-->
 
-        <Component ID="C1_Demand_Fault_lt" Node="O07_011_LT0">  <!--C1 KNOB FAULT LIGHT-->
-          <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(L:O07_011_LT0, Bool)</VISIBILITY_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="C2_Demand_Fault_lt" Node="O07_012_LT0"> <!--C2 KNOB FAULT LIGHT-->
-          <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(L:O07_012_LT0, Bool)</VISIBILITY_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="C1_Elec_Fault_lt" Node="O07_003_LT2">    <!--C1 SWITCH FAULT LIGHT-->
-          <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(L:O07_003_LT2, Bool)</VISIBILITY_CODE>
-          </UseTemplate>
-        </Component>
-        
-        <Component ID="C2_Elec_Fault_lt" Node="O07_004_LT2">   <!--C2 SWITCH FAULT LIGHT-->
-          <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(L:O07_004_LT2, Bool)</VISIBILITY_CODE>
-          </UseTemplate>
-        </Component>
+        <!--L PUMP FAULT SWITCH LIGHT-->  <!--operative-->
+        <!--C1 KNOB FAULT LIGHT-->
+        <!--C2 KNOB FAULT LIGHT-->
+        <!--C1 SWITCH FAULT LIGHT-->
+         <!--C2 SWITCH FAULT LIGHT-->
 
         <Component ID="Safety_Indicators_Pressure">
           <DefaultTemplateParameters>
@@ -1594,7 +1599,7 @@
             <PRESSURE_THRESHOLD_PSI>2600</PRESSURE_THRESHOLD_PSI>
             <FAILURE>(A:CIRCUIT ON:86, Bool)</FAILURE>
           </DefaultTemplateParameters>
-          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template"> <!--L PUMP FAULT KNOB LIGHT-->
+          <UseTemplate Name="ASOBO_SAFETY_Indicator_HydraulicsPressure_Template"> <!--L PUMP FAULT KNOB LIGHT-->  <!--operative-->
             <NODE_ID>ovhd_hyd_demand_pump_press_light_01_SEQ2</NODE_ID>
             <ID>1</ID>
           </UseTemplate>
@@ -1622,6 +1627,8 @@
             <MASTER_VARIABLE>O07_006_GL3</MASTER_VARIABLE>
             <NODE_ID>ovhd_hyd_demand_pump_press_light_01</NODE_ID>
             <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>
+            <LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_LEFT</LOCAL_VAR>
+            <POSITION>LEFT</POSITION>
             <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
             <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
           </UseTemplate> 
@@ -1629,7 +1636,9 @@
           <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template"> <!--c1 knob-->
             <ID>2</ID>
             <MASTER_VARIABLE>O07_007_GL3</MASTER_VARIABLE>
+            <LOCAL_VAR>XMLVAR_HYDRAULICS_C1</LOCAL_VAR>
             <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME>
+            <NODE_ID>ovhd_hyd_demand_pump_C1_light_01</NODE_ID>
             <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
             <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
             <TOOLTIP_TITLE_INDEX>'C1'</TOOLTIP_TITLE_INDEX>
@@ -1638,7 +1647,9 @@
           <UseTemplate Name="teevee_B777_Hydraulics_Elec_Knob_Template"> <!--c2 knob-->
             <ID>3</ID>
             <MASTER_VARIABLE>O07_008_GL3</MASTER_VARIABLE>
+            <LOCAL_VAR>XMLVAR_HYDRAULICS_C2</LOCAL_VAR>
             <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME>
+            <NODE_ID>ovhd_hyd_demand_pump_C2_light_01</NODE_ID>
             <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
             <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
             <TOOLTIP_TITLE_INDEX>'C2'</TOOLTIP_TITLE_INDEX>
@@ -1648,6 +1659,7 @@
             <ID>4</ID>
             <MASTER_VARIABLE>O07_009_GL3</MASTER_VARIABLE>
             <IE_NAME>knob_hydraulic_elec_pump_r</IE_NAME>
+            <LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_RIGHT</LOCAL_VAR>
             <NODE_ID>ovhd_hyd_demand_pump_press_light_02</NODE_ID>
             <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
             <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
@@ -8644,28 +8656,28 @@
       <Component ID="Door_1R">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:4, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_2R">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_3R">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_4R">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:8, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
