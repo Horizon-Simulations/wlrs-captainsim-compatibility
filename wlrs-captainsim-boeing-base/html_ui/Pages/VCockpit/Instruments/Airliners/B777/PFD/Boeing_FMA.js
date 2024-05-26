@@ -50,9 +50,6 @@ var Boeing;
 var Boeing_FMA;
 (function (Boeing_FMA) {
     class ApproachStatus {  //note
-        static get landMode() {
-            return (this.landCategory);
-        }
         static get isFlareArmed() {
             return (this.flareState == 1);
         }
@@ -66,7 +63,6 @@ var Boeing_FMA;
             return (this.rolloutState == 2);
         }
         static update(_deltaTime) {
-            this.landCategory = -1;     //-1: not initialized/visual; 0: NO AUTOLAND; 1: RNAV; 2: LAND2; 3: LAND3
             this.flareState = 0;
             this.rolloutState = 0;
             var alt = Simplane.getAltitudeAboveGround();
@@ -250,7 +246,7 @@ var Boeing_FMA;
             }
             else if (ApproachStatus.isRolloutActive) {
                 SimVar.SetSimVarValue("L:ROLLOUT_ACTIVE", "bool", true); 
-                SimVar.SetSimVarValue("L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE", "bool", false);
+                SimVar.SetSimVarValue("AUTOPILOT THROTTLE ARM", "bool", false);
                 return 7;
             }
             else if (this.lateralMode == "HDGHOLD") {
@@ -324,13 +320,15 @@ var Boeing_FMA;
         }
     }
     Boeing_FMA.Column2Middle = Column2Middle;
-    //Flight mode
+
+    //-1: not initialized/visual; 0: NO AUTOLAND; 1: RNAV; 2: LAND2; 3: LAND3
     class Column2Bottom extends Annunciation {
         constructor(_parent, _divElement, _highlightElement, _arrowsElement) {
             super(_parent, _divElement, _highlightElement);
             this.arrowsElement = null;
             this.arrowsElement = _arrowsElement;
         }
+        
         changeMode(_mode) {
             super.changeMode(_mode);
             if (this.divElement != null) {
@@ -345,13 +343,13 @@ var Boeing_FMA;
             }
         }
         getActiveMode() {
-            if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  3) {
+            if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  3 && Simplane.getAutoPilotActive()) {
                 return 2;
             }
-            //else if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  __) {  //not yet implemented
-            //    return 3;
-            //}
-            else if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  0) {
+            else if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  2 && Simplane.getAutoPilotActive()) {
+                return 3;
+            }
+            else if (SimVar.GetSimVarValue("L:TEEVEE_APPROACH_CAT", "number") ==  0 && Simplane.getAutoPilotActive()) {
                 return 4;
             }
             else if (Simplane.getAutoPilotActive()) {
