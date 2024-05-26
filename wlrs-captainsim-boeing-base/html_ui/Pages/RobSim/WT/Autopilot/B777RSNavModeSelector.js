@@ -88,6 +88,9 @@ class B777RSNavModeSelector {
     /** Flag for Early VNAV Descent */
     this.isEarlyDescent = false;
 
+    /** Handle for ILS Landing Category (ILS CAT I, ILS CAT II, ILS CAT III)*/
+    this.ILSCategory = undefined;
+
     /**
      * The queue of state change events to process.
      * @type {string[]}
@@ -106,8 +109,8 @@ class B777RSNavModeSelector {
       toga: new ValueStateTracker(() => Simplane.getAutoPilotTOGAActive(), () => NavModeEvent.TOGA_CHANGED),
       grounded: new ValueStateTracker(() => Simplane.getIsGrounded(), () => NavModeEvent.GROUNDED),
       autopilot: new ValueStateTracker(() => Simplane.getAutoPilotActive(), () => NavModeEvent.AP_CHANGED),
-      autothrottle: new ValueStateTracker(() => SimVar.GetSimVarValue("L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE", "bool"), () => NavModeEvent.AT_CHANGED),
-      flareStatus: new ValueStateTracker(() => SimVar.GetSimVarValue("L:FLARE_STATUS", "number") == 1, () => NavModeEvent.FLARE_ACTIVE),
+      autothrottle: new ValueStateTracker(() => SimVar.GetSimVarValue("AUTOPILOT THROTTLE ARM", "bool"), () => NavModeEvent.AT_CHANGED), // XMLVAR_AUTO_THROTTLE_ARM_0_STATE
+      flareActive: new ValueStateTracker(() => SimVar.GetSimVarValue("L:FLARE_STATUS", "number") == 2, () => NavModeEvent.FLARE_ACTIVE),
       rollOutActive: new ValueStateTracker(() => SimVar.GetSimVarValue("L:ROLLOUT_ACTIVE", "bool"), () => NavModeEvent.ROLLOUT_ACTIVE)
     };
 
@@ -287,9 +290,11 @@ class B777RSNavModeSelector {
     this._eventQueue.push(event);
   }
 
-  handleFlareActive() {
+  handleFlareActive() { //event handler
+    SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", -1);
     //this.approachMode = WT_ApproachType.ILS;
-    if (this.approachMode === WT_ApproachType.ILS && this.glideslopeState === GlideslopeStatus.GS_ACTIVE){
+    /*
+    if (this.approachMode === WT_ApproachType.ILS && this.currentVerticalActiveState === VerticalNavModeState.GS){  //this.glideslopeState === GlideslopeStatus.GS_ACTIVE never changed
       SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 3);
     }
     else {
@@ -306,8 +311,11 @@ class B777RSNavModeSelector {
         }
       }
     }
+    */
     if (this._inputDataStates.flareActive.state)  {
-      this.currentVerticalActiveState = VerticalNavModeState.FLARE_ACTIVE;
+      this.currentVerticalActiveState = VerticalNavModeState.FLARE_ACTIVE;      //test
+      //this.engagePitch();
+      //let noseDownTime = 3;      
     }
     if (Simplane.getIsGrounded()) {
       this.currentVerticalActiveState = VerticalNavModeState.NONE;
@@ -772,11 +780,15 @@ class B777RSNavModeSelector {
       } else if (SimVar.GetSimVarValue("AUTOPILOT FLIGHT LEVEL CHANGE", "Boolean") == 1) {
         SimVar.SetSimVarValue("K:FLIGHT_LEVEL_CHANGE_ON", "Number", 0);
       }
+      //TODO: ADD APPR MODE AFTER WE INTEGRATE ILS WITH NEW LNAV/VNAV
+      else if (Simvar.GetSimVarValue("L:FLARE_STATUS", "Number") === 2) {
+        
+      }
     }
     SimVar.SetSimVarValue("L:WT_CJ4_VS_ON", "number", 0);
     SimVar.SetSimVarValue("L:WT_CJ4_FLC_ON", "number", 0);
 
-    //TODO: ADD APPR MODE AFTER WE INTEGRATE ILS WITH NEW LNAV/VNAV
+    
   }
 
   /**
