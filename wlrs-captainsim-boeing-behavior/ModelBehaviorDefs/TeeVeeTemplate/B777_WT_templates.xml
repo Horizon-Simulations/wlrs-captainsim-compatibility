@@ -468,6 +468,12 @@
 		</UseTemplate>
 	</Template>
 
+	<!--todo: Line the knob to the pumps-->
+	<!--LOGIC: DEMAND pumps-->
+	<!--Demand L&R uses ELEC pumps, deman C1 and C2 uses AIR (make a fictional elec pumps, no idea rn)-->
+	<!--on OFF, the lights will always show fault (already worked)-->
+	<!--on AUTO, if (PRESS*qty < thress) => FAULT LIGHT ON and TURN ON THE PUMPS to satisfy the press (3000psi); else just keep the pumps *armed/standby for demand* -->
+	<!--on ON. force the pumps to maintain the pressure all the time-->
 	<Template Name="teevee_B777_Hydraulics_Elec_Knob_Template">
 		<Parameters Type="Default">
 			<MASTER_VARIABLE></MASTER_VARIABLE>
