@@ -290,31 +290,9 @@ class B777RSNavModeSelector {
     this._eventQueue.push(event);
   }
 
-  handleFlareActive() { //event handler
-    SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", -1);
-    //this.approachMode = WT_ApproachType.ILS;
-    /*
-    if (this.approachMode === WT_ApproachType.ILS && this.currentVerticalActiveState === VerticalNavModeState.GS){  //this.glideslopeState === GlideslopeStatus.GS_ACTIVE never changed
-      SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 3);
-    }
-    else {
-      if (this.approachMode === WT_ApproachType.RNAV) {
-        SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 1);
-      }
-      else {
-        if (this.approachMode === WT_ApproachType.VISUAL) {
-          SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", 0);
-        }
-        else {
-            SimVar.SetSimVarValue("L:TEEVEE_APPROACH_CAT", "number", -1);
-
-        }
-      }
-    }
-    */
+  handleFlareActive() { //event handler, also handle autoland     
     if (this._inputDataStates.flareActive.state)  {
-      this.currentVerticalActiveState = VerticalNavModeState.FLARE_ACTIVE;      //test
-      //this.engagePitch();
+      this.currentVerticalActiveState = VerticalNavModeState.FLARE_ACTIVE;
       //let noseDownTime = 3;      
     }
     if (Simplane.getIsGrounded()) {
@@ -1538,9 +1516,7 @@ class B777RSNavModeSelector {
    * Handles when the currently loaded approach has been changed.
    */
   handleApproachChanged() {
-
     let approach = undefined;
-
     const flightPlan = this.flightPlanManager.getFlightPlan(0);
     const destination = flightPlan.destinationAirfield;
     if (destination) {
@@ -1548,7 +1524,8 @@ class B777RSNavModeSelector {
     }
 
     const approachName = approach ? approach.name : '';
-
+    //test
+    
     if (approachName.startsWith('RN') || (approachName.startsWith('NDB') 
     || (approachName.startsWith('LOC') || (approachName.startsWith('VOR'))))) {
       this.approachMode = WT_ApproachType.RNAV;
@@ -1565,12 +1542,13 @@ class B777RSNavModeSelector {
       // }
     } else if (approachName.startsWith('ILS') || approachName.startsWith('LDA')) {
       this.approachMode = WT_ApproachType.ILS;
+      //this.handleFlareActive(); //test
       if (this.currentLateralActiveState === LateralNavModeState.APPR) {
         this.isVNAVOn = false;
       }
 
       if (this.currentVerticalActiveState === VerticalNavModeState.GP) {
-        this.currentVerticalActiveState = VerticalNavModeState.GS;
+        this.currentVerticalActiveState = VerticalNavModeState.GS;        
       }
 
       if (Simplane.getIsGrounded()) {
