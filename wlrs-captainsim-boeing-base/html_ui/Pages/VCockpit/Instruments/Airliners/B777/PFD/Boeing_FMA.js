@@ -190,21 +190,27 @@ var Boeing_FMA;
         }
         getActiveMode() {
             if (!Simplane.getAutoPilotThrottleArmed()) {
+                SimVar.SetSimVarValue("L:CJ4_THR_ACTIVE", "Bool", 0);
                 return -1;
             }
             if (this.autoThrottleStatus == "SPD") {
+                SimVar.SetSimVarValue("L:CJ4_THR_ACTIVE", "Bool", 1);
                 return 2;
             }
             else if (this.autoThrottleStatus == "THR" ) {
+                SimVar.SetSimVarValue("L:CJ4_THR_ACTIVE", "Bool", 1);
                 return 3;
             }
             else if (this.autoThrottleStatus == "THRREF") {
+                SimVar.SetSimVarValue("L:CJ4_THR_ACTIVE", "Bool", 1);
                 return 4;
             }
             else if (this.autoThrottleStatus == "HOLD") {
+                SimVar.SetSimVarValue("L:CJ4_THR_ACTIVE", "Bool", 1);
                 return 0;
             }
             else if (this.autoThrottleStatus == "IDLE") {
+                SimVar.SetSimVarValue("L:CJ4_THR_ACTIVE", "Bool", 1);
                 return 1;
             }
             return -1;

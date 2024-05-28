@@ -1563,10 +1563,10 @@
 			<NO_INDICATOR>True</NO_INDICATOR>
 		</UseTemplate>
 		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
-			<NODE_ID>btn_autopilot_spd_seq2</NODE_ID>
-			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
-			<EMISSIVE_CODE>(A:AUTOPILOT THROTTLE ARM, bool) 1 ==</EMISSIVE_CODE>
-		</UseTemplate>
+          <NODE_ID>btn_autopilot_spd_seq2</NODE_ID>
+          <EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
+          <EMISSIVE_CODE>(L:CJ4_THR_ACTIVE, bool) 1 ==</EMISSIVE_CODE>
+        </UseTemplate>
 	</Template>
 
 </ModelBehaviors>
