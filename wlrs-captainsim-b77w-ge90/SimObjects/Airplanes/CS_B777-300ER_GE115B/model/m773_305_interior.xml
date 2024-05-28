@@ -451,7 +451,7 @@
 					0 (&gt;A:HYDRAULIC SWITCH:2, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:3, Bool)
 					0 (&gt;A:HYDRAULIC SWITCH:4, Bool)
-          -1 (&gt;L:TEEVEE_APPROACH_CAT, Enum)  <!--inop-->
+          0 (&gt;L:TEEVEE_APPROACH_CAT, Enum)  <!--inop-->
 
         </UPDATE_CODE>
       </UseTemplate>
@@ -1993,34 +1993,18 @@
       </Component>
 
       <Component ID="AntiIce_Panel">
-        <UseTemplate Name="ASOBO_DEICE_Push_Windshield_Template">
+        <UseTemplate Name="WT_B777_Deice_Windshield_Template">
+          <ID>1</ID>
           <NODE_ID>push_ovhd_anti_ice_window_heat_l</NODE_ID>
           <ANIM_NAME>ovhd_push_anti_ice_window_heat_l</ANIM_NAME>
           <TYPE>BOEING</TYPE>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_DEICE_Push_Windshield_Template">
+        <UseTemplate Name="WT_B777_Deice_Windshield_Template">
+          <ID>2</ID>
           <NODE_ID>push_ovhd_anti_ice_window_heat_r</NODE_ID>
           <ANIM_NAME>ovhd_push_anti_ice_window_heat_r</ANIM_NAME>
           <TYPE>BOEING</TYPE>
         </UseTemplate>
-
-        <AnimationTriggers Animation="ovhd_push_anti_ice_window_heat_l">
-          <EventTrigger Frame="10" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
-          </EventTrigger>
-          <EventTrigger Frame="60" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
-          </EventTrigger>
-        </AnimationTriggers>
-
-        <AnimationTriggers Animation="ovhd_push_anti_ice_window_heat_r">
-          <EventTrigger Frame="10" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_off" Action="Play"/>
-          </EventTrigger>
-          <EventTrigger Frame="60" Direction="Both">
-            <SoundEvent WwiseEvent="fuel_pump_push_button_on" Action="Play"/>
-          </EventTrigger>
-        </AnimationTriggers>
 
         <Component ID="AntiIce_Pitot">
           <UseTemplate Name="ASOBO_DEICE_Update_Pitot_On">
@@ -6902,7 +6886,7 @@
     </Component>
 
 
-
+  <!--test-->
     <Component ID="AP_Auto_1000_sw" Node="G04_021_SW2">         
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
