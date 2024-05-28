@@ -2569,11 +2569,12 @@
           <ANIM_NAME_PUSH>knob_autopilot_speed_push</ANIM_NAME_PUSH>
           <TYPE>B777</TYPE>
         </UseTemplate>
-        <UseTemplate Name="RobSim_AUTOPILOT_Push_AutoThrottle_Template">
-          <NODE_ID>switch_autopilot_at_arm</NODE_ID>
-          <ANIM_NAME>autopilot_switch_at_arm</ANIM_NAME>
-          <TYPE>B777</TYPE>
-        </UseTemplate>
+        <UseTemplate Name="WT_AUTOPILOT_AutoThrottle_Arm_Template">
+					<ID>1</ID>
+				</UseTemplate>
+				<UseTemplate Name="WT_AUTOPILOT_AutoThrottle_Arm_Template">
+					<ID>2</ID>
+				</UseTemplate>
         <UseTemplate Name="RobSim_AUTOPILOT_Push_FlightDirector_Template">
           <NODE_ID>switch_autopilot_fd_l</NODE_ID>
           <ANIM_NAME>autopilot_switch_fd_l</ANIM_NAME>

@@ -1538,4 +1538,32 @@
 		</Component>
 	</Template>
 
+	<Template Name="WT_AUTOPILOT_AutoThrottle_Arm_Template">
+		<Parameters Type="Default">
+			<BTN_ID>AutoThrottle_Arm</BTN_ID>
+
+			<Switch Param="ID">
+				<Case Value="1">
+					<NODE_ID>switch_autopilot_at_arm</NODE_ID>
+					<ANIM_NAME>autopilot_switch_at_arm</ANIM_NAME>
+				</Case>
+				<Default>
+					<NODE_ID>switch_autopilot_at_arm_#ID#</NODE_ID>
+					<ANIM_NAME>autopilot_switch_at_arm</ANIM_NAME>
+				</Default>
+			</Switch>
+		</Parameters>
+
+		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
+			<SET_STATE_EXTERNAL>(&gt;K:AUTO_THROTTLE_ARM)</SET_STATE_EXTERNAL>
+			<ANIM_CODE>(A:AUTOPILOT THROTTLE ARM, Bool) 100 *</ANIM_CODE>
+			<TT_DESCRIPTION_ID>COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_AUTOTHROTTLE_OFF</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_PUSH_AUTOTHROTTLE_TITLE</TOOLTIP_TITLE>
+			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_OFF)</TT_VALUE_OFF>
+			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_ARMED)</TT_VALUE_ON>
+			<NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
+			<NO_INDICATOR>True</NO_INDICATOR>
+		</UseTemplate>
+	</Template>
+
 </ModelBehaviors>
