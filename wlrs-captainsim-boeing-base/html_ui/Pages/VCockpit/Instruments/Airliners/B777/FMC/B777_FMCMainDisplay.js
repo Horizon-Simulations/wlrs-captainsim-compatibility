@@ -2003,7 +2003,7 @@ class FMCMainDisplay extends BaseAirliners {
                 let navid = 0;
                 let ils = this.radioNav.getBestILSBeacon();
 
-                SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", -1);
+                //SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", -1);
                 if (SimVar.GetSimVarValue("L:FLARE_STATUS", "Number") == 1)
                     {
                     if (ils.name.includes("III")) {
