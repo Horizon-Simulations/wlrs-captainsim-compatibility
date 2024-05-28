@@ -789,10 +789,16 @@
 		  <Type>Advisory</Type>
 		  <Text>WINDOW HEAT L</Text>
 		  <Condition>
-			<Equal>
-				<Simvar name="L:XMLVAR_DeiceWindshield:1" unit="Boolean"/>
-				<Constant>0</Constant>
-			</Equal>
+			<And>
+				<Equal>
+					<Simvar name="L:XMLVAR_DeiceWindshield:2" unit="Boolean"/>
+					<Constant>1</Constant>
+				</Equal>
+				<Equal>
+					<Simvar name="L:XMLVAR_DeiceWindshield:1" unit="Boolean"/>
+					<Constant>0</Constant>
+				</Equal>
+			</And>
 		  </Condition>
 		</Annunciation>
 
@@ -800,10 +806,16 @@
 		  <Type>Advisory</Type>
 		  <Text>WINDOW HEAT R</Text>
 		  <Condition>
-			<Equal>
-				<Simvar name="L:XMLVAR_DeiceWindshield:2" unit="Boolean"/>
-				<Constant>0</Constant>
-			</Equal>
+		  	<And>
+				<Equal>
+					<Simvar name="L:XMLVAR_DeiceWindshield:2" unit="Boolean"/>
+					<Constant>0</Constant>
+				</Equal>
+				<Equal>
+					<Simvar name="L:XMLVAR_DeiceWindshield:1" unit="Boolean"/>
+					<Constant>1</Constant>
+				</Equal>
+			</And>
 		  </Condition>
 		</Annunciation>
 
@@ -811,7 +823,7 @@
 		  <Type>Advisory</Type>
 		  <Text>WINDOW HEAT L, R</Text>
 		  <Condition>
-		  	<AND>
+		  	<And>
 				<Equal>
 					<Simvar name="L:XMLVAR_DeiceWindshield:1" unit="Boolean"/>
 					<Constant>0</Constant>
@@ -820,7 +832,7 @@
 					<Simvar name="L:XMLVAR_DeiceWindshield:2" unit="Boolean"/>
 					<Constant>0</Constant>
 				</Equal>
-			</AND>
+			</And>
 		  </Condition>
 		</Annunciation>
 
