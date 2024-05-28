@@ -801,7 +801,7 @@
 		  <Text>WINDOW HEAT R</Text>
 		  <Condition>
 			<Equal>
-				<Simvar name="L:XMLVAR_DeiceWindshield:1" unit="Boolean"/>
+				<Simvar name="L:XMLVAR_DeiceWindshield:2" unit="Boolean"/>
 				<Constant>0</Constant>
 			</Equal>
 		  </Condition>
