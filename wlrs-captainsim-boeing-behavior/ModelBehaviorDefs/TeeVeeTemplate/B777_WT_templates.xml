@@ -1538,10 +1538,9 @@
 		</Component>
 	</Template>
 
-	<Template Name="WT_AUTOPILOT_AutoThrottle_Arm_Template">
+	<Template Name="teevee_AUTOPILOT_AutoThrottle_Arm_Template">
 		<Parameters Type="Default">
 			<BTN_ID>AutoThrottle_Arm</BTN_ID>
-
 			<Switch Param="ID">
 				<Case Value="1">
 					<NODE_ID>switch_autopilot_at_arm</NODE_ID>
@@ -1553,7 +1552,6 @@
 				</Default>
 			</Switch>
 		</Parameters>
-
 		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
 			<SET_STATE_EXTERNAL>(&gt;K:AUTO_THROTTLE_ARM)</SET_STATE_EXTERNAL>
 			<ANIM_CODE>(A:AUTOPILOT THROTTLE ARM, Bool) 100 *</ANIM_CODE>
@@ -1563,6 +1561,11 @@
 			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_ARMED)</TT_VALUE_ON>
 			<NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
 			<NO_INDICATOR>True</NO_INDICATOR>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+			<NODE_ID>btn_autopilot_spd_seq2</NODE_ID>
+			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
+			<EMISSIVE_CODE>(A:AUTOPILOT THROTTLE ARM, bool) 1 ==</EMISSIVE_CODE>
 		</UseTemplate>
 	</Template>
 

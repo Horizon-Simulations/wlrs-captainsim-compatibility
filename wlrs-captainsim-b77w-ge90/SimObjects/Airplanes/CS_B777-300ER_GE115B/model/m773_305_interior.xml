@@ -2515,7 +2515,6 @@
           <NODE_ID>btn_autopilot_spd</NODE_ID>
           <ANIM_NAME>autopilot_push_spd</ANIM_NAME>
           <EMISSIVE_NODE_ID>btn_autopilot_spd</EMISSIVE_NODE_ID>
-          <ACTIVE_NODE_ID>btn_autopilot_spd_seq2</ACTIVE_NODE_ID> <!--active when ever someone push it-->
           <AUTOPILOT_PUSH_BUTTON_ON>autopilot_largepush_button_on</AUTOPILOT_PUSH_BUTTON_ON>
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
           <TOOLTIPID>%((L:AP_SPD_ACTIVE))%{if}TT:COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_SPD_ON%{else}TT:COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_SPD_OFF%{end}</TOOLTIPID>
@@ -2569,10 +2568,17 @@
           <ANIM_NAME_PUSH>knob_autopilot_speed_push</ANIM_NAME_PUSH>
           <TYPE>B777</TYPE>
         </UseTemplate>
-        <UseTemplate Name="WT_AUTOPILOT_AutoThrottle_Arm_Template">
+        <!--
+        <UseTemplate Name="RobSim_AUTOPILOT_Push_AutoThrottle_Template">
+          <NODE_ID>switch_autopilot_at_arm</NODE_ID>
+          <ANIM_NAME>autopilot_switch_at_arm</ANIM_NAME>
+          <TYPE>B777</TYPE>
+        </UseTemplate>
+        -->
+        <UseTemplate Name="teevee_AUTOPILOT_AutoThrottle_Arm_Template">
 					<ID>1</ID>
 				</UseTemplate>
-				<UseTemplate Name="WT_AUTOPILOT_AutoThrottle_Arm_Template">
+				<UseTemplate Name="teevee_AUTOPILOT_AutoThrottle_Arm_Template">
 					<ID>2</ID>
 				</UseTemplate>
         <UseTemplate Name="RobSim_AUTOPILOT_Push_FlightDirector_Template">
