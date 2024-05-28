@@ -343,13 +343,18 @@ var Boeing_FMA;
             }
         }
         getActiveMode() {
+            //3 - land3
+            //2 - land2
+            //1 RNAV/VISUAL
+            //0 - not initialized
+            //4 - no autoland (implemented later)
             if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  3 && Simplane.getAutoPilotActive()) {
                 return 2;
             }
             else if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  2 && Simplane.getAutoPilotActive()) {
                 return 3;
             }
-            else if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  0 && Simplane.getAutoPilotActive()) {
+            else if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  4 && Simplane.getAutoPilotActive()) {
                 return 4;
             }
             else if (Simplane.getAutoPilotActive()) {
