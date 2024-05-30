@@ -446,12 +446,13 @@
       <UseTemplate Name="ASOBO_GT_Update">
         <UPDATE_ONCE>True</UPDATE_ONCE>
         <UPDATE_CODE>
-          1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool) <!--switch to BARO mode-->
+          1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:1, Bool) <!--unable to set for some reason-->
 					0 (&gt;A:HYDRAULIC SWITCH:2, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:3, Bool)
 					0 (&gt;A:HYDRAULIC SWITCH:4, Bool)
           0 (&gt;L:TEEVEE_APPROACH_CAT, Enum)  <!--inop-->
+
         </UPDATE_CODE>
       </UseTemplate>
             <!--
@@ -2535,25 +2536,20 @@
           <AUTOPILOT_PUSH_BUTTON_ON>autopilot_largepush_button_on</AUTOPILOT_PUSH_BUTTON_ON>
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
           <TYPE>B777</TYPE>
-        </UseTemplate>
-        <!--
-        <UseTemplate Name="RobSim_AUTOPILOT_Knob_Altitude_Template">    
-          <NODE_ID>knob_autopilot_alt</NODE_ID>
-          <ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
-          <ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
-          <TYPE>B777</TYPE>
-        </UseTemplate>
-        -->
+        </UseTemplate>        
         <UseTemplate Name="teevee_AUTOPILOT_Knob_Altitude_Template">
 					<TYPE>AS01B</TYPE>
 					<NODE_ID>knob_autopilot_alt</NODE_ID>
 					<ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
 					<ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
 					<TT_DESCRIPTION_KNOBPUSH>@TT_Package.AUTOPILOT_PUSH_ALTITUDE_ACTION_ENABLE</TT_DESCRIPTION_KNOBPUSH>
-					<!-- TODO stop at BARO Minima -->
 					<SET_STATE_EXTERNAL>(L:XMLVAR_Mins_Selector_Baro) 1 ==</SET_STATE_EXTERNAL>
 				</UseTemplate>
-        <!---->
+        <UseTemplate Name="ASOBO_AUTOPILOT_Switch_Altitude_Increment_Template">
+					<NODE_ID>G04_021_SW2</NODE_ID>
+					<ANIM_NAME>G04_021_SW2</ANIM_NAME>
+          <CURSOR>Hand</CURSOR>
+				</UseTemplate>
         <UseTemplate Name="RobSim_AUTOPILOT_Knob_Heading_Template">
           <NODE_ID>knob_autopilot_heading</NODE_ID>
           <ANIM_NAME_KNOB>autopilot_knob_heading</ANIM_NAME_KNOB>
@@ -6902,34 +6898,6 @@
       </UseTemplate>
     </Component>
 
-
-  <!--test-->
-    <Component ID="AP_Auto_1000_sw" Node="G04_021_SW2">         
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_LAG>6</ANIM_LAG>
-        <ANIM_LENGTH>1</ANIM_LENGTH>
-        <ANIM_NAME>G04_021_SW2</ANIM_NAME>
-        <ANIM_CODE>(L:G04_021_SW2)</ANIM_CODE>
-      </UseTemplate>
-      <!---->
-      <UseTemplate Name="ASOBO_GT_MouseRect">     <!--the 100/1000ft increment-->
-        <TOOLTIPID>%((L:G04_021_SW2, bool))%{if}1000%{else}AUTO%{end}</TOOLTIPID>
-        <CURSOR>Hand</CURSOR>
-        <MouseFlags>LeftSingle+WheelUp+WheelDown</MouseFlags>
-        <CALLBACKCODE>
-          (M:Event) 'LeftSingle' scmi 0 ==
-          (M:Event) 'WheelUp'    scmi 0 == ||
-          (M:Event) 'WheelDown'  scmi 0 == || if{ (L:G04_021_SW2, bool) ! (&gt;L:G04_021_SW2, bool) }
-        </CALLBACKCODE>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_GT_AnimTriggers_SoundEvent">
-        <ANIM_NAME>G04_021_SW2</ANIM_NAME>
-        <WWISE_EVENT>autopilot_knob</WWISE_EVENT>
-      </UseTemplate>
-      <!---->
-    </Component>
-
-
     <Component ID="ADIRU_sw" Node="O01_002_BUT">    
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
@@ -8568,8 +8536,6 @@
       </UseTemplate>
     </Component>
 
-
-
     <Component ID="Cabin_Doors">
       <Component ID="Door_1L">
         <UseTemplate Name="ASOBO_GT_Anim">
@@ -9225,12 +9191,6 @@
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
-
-    
-      
-
     </Component>    
-
-
   </Behaviors>
 </ModelInfo>
