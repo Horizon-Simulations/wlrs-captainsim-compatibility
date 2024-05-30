@@ -446,13 +446,12 @@
       <UseTemplate Name="ASOBO_GT_Update">
         <UPDATE_ONCE>True</UPDATE_ONCE>
         <UPDATE_CODE>
-          1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool)
+          1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool) <!--switch to BARO mode-->
           0 (&gt;A:HYDRAULIC SWITCH:1, Bool) <!--unable to set for some reason-->
 					0 (&gt;A:HYDRAULIC SWITCH:2, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:3, Bool)
 					0 (&gt;A:HYDRAULIC SWITCH:4, Bool)
           0 (&gt;L:TEEVEE_APPROACH_CAT, Enum)  <!--inop-->
-
         </UPDATE_CODE>
       </UseTemplate>
             <!--
@@ -2537,12 +2536,24 @@
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
           <TYPE>B777</TYPE>
         </UseTemplate>
-        <UseTemplate Name="RobSim_AUTOPILOT_Knob_Altitude_Template">    <!--heeeeerrrrrreeee-->
+        <!--
+        <UseTemplate Name="RobSim_AUTOPILOT_Knob_Altitude_Template">    
           <NODE_ID>knob_autopilot_alt</NODE_ID>
           <ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
           <ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
           <TYPE>B777</TYPE>
         </UseTemplate>
+        -->
+        <UseTemplate Name="teevee_AUTOPILOT_Knob_Altitude_Template">
+					<TYPE>AS01B</TYPE>
+					<NODE_ID>knob_autopilot_alt</NODE_ID>
+					<ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
+					<ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
+					<TT_DESCRIPTION_KNOBPUSH>@TT_Package.AUTOPILOT_PUSH_ALTITUDE_ACTION_ENABLE</TT_DESCRIPTION_KNOBPUSH>
+					<!-- TODO stop at BARO Minima -->
+					<SET_STATE_EXTERNAL>(L:XMLVAR_Mins_Selector_Baro) 1 ==</SET_STATE_EXTERNAL>
+				</UseTemplate>
+        <!---->
         <UseTemplate Name="RobSim_AUTOPILOT_Knob_Heading_Template">
           <NODE_ID>knob_autopilot_heading</NODE_ID>
           <ANIM_NAME_KNOB>autopilot_knob_heading</ANIM_NAME_KNOB>
