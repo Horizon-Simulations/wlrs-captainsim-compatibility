@@ -206,14 +206,14 @@
 						<Constant>0</Constant>
 					</Equal>
 					<Or>
-						<LowerEqual>
+						<GreaterEqual>
 							<Simvar name="TURB ENG N1:1" unit="Percent"/>
 							<Constant>10</Constant>
-						</LowerEqual>
-						<LowerEqual>
+						</GreaterEqual>
+						<GreaterEqual>
 							<Simvar name="TURB ENG N1:2" unit="Percent"/>
 							<Constant>10</Constant>
-						</LowerEqual>
+						</GreaterEqual>
 					</Or>
 				</And>
 			</Condition>
