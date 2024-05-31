@@ -880,8 +880,7 @@
           0 (&gt;L:cs777_anim_ctrl_wheel_chocks, bool)
           0 (&gt;L:cs777_anim_ctrl_ep_hatch, bool)
           0 (&gt;L:cs777_anim_ctrl_plugs, bool)
-          0 (&gt;L:cs777_pilot_wnd_l, bool)
-          0 (&gt;L:cs777_pilot_wnd_r, bool)
+          
           0 (&gt;L:cs777_anim_ctrl_l_door_1, bool)
           0 (&gt;L:cs777_anim_ctrl_l_door_2, bool)
           0 (&gt;L:cs777_anim_ctrl_l_emer_door, bool)
@@ -896,7 +895,6 @@
           0 (&gt;L:cs777_anim_ctrl_gear_doors, bool)
           0 (&gt;L:cs777_anim_ctrl_l_eng_cowl, bool)
           0 (&gt;L:cs777_anim_ctrl_aft_acc_door, bool)
-          0 (&gt;L:cs777_anim_ctrl_rat, bool)
           0 (&gt;L:cs777_anim_ctrl_r_eng_cowl, bool)
           0 (&gt;L:cs777_anim_ctrl_fwd_cargo_door, bool)
           0 (&gt;L:cs777_anim_ctrl_aft_cargo_door, bool)
@@ -909,6 +907,16 @@
           }
           (O:acft_moving, bool) (A:ENG N1 RPM:1, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_l_eng_cvr, bool) }
           (O:acft_moving, bool) (A:ENG N1 RPM:2, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_r_eng_cvr, bool) }
+          (A:ENG N1 RPM:1, percent) 40 &gt; (A:ENG N1 RPM:2, percent) 40 &gt; || if{ 
+            0 (&gt;L:cs777_pilot_wnd_l, bool)
+            0 (&gt;L:cs777_pilot_wnd_r, bool) 
+            }
+          (A:AIRSPEED INDICATED, knots) 30 &gt; if{ 
+            1 (&gt;L:cs777_RAT_blrd, bool)
+            }
+          
+            
+
         </UPDATE_CODE>
       </UseTemplate>
        

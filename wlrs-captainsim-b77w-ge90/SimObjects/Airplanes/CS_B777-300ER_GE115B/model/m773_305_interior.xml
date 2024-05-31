@@ -6968,15 +6968,15 @@
         <ANIM_LENGTH>1</ANIM_LENGTH>
         <ANIM_NAME>O07_001_BUT</ANIM_NAME>
         <ANIM_CODE>(L:O07_001_BUT)</ANIM_CODE>
+        <ANIM_CODE>(L:cs777_anim_ctrl_rat, bool) 100 *</ANIM_CODE>
       </UseTemplate>
       <UseTemplate Name="ASOBO_GT_MouseRect">
         <TOOLTIPID></TOOLTIPID>
         <CURSOR>Hand</CURSOR>
         <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
         <CALLBACKCODE>
+          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_001_BUT, bool) ! (&gt;L:O07_001_BUT, bool) }
           (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_rat, bool) ! (&gt;L:cs777_anim_ctrl_rat, bool) }
-          (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:O07_001_BUT) } els{
-          (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:O07_001_BUT) } }
         </CALLBACKCODE>
       </UseTemplate>
     </Component>
@@ -6997,10 +6997,10 @@
         </CALLBACKCODE>
       </UseTemplate>
     </Component>
-
+  <!--  INOP
     <Component ID="RAT_press_lt" Node="O07_001_LT1">
       <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:cs777_anim_ctrl_rat, Bool)</VISIBILITY_CODE>  <!--test-->
+        <VISIBILITY_CODE>(L:O07_001_LT1, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
 
@@ -7009,7 +7009,7 @@
         <VISIBILITY_CODE>(L:O07_001_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
     </Component>
-
+    -->
 
     <Component ID="L_Inboard_Dsp_sw" Node="L06_002_GL4">
       <UseTemplate Name="ASOBO_GT_Anim">
