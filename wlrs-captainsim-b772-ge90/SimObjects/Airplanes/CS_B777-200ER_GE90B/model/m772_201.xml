@@ -19,12 +19,16 @@
   <Animation name="l_tire_still_key"   guid="E9BE77BE-345C-4561-ABDA-FB67A82737F4" length="100" type="Sim" typeParam2="l_tire_still_key"   typeParam="AutoPlay"/>
   <Animation name="r_tire_blurred_key" guid="46C77AAB-A8EA-487C-A277-E322CF014705" length="100" type="Sim" typeParam2="r_tire_blurred_key" typeParam="AutoPlay"/>
   <Animation name="r_tire_still_key"   guid="D48E0262-160C-405C-AFFD-2119C539EECB" length="100" type="Sim" typeParam2="r_tire_still_key"   typeParam="AutoPlay"/>
+  
+  <!--
   <Animation name="N1_0_blurred" guid="E6D2414A-40A0-4d1d-8609-47AA5ACCBBB3" length="100" type="Sim" typeParam2="N1_0_blurred" typeParam="AutoPlay"/>
   <Animation name="N1_0_slow" guid="2289B5D7-E2F9-4c57-AE3B-8323AD5413C6" length="100" type="Sim" typeParam2="N1_0_slow" typeParam="AutoPlay"/>
   <Animation name="N1_0_still" guid="E0D9AC9A-DBA6-41a5-9163-BF8BD41DB4A2" length="100" type="Sim" typeParam2="N1_0_still" typeParam="AutoPlay"/>
   <Animation name="N1_1_blurred" guid="5A2A3E08-7E67-4522-A3A3-E48388F191B3" length="100" type="Sim" typeParam2="N1_1_blurred" typeParam="AutoPlay"/>
   <Animation name="N1_1_slow" guid="F8C7E48E-EB6F-438f-80FD-AF9F6EA688AD" length="100" type="Sim" typeParam2="N1_1_slow" typeParam="AutoPlay"/>
   <Animation name="N1_1_still" guid="41C33B6F-E52A-45e9-BEC1-3D722E69BBFF" length="100" type="Sim" typeParam2="N1_1_still" typeParam="AutoPlay"/>
+  -->
+  
   <Animation name="thrust_rev_1" guid="18AF77CB-6457-47d0-8A10-2BA619430ACE" length="100" type="Sim" typeParam2="thrust_rev_1" typeParam="AutoPlay"/>
   <Animation name="thrust_rev_2" guid="2D50D1B9-ED30-4405-A77A-99AA338D1548" length="100" type="Sim" typeParam2="thrust_rev_2" typeParam="AutoPlay"/>
   <Animation name="l_wing_flex" guid="23FBBCC2-C861-41b4-90D2-051AC1BCA338" length="100" type="Sim" typeParam2="l_wing_flex" typeParam="AutoPlay"/>
@@ -282,6 +286,7 @@
     </Animation>
   </PartInfo>
 
+  <!--
   <PartInfo>
     <Name>N1_0_still</Name>
     <AnimLength>100</AnimLength>
@@ -401,12 +406,14 @@
       </Parameter>
     </Visibility>
   </PartInfo>
+  -->
 
   <PartInfo>
     <Name>thrust_rev</Name>
     <AnimLength>100</AnimLength>
     <Animation>
       <Parameter>
+        <Lag>70</Lag>
         <Sim>
           <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
           <Scale>1</Scale>
@@ -447,7 +454,7 @@
     <Animation>
       <Parameter>
         <Code>
-          (L:ext777_wing_flex_l, position)
+          (A:WING FLEX PCT:1, percent over 100) 126 * 38.5 + 0 max 100 min
         </Code>
       </Parameter>
     </Animation>
@@ -459,7 +466,7 @@
     <Animation>
       <Parameter>
         <Code>
-          (L:ext777_wing_flex_r, position)
+          (A:WING FLEX PCT:2, percent over 100) 126 * 38.5 + 0 max 100 min
         </Code>
       </Parameter>
     </Animation>
@@ -670,15 +677,23 @@
 
   <PartInfo>
     <Name>ext777_lt_nose_vis</Name>
+    <AnimLength>100</AnimLength>
+    <Animation>
+      <Parameter>
+        <Code>0</Code>
+      </Parameter>
+    </Animation>
     <Visibility>
       <Parameter>
         <Code>
-          (L:ext777_lt_nose_vis)
+          (A:GEAR CENTER POSITION, Percent) 97.0 &gt;
         </Code>
       </Parameter>
     </Visibility>
   </PartInfo>
-  <!-- antennas -->
+  
+  
+<!-- antennas -->
 <PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x1 &amp;</Code></Parameter></Visibility></PartInfo>
 <PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x2 &amp;</Code></Parameter></Visibility></PartInfo>
 <PartInfo><Name>A01_003_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x4 &amp;</Code></Parameter></Visibility></PartInfo>
@@ -700,6 +715,19 @@
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
     <Include ModelBehaviorFile="RobSim\index.xml"/>
 
+
+   	<Component ID="ENGINE">
+			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+				<ENG_ID>1</ENG_ID>
+				<ANIM_NODE>N1_1_anim</ANIM_NODE>
+			</UseTemplate>
+			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+				<ENG_ID>2</ENG_ID>
+				<ANIM_NODE>N1_2_anim</ANIM_NODE>
+			</UseTemplate>
+		</Component>
+    
+    
     <Component ID="INTERACTIVE_POINTS">
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
         <ID>12</ID>
@@ -743,17 +771,6 @@
         </UseTemplate>
       </Component>
     </Component>
-
-    <Component ID="ENGINE">
-			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
-				<ENG_ID>1</ENG_ID>
-				<ANIM_NODE>N1_1_anim</ANIM_NODE>
-			</UseTemplate>
-			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
-				<ENG_ID>2</ENG_ID>
-				<ANIM_NODE>N1_2_anim</ANIM_NODE>
-			</UseTemplate>
-		</Component>
 
     <Component ID="FX_CONTRAIL_QUAD">
       <OverrideTemplateParameters>
@@ -865,6 +882,40 @@
         <FX_NODE>RightFrontBaseWheel</FX_NODE>
       </UseTemplate>
     </Component>
+
+
+    <Component ID="RAT">
+
+      <Component ID="RAT_extension">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_NAME>cs777_RAT_ext</ANIM_NAME>
+          <ANIM_CODE>(L:cs777_RAT_ext)</ANIM_CODE>
+        </UseTemplate>
+      </Component>
+
+      <Component ID="RAT_rotation">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_NAME>cs777_RAT_rot</ANIM_NAME>
+          <ANIM_CODE>(L:cs777_RAT_rot)</ANIM_CODE>
+        </UseTemplate>
+      </Component>
+
+      <Component ID="cs777_RAT_still" Node="cs777_RAT_still">
+        <UseTemplate Name="ASOBO_GT_Visibility">
+          <VISIBILITY_CODE>(L:cs777_RAT_still, bool)</VISIBILITY_CODE>
+        </UseTemplate>
+      </Component>
+
+      <Component ID="cs777_RAT_blrd" Node="cs777_RAT_blrd">
+        <UseTemplate Name="ASOBO_GT_Visibility">
+          <VISIBILITY_CODE>(L:cs777_RAT_blrd, bool)</VISIBILITY_CODE>
+        </UseTemplate>
+      </Component>
+
+    </Component>
+    
+    
+    
   </Behaviors>
 
 </ModelInfo>
