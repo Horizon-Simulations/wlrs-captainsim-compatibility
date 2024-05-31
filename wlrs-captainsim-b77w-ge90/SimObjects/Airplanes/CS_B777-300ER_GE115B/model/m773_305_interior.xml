@@ -6515,7 +6515,43 @@
       </UseTemplate>
     </Component>
 
+  <Component ID="Pilot_seats">
+      <Component ID="Pilot_seat_l" Node="A02_001_BUX">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>PILOT SEAT %((L:teevee_777_Pilot_seat_l))%{case}%{:0}(Click to pull out)%{:1}(Click to push in)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_l, bool) ! (&gt;L:teevee_777_Pilot_seat_l, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
 
+      <Component ID="Pilot_seat_r" Node="A02_002_BUX">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>PILOT SEAT %((L:teevee_777_Pilot_seat_r))%{case}%{:0}(Click to pull out)%{:1}(Click to push in)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_r, bool) ! (&gt;L:teevee_777_Pilot_seat_r, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_006_BUG</ANIM_NAME>
+        <ANIM_LAG>20</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_l, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
+
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_008_BUG</ANIM_NAME>
+        <ANIM_LAG>20</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_r, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
+    </Component>
 
 
     <Component ID="A01_106_SW2" Node="A01_106_SW2">
@@ -6933,17 +6969,16 @@
         <ANIM_NAME>O07_001_BUT</ANIM_NAME>
         <ANIM_CODE>(L:O07_001_BUT)</ANIM_CODE>
       </UseTemplate>
-      <!--
       <UseTemplate Name="ASOBO_GT_MouseRect">
         <TOOLTIPID></TOOLTIPID>
         <CURSOR>Hand</CURSOR>
         <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
         <CALLBACKCODE>
+          (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_rat, bool) ! (&gt;L:cs777_anim_ctrl_rat, bool) }
           (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:O07_001_BUT) } els{
           (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:O07_001_BUT) } }
         </CALLBACKCODE>
       </UseTemplate>
-      -->
     </Component>
 
     <Component ID="RAT_button_cover" Node="O07_001_CAP">
@@ -6953,7 +6988,6 @@
         <ANIM_NAME>O07_001_CAP</ANIM_NAME>
         <ANIM_CODE>(L:O07_001_CAP)</ANIM_CODE>
       </UseTemplate>
-      <!--
       <UseTemplate Name="ASOBO_GT_MouseRect">
         <TOOLTIPID></TOOLTIPID>
         <CURSOR>Hand</CURSOR>
@@ -6962,12 +6996,11 @@
           (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_001_CAP, bool) ! (&gt;L:O07_001_CAP, bool) }
         </CALLBACKCODE>
       </UseTemplate>
-      -->
     </Component>
 
     <Component ID="RAT_press_lt" Node="O07_001_LT1">
       <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(L:O07_001_LT1, Bool)</VISIBILITY_CODE>
+        <VISIBILITY_CODE>(L:cs777_anim_ctrl_rat, Bool)</VISIBILITY_CODE>  <!--test-->
       </UseTemplate>
     </Component>
 
@@ -8458,45 +8491,7 @@
         </UseTemplate>
       </Component>
     </Component>
-
-    <Component ID="Pilot_seats">
-      <Component ID="Pilot_seat_l" Node="A02_001_BUX">
-        <UseTemplate Name="ASOBO_GT_MouseRect">
-          <TOOLTIPID>PILOT SEAT %((L:teevee_777_Pilot_seat_l))%{case}%{:0}(Click to pull out)%{:1}(Click to push in)%{end}</TOOLTIPID>
-          <CURSOR>Hand</CURSOR>
-          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
-          <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_l, bool) ! (&gt;L:teevee_777_Pilot_seat_l, bool) }
-          </CALLBACKCODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Pilot_seat_r" Node="A02_002_BUX">
-        <UseTemplate Name="ASOBO_GT_MouseRect">
-          <TOOLTIPID>PILOT SEAT %((L:teevee_777_Pilot_seat_r))%{case}%{:0}(Click to pull out)%{:1}(Click to push in)%{end}</TOOLTIPID>
-          <CURSOR>Hand</CURSOR>
-          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
-          <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_r, bool) ! (&gt;L:teevee_777_Pilot_seat_r, bool) }
-          </CALLBACKCODE>
-        </UseTemplate>
-      </Component>
-
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_NAME>A02_006_BUG</ANIM_NAME>
-        <ANIM_LAG>20</ANIM_LAG>
-        <ANIM_LENGTH>60</ANIM_LENGTH>
-        <ANIM_CODE>(L:teevee_777_Pilot_seat_l, bool) 60 *</ANIM_CODE>
-      </UseTemplate>
-
-      <UseTemplate Name="ASOBO_GT_Anim">
-        <ANIM_NAME>A02_008_BUG</ANIM_NAME>
-        <ANIM_LAG>20</ANIM_LAG>
-        <ANIM_LENGTH>60</ANIM_LENGTH>
-        <ANIM_CODE>(L:teevee_777_Pilot_seat_r, bool) 60 *</ANIM_CODE>
-      </UseTemplate>
-    </Component>
-    
+   
     
     <Component ID="Pilot_windows">
       <Component ID="Pilot_window_handle_l" Node="A01_003_AC1">
