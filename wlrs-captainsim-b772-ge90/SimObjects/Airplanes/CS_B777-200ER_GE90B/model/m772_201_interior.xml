@@ -2180,7 +2180,7 @@
         <SEQ1_EMISSIVE_DRIVES_VISIBILITY>False</SEQ1_EMISSIVE_DRIVES_VISIBILITY>
       </DefaultTemplateParameters>
       <Component ID="Safety">
-        <UseTemplate Name="ASOBO_SAFETY_Push_WarningCaution_Template">
+        <UseTemplate Name="ASOBO_SAFETY_Push_WarningCaution_Template">  <!--inop. Can not mute-->
           <ANIM_NAME>btn_master_pilot</ANIM_NAME>
           <NODE_ID>btn_master_pilot</NODE_ID>
           <NODE_ID_SEQ1>btn_master_pilot_seq2</NODE_ID_SEQ1>
