@@ -909,14 +909,11 @@
           (O:acft_moving, bool) (A:ENG N1 RPM:2, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_r_eng_cvr, bool) }
           (A:ENG N1 RPM:1, percent) 40 &gt; (A:ENG N1 RPM:2, percent) 40 &gt; || if{ 
             0 (&gt;L:cs777_pilot_wnd_l, bool)
-            0 (&gt;L:cs777_pilot_wnd_r, bool) 
+            0 (&gt;L:cs777_pilot_wnd_r, bool)
             }
           (A:AIRSPEED INDICATED, knots) 30 &gt; if{ 
             1 (&gt;L:cs777_RAT_blrd, bool)
-            }
-          
-            
-
+            }       
         </UPDATE_CODE>
       </UseTemplate>
        
@@ -1282,7 +1279,7 @@
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_RAT_rot</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_RAT_rot)</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_RAT_rot)</ANIM_CODE>  <!--inop?-->
         </UseTemplate>
         <Component ID="cs777_RAT_still" Node="cs777_RAT_still">
           <UseTemplate Name="ASOBO_GT_Visibility">
