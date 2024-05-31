@@ -6957,8 +6957,7 @@
         <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
         <CALLBACKCODE>
           (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_RAT_ext, bool) ! (&gt;L:cs777_RAT_ext, bool) }
-          (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:O07_001_BUT) } els{
-          (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:O07_001_BUT) } }
+          (M:Event) 'LeftSingle' scmi 0 == if{ (L:O07_001_BUT, bool) ! (&gt;L:O07_001_BUT, bool) }
         </CALLBACKCODE>
       </UseTemplate>
     </Component>
