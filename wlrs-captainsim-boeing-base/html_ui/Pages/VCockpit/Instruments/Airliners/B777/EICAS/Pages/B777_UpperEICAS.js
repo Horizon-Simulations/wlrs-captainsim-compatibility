@@ -136,11 +136,11 @@ var B777_UpperEICAS;
             }
             
             //both fuel master off
-            if (SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") == true && SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool") == true) {     // 
+            if (SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") && SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool")) {     // 
                 this.fuelTankDisplay.style.display = "none";
             }
             //both fuel master on
-            if (SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") == false && SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") == false) {     //
+            if (!(SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool")) && !(SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool"))) {     //
                 let factor = this.gallonToMegapounds;
                 if (this.units)
                     factor = this.gallonToMegagrams;
@@ -301,7 +301,7 @@ var B777_UpperEICAS;
                         this.valueText.textContent = this.currentValue.toFixed(1);
                     }
                 }
-                var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.009) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 var angleo = Math.max((this.getN1LimitValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 var anglet = Math.max((this.getN1CommandedValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 
@@ -352,7 +352,7 @@ var B777_UpperEICAS;
             return SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent");
         }
         valueToPercentage(_value) {
-            return Utils.Clamp(_value, 0, 100);
+            return Utils.Clamp(_value, 0, 110);
         }
         getN1LimitValue() {
             return Math.abs(Simplane.getEngineThrottleMaxThrust(this.engineIndex - 1));
