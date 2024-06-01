@@ -872,7 +872,7 @@
       
       
       <UseTemplate Name="ASOBO_GT_Update">
-        <FREQUENCY>10</FREQUENCY>
+        <FREQUENCY>1</FREQUENCY>
         <UPDATE_CODE>
           (A:TOTAL WORLD VELOCITY, Feet per second) 1 &gt; (A:SIM ON GROUND, bool) ! || (&gt;O:acft_moving, bool)
           (O:acft_moving, bool) if{
@@ -911,9 +911,8 @@
             0 (&gt;L:cs777_pilot_wnd_l, bool)
             0 (&gt;L:cs777_pilot_wnd_r, bool)
             }
-          (A:AIRSPEED INDICATED, knots) 30 &gt; if{ 
-            1 (&gt;L:cs777_RAT_blrd, bool)
-            }       
+          
+          
         </UPDATE_CODE>
       </UseTemplate>
        
@@ -1274,21 +1273,22 @@
       <Component ID="RAT">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_RAT_ext</ANIM_NAME>
-          <ANIM_LAG>50</ANIM_LAG>
+          <ANIM_LAG>70</ANIM_LAG>
           <ANIM_CODE>(L:cs777_anim_ctrl_rat, bool) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_RAT_rot</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_RAT_rot)</ANIM_CODE>  <!--inop?-->
+          <!--(&gt;L:cs777_RAT_rot, percent)-->
+          <ANIM_CODE>(A:AIRSPEED INDICATED, knots) abs 3.3 * 6 / 100 * 100 %</ANIM_CODE>
         </UseTemplate>
         <Component ID="cs777_RAT_still" Node="cs777_RAT_still">
           <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(L:cs777_RAT_blrd, bool) !</VISIBILITY_CODE>
+            <VISIBILITY_CODE>(A:AIRSPEED INDICATED, knots) 250 &lt;</VISIBILITY_CODE>
           </UseTemplate>
         </Component>
         <Component ID="cs777_RAT_blrd" Node="cs777_RAT_blrd">
           <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(L:cs777_RAT_blrd, bool)</VISIBILITY_CODE>
+            <VISIBILITY_CODE>(A:AIRSPEED INDICATED, knots) 250 &gt;</VISIBILITY_CODE>
           </UseTemplate>
         </Component>
       </Component>
