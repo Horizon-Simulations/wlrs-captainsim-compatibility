@@ -303,6 +303,9 @@ class WT_VerticalAutopilot {
                 this._navModeSelector.activateSpeedMode();
                 this._navModeSelector.currentVerticalActiveState = VerticalNavModeState.GS;       //capture glideslope and set current vertical mode to active
             }
+            if (Simplane.getAltitudeAboveGround() < 60 && this._glideslopeStatus === GlideslopeStatus.GS_ACTIVE && signal == 2) {      //handle bug (switch back to GS after FLARE)
+                this._navModeSelector.currentVerticalActiveState = VerticalNavModeState.FLARE;
+            }
             return;
         }
     
