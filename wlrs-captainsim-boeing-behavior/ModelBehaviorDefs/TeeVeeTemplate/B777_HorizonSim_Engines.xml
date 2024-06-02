@@ -1,11 +1,11 @@
 <ModelBehaviors>
-    <Template Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+    <Template Name="HorizonSim_CS777_ENGINE_Turbine_Template">
         <DefaultTemplateParameters>
             <ENG_ID>1</ENG_ID>
-            <MIN_RPM_FOR_SLOW>8000</MIN_RPM_FOR_SLOW>
-            <MIN_RPM_FOR_BLUR>19000</MIN_RPM_FOR_BLUR>
+            <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
+            <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
         </DefaultTemplateParameters>
-        <Component ID="#ANIM_NODE#">
+        <Component ID="#ANIM_NODE#" Node="#ANIM_NODE#">
             <UseTemplate Name="ASOBO_GT_Anim">
                 <ANIM_NAME>#ANIM_NODE#</ANIM_NAME>
                 <ANIM_CODE>
@@ -23,13 +23,13 @@
                 <ANIM_DELTA>1</ANIM_DELTA>
             </UseTemplate>
         </Component>
-        <Component ID="ENGINE_Turbine_#ENG_ID#_STILL" Node="PROP_#ENG_ID#_STILL_LEFT">
+        <Component ID="ENGINE_Turbine_#ENG_ID#_STILL" Node="N1_#ENG_ID#_still">
             <UseTemplate Name="ASOBO_GT_Visibility">
                 <VISIBILITY_CODE>(A:GENERAL ENG RPM:#ENG_ID#, rpm) #MIN_RPM_FOR_SLOW# &lt;</VISIBILITY_CODE>
             </UseTemplate>
         </Component>
 
-        <Component ID="ENGINE_Turbine_#ENG_ID#_SLOW" Node="PROP_#ENG_ID#_SLOW_LEFT">
+        <Component ID="ENGINE_Turbine_#ENG_ID#_SLOW" Node="N1_#ENG_ID#_SLOW">
             <UseTemplate Name="ASOBO_GT_Visibility">
                 <VISIBILITY_CODE>
                     (A:GENERAL ENG RPM:#ENG_ID#, rpm) #MIN_RPM_FOR_SLOW# &gt;
@@ -37,7 +37,7 @@
                 </VISIBILITY_CODE>
             </UseTemplate>
         </Component>
-        <Component ID="ENGINE_Turbine_#ENG_ID#_BLUR" Node="PROP_#ENG_ID#_BLURRED_LEFT">
+        <Component ID="ENGINE_Turbine_#ENG_ID#_BLUR" Node="N1_#ENG_ID#_blurred">
             <UseTemplate Name="ASOBO_GT_Visibility">
                 <VISIBILITY_CODE>(A:GENERAL ENG RPM:#ENG_ID#, rpm) #MIN_RPM_FOR_BLUR# &gt;</VISIBILITY_CODE>
             </UseTemplate>

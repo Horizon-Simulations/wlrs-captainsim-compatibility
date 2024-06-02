@@ -4,7 +4,6 @@
     <Include RelativeFile="B777_FCUPanel.xml"/>
     <Include RelativeFile="B777_NDPanel.xml"/>
     <Include RelativeFile="B777_EICASButton.xml"/>
-    <Include RelativeFile="B777_ENGINES.xml"/>
     <Include RelativeFile="B777_FMC.xml"/>
     <Include RelativeFile="ADIRUButton.xml"/>
 </ModelBehaviors>

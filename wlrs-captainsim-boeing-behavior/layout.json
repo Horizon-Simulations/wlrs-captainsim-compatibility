@@ -16,11 +16,6 @@
       "date": 133034258880000000
     },
     {
-      "path": "ModelBehaviorDefs\\RobSim\\B777_Engines.xml",
-      "size": 9347,
-      "date": 133034258880000000
-    },
-    {
       "path": "ModelBehaviorDefs\\RobSim\\B777_FCUPanel.xml",
       "size": 1990,
       "date": 133034258880000000
@@ -53,6 +48,11 @@
     {
       "path": "ModelBehaviorDefs\\TeeVeeTemplate\\B777_WT_templates.xml",
       "size": 38348,
+      "date": 133034258880000000
+    },
+    {
+      "path": "ModelBehaviorDefs\\TeeVeeTemplate\\B777_HorizonSim_Engines.xml",
+      "size": 9347,
       "date": 133034258880000000
     }
   ]
