@@ -2217,7 +2217,7 @@
           <PLANE_PREFIX>B777</PLANE_PREFIX>
         </DefaultTemplateParameters>
 
-        <Component ID="GlassCockpit_Panel_Pilot">
+        <Component ID="GlassCockpit_Panel_Pilot">   <!--need revise-->
           <UseTemplate Name="RobSim_AIRLINER_Knob_ND_Template">
             <TYPE>BOEING_777</TYPE>
             <NODE_ID>knob_afds_ctr_l1</NODE_ID>
@@ -2233,13 +2233,13 @@
             <BUTTON_ANIM_NAME>afds_push_tfc_l</BUTTON_ANIM_NAME>
           </UseTemplate>
           <UseTemplate Name="ASOBO_AIRLINER_Switch_Baro_Selector_Template">
-            <NODE_ID>knob_afds_std_l1</NODE_ID>
+            <NODE_ID>knob_afds_std_l1</NODE_ID>   <!--inner knob/HPA-smt-->
             <ANIM_NAME>afds_knob_std_l</ANIM_NAME>
-            <BUTTON_NODE_ID>btn_afds_std_l1</BUTTON_NODE_ID>
-            <BUTTON_ANIM_NAME>afds_push_std_l1</BUTTON_ANIM_NAME>
+            <BUTTON_NODE_ID>btn_afds_std_l1</BUTTON_NODE_ID>  <!--without this still work-->
+            <BUTTON_ANIM_NAME>afds_push_std_l1</BUTTON_ANIM_NAME> <!--without this still work-->
             <STR_STATE_ON>HPA</STR_STATE_ON>
           </UseTemplate>
-          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">
+          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">    <!--baro metric height selector-->
             <NODE_ID>knob_afds_std_l2</NODE_ID>
             <ANIM_NAME_KNOB>afds_knob_std_l2</ANIM_NAME_KNOB>
             <ANIM_NAME_PUSH>afds_push_std_l</ANIM_NAME_PUSH>
@@ -2328,17 +2328,18 @@
             <BUTTON_NODE_ID>btn_afds_tfc_r</BUTTON_NODE_ID>
             <BUTTON_ANIM_NAME>afds_push_tfc_r</BUTTON_ANIM_NAME>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_BOEING_Switch_Mins_Selector_Template">
-            <NODE_ID>knob_afds_rst_r</NODE_ID>
-            <ANIM_NAME>afds_knob_rst_r</ANIM_NAME>
-            <ID>1</ID>
+          <UseTemplate Name="ASOBO_AIRLINER_Switch_Baro_Selector_Template">
+            <NODE_ID>knob_afds_std_r</NODE_ID>   <!--NO IDEA WHAT IS THE NAME/inop-->
+            <ANIM_NAME>afds_knob_std_r</ANIM_NAME>    <!--right anim, but the NODE_ID dont work-->
+            <BUTTON_NODE_ID>btn_afds_std_r2</BUTTON_NODE_ID>   <!--without this still work-->
+            <BUTTON_ANIM_NAME>afds_push_std_r</BUTTON_ANIM_NAME>  <!--without this still work-->
+            <STR_STATE_ON>HPA</STR_STATE_ON>
           </UseTemplate>
-          <UseTemplate Name="WT_BOEING_Knob_Mins_Template">
-            <NODE_ID>knob_afds_rst_r2</NODE_ID>
-            <ANIM_NAME>afds_knob_rst_r2</ANIM_NAME>
-            <BUTTON_NODE_ID>btn_afds_rst_r</BUTTON_NODE_ID>
-            <BUTTON_ANIM_NAME>afds_push_rst_r</BUTTON_ANIM_NAME>
-            <ID>1</ID>
+          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">    
+            <NODE_ID>knob_afds_std_r2</NODE_ID>
+            <ANIM_NAME_KNOB>afds_knob_std_r2</ANIM_NAME_KNOB>
+            <ANIM_NAME_PUSH>afds_push_std_r</ANIM_NAME_PUSH>
+            <AIRLINER_TYPE>PUSH</AIRLINER_TYPE>
           </UseTemplate>
           <UseTemplate Name="RobSim_BOEING_Push_WXR_Template">
             <NODE_ID>btn_afds_wxr_r</NODE_ID>
