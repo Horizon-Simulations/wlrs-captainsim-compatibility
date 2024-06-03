@@ -4,6 +4,7 @@
             <ENG_ID>1</ENG_ID>
             <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
             <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
+            <MAGIC>2602</MAGIC>
         </DefaultTemplateParameters>
         <Component ID="#ANIM_NODE#" Node="#ANIM_NODE#">
             <UseTemplate Name="ASOBO_GT_Anim">
@@ -12,7 +13,7 @@
 
                     (A:GENERAL ENG RPM:#ENG_ID#, rpm) 5 &gt;
                     if{
-                    0.01 3 2602 (A:TURB ENG N1:#ENG_ID#, Percent) (A:ANIMATION DELTA TIME, seconds) * * * *
+                    0.01 3 #MAGIC# (A:TURB ENG N1:#ENG_ID#, Percent) (A:ANIMATION DELTA TIME, seconds) * * * *
                     } els{
                     (A:AIRCRAFT WIND Z, knots) 7 / neg
                     }
