@@ -724,14 +724,10 @@
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>1</ENG_ID>
 				<ANIM_NODE>N1_1_anim</ANIM_NODE>
-        <MIN_RPM_FOR_SLOW>8000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>19000</MIN_RPM_FOR_BLUR>
 			</UseTemplate>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>2</ENG_ID>
 				<ANIM_NODE>N1_2_anim</ANIM_NODE>
-        <MIN_RPM_FOR_SLOW>8000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>19000</MIN_RPM_FOR_BLUR>
 			</UseTemplate>
 		</Component>
 
@@ -1283,7 +1279,7 @@
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_RAT_rot</ANIM_NAME>
           <!--(&gt;L:cs777_RAT_rot, percent)-->
-          <ANIM_CODE>(A:AIRSPEED INDICATED, knots) abs 3.3 * 0.6 / 100 * 100 %</ANIM_CODE>
+          <ANIM_CODE>(A:AIRSPEED INDICATED, knots) abs 1 * 1.2 / 100 * 100 %</ANIM_CODE>
         </UseTemplate>
         <Component ID="cs777_RAT_still" Node="cs777_RAT_still">
           <UseTemplate Name="ASOBO_GT_Visibility">
