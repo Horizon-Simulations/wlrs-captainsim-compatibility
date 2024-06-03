@@ -1557,8 +1557,8 @@
               <ID>1</ID>
               <MASTER_VARIABLE>O07_006_GL3</MASTER_VARIABLE>
               <FAULT_LIGHT>ovhd_hyd_sys_fault_light_01_SEQ1</FAULT_LIGHT>
-              <NODE_ID>ovhd_hyd_demand_pump_press_light_01</NODE_ID>
               <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>
+              <!--<NODE_ID>ovhd_hyd_demand_pump_press_light_01</NODE_ID>-->
               <LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_LEFT</LOCAL_VAR>
               <POSITION>LEFT</POSITION>
               <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
@@ -1569,7 +1569,8 @@
               <MASTER_VARIABLE>O07_007_GL3</MASTER_VARIABLE>
               <FAULT_LIGHT>O07_011_LT0</FAULT_LIGHT>
               <LOCAL_VAR>XMLVAR_HYDRAULICS_C1</LOCAL_VAR>
-              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME>
+              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME> <!--air driven-->
+              <!--<NODE_ID>ovhd_hyd_demand_pump_C1_light_01</NODE_ID>-->
               <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
               <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
               <TOOLTIP_TITLE_INDEX>'C1'</TOOLTIP_TITLE_INDEX>
@@ -1579,8 +1580,8 @@
               <MASTER_VARIABLE>O07_008_GL3</MASTER_VARIABLE>
               <FAULT_LIGHT>O07_012_LT0</FAULT_LIGHT>
               <LOCAL_VAR>XMLVAR_HYDRAULICS_C2</LOCAL_VAR>
-              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME>
-              <NODE_ID>ovhd_hyd_demand_pump_C2_light_01</NODE_ID>
+              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME> 
+              <!--<NODE_ID>ovhd_hyd_demand_pump_C2_light_01</NODE_ID>-->
               <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
               <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
               <TOOLTIP_TITLE_INDEX>'C2'</TOOLTIP_TITLE_INDEX>
@@ -1591,7 +1592,7 @@
               <FAULT_LIGHT>ovhd_hyd_sys_fault_light_02_SEQ1</FAULT_LIGHT>
               <IE_NAME>knob_hydraulic_elec_pump_r</IE_NAME>
               <LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_RIGHT</LOCAL_VAR>
-              <NODE_ID>ovhd_hyd_demand_pump_press_light_02</NODE_ID>
+              <!--<NODE_ID>ovhd_hyd_demand_pump_press_light_02</NODE_ID>-->
               <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
               <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
             </UseTemplate> 

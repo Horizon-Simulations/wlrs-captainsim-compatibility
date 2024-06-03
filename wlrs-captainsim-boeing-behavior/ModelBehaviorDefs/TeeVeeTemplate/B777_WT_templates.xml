@@ -483,6 +483,7 @@
 			<IE_NAME></IE_NAME>
 			<FAULT_LIGHT></FAULT_LIGHT>
 			<PRESS_WARNING_THRESHOLD_PSI>2600</PRESS_WARNING_THRESHOLD_PSI>
+			<LOCAL_VAR></LOCAL_VAR>
 		</Parameters>
 		<UseTemplate Name="Asobo_Interaction_Base_Template">
 			<IE_NAME>#IE_NAME#</IE_NAME>
@@ -496,9 +497,9 @@
 			<STR_STATE_1>Auto</STR_STATE_1>
 			<STR_STATE_2>On</STR_STATE_2>
 			<WWISE_EVENT>autopilot_knob</WWISE_EVENT>	<!--SOUND: can be either autopilot knob, or the same as the seatbelt knob-->
-			<LOCALVAR_TO_WATCH_0>L:#MASTER_VARIABLE#</LOCALVAR_TO_WATCH_0>
+			<LOCALVAR_TO_WATCH_0>L:#MASTER_VARIABLE#</LOCALVAR_TO_WATCH_0>	<!--this is for animations-->
 			<ANIM_CODE>(L:#MASTER_VARIABLE#) 2 / 100 *</ANIM_CODE>
-			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#) sp0</GET_STATE_EXTERNAL>
+			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#) sp0</GET_STATE_EXTERNAL>	<!--this is for logic-->
 			<SET_STATE_0>0 (&gt;L:#LOCAL_VAR#)</SET_STATE_0>
 			<SET_STATE_1>1 (&gt;L:#LOCAL_VAR#)</SET_STATE_1>
 			<SET_STATE_2>2 (&gt;L:#LOCAL_VAR#)</SET_STATE_2>
@@ -512,6 +513,13 @@
 			<NODE_ID>#FAULT_LIGHT#</NODE_ID>
 			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt; (A:HYDRAULIC SWITCH:#ID#, Bool) and (L:#LOCAL_VAR#, Number) 0 == or</EMISSIVE_CODE>
 		</UseTemplate>
+		<!-- test later
+		<UPDATE_CIRCUIT_STATE>			
+			(A:CIRCUIT SWITCH ON:#CIRCUIT_INDEX#, Bool) l0 != if{
+			#CIRCUIT_INDEX# (&gt;K:ELECTRICAL_CIRCUIT_TOGGLE)
+			}
+		</UPDATE_CIRCUIT_STATE>
+		-->
 	</Template>
 
 	<!-- Anti-Ice -->
