@@ -1045,28 +1045,28 @@
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
             <!--revise here-->
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:4, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_2R">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_3R">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_4R">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:8, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
