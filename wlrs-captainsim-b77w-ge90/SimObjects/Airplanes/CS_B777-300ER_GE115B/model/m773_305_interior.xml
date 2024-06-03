@@ -2720,7 +2720,6 @@
             <ANIM_CODE>0</ANIM_CODE>
           </UseTemplate>
           <UseTemplate Name="WT_B777_Air_Data_Att_Source_Knob_Template">
-            <!--777 INOP-->
             <NODE_ID>knob_source_select_air_data_l</NODE_ID>
             <ANIM_NAME>source_select_knob_air_data_l</ANIM_NAME>
           </UseTemplate>
@@ -5861,9 +5860,6 @@
       </UseTemplate>
       <UseTemplate Name="ASOBO_GT_Interaction_Tooltip">
         <NODE_ID>knob_source_select_irs_r</NODE_ID>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_GT_Interaction_Tooltip">
-        <NODE_ID>knob_source_select_air_data_l</NODE_ID>
       </UseTemplate>
       <UseTemplate Name="ASOBO_GT_Interaction_Tooltip">
         <NODE_ID>knob_source_select_air_data_r</NODE_ID>
