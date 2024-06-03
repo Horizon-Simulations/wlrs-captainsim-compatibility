@@ -62,6 +62,7 @@ class B777_EICAS extends Airliners.BaseEICAS {
     createLowerScreenPages() {
         this.createLowerScreenPage("FUEL", "BottomScreen", "b777-lower-eicas-fuel");
         this.createLowerScreenPage("ENG", "BottomScreen", "b777-lower-eicas-engine");
+        this.createLowerScreenPage("HYD", "BottomScreen", "b777-lower-eicas-hyd");
         this.createLowerScreenPage("STAT", "BottomScreen", "b777-lower-eicas-stat");
         this.createLowerScreenPage("FCTL", "BottomScreen", "b777-lower-eicas-fctl");
         this.createLowerScreenPage("DRS", "BottomScreen", "b777-lower-eicas-drs");
