@@ -1,10 +1,9 @@
-var B777_LowerEICAS_Hyd;
-(function (B777_LowerEICAS_Hyd) {
+var B777_LowerEICAS_HYD;
+(function (B777_LowerEICAS_HYD) {
     class Display extends Airliners.EICASTemplateElement {
         constructor() {
             super();
             this.isInitialised = false;
-            
         }
         get templateID() { return "B777LowerEICASHydTemplate"; }
         connectedCallback() {
