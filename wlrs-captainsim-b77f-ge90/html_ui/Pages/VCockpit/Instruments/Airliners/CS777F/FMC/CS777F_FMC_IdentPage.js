@@ -1,4 +1,5 @@
 class FMCIdentPage {
+    //https://www.atlasair.com/wp-content/uploads/2023/01/777-200F-One-Sheet_012418.pdf
     static ShowPage1(fmc) {
         fmc.clearDisplay();
         fmc.activeSystem = "FMC";
@@ -10,7 +11,7 @@ class FMCIdentPage {
         fmc.setTemplate([
             ["IDENT"],
             ["\xa0MODEL", "ENG RATING"],
-            ["777-200.4", "GE90-110B1L2"],
+            ["777-200F", "GE90-110B1L2"],
             ["\xa0NAV DATA", "ACTIVE"],
             ["AIRAC", date.toString()],
             ["", ""],
