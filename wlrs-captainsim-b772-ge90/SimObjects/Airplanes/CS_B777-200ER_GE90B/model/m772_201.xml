@@ -714,16 +714,22 @@
     <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
     <Include ModelBehaviorFile="RobSim\index.xml"/>
-
+    <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
 
    	<Component ID="ENGINE">
-			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>1</ENG_ID>
 				<ANIM_NODE>N1_1_anim</ANIM_NODE>
+        <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
+        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
+        <MAGIC>1900</MAGIC>
 			</UseTemplate>
-			<UseTemplate Name="HorizonSim_CS773_ENGINE_Turbine_Template">
+			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>2</ENG_ID>
 				<ANIM_NODE>N1_2_anim</ANIM_NODE>
+        <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
+        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
+        <MAGIC>1900</MAGIC>
 			</UseTemplate>
 		</Component>
     
