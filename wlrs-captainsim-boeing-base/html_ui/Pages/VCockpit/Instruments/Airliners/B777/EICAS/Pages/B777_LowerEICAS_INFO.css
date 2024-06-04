@@ -1,31 +1,41 @@
 :root {
-    --eicasWhite: white;
-    --eicasBlack: black;
-    --eicasGrey: #c8c8c8;
-    --eicasBlue: #009696;
-    --eicasGreen: green;
-    --eicasOrange: #db7200;
-    --eicasRed: red;
-    --eicasMagenta: #D570FF; }
-    :root text {
-      font-family: "BoeingEFIS"; }
+  --eicasWhite: white;
+  --eicasBlack: black;
+  --eicasGrey: #c8c8c8;
+  --eicasBlu: #00b7ff;
+  --eicasFrameBlue: #00c3ff;
+  --eicasGreen: lime;
+  --eicasOrange: #db7200;
+  --eicasRed: red;
+  --eicasMagenta: #D570FF; }
+  :root text {
+    font-family: "BoeingEFIS"; }
 
 @font-face {
-  font-family: "BoeingEFIS";
-  src: url("/Fonts/BoeingEFIS.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal; }
+font-family: "BoeingEFIS";
+src: url("/Fonts/BoeingEFIS.ttf") format("truetype");
+font-weight: normal;
+font-style: normal; }
 
-b777-lower-eicas-info {
-  position: relative;
-  left: 3.5%;
-  width: 95.5%;
-  top: 4.25%;
-  height: 88%;
-  display: block; }
-  b777-lower-eicas-info svg {
-    width: 100%;
-    height: 100%; }
-  b777-lower-eicas-info text {
-    fill: cyan;
-    font-size: 17px; }
+b777-lower-eicas-hyd {
+position: relative;
+left: 0%;
+width: 100%;
+top: auto;
+height:100%;
+display: block; }
+b777-lower-eicas-hyd svg {
+  width: 100%;
+  height: 100%; }
+b777-lower-eicas-hyd text {
+  fill: var(--eicasWhite);
+  font-size: 19px; }
+
+b777-lower-eicas-hyd #Frame #Box rect{
+  stroke: var(--eicasFrameBlue);
+  stroke-width: 2px;
+}
+b777-lower-eicas-hyd #Frame #Text text{
+  font-size: 17px;
+  fill: var(--eicasBlu);
+}
