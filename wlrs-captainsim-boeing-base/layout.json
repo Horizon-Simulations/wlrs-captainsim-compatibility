@@ -211,6 +211,21 @@
       "date": 133188677800180110
     },
     {
+      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\B777\\EFB\\B777_EFB.js",
+      "size": 9387,
+      "date": 133188677800185120
+    },
+    {
+      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\B777\\EFB\\B777_EFB.html",
+      "size": 9387,
+      "date": 133188677800185120
+    },
+    {
+      "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\B777\\EFB\\B777_EFB.css",
+      "size": 9387,
+      "date": 133188677800185120
+    },
+    {
       "path": "html_ui\\Pages\\VCockpit\\Instruments\\Airliners\\B777\\EICAS\\B777_EICAS.js",
       "size": 9387,
       "date": 133188677800185120

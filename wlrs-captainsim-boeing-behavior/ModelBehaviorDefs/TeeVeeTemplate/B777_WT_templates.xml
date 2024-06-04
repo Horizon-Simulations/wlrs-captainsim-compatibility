@@ -1578,4 +1578,10 @@
         </UseTemplate>
 	</Template>
 
+	<Template Name="teevee_EFB_template">
+		<Parameters Type="Default">
+		
+		</Parameters>
+	</Template>
+
 </ModelBehaviors>

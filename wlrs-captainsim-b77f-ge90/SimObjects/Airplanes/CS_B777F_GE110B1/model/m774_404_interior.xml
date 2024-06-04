@@ -7040,5 +7040,559 @@
 
     </Component>
 
+
+
+  <!-- this will all be replaced with a template. But will take a long time-->
+    <Component ID="EFB1">
+      <!--BRT_DIM_Switch-->
+      <Component ID="V06_004_SW3" Node="V06_004_SW3">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>7</ANIM_LAG>
+          <ANIM_NAME>V06_004_SW3</ANIM_NAME>
+          <ANIM_LENGTH>2</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_004_SW3)</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Grab</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftDrag'  scmi 0 == if{ (M:RelativeY) (O:MY_init) - 50 * s0 abs 1 > if{ (M:RelativeY) (&gt;O:MY_init) l0 0 > if{ 2 (&gt;L:V06_004_SW3) } els{ 0 (&gt;L:V06_004_SW3) } } } els{
+            (M:Event) 'Lock'      scmi 0 == if{ (M:RelativeY) (&gt;O:MY_init) } els{
+            (M:Event) 'Unlock'    scmi 0 == if{ 1 (&gt;L:V06_004_SW3) } } }
+          </CALLBACKCODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_Update">
+          <UPDATE_ONCE>True</UPDATE_ONCE>
+          <UPDATE_CODE>1 (&gt;L:V06_004_SW3)</UPDATE_CODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Menu_Switch-->
+      <Component ID="V06_005_SW2" Node="V06_005_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_005_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_005_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_005_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_005_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Back_Switch-->
+      <Component ID="V06_006_SW2" Node="V06_006_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_006_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_006_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_006_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_006_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Pg_Up_Switch-->
+      <Component ID="V06_007_SW2" Node="V06_007_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_007_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_007_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_007_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_007_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Pg_Dn_Switch-->
+      <Component ID="V06_008_SW2" Node="V06_008_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_008_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_008_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_008_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_008_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--XFR_Switch-->
+      <Component ID="V06_009_SW2" Node="V06_009_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_009_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_009_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_009_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_009_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Enter_Switch-->
+      <Component ID="V06_010_SW2" Node="V06_010_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_010_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_010_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_010_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_010_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Power_Switch-->
+      <Component ID="V06_011_SW2" Node="V06_011_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_011_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_011_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <TOOLTIPID>Animation Controls %((L:cs777_anim_ctrl_master))%{case}%{:0}(Click to show)%{:1}(Click to hide)%{end}</TOOLTIPID>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_master, bool) ! (&gt;L:cs777_anim_ctrl_master, bool) }
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_011_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_011_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Plus_Switch-->
+      <Component ID="V06_012_SW2" Node="V06_012_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_012_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_012_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_012_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_012_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Minus_Switch-->
+      <Component ID="V06_013_SW2" Node="V06_013_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_013_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_013_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_013_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_013_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Up_Switch-->
+      <Component ID="V06_014_SW2" Node="V06_014_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_014_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_014_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_014_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_014_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Down_Switch-->
+      <Component ID="V06_015_SW2" Node="V06_015_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_015_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_015_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_015_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_015_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Left_Switch-->
+      <Component ID="V06_016_SW2" Node="V06_016_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_016_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_016_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_016_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_016_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--Right_Switch-->
+      <Component ID="V06_017_SW2" Node="V06_017_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_017_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_017_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_017_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_017_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L1_Switch-->
+      <Component ID="V06_021_SW2" Node="V06_021_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_021_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_021_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_021_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_021_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L2_Switch-->
+      <Component ID="V06_022_SW2" Node="V06_022_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_022_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_022_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_022_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_022_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L3_Switch-->
+      <Component ID="V06_023_SW2" Node="V06_023_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_023_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_023_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_023_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_023_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L4_Switch-->
+      <Component ID="V06_024_SW2" Node="V06_024_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_024_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_024_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_024_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_024_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L5_Switch-->
+      <Component ID="V06_025_SW2" Node="V06_025_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_025_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_025_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_025_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_025_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L6_Switch-->
+      <Component ID="V06_026_SW2" Node="V06_026_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_026_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_026_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_026_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_026_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L7_Switch-->
+      <Component ID="V06_027_SW2" Node="V06_027_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_027_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_027_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_027_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_027_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--L8_Switch-->
+      <Component ID="V06_028_SW2" Node="V06_028_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_028_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_028_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_028_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_028_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R1_Switch-->
+      <Component ID="V06_031_SW2" Node="V06_031_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_031_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_031_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_031_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_031_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R2_Switch-->
+      <Component ID="V06_032_SW2" Node="V06_032_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_032_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_032_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_032_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_032_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R3_Switch-->
+      <Component ID="V06_033_SW2" Node="V06_033_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_033_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_033_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_033_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_033_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R4_Switch-->
+      <Component ID="V06_034_SW2" Node="V06_034_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_034_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_034_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_034_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_034_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R5_Switch-->
+      <Component ID="V06_035_SW2" Node="V06_035_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_035_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_035_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_035_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_035_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R6_Switch-->
+      <Component ID="V06_036_SW2" Node="V06_036_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_036_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_036_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_036_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_036_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R7_Switch-->
+      <Component ID="V06_037_SW2" Node="V06_037_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_037_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_037_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_037_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_037_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <!--R8_Switch-->
+      <Component ID="V06_038_SW2" Node="V06_038_SW2">
+        <UseTemplate Name="ASOBO_GT_Anim">
+          <ANIM_LAG>500</ANIM_LAG>
+          <ANIM_NAME>V06_038_SW2</ANIM_NAME>
+          <ANIM_LENGTH>100</ANIM_LENGTH>
+          <ANIM_CODE>(L:V06_038_SW2) 100 *</ANIM_CODE>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'Lock'   scmi 0 == if{ 1 (&gt;L:V06_038_SW2) } els{
+            (M:Event) 'Unlock' scmi 0 == if{ 0 (&gt;L:V06_038_SW2) } }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+      
+
+    </Component>
+
   </Behaviors>
 </ModelInfo>
