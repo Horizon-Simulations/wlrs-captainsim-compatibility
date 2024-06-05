@@ -1578,12 +1578,71 @@
         </UseTemplate>
 	</Template>
 
-	<Template Name="teevee_EFB_template">
-		<Parameters Type="Default">
-			<NODE_ID></NODE_ID>
-			<ANIM_NAME></ANIM_NAME>
-			<ANIM_LENGTH>2</ANIM_LENGTH>
-		</Parameters>
+	<!-- Params: SCREEN_NODE_ID, BUTTON_NODE_PREFIX -->
+	<Template Name="WT_B787_EFB_Template">
+		<Component ID="EFB_#BUTTON_NODE_PREFIX#">
+			<!-- Screen emissive -->
+			<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+				<NODE_ID>#SCREEN_NODE_ID#</NODE_ID>
+				<EMISSIVE_CODE>(A:GLASSCOCKPIT AUTOMATIC BRIGHTNESS, Percent over 100)</EMISSIVE_CODE>
+				<FAILURE>(A:CIRCUIT ON:97, Bool)</FAILURE>
+			</UseTemplate>
+
+			<!-- Buttons -->
+			<Loop>
+				<Setup>
+					<Param>BUTTON_ID</Param>
+					<From>1</From>
+					<To>16</To>
+					<Inc>1</Inc>
+				</Setup>
+				<Do>
+					<Component ID="EFB_#BUTTON_NODE_PREFIX#_LSK_#BUTTON_ID#" Node="Btn_touchpad_#BUTTON_NODE_PREFIX#_#BUTTON_ID#">
+						<UseTemplate Name="ASOBO_GT_Push_Button">
+							<!-- TODO: Need "HUD symbology" tooltip -->
+							<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>
+							<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+							<LEFT_SINGLE_CODE>(&gt;H:WT787_EFB_#BUTTON_NODE_PREFIX#_LSK_#BUTTON_ID#)</LEFT_SINGLE_CODE>
+						</UseTemplate>
+					</Component>
+				</Do>
+			</Loop>
+
+			<!-- PWR key -->
+			<Component ID="EFB_#BUTTON_NODE_PREFIX#_PWR">
+				<UseTemplate Name="WT_B78_Airliner_LVar_Switch_Template">
+					<ID>1</ID>
+					<NODE_ID>Btn_touchpad_#BUTTON_NODE_PREFIX#_pwr</NODE_ID>
+					<ANIM_NAME>Btn_touchpad_#BUTTON_NODE_PREFIX#_pwr</ANIM_NAME>
+					<PART_ID>Btn_touchpad_#BUTTON_NODE_PREFIX#_pwr</PART_ID>
+					<IE_NAME>EFB_PWR_#BUTTON_NODE_PREFIX#</IE_NAME>
+					<LVAR>WT_EFB_POWER</LVAR>
+					<WWISE_EVENT_1>fpv_push_button_on</WWISE_EVENT_1>
+					<WWISE_EVENT_2>fpv_push_button_off</WWISE_EVENT_2>
+					<TOOLTIP_TITLE>@TT_Package.AS510_SWITCH_POWER_TITLE</TOOLTIP_TITLE>
+					<TT_DESCRIPTION>@TT_Package.ELECTRICAL_SWITCH_AVIONICS_DISPLAY_ACTION</TT_DESCRIPTION>
+					<IS_MOMENTARY>True</IS_MOMENTARY>
+				</UseTemplate>
+			</Component>
+
+			<!-- MENU key -->
+			<Component ID="EFB_#BUTTON_NODE_PREFIX#_MENU" Node="Btn_touchpad_#BUTTON_NODE_PREFIX#_menu">
+				<UseTemplate Name="ASOBO_GT_Push_Button">
+					<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>
+					<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+					<LEFT_SINGLE_CODE>(&gt;H:WT787_EFB_#BUTTON_NODE_PREFIX#_MENU)</LEFT_SINGLE_CODE>
+				</UseTemplate>
+			</Component>
+
+			<!-- BACK key -->
+			<Component ID="EFB_#BUTTON_NODE_PREFIX#_BACK" Node="Btn_touchpad_#BUTTON_NODE_PREFIX#_back">
+				<UseTemplate Name="ASOBO_GT_Push_Button">
+					<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>
+					<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+					<LEFT_SINGLE_CODE>(&gt;H:WT787_EFB_#BUTTON_NODE_PREFIX#_BACK)</LEFT_SINGLE_CODE>
+				</UseTemplate>
+			</Component>
+		</Component>
 	</Template>
 
 </ModelBehaviors>
