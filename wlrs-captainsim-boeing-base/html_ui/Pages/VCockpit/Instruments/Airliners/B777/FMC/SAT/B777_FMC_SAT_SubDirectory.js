@@ -5,7 +5,7 @@ class FMC_SAT_SubDirectory {
 		
 		const updateView = () => {
 			fmc.setTemplate([
-				["SAT DIRECTORY", "01", "20"],
+				["SAT DIRECTORY (INOP)", "01", "20"],
 				["SAT-L", "SAT-R", title],
 				["", "", "<-FLIGHT DISPATCH EDDF-->"],
 				["", "", "001-319-829-1728"],
