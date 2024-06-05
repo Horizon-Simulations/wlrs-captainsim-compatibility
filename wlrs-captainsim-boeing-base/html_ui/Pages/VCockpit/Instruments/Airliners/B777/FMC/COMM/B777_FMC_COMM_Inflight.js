@@ -5,7 +5,7 @@ class FMC_COMM_Inflight {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["INFLIGHT"],
+                ["INFLIGHT (INOP)"],
                 ["\xa0POSITION", "DEST ETA"],
                 ["<REPORT", "----Z"],
                 ["\xa0DEVIATE TO[color]inop", ""],

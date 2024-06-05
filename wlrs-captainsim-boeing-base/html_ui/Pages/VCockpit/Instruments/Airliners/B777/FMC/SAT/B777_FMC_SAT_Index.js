@@ -5,7 +5,7 @@ class FMC_SAT_Index {
 		
 		const updateView = () => {
 			fmc.setTemplate([
-				["SAT-PHONE", "1", "2"],
+				["SAT-PHONE (INOP)", "1", "2"],
 				["SAT-L:ANSWERED", "PRIORITY"],
 				["<END CALL", "LOW>"],
 				["EURO OPNS", ""],

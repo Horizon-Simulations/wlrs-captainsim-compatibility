@@ -5,7 +5,7 @@ class FMC_COMM_LinkStatus {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["ATC LINK STATUS"],
+                ["ATC LINK STATUS (INOP)"],
                 ["", ""],
                 ["", ""],
                 ["\xa0STATUS", ""],

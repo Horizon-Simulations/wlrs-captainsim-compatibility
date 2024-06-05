@@ -5,7 +5,7 @@ class FMC_COMM_Altn {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["ATC INDEX"],
+                ["ATC INDEX (INOP)"],
                 ["\xa0UPLINK", ""],
                 ["<RTE 1", "POS REPORT>"],
                 ["\xa0UPLINK (2)", ""],

@@ -3,7 +3,7 @@ class FMC_ATC_WhenCanWe {
         fmc.activeSystem = "DLNK";
         fmc.clearDisplay();
         fmc.setTemplate([
-            ["WHEN CAN WE EXPECT"],
+            ["WHEN CAN WE EXPECT (INOP)"],
             ["\xa0CRZ CLB TO", ""],
             [`${store.crzClbTo}`, ""],
             ["\xa0CLIMB TO", ""],

@@ -3,7 +3,7 @@ class FMC_ATC_Report {
         fmc.activeSystem = "DLNK";
         fmc.clearDisplay();
         fmc.setTemplate([
-            ["ATC REPORT", "1", "2"],
+            ["ATC REPORT(INOP)", "1", "2"],
             ["", ""],
             ["<CONFIRM ALTITUDE", ""],
             ["", ""],

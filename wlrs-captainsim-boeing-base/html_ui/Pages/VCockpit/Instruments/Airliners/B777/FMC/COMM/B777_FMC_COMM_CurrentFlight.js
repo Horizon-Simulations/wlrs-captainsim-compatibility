@@ -5,7 +5,7 @@ class FMC_COMM_CurrentFlight {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["ACARS CURRENT FLIGHT"],
+                ["ACARS CURRENT FLIGHT (INOP)"],
                 ["\xa0FLT NO", "DEPT/DEST"],
                 ["□□□□□□", "□□□□/□□□□"],
                 ["\xa0DATE", "ETA"],

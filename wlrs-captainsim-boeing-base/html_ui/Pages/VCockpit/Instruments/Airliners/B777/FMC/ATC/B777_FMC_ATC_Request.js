@@ -19,7 +19,7 @@ class FMC_ATC_Request {
         }
 
         fmc.setTemplate([
-            ["ATC REQUEST"],
+            ["ATC REQUEST (INOP)"],
             ["\xa0ALTITUDE", ""],
             [`<${altitudeCell}`, ""],
             ["\xa0SPEED", ""],

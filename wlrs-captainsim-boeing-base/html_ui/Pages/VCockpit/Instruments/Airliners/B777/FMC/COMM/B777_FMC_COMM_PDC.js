@@ -1,6 +1,6 @@
 class FMC_COMM_PDC {
     static ShowPage(fmc, store = {sendStatus: "SEND>"}) {
-        fmc.activeSystem = "DLNK";
+        fmc.activeSystem = "DLNK (INOP)";
         fmc.clearDisplay();
         let fltNoCell = "------";
         let deptCell = "----";

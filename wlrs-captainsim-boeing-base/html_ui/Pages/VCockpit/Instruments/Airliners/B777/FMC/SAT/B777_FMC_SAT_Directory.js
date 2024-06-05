@@ -5,7 +5,7 @@ class FMC_SAT_Directory {
 		
 		const updateView = () => {
 			fmc.setTemplate([
-				["SAT DIRECTORY INDEX", "1", "2"],
+				["SAT DIRECTORY INDEX (INOP)", "1", "2"],
 				["", ""],
 				["<EMERGENCY", "COMPANY>"],
 				["", ""],

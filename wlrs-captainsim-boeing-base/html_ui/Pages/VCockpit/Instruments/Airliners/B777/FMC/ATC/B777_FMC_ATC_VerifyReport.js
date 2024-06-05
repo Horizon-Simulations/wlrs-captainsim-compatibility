@@ -10,7 +10,7 @@ class FMC_ATC_VerifyReport {
 
         const updateView = () => {
             fmc.setTemplate([
-                [`VERIFY REPORT`],
+                [`VERIFY REPORT (INOP)`],
                 ["", ""],
                 [lines[0] ? lines[0] : ""],
                 [lines[1] ? lines[1] : ""],

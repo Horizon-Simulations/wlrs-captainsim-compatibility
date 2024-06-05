@@ -28,7 +28,7 @@ class FMC_ATC_XRequest {
             store.altitude = store.altitude ? store.altitude : "-----";
 
             fmc.setTemplate([
-                [`ATC ALT REQUEST`, "1", "4"],
+                [`ATC ALT REQUEST (INOP)`, "1", "4"],
                 ["\xa0ALTITUDE", "REQUEST"],
                 [`<${store.altitude}`, `${store.altCrzClb}`],
                 ["\xa0STEP AT", "MAINTAIN OWN"],

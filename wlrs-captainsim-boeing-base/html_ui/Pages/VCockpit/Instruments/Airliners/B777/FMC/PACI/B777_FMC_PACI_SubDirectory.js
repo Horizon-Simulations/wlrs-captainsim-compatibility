@@ -5,7 +5,7 @@ class FMC_PACI_SubDirectory {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["CABIN INTERPHONE"],
+                ["CABIN INTERPHONE (INOP)"],
                 ["", "", "DOORS"],
                 ["<DOOR 1L", "DOOR 1R>"],
                 ["", ""],

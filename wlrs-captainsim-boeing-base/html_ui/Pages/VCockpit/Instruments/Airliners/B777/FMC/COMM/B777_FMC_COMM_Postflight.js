@@ -6,7 +6,7 @@ class FMC_COMM_Postflight {
         
         const updateView = () => {
             fmc.setTemplate([
-                [`${currUTC} ACARS POSTFLIGHT`],
+                [`${currUTC} ACARS POSTFLIGHT (INOP)`],
                 ["\xa0CURR FLIGHT", ""],
                 ["<EVENT TIMES", ""],
                 ["", ""],

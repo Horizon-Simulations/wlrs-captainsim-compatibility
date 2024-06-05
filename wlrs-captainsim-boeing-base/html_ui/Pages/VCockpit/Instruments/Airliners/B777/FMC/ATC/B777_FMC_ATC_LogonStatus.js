@@ -1,6 +1,6 @@
 class FMC_ATC_LogonStatus {
     static ShowPage(fmc, store = {
-            "logonTo": "",
+            "logonTo (inop)": "",
             "fltNo": "",
             "sendLabel": "",
             "sendStatus": "(INOP)",

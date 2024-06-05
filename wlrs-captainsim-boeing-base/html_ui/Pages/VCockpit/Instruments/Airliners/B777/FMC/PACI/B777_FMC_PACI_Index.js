@@ -6,7 +6,7 @@ class FMC_PACI_Index {
         const updateView = () => {
             store.printCell = store.printCell;
             fmc.setTemplate([
-                ["CABIN INTERPHONE"],
+                ["CABIN INTERPHONE (INOP)"],
                 ["SPEED DIAL", "CALL QUEUE"],
                 ["<PA CALL", "DOOR 1R>"],
                 ["", ""],

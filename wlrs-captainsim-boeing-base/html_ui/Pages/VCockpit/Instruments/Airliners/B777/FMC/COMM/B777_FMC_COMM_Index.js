@@ -5,7 +5,7 @@ class FMC_COMM_Index {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["ACARS INDEX"],
+                ["ACARS INDEX (INOP)"],
                 ["", ""],
                 ["<PREFLIGHT", "REQUESTS>"],
                 ["", ""],
