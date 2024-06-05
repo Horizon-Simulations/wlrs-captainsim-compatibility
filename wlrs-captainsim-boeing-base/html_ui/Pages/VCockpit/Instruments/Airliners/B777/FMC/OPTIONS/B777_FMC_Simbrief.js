@@ -8,8 +8,8 @@ class FMCSaltyOptions_Simbrief {
             ["SIMBRIEF OPTIONS"],
             ["SIMBRIEF ID", ""],
             [`[${simbriefId}]`, ``],
-            ["", ""],
-            ["", ""],
+            ["SIMBRIEF USERNAME", ""],
+            [`[${simbriefUser}]`, ""],
             ["", ""],
             ["", ""],
             ["", ""],
@@ -30,13 +30,13 @@ class FMCSaltyOptions_Simbrief {
         }
         
         /* RSK1 */
-        /*fmc.onRightInput[0] = () => {
+        fmc.onRightInput[0] = () => {
               let value = fmc.inOut;
               fmc.clearUserInput();
               SaltyDataStore.set("OPTIONS_SIMBRIEF_ID", "");
               SaltyDataStore.set("OPTIONS_SIMBRIEF_USER", value);
               FMCSaltyOptions_Simbrief.ShowPage(fmc);
-        }*/
+        }
 
         /* LSK6 */
         fmc.onLeftInput[5] = () => {
