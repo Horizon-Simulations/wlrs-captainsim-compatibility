@@ -6,10 +6,10 @@
         }
     ],
     "content_type": "AIRCRAFT",
-    "title": "WorldlinerRS Behaviors Package",
+    "title": "WorldlinerRS B777-200LR-GE90-110B1L",
     "manufacturer": "Boeing",
     "creator": "masterrob94, teevee, Horizon Simulations",
-    "package_version": "3.0.2",
+    "package_version": "3.0.1",
     "minimum_game_version": "1.29.30",
     "release_notes": {
       "neutral": {
