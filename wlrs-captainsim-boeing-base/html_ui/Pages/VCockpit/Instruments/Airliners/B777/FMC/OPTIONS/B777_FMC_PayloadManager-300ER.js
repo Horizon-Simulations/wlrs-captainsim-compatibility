@@ -38,7 +38,8 @@ class B777_FMC_PayloadManager {
             "FORWARD_ECONOMY": 7,
             "REAR_ECONOMY": 8,
             "FORWARD_BAGGAGE": 9,
-            "REAR_BAGGAGE": 10
+            "REAR_BAGGAGE": 10,
+			"BULK_CARGO": 11
         };
     }
 

@@ -1,5 +1,4 @@
 class B777_FMC_PayloadManager {
-    
     constructor(fmc) {
         this.fmc = fmc;
         this.tankPriorityValues = [];
@@ -37,7 +36,8 @@ class B777_FMC_PayloadManager {
             "FORWARD_ECONOMY": 6,
             "REAR_ECONOMY": 7,
             "FORWARD_BAGGAGE": 8,
-            "REAR_BAGGAGE": 9
+            "REAR_BAGGAGE": 9,
+			"BULK_CARGO": 10
         };
     }
 

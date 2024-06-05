@@ -9,9 +9,9 @@ class B777_FMC_PayloadManager {
     // amount of fuel on F
     static get tankCapacity() {
         return {
-            "CENTER": 27290,
-            "LEFT_MAIN": 10300,
-            "RIGHT_MAIN": 10300
+            "CENTER": 26100,
+            "LEFT_MAIN": 9560,
+            "RIGHT_MAIN": 9560
         };
     }
 
