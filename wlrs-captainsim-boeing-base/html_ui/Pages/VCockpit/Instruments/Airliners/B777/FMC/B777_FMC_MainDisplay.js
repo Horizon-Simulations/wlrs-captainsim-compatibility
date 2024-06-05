@@ -441,9 +441,9 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             if (!runway) {
                 runway = this.flightPlanManager.getDetectedCurrentRunway();
             }
-            console.log(runway);
+            //console.log(runway);
             if (runway) {
-                let f = (runway.length - 1500) / (2500 - 1500);
+                let f = (runway.length - 1250) / (2500 - 1250);
                 runwayCoef = Utils.Clamp(f, 0, 1);
             }
         }
@@ -453,7 +453,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         let flapsHandleIndex = this.getTakeOffFLapHandle();
         let temp = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         let index = this._getIndexFromTemp(temp);
-        console.log("Index From Temp = " + index);
+        //console.log("Index From Temp = " + index);
         let min = B777_FMC_MainDisplay._v1s[index][0];
         let max = B777_FMC_MainDisplay._v1s[index][1];
         this.v1Speed = min * (1 - runwayCoef) + max * runwayCoef;
@@ -472,7 +472,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             }
             console.log(runway);
             if (runway) {
-                let f = (runway.length - 1500) / (2500 - 1500);
+                let f = (runway.length - 1250) / (2500 - 1250);
                 runwayCoef = Utils.Clamp(f, 0, 1);
             }
         }
@@ -501,7 +501,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             }
             console.log(runway);
             if (runway) {
-                let f = (runway.length - 1500) / (2500 - 1500);
+                let f = (runway.length - 1250) / (2500 - 1250);
                 runwayCoef = Utils.Clamp(f, 0, 1);
             }
         }
@@ -552,7 +552,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         let flapsHandleIndex = Simplane.getFlapsHandleIndex();
         let flapLimitSpeed = Simplane.getFlapsLimitSpeed(this.aircraft, flapsHandleIndex);
         let alt = Simplane.getAltitude();
-        let speedTrans = 10000;
+        let speedTrans = 10000; //revise here
         let speed = flapLimitSpeed - 5;
         let flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:SALTY_VREF30", "knots") + 80;
         let speedRestr = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION", "knots");
@@ -594,7 +594,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         return speed;
     }
 
-    /* Returns VNAV cruise speed target in accordance with active VNAV mode */
+    /* Returns VNAV cruise speed target in accordance with active VNAV mode. REVISE HERE*/
     getCrzManagedSpeed(cduSpeedRequest) {
         let flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:SALTY_VREF30", "knots") + 80;
         let mach = this.getCrzMach();
@@ -677,7 +677,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         return speed;
     }
 
-    /* Gets Cruise Mach number from altitude - Used regression from B777-200LR data using weight correction factor needs B748 data to refine */
+    /* Gets Cruise Mach number from altitude - Used regression from B777-200LR data using weight correction factor needs B748 data to refine. REVISE HERE */
     getCrzMach() {
         let roundedFlightLevel = Math.ceil(this.cruiseFlightLevel / 10) * 10;
         let weightCorrectionFactor = 0.999;
