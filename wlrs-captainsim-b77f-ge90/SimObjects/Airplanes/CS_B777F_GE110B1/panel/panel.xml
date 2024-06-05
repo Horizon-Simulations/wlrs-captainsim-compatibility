@@ -107,6 +107,13 @@
     </Electric>
   </Instrument>
 
+  <Instrument>
+    <Name>B777_EFB</Name>
+    <Electric>
+		<Simvar name="CIRCUIT ON:97" unit="Boolean"/>
+    </Electric>
+  </Instrument>
+
 	<!-- Annunciations -->
 
 	<Annunciations>

@@ -67,6 +67,7 @@ b777-efb #Content svg {
 b777-efb #Content text {
   text-anchor: middle;
   fill: white;
+  font-size: 30px;
   alignment-baseline: central;
 }
 /*# sourceMappingURL=B777_EFB.css.map */
