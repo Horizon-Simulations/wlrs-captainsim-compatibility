@@ -7041,7 +7041,17 @@
     </Component>
 
 
+  <!--
+    <UseTemplate Name="WT_B787_EFB_Template">
+			<SCREEN_NODE_ID>Screen_ETB_1</SCREEN_NODE_ID>
+			<BUTTON_NODE_PREFIX>plt</BUTTON_NODE_PREFIX>
+		</UseTemplate>
 
+    <UseTemplate Name="WT_B787_EFB_Template">
+	  	<SCREEN_NODE_ID>Screen_ETB_2</SCREEN_NODE_ID>
+			<BUTTON_NODE_PREFIX>coplt</BUTTON_NODE_PREFIX>
+		</UseTemplate>
+  -->  
   <!-- this will all be replaced with a template. But will take a long time-->
     <Component ID="EFB1">
       <!--BRT_DIM_Switch-->
@@ -7185,7 +7195,7 @@
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <CURSOR>Hand</CURSOR>
-          <TOOLTIPID>Animation Controls %((L:cs777_anim_ctrl_master))%{case}%{:0}(Click to show)%{:1}(Click to hide)%{end}</TOOLTIPID>
+          <TOOLTIPID></TOOLTIPID>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
             (M:Event) 'LeftSingle' scmi 0 == if{ (K:ELECTRICAL_CIRCUIT_TOGGLE:97) ! (&gt;k:ELECTRICAL_CIRCUIT_TOGGLE:97, bool) }
