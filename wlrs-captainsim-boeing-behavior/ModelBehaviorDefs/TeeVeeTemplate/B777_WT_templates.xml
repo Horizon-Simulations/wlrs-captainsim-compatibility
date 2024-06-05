@@ -1580,7 +1580,9 @@
 
 	<Template Name="teevee_EFB_template">
 		<Parameters Type="Default">
-		
+			<NODE_ID></NODE_ID>
+			<ANIM_NAME></ANIM_NAME>
+			<ANIM_LENGTH>2</ANIM_LENGTH>
 		</Parameters>
 	</Template>
 

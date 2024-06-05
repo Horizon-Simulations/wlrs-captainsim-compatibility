@@ -10,7 +10,7 @@ class FMCMainDisplayPages {
             ["", "CTL PNL"],
             ["", "OFF←→ON>"],
             [],
-            ["\<SALTY"],
+            ["\<UTILS"],
             [],
             ["", ""],
             [],

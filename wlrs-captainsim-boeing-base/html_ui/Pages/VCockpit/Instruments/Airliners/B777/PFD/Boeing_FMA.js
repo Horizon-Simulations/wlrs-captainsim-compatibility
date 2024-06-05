@@ -89,10 +89,6 @@ var Boeing_FMA;
             if (alt <= 1500 && this.flareState == 1 && this.rolloutState == 1) {
                 SimVar.SetSimVarValue("L:FLARE_STATUS", "number", 1);
             }
-            //GA after touch down, DELTE IF BUG
-            if (SimVar.GetSimVarValue("A:GENERAL ENG THROTTLE LEVER POSITION:1", "percent") > 70 &&  this.rolloutState === 2) {
-                SimVar.SetSimVarValue("L:FORCE_TOGA", "bool", "true");
-            }
         }
     }
     ApproachStatus.flareState = 0;

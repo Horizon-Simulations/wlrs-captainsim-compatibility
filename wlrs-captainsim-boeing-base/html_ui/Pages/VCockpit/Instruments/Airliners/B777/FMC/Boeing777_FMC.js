@@ -25,7 +25,7 @@ class Boeing_FMC extends FMCMainDisplay {
     }
     Init() {
         super.Init();
-        this.maxCruiseFL = 430;
+        this.maxCruiseFL = 413;
         this.cruiseFlightLevel = NaN;
         this.onExec = () => {
             if (this.onExecPage) {
