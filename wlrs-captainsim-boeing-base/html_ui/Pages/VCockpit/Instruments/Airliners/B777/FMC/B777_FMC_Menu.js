@@ -13,7 +13,7 @@ class FMC_Menu {
                 ["", ""],
                 ["", "PA/CI>[color]inop"],
                 ["", ""],
-                ["\<ACMS[color]inop", "SALTY>", fmc.activeSystem == "ACMS" ? store.act : ""],
+                ["\<ACMS[color]inop", "UTILS>", fmc.activeSystem == "ACMS" ? store.act : ""],
                 ["", ""],
                 ["\<CMC[color]inop", "MAINT>", fmc.activeSystem == "CMC" ? store.act : ""]
             ]);

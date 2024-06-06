@@ -23,30 +23,24 @@ class FMCSaltyOptions_Misc {
             ["", ""],
             ["", ""],
             ["", ""],
+            ["", ""],
+            ["", ""],
             ["\xa0RETURN TO", ""],
             ["<OPTIONS", ""]
         ]);
-
-        /* LSK1 */
         fmc.onLeftInput[0] = () => {
-        }
-
-        /* RSK1 */
-        fmc.onRightInput[0] = () => {
-
-        }
-
-        fmc.onRightInput[2] = () => {
-            SimVar.SetSimVarValue("K:PAUSE_OFF", "number", 0);
-        }
-
-        fmc.onLeftInput[1] = () => {
             WTDataStore.set("WT_CJ4_FPSYNC", fpSync >= 1 ? 0 : 1);
             fmc.showErrorMessage("RESTART FLIGHT TO APPLY");
             FMCSaltyOptions_Misc.ShowPage(fmc);
         }
 
-        fmc.onLeftInput[2] = () => {
+        fmc.onRightInput[1] = () => {
+            SimVar.SetSimVarValue("K:PAUSE_OFF", "number", 0);
+        }
+
+        
+
+        fmc.onLeftInput[1] = () => {
             WTDataStore.set("PAUSE_AT_TD", pauseAtTd >= 1 ? 0 : 1);
             FMCSaltyOptions_Misc.ShowPage(fmc);
         };

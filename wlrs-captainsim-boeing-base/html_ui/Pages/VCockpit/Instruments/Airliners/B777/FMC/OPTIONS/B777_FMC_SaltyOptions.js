@@ -11,7 +11,7 @@ class FMCSaltyOptions {
         let simbriefUser = SaltyDataStore.get("OPTIONS_SIMBRIEF_USER", "");
 
         fmc.setTemplate([
-            ["SALTY OPTIONS"],
+            ["UTILS"],
             ["", ""],
             ["<IRS", "UNITS>"],
             ["", ""],
@@ -61,7 +61,7 @@ class FMCSaltyOptions {
 
         /* RSK4 */
         fmc.onRightInput[3] = () => {
-            new B777_FMC_PayloadManager(fmc).showPage();
+            new B777_FMC_PayloadManager(fmc).showPage1();
        }
         
         /* RSK5 */
