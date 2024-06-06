@@ -41,29 +41,57 @@
                 <text x="498" y="88">FLT CTRL</text>
 
                 <text x="151" y="530">PRESS</text> <!--PRESS-->
-                <text x="382" y="530">PRESS</text> <!--PRESS-->
+                <text x="387" y="530">PRESS</text> <!--PRESS-->
             </g>
             
             <g id="borderPressBox">
-                <rect x="237.5" y="442.5" rx="0.5" ry="0.5" width="105" height="55"/>
+                <rect x="17.5" y="442.5" rx="0.5" ry="0.5" width="105" height="55"/>    <!--L-->
+                <rect x="237.5" y="442.5" rx="0.5" ry="0.5" width="105" height="55"/>   <!--C-->
+                <rect x="472.5" y="442.5" rx="0.5" ry="0.5" width="105" height="55"/>   <!--R-->
+                
             </g>
             <g id="pressBox">
+                <rect x="20" y="445" rx="0.5" ry="0.5" width="100" height="50"/>
                 <rect x="240" y="445" rx="0.5" ry="0.5" width="100" height="50"/>
+                <rect x="475" y="445" rx="0.5" ry="0.5" width="100" height="50"/>
             </g>
             <g id="textBox">
-                <rect x="260" y="455" width="60" height="30"/>
+                <rect x="40" y="455" width="60" height="30"/>   <!--L-->
+                <rect x="260" y="455" width="60" height="30"/>  <!--C-->
+                <rect x="495" y="455" width="60" height="30"/>  <!--R-->
             </g>
+
+            <g id="baseHydLine">
+                <!--L_ENG LINES-->
+                <line id="" x1="30" x2="40" y1="444" y2="265"></line>
+                <line id="" x1="30" x2="40" y1="220" y2="160"></line>
+                
+            </g>
+
+            <g id="pumps">
+                <rect id="L_ENG" x="30" y="220" width="40" height="45"/>
+                <rect id="L_ELEC" x="300" y="300" width="25" height="50"/>
+                <rect id="C1_ELEC" x="300" y="300" width="25" height="50"/>
+                <rect id="C2_ELEC" x="300" y="300" width="25" height="50"/>
+                <rect id="C1_AIR" x="300" y="300" width="25" height="50"/>
+                <rect id="C2_AIR" x="300" y="300" width="25" height="50"/>
+                <rect id="R_ENG" x="300" y="300" width="25" height="50"/>
+                <rect id="R_ELEC" x="300" y="300" width="25" height="50"/>
+
+                <rect id="RAT" x="300" y="300" width="25" height="50"/>
+            </g>
+
 
         </g>
 
         <g id="value">
             <text x="50" y="478" id="qtyLvalue"></text>
             <text x="270" y="478" id="qtyCvalue"></text>
-            <text x="500" y="478" id="qtyRvalue"></text>
+            <text x="505" y="478" id="qtyRvalue"></text>
 
             <text x="50" y="530" id="pressLvalue"></text>
             <text x="270" y="530" id="pressCvalue"></text>
-            <text x="500" y="530" id="pressRvalue"></text>
+            <text x="505" y="530" id="pressRvalue"></text>
         </g>
 
         <g id="labels-info">

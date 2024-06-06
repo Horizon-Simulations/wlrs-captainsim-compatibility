@@ -57,3 +57,14 @@ b777-lower-eicas-hyd #value text{
   fill: var(--eicasWhite);
   text-anchor: "end";
 }
+
+b777-lower-eicas-hyd #pumps rect{
+  fill: none;
+  stroke-width: 2.5px;
+  stroke: var(--eicasWhite);
+}
+
+b777-lower-eicas-hyd #baseHydLine line{
+  stroke-width: 2.5px;
+  stroke: var(--eicasWhite);
+}
