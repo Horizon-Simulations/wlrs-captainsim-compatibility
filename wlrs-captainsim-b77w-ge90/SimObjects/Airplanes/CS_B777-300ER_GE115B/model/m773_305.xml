@@ -907,7 +907,7 @@
           }
           (O:acft_moving, bool) (A:ENG N1 RPM:1, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_l_eng_cvr, bool) }
           (O:acft_moving, bool) (A:ENG N1 RPM:2, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_r_eng_cvr, bool) }
-          (A:ENG N1 RPM:1, percent) 40 &gt; (A:ENG N1 RPM:2, percent) 40 &gt; || if{ 
+          (A:ENG N1 RPM:1, percent) 40 &gt; (A:ENG N1 RPM:2, percent) 40 &gt; (A:SIM ON GROUND, bool) ! || || if{ 
             0 (&gt;L:cs777_pilot_wnd_l, bool)
             0 (&gt;L:cs777_pilot_wnd_r, bool)
             }
