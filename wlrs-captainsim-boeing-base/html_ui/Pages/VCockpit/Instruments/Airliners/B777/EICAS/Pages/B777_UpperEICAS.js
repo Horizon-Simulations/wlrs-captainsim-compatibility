@@ -303,7 +303,7 @@ var B777_UpperEICAS;
                 }
                 var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.009) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 var angleo = Math.max((this.getN1LimitValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
-                var anglet = Math.max((this.getN1CommandedValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                var anglet = Math.max((this.getN1CommandedValue() * 0.009) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 
                 if (this.whiteMarker != null) {
                     this.whiteMarker.setAttribute("transform", this.defaultMarkerTransform + " rotate(" + angle + ")");
