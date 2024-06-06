@@ -213,7 +213,7 @@ class Jet_PFD_HSIndicator extends HTMLElement {
         return hdgString;
     }
     updateMinimumText(minimumAltitude, minimumMode) {
-        if (minimumAltitude < -100){
+        if (minimumAltitude < -100 || Simplane.getAltitudeAboveGround() >= 10000){
             this.minimumReferenceValueText.setAttribute("visibility", "hidden");
             this.minimumReferenceModeText.setAttribute("visibility", "hidden");
         } 
