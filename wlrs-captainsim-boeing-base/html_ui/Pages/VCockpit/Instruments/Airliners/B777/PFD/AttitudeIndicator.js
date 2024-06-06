@@ -655,6 +655,13 @@ var Jet_PFD_FlightDirector;
                 if (Simplane.getIsGrounded()) {
                     currentFDPitch = -8;
                 }
+                //Special FD Landing Phase Logic
+                if (Simplane.getAltitudeAboveGround() <= 60) {
+                    currentFDPitch = -3;
+                }
+                if (Simplane.getAltitudeAboveGround() <= 30) {
+                    currentFDPitch = -5;
+                }
                 if (this._pitchIsNotReadyYet) {
                     this._pitchIsNotReadyYet = Math.abs(currentFDPitch) < 2;
                 }
