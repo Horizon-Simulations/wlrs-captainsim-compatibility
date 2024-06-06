@@ -290,7 +290,7 @@ class B777_FMC_PayloadManager {
         return remainingFuel;
     }
 
-    showPage() {
+    showPage1() {
         this.fmc.clearDisplay();
 
         this.payloadValues = this.getPayloadValues();
@@ -307,7 +307,7 @@ class B777_FMC_PayloadManager {
 
 		if (B777_FMC_PayloadManager.isPayloadManagerExecuted) {
 			this.fmc.refreshPageCallback = () => {
-				this.showPage();
+				this.showPage1();
 			};
 		}
 
@@ -369,7 +369,7 @@ class B777_FMC_PayloadManager {
                 if (cgToSet > B777_FMC_PayloadManager.getMinCenterOfGravity && cgToSet < B777_FMC_PayloadManager.getMaxCenterOfGravity) {
                     B777_FMC_PayloadManager.requestedCenterOfGravity = cgToSet;
                     this.fmc.clearUserInput();
-                    this.showPage();
+                    this.showPage1();
                 }
                 else {
                     this.fmc.showErrorMessage("OUT OF RANGE");
@@ -409,7 +409,7 @@ class B777_FMC_PayloadManager {
 				if (parseFloat(requestedInGallons) > B777_FMC_PayloadManager.getMinFuel && parseFloat(requestedInGallons) < B777_FMC_PayloadManager.getMaxFuel) {
 					B777_FMC_PayloadManager.requestedFuel = parseFloat(requestedInGallons);
 					this.fmc.clearUserInput();
-					this.showPage();
+					this.showPage1();
 				}
 				else {
 					this.fmc.showErrorMessage("OUT OF RANGE");
@@ -449,7 +449,7 @@ class B777_FMC_PayloadManager {
             	if (parseFloat(requestedInPounds) > B777_FMC_PayloadManager.getMinPayload && parseFloat(requestedInPounds) < B777_FMC_PayloadManager.getMaxPayload) {
                 	B777_FMC_PayloadManager.requestedPayload = parseFloat(requestedInPounds);
                 	this.fmc.clearUserInput();
-                	this.showPage();
+                	this.showPage1();
             	}
             	else {
                 	this.fmc.showErrorMessage("OUT OF RANGE");
@@ -488,7 +488,7 @@ class B777_FMC_PayloadManager {
 						this.calculatePayload(this.getTotalPayload(true));
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
-					this.showPage();
+					this.showPage1();
 				});
 			};
 		}
