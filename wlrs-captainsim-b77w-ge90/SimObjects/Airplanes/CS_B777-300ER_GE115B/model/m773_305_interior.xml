@@ -1822,7 +1822,6 @@
           <BATTERY_BUS_ID>4</BATTERY_BUS_ID>
           <HOT_BATTERY_BUS_ID>5</HOT_BATTERY_BUS_ID>
         </UseTemplate>
-        <!--
         <UseTemplate Name="ASOBO_ELECTRICAL_Push_APU_Generator_Template">
           <NODE_ID>push_ovhd_electrics_apu_gen_01</NODE_ID>
           <ANIM_NAME>ovhd_push_electrics_apu_gen_01</ANIM_NAME>
@@ -1830,9 +1829,6 @@
           <SEQ2_NODE_ID>push_ovhd_electrics_apu_gen_01_SEQ2</SEQ2_NODE_ID>
           <ID>1</ID>
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
-        </UseTemplate>
-        -->
-        <UseTemplate Name="teevee_APU_Starter_Knob_Template">
         </UseTemplate>
         <UseTemplate Name="ASOBO_ELECTRICAL_Push_Alternator_Template">
           <NODE_ID>push_ovhd_electrics_gen_cont_01</NODE_ID>
@@ -1885,17 +1881,8 @@
           <SIMVAR_POWER_SETTING_SEQ1>EXTERNAL POWER AVAILABLE:2</SIMVAR_POWER_SETTING_SEQ1>
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
           <ID>2</ID>
-        </UseTemplate>
-
-        <UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
-          <NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
-          <ANIM_NAME>ovhd_knob_electrics_apu</ANIM_NAME>
-          <EMISSIVE_NODE_SIMVAR_POWER_SETTING>LIGHT PANEL POWER SETTING:1</EMISSIVE_NODE_SIMVAR_POWER_SETTING>
-          <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-          <SWITCH_POSITION_VAR>APU STARTER SWITCH</SWITCH_POSITION_VAR>
-          <ACTIVE_FUEL_PUMP_ON_RPM>7</ACTIVE_FUEL_PUMP_ON_RPM>
-          
+        </UseTemplate>s
+        <UseTemplate Name="teevee_APU_Starter_Knob_Template"> <!--TODo: GO TO BLENDER MODEL AND CHECK THE NAME OF THE FAULT LIGHT-->
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
           <!--777 INOP-->
