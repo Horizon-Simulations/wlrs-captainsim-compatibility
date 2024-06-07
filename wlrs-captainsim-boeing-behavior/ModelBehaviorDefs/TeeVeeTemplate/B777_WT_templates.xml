@@ -1372,12 +1372,12 @@
 
 	<Template Name="WT_B777_Stby_Baro_Knob_Template">
 		<Parameters Type="Default">
-      <ID>3</ID>
-			<BARO_ID>2</BARO_ID>
-			<NODE_ID>AUTOPILOT_Knob_Baro_Backup</NODE_ID>
-			<ANIM_NAME>AUTOPILOT_Knob_Baro</ANIM_NAME>
-      <PART_ID>AUTOPILOT_Knob_Baro</PART_ID>
-    </Parameters>
+			<ID>3</ID>
+					<BARO_ID>2</BARO_ID>
+					<NODE_ID>AUTOPILOT_Knob_Baro_Backup</NODE_ID>
+					<ANIM_NAME>AUTOPILOT_Knob_Baro</ANIM_NAME>
+			<PART_ID>AUTOPILOT_Knob_Baro</PART_ID>
+    	</Parameters>
 
     <Parameters Type="Default">
       <KNOB_ID>Baro_#ID#</KNOB_ID>
@@ -1643,6 +1643,63 @@
 				</UseTemplate>
 			</Component>
 		</Component>
+	</Template>
+
+	<Template Name="teevee_APU_Starter_Knob_Template">
+		<Parameters Type="Default">
+
+    	</Parameters>
+		<UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
+			<NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
+			<ANIM_NAME>ovhd_knob_electrics_apu</ANIM_NAME>
+          	<EMISSIVE_NODE_SIMVAR_POWER_SETTING>LIGHT PANEL POWER SETTING:1</EMISSIVE_NODE_SIMVAR_POWER_SETTING>
+			<SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
+			<SWITCH_POSITION_VAR>XMLVAR_APU_StarterKnob_Pos</SWITCH_POSITION_VAR>
+			<ACTIVE_FUEL_PUMP_ON_RPM>7</ACTIVE_FUEL_PUMP_ON_RPM>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
+			<NODE_ID>ELECTRICAL_Indicator_APU</NODE_ID>	<!--find in blender later-->
+			<SEQ1_EMISSIVE_CODE>
+				(O:PrevAPUSwitch) ! (L:XMLVAR_APU_StarterKnob_Pos) 2 &gt;= s1 and if{
+				(E:SIMULATION TIME, seconds) 0.75 + (&gt;O:TimeEndActive)
+				}
+				l1 (&gt;O:PrevAPUSwitch)
+				(E:SIMULATION TIME, seconds) (O:TimeEndActive) &lt;
+			</SEQ1_EMISSIVE_CODE>
+			<NO_SEQ2>True</NO_SEQ2>
+		</UseTemplate>
+		<!--
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>elec_util_ife</IE_NAME>
+			<LVAR>XMLVAR_Utility_Ife</LVAR>
+			<NODE_ID>Btn_ovh_ELectrical_IFE</NODE_ID>
+			<ANIM_NAME>Btn_ovh_electrical_ife</ANIM_NAME>
+			<SEQ1_NODE_ID>DECALS_Text_131</SEQ1_NODE_ID>
+			<SEQ2_NODE_ID>DECALS_Text_129</SEQ2_NODE_ID>
+			<TOOLTIP_TITLE>@TT_Package.IFE_PASS_SEATS_POWER_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION>@TT_Package.IFE_PASS_SEATS_POWER_ACTION</TT_DESCRIPTION>
+			<PART_ID>Btn_ovh_electrical_ife</PART_ID>
+		</UseTemplate>
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>elec_util_cabin</IE_NAME>
+			<LVAR>XMLVAR_Utility_Cabin</LVAR>
+			<NODE_ID>Btn_ovh_ELectrical_Cabin</NODE_ID>
+			<ANIM_NAME>Btn_ovh_ELectrical_Cabin</ANIM_NAME>
+			<SEQ1_NODE_ID>DECALS_Text_132</SEQ1_NODE_ID>
+			<SEQ2_NODE_ID>DECALS_Text_130</SEQ2_NODE_ID>
+			<TOOLTIP_TITLE>@TT_Package.CABIN_UTILITY_POWER_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION>@TT_Package.CABIN_UTILITY_POWER_ACTION</TT_DESCRIPTION>
+			<PART_ID>Btn_ovh_electrical_cabin</PART_ID>
+		</UseTemplate>
+		-->
+		<!-- Set var indicating if DC and AC bus are connected -->
+		<UseTemplate Name="ASOBO_GT_Update">
+			<FREQUENCY>1</FREQUENCY>
+			<UPDATE_CODE>
+				1 (A:1:BUS CONNECTION ON:2, Bool) (&gt;L:XMLVAR_ACDC_Bus_Connected)
+			</UPDATE_CODE>
+		</UseTemplate>
+		
 	</Template>
 
 </ModelBehaviors>

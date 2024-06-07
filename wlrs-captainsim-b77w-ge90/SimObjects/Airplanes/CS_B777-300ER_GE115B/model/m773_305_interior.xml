@@ -1822,6 +1822,7 @@
           <BATTERY_BUS_ID>4</BATTERY_BUS_ID>
           <HOT_BATTERY_BUS_ID>5</HOT_BATTERY_BUS_ID>
         </UseTemplate>
+        <!--
         <UseTemplate Name="ASOBO_ELECTRICAL_Push_APU_Generator_Template">
           <NODE_ID>push_ovhd_electrics_apu_gen_01</NODE_ID>
           <ANIM_NAME>ovhd_push_electrics_apu_gen_01</ANIM_NAME>
@@ -1829,6 +1830,9 @@
           <SEQ2_NODE_ID>push_ovhd_electrics_apu_gen_01_SEQ2</SEQ2_NODE_ID>
           <ID>1</ID>
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
+        </UseTemplate>
+        -->
+        <UseTemplate Name="teevee_APU_Starter_Knob_Template">
         </UseTemplate>
         <UseTemplate Name="ASOBO_ELECTRICAL_Push_Alternator_Template">
           <NODE_ID>push_ovhd_electrics_gen_cont_01</NODE_ID>
