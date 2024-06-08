@@ -388,7 +388,7 @@ var Boeing_FMA;
             if(!Simplane.getAutoPilotActive(0) && !Simplane.getAutoPilotFlightDirectorActive(1)){
                 return -1;
             }
-            if (this.verticalMode === "ALTS CAP" && (targetAlt === crzAlt)|| this.verticalMode === "ALTS" && (targetAlt === crzAlt)|| this.verticalMode === "ALT" && (roundedAlt === crzAlt)) {
+            if (this.verticalMode === "ALTS CAP"|| this.verticalMode === "ALTS"|| this.verticalMode === "ALT") { // (this.verticalMode === "ALTS CAP" && (targetAlt === crzAlt)|| this.verticalMode === "ALTS" && (targetAlt === crzAlt)|| this.verticalMode === "ALT" && (roundedAlt === crzAlt))
                 return 0;
             }
             else if (this.verticalMode === "VPATH" || this.verticalMode === "VALTV CAP" || this.verticalMode === "VALTV" ) 

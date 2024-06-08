@@ -1372,8 +1372,8 @@ class B777RSNavModeSelector {
    * Handles when the plane has fully captured the assigned lock altitude.
    */
   handleAltCaptured() {
+    this.isAltitudeLocked = this._inputDataStates.altLocked.state;
      if (this.isAltitudeLocked) {
-
        if (this.currentVerticalActiveState === VerticalNavModeState.ALTSCAP || this.currentVerticalActiveState === VerticalNavModeState.ALTVCAP
          || this.currentVerticalActiveState === VerticalNavModeState.ALTCAP) {
          const altLockValue = Math.floor(Simplane.getAutoPilotDisplayedAltitudeLockValue());
