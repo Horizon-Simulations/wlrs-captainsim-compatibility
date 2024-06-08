@@ -441,7 +441,6 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             if (!runway) {
                 runway = this.flightPlanManager.getDetectedCurrentRunway();
             }
-            //console.log(runway);
             if (runway) {
                 let f = (runway.length - 1250) / (2500 - 1250);
                 runwayCoef = Utils.Clamp(f, 0, 1);
@@ -449,19 +448,17 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
         let dWeightCoeff = (this.getWeight(true) - 550) / (1000 - 550);
         dWeightCoeff = Utils.Clamp(dWeightCoeff, 0, 1);
-        dWeightCoeff = 0.92 + (1.2 - 0.92) * dWeightCoeff;
+        dWeightCoeff = 0.93 + (1.5 - 0.93) * dWeightCoeff;
         let flapsHandleIndex = this.getTakeOffFLapHandle();
         let temp = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         let index = this._getIndexFromTemp(temp);
-        //console.log("Index From Temp = " + index);
         let min = B777_FMC_MainDisplay._v1s[index][0];
         let max = B777_FMC_MainDisplay._v1s[index][1];
         this.v1Speed = min * (1 - runwayCoef) + max * runwayCoef;
         this.v1Speed *= dWeightCoeff;
-        this.v1Speed -= (flapsHandleIndex - 3) * 12;
+        this.v1Speed -= (flapsHandleIndex - 3) * 1;
         this.v1Speed = Math.round(this.v1Speed);
         SimVar.SetSimVarValue("L:AIRLINER_V1_SPEED", "Knots", this.v1Speed);
-        console.log("Computed V1Speed = " + this.v1Speed);
     }
     _computeVRSpeed() {
         let runwayCoef = 1.0;
@@ -478,7 +475,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
         let dWeightCoeff = (this.getWeight(true) - 550) / (1000 - 550);
         dWeightCoeff = Utils.Clamp(dWeightCoeff, 0, 1);
-        dWeightCoeff = 0.92 + (1.2 - 0.92) * dWeightCoeff;
+        dWeightCoeff = 0.95 + (1.4 - 0.95) * dWeightCoeff;
         let flapsHandleIndex = this.getTakeOffFLapHandle();
         let temp = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         let index = this._getIndexFromTemp(temp);
@@ -507,7 +504,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
         let dWeightCoeff = (this.getWeight(true) - 550) / (1000 - 550);
         dWeightCoeff = Utils.Clamp(dWeightCoeff, 0, 1);
-        dWeightCoeff = 0.93 + (1.2 - 0.93) * dWeightCoeff;
+        dWeightCoeff = 0.978 + (1.5 - 0.974) * dWeightCoeff;
         let flapsHandleIndex = this.getTakeOffFLapHandle();
         let temp = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         let index = this._getIndexFromTemp(temp);
