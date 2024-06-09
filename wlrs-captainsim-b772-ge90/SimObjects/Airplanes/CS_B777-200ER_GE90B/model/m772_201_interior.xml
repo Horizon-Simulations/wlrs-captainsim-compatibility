@@ -1872,14 +1872,7 @@
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
           <ID>2</ID>
         </UseTemplate>
-        <UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
-          <NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
-          <ANIM_NAME>ovhd_knob_electrics_apu</ANIM_NAME>
-          <EMISSIVE_NODE_SIMVAR_POWER_SETTING>LIGHT PANEL POWER SETTING:1</EMISSIVE_NODE_SIMVAR_POWER_SETTING>
-          <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-          <SWITCH_POSITION_VAR>XMLVAR_APU_StarterKnob_Pos</SWITCH_POSITION_VAR>
-          <ACTIVE_FUEL_PUMP_ON_RPM>7</ACTIVE_FUEL_PUMP_ON_RPM>
+        <UseTemplate Name="teevee_APU_Starter_Knob_Template"> <!--TODo: GO TO BLENDER MODEL AND CHECK THE NAME OF THE FAULT LIGHT-->
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
           <!--777 INOP-->
