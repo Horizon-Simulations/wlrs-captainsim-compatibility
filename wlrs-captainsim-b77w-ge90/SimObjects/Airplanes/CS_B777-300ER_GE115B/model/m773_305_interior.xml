@@ -2536,7 +2536,7 @@
 					<ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
 					<ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
 					<TT_DESCRIPTION_KNOBPUSH>@TT_Package.AUTOPILOT_PUSH_ALTITUDE_ACTION_ENABLE</TT_DESCRIPTION_KNOBPUSH>
-					<SET_STATE_EXTERNAL>(L:XMLVAR_Mins_Selector_Baro) 1 ==</SET_STATE_EXTERNAL>
+					<!--<SET_STATE_EXTERNAL>(L:XMLVAR_Mins_Selector_Baro) 1 ==</SET_STATE_EXTERNAL>-->
 				</UseTemplate>
         <UseTemplate Name="ASOBO_AUTOPILOT_Switch_Altitude_Increment_Template">
 					<NODE_ID>G04_021_SW2</NODE_ID>
@@ -2676,6 +2676,14 @@
           <PANEL_NAME>B777_EICAS_2</PANEL_NAME>
         </UseTemplate>
       </Component>
+      <UseTemplate Name="ASOBO_AIRLINER_Push_Clock_Template">
+				<PLANE_PREFIX>AS01B_PFD</PLANE_PREFIX>
+				<NODE_ID>G01_001_SW2</NODE_ID>
+			</UseTemplate>
+      <UseTemplate Name="ASOBO_AIRLINER_Push_Clock_Template">
+				<PLANE_PREFIX>AS01B_PFD</PLANE_PREFIX>
+				<NODE_ID>G08_001_SW2</NODE_ID>
+			</UseTemplate>
     </Component>
 
     <Component ID="Center_Panel">
