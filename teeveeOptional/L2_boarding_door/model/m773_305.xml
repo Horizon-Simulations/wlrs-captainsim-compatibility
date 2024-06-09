@@ -724,14 +724,10 @@
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>1</ENG_ID>
 				<ANIM_NODE>N1_1_anim</ANIM_NODE>
-        <MIN_RPM_FOR_SLOW>8000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>19000</MIN_RPM_FOR_BLUR>
 			</UseTemplate>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>2</ENG_ID>
 				<ANIM_NODE>N1_2_anim</ANIM_NODE>
-        <MIN_RPM_FOR_SLOW>8000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>19000</MIN_RPM_FOR_BLUR>
 			</UseTemplate>
 		</Component>
 
@@ -911,7 +907,7 @@
           }
           (O:acft_moving, bool) (A:ENG N1 RPM:1, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_l_eng_cvr, bool) }
           (O:acft_moving, bool) (A:ENG N1 RPM:2, percent) 1 &gt; || if{ 0 (&gt;L:cs777_anim_ctrl_r_eng_cvr, bool) }
-          (A:ENG N1 RPM:1, percent) 40 &gt; (A:ENG N1 RPM:2, percent) 40 &gt; || if{ 
+          (A:ENG N1 RPM:1, percent) 40 &gt; (A:ENG N1 RPM:2, percent) 40 &gt; (A:SIM ON GROUND, bool) ! || || if{ 
             0 (&gt;L:cs777_pilot_wnd_l, bool)
             0 (&gt;L:cs777_pilot_wnd_r, bool)
             }
@@ -1013,14 +1009,14 @@
         <Component ID="Door_1L">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_2L">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
@@ -1049,28 +1045,28 @@
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
             <!--revise here-->
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:4, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_2R">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_3R">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
         <Component ID="Door_4R">
           <UseTemplate Name="ASOBO_GT_Anim">
             <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
+            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:8, percent) max</ANIM_CODE>
           </UseTemplate>
         </Component>
 
@@ -1283,7 +1279,7 @@
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_RAT_rot</ANIM_NAME>
           <!--(&gt;L:cs777_RAT_rot, percent)-->
-          <ANIM_CODE>(A:AIRSPEED INDICATED, knots) abs 3.3 * 0.6 / 100 * 100 %</ANIM_CODE>
+          <ANIM_CODE>(A:AIRSPEED INDICATED, knots) abs 1 * 1.2 / 100 * 100 %</ANIM_CODE>
         </UseTemplate>
         <Component ID="cs777_RAT_still" Node="cs777_RAT_still">
           <UseTemplate Name="ASOBO_GT_Visibility">

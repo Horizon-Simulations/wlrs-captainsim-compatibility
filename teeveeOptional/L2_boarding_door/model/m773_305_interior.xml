@@ -1557,8 +1557,8 @@
               <ID>1</ID>
               <MASTER_VARIABLE>O07_006_GL3</MASTER_VARIABLE>
               <FAULT_LIGHT>ovhd_hyd_sys_fault_light_01_SEQ1</FAULT_LIGHT>
-              <NODE_ID>ovhd_hyd_demand_pump_press_light_01</NODE_ID>
               <IE_NAME>knob_hydraulic_elec_pump_l</IE_NAME>
+              <!--<NODE_ID>ovhd_hyd_demand_pump_press_light_01</NODE_ID>-->
               <LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_LEFT</LOCAL_VAR>
               <POSITION>LEFT</POSITION>
               <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
@@ -1569,7 +1569,8 @@
               <MASTER_VARIABLE>O07_007_GL3</MASTER_VARIABLE>
               <FAULT_LIGHT>O07_011_LT0</FAULT_LIGHT>
               <LOCAL_VAR>XMLVAR_HYDRAULICS_C1</LOCAL_VAR>
-              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME>
+              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_01</IE_NAME> <!--air driven-->
+              <!--<NODE_ID>ovhd_hyd_demand_pump_C1_light_01</NODE_ID>-->
               <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
               <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
               <TOOLTIP_TITLE_INDEX>'C1'</TOOLTIP_TITLE_INDEX>
@@ -1579,8 +1580,8 @@
               <MASTER_VARIABLE>O07_008_GL3</MASTER_VARIABLE>
               <FAULT_LIGHT>O07_012_LT0</FAULT_LIGHT>
               <LOCAL_VAR>XMLVAR_HYDRAULICS_C2</LOCAL_VAR>
-              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME>
-              <NODE_ID>ovhd_hyd_demand_pump_C2_light_01</NODE_ID>
+              <IE_NAME>knob_ovhd_hyd_demand_pump_sel_02</IE_NAME> 
+              <!--<NODE_ID>ovhd_hyd_demand_pump_C2_light_01</NODE_ID>-->
               <TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_SWITCH_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
               <TOOLTIP_TITLE>@TT_Package.SWITCH_HYDRAULICS_PUMP_MODE_TITLE</TOOLTIP_TITLE>
               <TOOLTIP_TITLE_INDEX>'C2'</TOOLTIP_TITLE_INDEX>
@@ -1591,7 +1592,7 @@
               <FAULT_LIGHT>ovhd_hyd_sys_fault_light_02_SEQ1</FAULT_LIGHT>
               <IE_NAME>knob_hydraulic_elec_pump_r</IE_NAME>
               <LOCAL_VAR>XMLVAR_HYDRAULICS_DEMAND_RIGHT</LOCAL_VAR>
-              <NODE_ID>ovhd_hyd_demand_pump_press_light_02</NODE_ID>
+              <!--<NODE_ID>ovhd_hyd_demand_pump_press_light_02</NODE_ID>-->
               <TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_ACTION</TT_DESCRIPTION_ID>
               <TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_DEMAND_PUMP_SWITCH_TITLE</TOOLTIP_TITLE>
             </UseTemplate> 
@@ -1880,17 +1881,8 @@
           <SIMVAR_POWER_SETTING_SEQ1>EXTERNAL POWER AVAILABLE:2</SIMVAR_POWER_SETTING_SEQ1>
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
           <ID>2</ID>
-        </UseTemplate>
-
-        <UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
-          <DONT_OVERRIDE_BASE_EMISSIVE>True</DONT_OVERRIDE_BASE_EMISSIVE>
-          <NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
-          <ANIM_NAME>ovhd_knob_electrics_apu</ANIM_NAME>
-          <EMISSIVE_NODE_SIMVAR_POWER_SETTING>LIGHT PANEL POWER SETTING:1</EMISSIVE_NODE_SIMVAR_POWER_SETTING>
-          <SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
-          <SWITCH_POSITION_VAR>APU STARTER SWITCH</SWITCH_POSITION_VAR>
-          <ACTIVE_FUEL_PUMP_ON_RPM>7</ACTIVE_FUEL_PUMP_ON_RPM>
-          
+        </UseTemplate>s
+        <UseTemplate Name="teevee_APU_Starter_Knob_Template"> <!--TODo: GO TO BLENDER MODEL AND CHECK THE NAME OF THE FAULT LIGHT-->
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
           <!--777 INOP-->
@@ -2217,7 +2209,7 @@
           <PLANE_PREFIX>B777</PLANE_PREFIX>
         </DefaultTemplateParameters>
 
-        <Component ID="GlassCockpit_Panel_Pilot">
+        <Component ID="GlassCockpit_Panel_Pilot">   <!--need revise-->
           <UseTemplate Name="RobSim_AIRLINER_Knob_ND_Template">
             <TYPE>BOEING_777</TYPE>
             <NODE_ID>knob_afds_ctr_l1</NODE_ID>
@@ -2233,13 +2225,13 @@
             <BUTTON_ANIM_NAME>afds_push_tfc_l</BUTTON_ANIM_NAME>
           </UseTemplate>
           <UseTemplate Name="ASOBO_AIRLINER_Switch_Baro_Selector_Template">
-            <NODE_ID>knob_afds_std_l1</NODE_ID>
+            <NODE_ID>knob_afds_std_l1</NODE_ID>   <!--inner knob/HPA-smt-->
             <ANIM_NAME>afds_knob_std_l</ANIM_NAME>
-            <BUTTON_NODE_ID>btn_afds_std_l1</BUTTON_NODE_ID>
-            <BUTTON_ANIM_NAME>afds_push_std_l1</BUTTON_ANIM_NAME>
+            <BUTTON_NODE_ID>btn_afds_std_l1</BUTTON_NODE_ID>  <!--without this still work-->
+            <BUTTON_ANIM_NAME>afds_push_std_l1</BUTTON_ANIM_NAME> <!--without this still work-->
             <STR_STATE_ON>HPA</STR_STATE_ON>
           </UseTemplate>
-          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">
+          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">    <!--baro metric height selector-->
             <NODE_ID>knob_afds_std_l2</NODE_ID>
             <ANIM_NAME_KNOB>afds_knob_std_l2</ANIM_NAME_KNOB>
             <ANIM_NAME_PUSH>afds_push_std_l</ANIM_NAME_PUSH>
@@ -2328,17 +2320,18 @@
             <BUTTON_NODE_ID>btn_afds_tfc_r</BUTTON_NODE_ID>
             <BUTTON_ANIM_NAME>afds_push_tfc_r</BUTTON_ANIM_NAME>
           </UseTemplate>
-          <UseTemplate Name="ASOBO_BOEING_Switch_Mins_Selector_Template">
-            <NODE_ID>knob_afds_rst_r</NODE_ID>
-            <ANIM_NAME>afds_knob_rst_r</ANIM_NAME>
-            <ID>1</ID>
+          <UseTemplate Name="ASOBO_AIRLINER_Switch_Baro_Selector_Template">
+            <NODE_ID>knob_afds_std_r</NODE_ID>   <!--NO IDEA WHAT IS THE NAME/inop-->
+            <ANIM_NAME>afds_knob_std_r</ANIM_NAME>    <!--right anim, but the NODE_ID dont work-->
+            <BUTTON_NODE_ID>btn_afds_std_r2</BUTTON_NODE_ID>   <!--without this still work-->
+            <BUTTON_ANIM_NAME>afds_push_std_r</BUTTON_ANIM_NAME>  <!--without this still work-->
+            <STR_STATE_ON>HPA</STR_STATE_ON>
           </UseTemplate>
-          <UseTemplate Name="WT_BOEING_Knob_Mins_Template">
-            <NODE_ID>knob_afds_rst_r2</NODE_ID>
-            <ANIM_NAME>afds_knob_rst_r2</ANIM_NAME>
-            <BUTTON_NODE_ID>btn_afds_rst_r</BUTTON_NODE_ID>
-            <BUTTON_ANIM_NAME>afds_push_rst_r</BUTTON_ANIM_NAME>
-            <ID>1</ID>
+          <UseTemplate Name="RobSim_AUTOPILOT_Knob_Baro_Template">    
+            <NODE_ID>knob_afds_std_r2</NODE_ID>
+            <ANIM_NAME_KNOB>afds_knob_std_r2</ANIM_NAME_KNOB>
+            <ANIM_NAME_PUSH>afds_push_std_r</ANIM_NAME_PUSH>
+            <AIRLINER_TYPE>PUSH</AIRLINER_TYPE>
           </UseTemplate>
           <UseTemplate Name="RobSim_BOEING_Push_WXR_Template">
             <NODE_ID>btn_afds_wxr_r</NODE_ID>
@@ -2543,7 +2536,7 @@
 					<ANIM_NAME_KNOB>autopilot_knob_alt</ANIM_NAME_KNOB>
 					<ANIM_NAME_PUSH>knob_autopilot_alt_push</ANIM_NAME_PUSH>
 					<TT_DESCRIPTION_KNOBPUSH>@TT_Package.AUTOPILOT_PUSH_ALTITUDE_ACTION_ENABLE</TT_DESCRIPTION_KNOBPUSH>
-					<SET_STATE_EXTERNAL>(L:XMLVAR_Mins_Selector_Baro) 1 ==</SET_STATE_EXTERNAL>
+					<!--<SET_STATE_EXTERNAL>(L:XMLVAR_Mins_Selector_Baro) 1 ==</SET_STATE_EXTERNAL>-->
 				</UseTemplate>
         <UseTemplate Name="ASOBO_AUTOPILOT_Switch_Altitude_Increment_Template">
 					<NODE_ID>G04_021_SW2</NODE_ID>
@@ -2719,7 +2712,6 @@
             <ANIM_CODE>0</ANIM_CODE>
           </UseTemplate>
           <UseTemplate Name="WT_B777_Air_Data_Att_Source_Knob_Template">
-            <!--777 INOP-->
             <NODE_ID>knob_source_select_air_data_l</NODE_ID>
             <ANIM_NAME>source_select_knob_air_data_l</ANIM_NAME>
           </UseTemplate>
@@ -5862,9 +5854,6 @@
         <NODE_ID>knob_source_select_irs_r</NODE_ID>
       </UseTemplate>
       <UseTemplate Name="ASOBO_GT_Interaction_Tooltip">
-        <NODE_ID>knob_source_select_air_data_l</NODE_ID>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_GT_Interaction_Tooltip">
         <NODE_ID>knob_source_select_air_data_r</NODE_ID>
       </UseTemplate>
       <UseTemplate Name="ASOBO_GT_Interaction_Tooltip">
@@ -8535,14 +8524,14 @@
       <Component ID="Door_1L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_2L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
