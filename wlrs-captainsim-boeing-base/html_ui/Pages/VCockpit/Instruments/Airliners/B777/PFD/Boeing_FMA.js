@@ -296,7 +296,7 @@ var Boeing_FMA;
             else if (this.lateralArmed === "FORCE TOGA") {
                 return -1;
             }
-            else if (ApproachStatus.isRolloutArmed) {
+            else if (ApproachStatus.isRolloutArmed && SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  1 && Simplane.getAutoPilotFlightDirectorActive(1)) {
                 return 4;
             }
             else if (this.lateralArmed === "APPR LNV1") {

@@ -2004,17 +2004,24 @@ class FMCMainDisplay extends BaseAirliners {
                 let ils = this.radioNav.getBestILSBeacon();
 
                 //SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", -1);
-                if (SimVar.GetSimVarValue("L:FLARE_STATUS", "Number") == 1)
+                if (Simplane.getAutoPilotFlightDirectorActive(1))
                     {
-                    if (ils.name.includes("III")) {
-                    SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", 3);
-                    } else if (ils.name.includes("II")) {
-                        SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", 2);
-                    } else if (ils.name.includes("I")) {
-                        SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", 1);
-                    } else {
+                        if (SimVar.GetSimVarValue("L:FLARE_STATUS", "Number") == 1)
+                            {
+                            if (ils.name.includes("III")) {
+                            SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", 3);
+                            } else if (ils.name.includes("II")) {
+                                SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", 2);
+                            } else if (ils.name.includes("I")) {
+                                SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", 1);
+                            } else {
+                            }
+                        }
                     }
+                else {
+                    SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", -1);
                 }
+                
 
                 if (ils.id > 0) {
                     navid = ils.id;
