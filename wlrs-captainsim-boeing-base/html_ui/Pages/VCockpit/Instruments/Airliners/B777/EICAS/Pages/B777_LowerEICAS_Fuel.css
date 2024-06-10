@@ -96,7 +96,7 @@ b777-lower-eicas-fuel {
     }
 
     b777-lower-eicas-fuel #Pumps #OvrdPumps .fuelpump-switched-active, b777-lower-eicas-fuel #Pumps #StabPumps .fuelpump-switched-active {
-      stroke: cyan; }
+      stroke: var(--eicasBlu); }
 
     b777-lower-eicas-fuel #Pumps #OvrdPumps .fuelpump-switched-active-jett, b777-lower-eicas-fuel #Pumps #OvrdPumps .fuelpump-switched-active-withflow-jett,
     b777-lower-eicas-fuel #Pumps #StabPumps .fuelpump-switched-active-jett, b777-lower-eicas-fuel #Pumps #StabPumps .fuelpump-switched-active-withflow-jett {
@@ -131,7 +131,7 @@ b777-lower-eicas-fuel {
     b777-lower-eicas-fuel #Engines .fuelengine-inactive {
       stroke: var(--eicasBlu); }
   b777-lower-eicas-fuel #Labels text {
-    fill: cyan; }
+    fill: var(--eicasBlu); }
   b777-lower-eicas-fuel #Labels #TotalFuel, b777-lower-eicas-fuel #Labels #FuelPreselect {
     text-anchor: end;
     font-size: 16px; }
