@@ -561,28 +561,6 @@
 			<TT_DESCRIPTION_ID>@TT_Package.DEICE_ANTI_ICE_ENGINE_ACTION_SET</TT_DESCRIPTION_ID>
 			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
 		</UseTemplate>
-		<!--since the deice function on MSFS right now is just visual (and the speed doesn't change either), so this is just for cockpit experience-->
-		<!--
-		<UseTemplate Name="ASOBO_GT_Update">
-			<FREQUENCY>100</FREQUENCY>	
-			<UPDATE_CODE>		
-				(L:B777_Engine_AntiIce_Knob_State:#ID#) 1 == if{
-                (A:STRUCTURAL ICE PCT, percent) 8 &gt; (A:AMBIENT TEMPERATURE, celsius) 10 &lt; or if{
-						1 (&gt;L:DEICE_Engine_#ID#, bool)
-					}
-					else{
-						0 (&gt;L:DEICE_Engine_#ID#, bool)
-					}
-				}
-				else (L:B777_Engine_AntiIce_Knob_State:#ID#) 2 == if{
-					1 (&gt;L:DEICE_Engine_#ID#, bool)
-				}
-				else (L:B777_Engine_AntiIce_Knob_State:#ID#) 0 == if{
-					0 (&gt;L:DEICE_Engine_#ID#, bool)
-				}
-			</UPDATE_CODE>
-		</UseTemplate>	
-		-->
 	</Template>
 
 	<Template Name="WT_B777_Wing_Anti_Ice_Knob_Template">
@@ -595,11 +573,9 @@
 			<ANIM_NAME>ovhd_switch_anti_ice_wing</ANIM_NAME>
 			<PART_ID>DEICE_Switch_Airframe</PART_ID>
 		</Parameters>
-
 		<Parameters Type="Override">
 			<VAR_NAME>B777_Wing_AntiIce_Knob_State</VAR_NAME>
 		</Parameters>
-
 		<UseTemplate Name="ASOBO_Interaction_Base_Template">
 			<INPUT_EVENT_ID_SOURCE>DEICE</INPUT_EVENT_ID_SOURCE>
 			<USE_INPUT_EVENT_ID>DEICE</USE_INPUT_EVENT_ID>
@@ -639,149 +615,6 @@
 		</UseTemplate>
 	</Template>
 
-	<!-- IRS -->	<!--INOP, ADIRU template defined on ADIRU.xml-->
-	<Template Name="WT_B777_IRS_Knob_Template">
-		<Parameters Type="Default">
-			<ID>1</ID>
-		</Parameters>
-
-		<Parameters Type="Default">
-			<IE_NAME>IRS_Switch_#ID#</IE_NAME>
-			<NODE_ID>INSTRUMENT_Knob_IRS_#ID#</NODE_ID>
-			<ANIM_NAME>INSTRUMENT_Knob_IRS_#ID#</ANIM_NAME>
-
-			<Switch Param="ID">
-				<Case Value="2">
-					<CIRCUIT_INDEX>98</CIRCUIT_INDEX>
-				</Case>
-				<Default>
-					<CIRCUIT_INDEX>97</CIRCUIT_INDEX>
-				</Default>
-			</Switch>
-		</Parameters>
-
-		<Parameters Type="Override">
-			<VAR_NAME>B777_IRS_Knob_State:#ID#</VAR_NAME>
-
-			<UPDATE_CIRCUIT_STATE>
-				(A:CIRCUIT SWITCH ON:#CIRCUIT_INDEX#, Bool) l0 != if{
-					#CIRCUIT_INDEX# (&gt;K:ELECTRICAL_CIRCUIT_TOGGLE)
-				}
-			</UPDATE_CIRCUIT_STATE>
-		</Parameters>
-
-		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
-			<PART_ID>INSTRUMENT_Knob_IRS</PART_ID>
-			<KNOB_TYPE>X_STATES</KNOB_TYPE>
-			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
-			<NUM_STATES>2</NUM_STATES>
-			<STR_STATE_0>OFF</STR_STATE_0>
-			<STR_STATE_1>ON</STR_STATE_1>
-			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
-			<TT_VALUE_1>@TT_Package.GT_STATE_ON</TT_VALUE_1>
-			<ON_AFTER_INIT_CODE>(O:AIRLINER_#IE_NAME#_Position) sp0 #UPDATE_CIRCUIT_STATE#</ON_AFTER_INIT_CODE>
-			<GET_STATE_EXTERNAL>(L:#VAR_NAME#) sp0</GET_STATE_EXTERNAL>
-			<SET_STATE_EXTERNAL>(O:AIRLINER_#IE_NAME#_Position) s0 (&gt;L:#VAR_NAME#) #UPDATE_CIRCUIT_STATE#</SET_STATE_EXTERNAL>
-			<LOCAL_VAR_TO_WATCH_0>#VAR_NAME#</LOCAL_VAR_TO_WATCH_0>
-			<WWISE_EVENT_1>engine_starter_switch_on</WWISE_EVENT_1>
-			<WWISE_EVENT_2>engine_starter_switch_off</WWISE_EVENT_2>
-			<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_KNOB_IRS_ACTION</TT_DESCRIPTION_ID>
-			<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_KNOB_IRS_TITLE</TOOLTIP_TITLE>
-		</UseTemplate>
-	</Template>
-
-	<Template Name="WT_ELECTRICAL_Switch_EmerLights_Template">	<!--no anim avail-->
-		<Parameters Type="Default">
-			<ANIM_NAME>SWITCH_OVH_EMERLIGHTS</ANIM_NAME>
-			<NODE_ID>SWITCH_OVH_EMERLIGHTS</NODE_ID>
-			<PART_ID>SWITCH_OVH_EMERLIGHTS</PART_ID>
-			<COVER_NODE_ID>LOCK_OVH_EMERLIGHTS</COVER_NODE_ID>
-			<COVER_ANIM_NAME>LOCK_OVH_EMERLIGHTS</COVER_ANIM_NAME>
-			<BTN_ID>EmerLights</BTN_ID>
-			<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_PUSH_MISC_EMER_LIGHT_ACTION</TT_DESCRIPTION_ID>
-			<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_PUSH_MISC_EMER_LIGHT_TITLE</TOOLTIP_TITLE>
-		</Parameters>
-		<Parameters Type="Default">
-			<COVER_IE_NAME>#BTN_ID#_Cover</COVER_IE_NAME>
-			<COVER_VAR_NAME>XMLVAR_ELECTRICAL_#BTN_ID#_Cover_Opened</COVER_VAR_NAME>
-			<COVER_VAR_TYPE>L</COVER_VAR_TYPE>
-			<COVER_INIT_VALUE>(A:ELECTRICAL MASTER BATTERY, bool) !</COVER_INIT_VALUE>
-			<LOCAL_VAR>XMLVAR_EMER_LIGHTS_ARMED</LOCAL_VAR>
-			<TOOLTIP_ENTRY_0>ELECTRICAL_#BTN_ID#</TOOLTIP_ENTRY_0>
-			<ON_COVER_CLOSED>(&gt;B:ELECTRICAL_#BTN_ID#_ARMED)</ON_COVER_CLOSED>
-		</Parameters>
-		<UseTemplate Name="ASOBO_GT_Switch_Covered">
-			<NUM_STATES>3</NUM_STATES>
-			<INPUT_EVENT_ID>ELECTRICAL</INPUT_EVENT_ID>
-			<COVER_IE_ID_SOURCE>ELECTRICAL</COVER_IE_ID_SOURCE>
-			<SWITCH_NODE_ID>#NODE_ID#</SWITCH_NODE_ID>
-			<SWITCH_ANIM_NAME>#ANIM_NAME#</SWITCH_ANIM_NAME>
-			<CODE_POS_0>(&gt;B:ELECTRICAL_#BTN_ID#_OFF)</CODE_POS_0>
-			<CODE_POS_1>(&gt;B:ELECTRICAL_#BTN_ID#_ARMED)</CODE_POS_1>
-			<CODE_POS_2>(&gt;B:ELECTRICAL_#BTN_ID#_ON)</CODE_POS_2>
-			<STATE0_TEST>(B:ELECTRICAL_#BTN_ID#, Number) 0 ==</STATE0_TEST>
-			<STATE1_TEST>(B:ELECTRICAL_#BTN_ID#, Number) 1 ==</STATE1_TEST>
-			<STATE2_TEST>(B:ELECTRICAL_#BTN_ID#, Number) 2 ==</STATE2_TEST>
-			<STR_STATE_0>OFF</STR_STATE_0>
-			<STR_STATE_1>ARMED</STR_STATE_1>
-			<STR_STATE_2>ON</STR_STATE_2>
-			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
-			<TT_VALUE_1>@TT_Package.GT_STATE_ARMED</TT_VALUE_1>
-			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
-			<SET_STATE_0>0 (&gt;L:#LOCAL_VAR#)</SET_STATE_0>
-			<SET_STATE_1>1 (&gt;L:#LOCAL_VAR#)</SET_STATE_1>
-			<SET_STATE_2>2 (&gt;L:#LOCAL_VAR#)</SET_STATE_2>
-			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#, Number)</GET_STATE_EXTERNAL>
-			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
-			<WWISE_COVER_EVENT_OPEN>cover_open</WWISE_COVER_EVENT_OPEN>
-			<WWISE_COVER_EVENT_CLOSE>cover_close</WWISE_COVER_EVENT_CLOSE>
-			<WWISE_EVENT>light_switch</WWISE_EVENT>
-		</UseTemplate>
-	</Template>
-
-	<Template Name="WT_ELECTRICAL_Switch_FlightComputer_Template">
-		<Parameters Type="Default">
-			<ANIM_NAME>SWITCH_OVH_PRIMFLIGHT</ANIM_NAME>
-			<NODE_ID>SWITCH_OVH_PRIMFLIGHT</NODE_ID>
-			<PART_ID>SWITCH_OVH_PRIMFLIGHT</PART_ID>
-			<COVER_NODE_ID>LOCK_OVH_PRIMFLIGHT</COVER_NODE_ID>
-			<COVER_ANIM_NAME>LOCK_OVH_PRIMFLIGHT</COVER_ANIM_NAME>
-			<BTN_ID>FlightComputer</BTN_ID>
-			<TT_DESCRIPTION_ID>@TT_Package.PRIMARY_FLIGHT_COMPUTERS_ACTION</TT_DESCRIPTION_ID>
-			<TOOLTIP_TITLE>@TT_Package.PRIMARY_FLIGHT_COMPUTERS_TITLE</TOOLTIP_TITLE>
-		</Parameters>
-		<Parameters Type="Default">
-			<COVER_IE_NAME>#BTN_ID#_Cover</COVER_IE_NAME>
-			<COVER_VAR_NAME>XMLVAR_ELECTRICAL_#BTN_ID#_Cover_Opened</COVER_VAR_NAME>
-			<COVER_VAR_TYPE>I</COVER_VAR_TYPE>
-			<COVER_INIT_VALUE>0</COVER_INIT_VALUE>
-			<LOCAL_VAR>WT_777_FLIGHT_COMPUTER_AUTO</LOCAL_VAR>
-			<TOOLTIP_ENTRY_0>ELECTRICAL_#BTN_ID#</TOOLTIP_ENTRY_0>
-			<ON_COVER_CLOSED>(&gt;B:ELECTRICAL_#BTN_ID#_AUTO)</ON_COVER_CLOSED>
-		</Parameters>
-		<UseTemplate Name="ASOBO_GT_Switch_Covered">
-			<NUM_STATES>2</NUM_STATES>
-			<INPUT_EVENT_ID>ELECTRICAL</INPUT_EVENT_ID>
-			<COVER_IE_ID_SOURCE>ELECTRICAL</COVER_IE_ID_SOURCE>
-			<SWITCH_NODE_ID>#NODE_ID#</SWITCH_NODE_ID>
-			<SWITCH_ANIM_NAME>#ANIM_NAME#</SWITCH_ANIM_NAME>
-			<SWITCH_ANIM_CODE>(L:#LOCAL_VAR#, Number) 100 *</SWITCH_ANIM_CODE>
-			<STR_STATE_OFF>DISC</STR_STATE_OFF>
-			<STR_STATE_ON>AUTO</STR_STATE_ON>
-			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_DISCONNECT)</TT_VALUE_OFF>
-			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_AUTO)</TT_VALUE_ON>
-			<SET_STATE_ON>1 (&gt;L:#LOCAL_VAR#)</SET_STATE_ON>
-			<SET_STATE_OFF>0 (&gt;L:#LOCAL_VAR#)</SET_STATE_OFF>
-			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#, Number) sp0</GET_STATE_EXTERNAL>
-			<TOGGLE_STATE>(&gt;B:ELECTRICAL_#BTN_ID#_TOGGLE)</TOGGLE_STATE>
-			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
-			<WWISE_COVER_EVENT_OPEN>cover_open</WWISE_COVER_EVENT_OPEN>
-			<WWISE_COVER_EVENT_CLOSE>cover_close</WWISE_COVER_EVENT_CLOSE>
-			<WWISE_EVENT_1>light_switch</WWISE_EVENT_1>
-			<WWISE_EVENT_2>light_switch</WWISE_EVENT_2>
-		</UseTemplate>
-	</Template>
-
 	<!-- B777 Engine Throttle -->
 	<!-- Ideally we would just change 'ASOBO_ENGINE_Throttle_SubTemplate' to support the new THROTTLE_VAR param,
 			 but I don't want to pull in such a generic and large file into our repo as an override, so we will just do
@@ -789,90 +622,6 @@
 	 -->
 
 	<!--teevee: since the original throttle from wlrs mod is working, there will be no change to this-->
-
-	<InputEvent ID="WT_B777_Throttle_Reverser">
-		<Presets>
-			<Preset ID="ENGINE_Throttle_Reverser_#REVERSER_ID#">
-				<Parameters Type="Default">
-					<INCREMENT>256</INCREMENT>
-					<ON_BEFORE_SET/>
-				</Parameters>
-				<Parameters Type="Override">
-					<LOWER_LIMIT>(A:THROTTLE LOWER LIMIT, position 16k)</LOWER_LIMIT>
-					<UPPER_LIMIT>0</UPPER_LIMIT>
-				</Parameters>
-				<Parameters Type="Override">
-					<CAN_SET_THROTTLE>(#THROTTLE_VAR_FULL#) 0.02 &lt;</CAN_SET_THROTTLE>
-					<ON_BEFORE_SET>#ON_BEFORE_SET#
-						(E:IS IN VR, Boolean) (E:IS USING MOTION CONTROLLERS, Boolean) (E:IS USING JOYSTICK THROTTLE, Boolean) ! (L:XMLVAR_IE_Throttle_Reverser_VR_Handled) ! and and and if{
-							1 (&gt;L:XMLVAR_IE_Throttle_Reverser_VR_Handled)
-							p0 #LOWER_LIMIT# / (&gt;L:XMLVAR_IE_Throttle_Reverser_VR_Value) (&gt;B:Set_All_Throttle_Reverser)
-							0 (&gt;L:XMLVAR_IE_Throttle_Reverser_VR_Handled)
-							quit
-						}
-					</ON_BEFORE_SET>
-				</Parameters>
-				<Tooltip>
-					<Icon>MOVE_AXIS_Y</Icon>
-					<Interaction>PRIMARY_DOWN+Y_AXIS</Interaction>
-					<InteractionLockable>Y_AXIS</InteractionLockable>
-					<TTDescription RPN="True">#REVERSER_ID# (R:1:@TT_Package.ENGINE_THROTTLE_REVERSE) @sprintf</TTDescription>
-					<TTValue RPN="True">(B:ENGINE_Throttle_Reverser_#REVERSER_ID#, percent) '%.2f%%' @sprintf</TTValue>
-				</Tooltip>
-				<Value>
-					<Units>percent</Units>
-					<Code>(O:ENGINE_Throttle_Reverser_#REVERSER_ID#_Position) #LOWER_LIMIT# / 100 *</Code>
-					<Init>(#THROTTLE_VAR_FULL#, position 16k) #LOWER_LIMIT# max #UPPER_LIMIT# min (&gt;O:ENGINE_Throttle_Reverser_#REVERSER_ID#_Position)</Init>
-					<WatchVars>
-						<Switch Param="THROTTLE_VAR_TYPE">
-							<Case Value="A">
-								<Simvar ID="#THROTTLE_VAR#"/>
-							</Case>
-							<Default>
-								<LocalVar ID="#THROTTLE_VAR#"/>
-							</Default>
-						</Switch>
-					</WatchVars>
-				</Value>
-				<Inc>
-					<Code>(#THROTTLE_VAR_FULL#, position 16k) p0 - #LOWER_LIMIT# max #UPPER_LIMIT# min #LOWER_LIMIT# / (&gt;B:ENGINE_Throttle_Reverser_#REVERSER_ID#_Set)</Code>
-					<Parameters>
-						<Param Type="Float" RPN="True">p0 #INCREMENT# *</Param>
-					</Parameters>
-				</Inc>
-				<Dec>
-					<Code>(#THROTTLE_VAR_FULL#, position 16k) p0 + #LOWER_LIMIT# max #UPPER_LIMIT# min #LOWER_LIMIT# / (&gt;B:ENGINE_Throttle_Reverser_#REVERSER_ID#_Set)</Code>
-					<Parameters>
-						<Param Type="Float" RPN="True">p0 #INCREMENT# *</Param>
-					</Parameters>
-				</Dec>
-				<Set>
-					<Code>#ON_BEFORE_SET# p0 #LOWER_LIMIT# max #UPPER_LIMIT# min sp0 #CAN_SET_THROTTLE# if{ l0 (&gt;K:THROTTLE#REVERSER_ID#_SET) } els{ #UPPER_LIMIT# (&gt;O:ENGINE_Throttle_Reverser_#REVERSER_ID#_Position) }</Code>
-					<Parameters>
-						<Param Type="Float" RPN="True">p0 #LOWER_LIMIT# *</Param>
-					</Parameters>
-					<Bindings>
-						<Binding Alias="Set_All_Throttle_Reverser">
-							<Param Type="Float" RPN="True">(L:XMLVAR_IE_Throttle_Reverser_VR_Value)</Param>
-						</Binding>
-						<Binding Alias="ENGINE_All_Throttle_Reverser_Full_Reverse"><!-- event manipulating all throttles (declared for each throttle preset) -->
-							<Param>1</Param>
-						</Binding>
-						<Binding Alias="ENGINE_All_Throttle_Reverser_Idle"><!-- event manipulating all throttles (declared for each throttle preset) -->
-							<Param>0</Param>
-						</Binding>
-						<Binding Alias="ENGINE_Throttle_Reverser_#REVERSER_ID#_Full_Reverse">
-							<Param>1</Param>
-						</Binding>
-						<Binding Alias="ENGINE_Throttle_Reverser_#REVERSER_ID#_Idle">
-							<Param>0</Param>
-						</Binding>
-					</Bindings>
-				</Set>
-			</Preset>
-		</Presets>
-	</InputEvent>
-
 	<Template Name="WT_B777_Engine_Throttle_Template">		<!--INOP-->
 		<Parameters Type="Default">
 			<ID>1</ID>
@@ -1326,7 +1075,7 @@
 		</Component>
 	</Template>
 
-  <!-- AIR DATA/ATT Source Select -->
+  	<!-- AIR DATA/ATT Source Select -->
 	<Template Name="WT_B777_Air_Data_Att_Source_Knob_Template">
 		<Parameters Type="Default">
 			<ID>1</ID>
@@ -1379,46 +1128,46 @@
 			<PART_ID>AUTOPILOT_Knob_Baro</PART_ID>
     	</Parameters>
 
-    <Parameters Type="Default">
-      <KNOB_ID>Baro_#ID#</KNOB_ID>
-      <BTN_ID_EXTERNAL>Baro_#ID#_Sync</BTN_ID_EXTERNAL>
-      <INPUT_EVENT_ID_SOURCE>AUTOPILOT</INPUT_EVENT_ID_SOURCE>
-      <WWISE_EVENT_1>autopilot_knob_push_button_on</WWISE_EVENT_1>
-      <WWISE_EVENT_2>autopilot_knob_push_button_off</WWISE_EVENT_2>
-      <COUNT>36</COUNT>
-      <ANIM_NAME_KNOB>#ANIM_NAME#</ANIM_NAME_KNOB>
-      <ANIM_NAME_PUSH>AUTOPILOT_Knob_Baro_#ID#_push_#ID#</ANIM_NAME_PUSH>
-      <THRESHOLD_X_INPUT>0.05</THRESHOLD_X_INPUT>
-      <THRESHOLD_X_MOUSE>0.01</THRESHOLD_X_MOUSE>
-      <THRESHOLD_INPUT>0.05</THRESHOLD_INPUT>
-      <THRESHOLD_MOUSE>0.01</THRESHOLD_MOUSE>
-      <WWISE_EVENT>autopilot_knob</WWISE_EVENT>
-    </Parameters>
+		<Parameters Type="Default">
+			<KNOB_ID>Baro_#ID#</KNOB_ID>
+			<BTN_ID_EXTERNAL>Baro_#ID#_Sync</BTN_ID_EXTERNAL>
+			<INPUT_EVENT_ID_SOURCE>AUTOPILOT</INPUT_EVENT_ID_SOURCE>
+			<WWISE_EVENT_1>autopilot_knob_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>autopilot_knob_push_button_off</WWISE_EVENT_2>
+			<COUNT>36</COUNT>
+			<ANIM_NAME_KNOB>#ANIM_NAME#</ANIM_NAME_KNOB>
+			<ANIM_NAME_PUSH>AUTOPILOT_Knob_Baro_#ID#_push_#ID#</ANIM_NAME_PUSH>
+			<THRESHOLD_X_INPUT>0.05</THRESHOLD_X_INPUT>
+			<THRESHOLD_X_MOUSE>0.01</THRESHOLD_X_MOUSE>
+			<THRESHOLD_INPUT>0.05</THRESHOLD_INPUT>
+			<THRESHOLD_MOUSE>0.01</THRESHOLD_MOUSE>
+			<WWISE_EVENT>autopilot_knob</WWISE_EVENT>
+		</Parameters>
 
-    <Parameters Type="Default">
-      <SET_STATE_EXTERNAL>p0 0 &gt; if{ #BARO_ID# (&gt;K:KOHLSMAN_INC) } els{ #BARO_ID# (&gt;K:KOHLSMAN_DEC) }</SET_STATE_EXTERNAL>
-      <PUSH_SET_STATE_EXTERNAL>#BARO_ID# (&gt;K:BAROMETRIC_STD_PRESSURE)</PUSH_SET_STATE_EXTERNAL>
-      <GET_BARO>(A:KOHLSMAN SETTING HG:#BARO_ID#, inHg)</GET_BARO>
-    </Parameters>
+		<Parameters Type="Default">
+			<SET_STATE_EXTERNAL>p0 0 &gt; if{ #BARO_ID# (&gt;K:KOHLSMAN_INC) } els{ #BARO_ID# (&gt;K:KOHLSMAN_DEC) }</SET_STATE_EXTERNAL>
+			<PUSH_SET_STATE_EXTERNAL>#BARO_ID# (&gt;K:BAROMETRIC_STD_PRESSURE)</PUSH_SET_STATE_EXTERNAL>
+			<GET_BARO>(A:KOHLSMAN SETTING HG:#BARO_ID#, inHg)</GET_BARO>
+		</Parameters>
 
-    <Component ID="#NODE_ID#" Node="#NODE_ID#">
-      <UseTemplate Name="ASOBO_AUTOPILOT_Push_Event_Only_Template">
-        <BTN_ID>#BTN_ID_EXTERNAL#</BTN_ID>
-        <EVENT_TYPE>PUSH</EVENT_TYPE>
-        <SET_STATE_EXTERNAL>#PUSH_SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
-        <TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION_SET</TT_DESCRIPTION_ID>
-      </UseTemplate>
-      <UseTemplate Name="ASOBO_AUTOPILOT_Knob_Template">
-        <SET_STATE_EXTERNAL>#SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
-        <TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION</TT_DESCRIPTION_ID>
-        <TOOLTIP_TITLE>@TT_Package.AUTOPILOT_KNOB_BARO_TITLE</TOOLTIP_TITLE>
-        <GET_TT_VALUE_STATE>#GET_BARO# sp0</GET_TT_VALUE_STATE>
-        <FORMAT_VALUE>l0 '%.2fIN' @sprintf</FORMAT_VALUE>
-      </UseTemplate>
-    </Component>
-  </Template>
+		<Component ID="#NODE_ID#" Node="#NODE_ID#">
+			<UseTemplate Name="ASOBO_AUTOPILOT_Push_Event_Only_Template">
+				<BTN_ID>#BTN_ID_EXTERNAL#</BTN_ID>
+				<EVENT_TYPE>PUSH</EVENT_TYPE>
+				<SET_STATE_EXTERNAL>#PUSH_SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
+				<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION_SET</TT_DESCRIPTION_ID>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_AUTOPILOT_Knob_Template">
+				<SET_STATE_EXTERNAL>#SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
+				<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION</TT_DESCRIPTION_ID>
+				<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_KNOB_BARO_TITLE</TOOLTIP_TITLE>
+				<GET_TT_VALUE_STATE>#GET_BARO# sp0</GET_TT_VALUE_STATE>
+				<FORMAT_VALUE>l0 '%.2fIN' @sprintf</FORMAT_VALUE>
+			</UseTemplate>
+		</Component>
+  	</Template>
 
-  <Template Name="teevee_AUTOPILOT_Knob_Altitude_Template">
+  	<Template Name="teevee_AUTOPILOT_Knob_Altitude_Template">
 		<Parameters Type="Override">
 			<Condition Check="PUSH">
 				<TYPE>PUSH</TYPE>
@@ -1647,7 +1396,6 @@
 
 	<Template Name="teevee_APU_Starter_Knob_Template">
 		<Parameters Type="Default">
-
     	</Parameters>
 		<UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
 			<NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
@@ -1699,7 +1447,84 @@
 				1 (A:1:BUS CONNECTION ON:2, Bool) (&gt;L:XMLVAR_ACDC_Bus_Connected)
 			</UPDATE_CODE>
 		</UseTemplate>
-		
+	</Template>
+	<Template Name="WT_AUTOPILOT_Push_Speed_Template">
+		<Parameters Type="Default">
+		<DEFAULT_NAME>Speed</DEFAULT_NAME>
+		<IS_MACH_CODE>0</IS_MACH_CODE>
+		<ON_SPEED_MODE_SWITCH/>
+		<TT_DESCRIPTION_ID_SPEED>@TT_Package.AUTOPILOT_PUSH_SPEEDMODE_ACTION_SET</TT_DESCRIPTION_ID_SPEED>
+		<TOOLTIP_TITLE_SPEED>@TT_Package.AUTOPILOT_PUSH_SPEEDMODE_TITLE</TOOLTIP_TITLE_SPEED>
+		</Parameters>
+		<Parameters Type="Override">
+		<Switch Param="TYPE">
+			<Case Value="AS01B">
+			<IS_USING_L_VAR_FOR_STATE>True</IS_USING_L_VAR_FOR_STATE>
+			<KEY_PREFIX>AS01B</KEY_PREFIX>
+			<EMISSIVE_CODE_ACTIVE>(L:WT_Boeing_Autothrottle_Status) 3 ==</EMISSIVE_CODE_ACTIVE>
+			<IS_SWITCH_ON>(L:WT_Boeing_Autothrottle_Status) 3 ==</IS_SWITCH_ON>
+			<SIMVAR_TO_WATCH_0>AUTOPILOT AIRSPEED HOLD</SIMVAR_TO_WATCH_0>
+			<SIMVAR_TO_WATCH_1>AUTOPILOT MACH HOLD</SIMVAR_TO_WATCH_1>
+			<SIMVAR_TO_WATCH_2>AUTOPILOT THROTTLE ARM</SIMVAR_TO_WATCH_2>
+			</Case>
+		</Switch>
+		<ON_AP_MODE_STATE_CHANGED>#ON_SPEED_MODE_SWITCH#</ON_AP_MODE_STATE_CHANGED>
+		</Parameters>
+		<Parameters Type="Override">
+		<Condition Valid="IS_USING_L_VAR_FOR_STATE">
+			<True>
+			<SET_STATE_EXTERNAL>(&gt;H:#KEY_PREFIX#_FMC_1_AP_AT_ENGAGE)</SET_STATE_EXTERNAL>
+			<TT_DESCRIPTION_ID>COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_ENGAGE_AUTOTHROTTLE</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_PUSH_AUTOTHROTTLE_TITLE</TOOLTIP_TITLE>
+			<BTN_ID>IAS_Mode</BTN_ID>
+			<LOCAL_VAR_TO_WATCH_0>WT_Boeing_Autothrottle_Status</LOCAL_VAR_TO_WATCH_0>
+			<BINDING_SET_0_EVENT_ID>AP_AIRSPEED_HOLD</BINDING_SET_0_EVENT_ID>
+			</True>
+			<False>
+			<Switch Param="TYPE">
+				<Case Value="AS04F">
+				<SET_STATE_EXTERNAL>
+									(A:AUTOPILOT AIRSPEED HOLD, Bool) (A:AUTOPILOT MACH HOLD, Bool) or if{
+									(&gt;K:AP_AIRSPEED_OFF)
+									} els{
+									(A:FLAPS HANDLE INDEX, Number) 0 == if{
+									(&gt;K:AP_PANEL_SPEED_HOLD_TOGGLE)
+									} els{
+									(A:TRAILING EDGE FLAPS LEFT ANGLE,degree) 27 &gt; (A:TRAILING EDGE FLAPS RIGHT ANGLE,degree) 27 &gt; and if{
+									(A:DESIGN SPEED VS1, knots) sqr (A:TOTAL WEIGHT, pounds) (A:MAX GROSS WEIGHT, pounds) / * sqrt (&gt;K:AP_SPD_VAR_SET)
+									(&gt;K:AP_AIRSPEED_ON)
+									}
+									}
+									}
+				</SET_STATE_EXTERNAL>
+				<BINDING_SET_0_EVENT_ID>AP_AIRSPEED_HOLD</BINDING_SET_0_EVENT_ID>
+				</Case>
+				<Default>
+				<SET_STATE_EXTERNAL>#IS_MACH_CODE# if{ (&gt;K:AP_PANEL_MACH_HOLD) } els{ (&gt;K:AP_PANEL_SPEED_HOLD) }</SET_STATE_EXTERNAL>
+				</Default>
+			</Switch>
+			<IS_SWITCH_ON>(A:AUTOPILOT AIRSPEED HOLD, Bool) (A:AUTOPILOT MACH HOLD, Bool) or</IS_SWITCH_ON>
+			<SIMVAR_TO_WATCH_0>AUTOPILOT AIRSPEED HOLD</SIMVAR_TO_WATCH_0>
+			<SIMVAR_TO_WATCH_1>AUTOPILOT MACH HOLD</SIMVAR_TO_WATCH_1>
+			<EMISSIVE_CODE_ACTIVE>(A:AUTOPILOT AIRSPEED HOLD, Bool) (A:AUTOPILOT MACH HOLD, Bool) or</EMISSIVE_CODE_ACTIVE>
+			<TT_DESCRIPTION_ID>#TT_DESCRIPTION_ID_SPEED#</TT_DESCRIPTION_ID>
+			<TT_DESCRIPTION_IS_DYNAMIC>True</TT_DESCRIPTION_IS_DYNAMIC>
+			<TOOLTIP_TITLE>#TOOLTIP_TITLE_SPEED#</TOOLTIP_TITLE>
+			<BTN_ID>Speed_Mode</BTN_ID>
+			</False>
+		</Condition>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
+		<SIM_STATE_IS_ON_EXTERNAL>l0</SIM_STATE_IS_ON_EXTERNAL>
+		<GET_STATE_EXTERNAL>#IS_SWITCH_ON# sp0</GET_STATE_EXTERNAL>
+		<SET_STATE_EXTERNAL>#SET_STATE_EXTERNAL# #ON_AP_MODE_STATE_CHANGED#</SET_STATE_EXTERNAL>
+		</UseTemplate>
+  	</Template>
+  
+
+	<Template Name="teevee_RADIO_FREQENCY_SELECTOR">
+		<Parameters>
+		</Parameters>
 	</Template>
 
 </ModelBehaviors>
