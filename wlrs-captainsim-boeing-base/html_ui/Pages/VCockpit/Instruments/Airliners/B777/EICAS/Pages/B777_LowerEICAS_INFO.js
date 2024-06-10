@@ -18,6 +18,7 @@ var B777_LowerEICAS_INFO;
             this.debug5 = document.querySelector("#debug5");
             this.debug6 = document.querySelector("#debug6");
             this.debug7 = document.querySelector("#debug7");
+            this.debug8 = document.querySelector("#debug7");
             this.isInitialised = true;
         }
         update(_deltaTime) {
