@@ -456,7 +456,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         let max = B777_FMC_MainDisplay._v1s[index][1];
         this.v1Speed = min * (1 - runwayCoef) + max * runwayCoef;
         this.v1Speed *= dWeightCoeff;
-        this.v1Speed -= (flapsHandleIndex - 3) * 1;
+        this.v1Speed -= (flapsHandleIndex - 3) * 10;
         this.v1Speed = Math.round(this.v1Speed);
         SimVar.SetSimVarValue("L:AIRLINER_V1_SPEED", "Knots", this.v1Speed);
     }
