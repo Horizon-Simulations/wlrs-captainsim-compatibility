@@ -23,15 +23,12 @@ var B777_LowerEICAS_Stat;
                 [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
                 [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
                 [0,80,0,54,5.9], [0,80,0,54,5.9], [0,90,0,54,5.9], [0, 90,0,54,5.9],
-                [0,102,0,54,5.9], [0,102,0,54,5.9], [0,98,0,54,5.9], [0,98,0,54,5.9],
-                [0,90,0,54,5.9], [0,90,0,54,5.9], [0,90,0,54,5.9], [0, 90,0,54,5.9],
-                [0,89,0,54,5.9], [0,89,0,54,5.9], [0,90,0,54,5.9], [0, 90,0,54,5.9],
                 [3.4,89,0,54,5.9], [3.4,89,0,54,5.9], [6.5,90,0,54,5.9], [6.5,90,0,54,5.9],
                 [7.4,90,0,54,5.9], [7.4,90,0,54,5.9], [8.1,101,0,54,5.9], [8.1,101,0,54,5.9],
                 [8.8,103,0,54,5.9], [8.8,103,0,54,5.9], [9.4,105,1,54,5.9], [9.4,105,1,54,5.9],
                 [9.9,107,1,54,5.9], [9.9,107,1,54,5.9], [10.5,115,2,54,5.9], [10.5,115,2,54,5.9],
                 [11.1,133,2,54,5.9], [11.1,133,2,54,5.9], [11.6,156,3,54,5.9], [11.6,156,3,54,5.9],
-                [12.3,181,4,54,5.9], [12.8,206,5,53,5.9], [13.3,227,6,53,5.9], [13.3,227,0,53,5.9],
+                [12.3,181,4,54,5.9], [12.8,206,5,53,5.9], [13.3,227,6,53,5.9], [13.3,227,6,53,5.9],
                 [13.8,246,7,53,5.9], [13.8,246,7,53,5.9], [14.3,264,9,52,5.9], [14.3,264,9,52,5.9],
                 [14.8,279,10,52,5.9], [14.8,279,10,52,5.9], [14.8,279,10,52,5.9], [14.8,279,10,52,5.9],
                 [15.3,293,10,52,5.9], [15.3,293,10,52,5.9], [15.6,306,11,52,5.9], [15.6,306,11,52,5.9],
@@ -148,10 +145,12 @@ var B777_LowerEICAS_Stat;
             this.elapsedTime = document.querySelector("#time");
             this.apuRPM = document.querySelector('#RPM');
             this.apuEGT = document.querySelector('#EGT');
-            this.apuPress = document.querySelector('#apuPress');
-            this.apuTemp = document.querySelector('#temp');
-            this.apuQty = document.querySelector('#qty');
+            this.apuPress = document.querySelector('#apuOilPress');
+            this.apuTemp = document.querySelector('#apuOilTemp');
+            this.apuQty = document.querySelector('#apuOilQty');
             this.apuEGTUnit = document.querySelector("#egt-unit");
+            this.apuOilPressUnit = document.querySelector("#press-unit");
+            this.apuOilTempUnit = document.querySelector("#oilTemp-unit");
             this.hydraulicL = document.querySelector('#pressL');
             this.hydraulicC = document.querySelector('#pressC');
             this.hydraulicR = document.querySelector('#pressR');
@@ -161,7 +160,7 @@ var B777_LowerEICAS_Stat;
             // Call updateClock every second
             setInterval(this.updateClock.bind(this), 1000);
             // Call updateAPUData every 0.2 seconds
-            setInterval(this.updateAPUData.bind(this), 200);
+            setInterval(this.updateAPUData.bind(this), 220);
             this.isInitialised = true;
         }
 
@@ -198,10 +197,10 @@ var B777_LowerEICAS_Stat;
                     if (apuStarted) {
                         let egt = this.apuStart[this.currentAPUIndex][1];
                         this.apuEGT.textContent = Math.round((Math.floor(Math.random() * 1) + 1)*egt + this.ambientTemp*1.8);       //heat factor = 1.8; random upper limit = 1.1
-                        this.apuRPM.textContent = this.apuStart[this.currentAPUIndex][0];
+                        this.apuRPM.textContent = this.apuStart[this.currentAPUIndex][0].toFixed(1);
                         this.apuPress.textContent = this.apuStart[this.currentAPUIndex][2];
-                        this.apuTemp.textContent = this.apuStart[this.currentAPUIndex][3];
-                        this.apuQty.textContent = this.apuStart[this.currentAPUIndex][4];
+                        this.apuTemp.textContent = Math.round((Math.floor(Math.random() * 1) + 1)*(this.apuStart[this.currentAPUIndex][3]) + this.ambientTemp*1.2); //heat factor = 1.2; random upper limit = 1.1
+                        this.apuQty.textContent = this.apuStart[this.currentAPUIndex][4].toFixed(1);
                         this.currentAPUIndex++;
                         if (this.currentAPUIndex >= this.apuStart.length) {
                             this.currentAPUIndex = this.apuStart.length - 1;
@@ -216,6 +215,8 @@ var B777_LowerEICAS_Stat;
             {
                 this.apuEGT.textContent = "";
                 this.apuEGTUnit.textContent = "";
+                this.apuOilTempUnit.textContent = "";
+                this.apuOilPressUnit.textContent = "";
                 this.apuPress.textContent = "";
                 this.apuTemp.textContent = "";
                 this.apuQty.textContent = ""
