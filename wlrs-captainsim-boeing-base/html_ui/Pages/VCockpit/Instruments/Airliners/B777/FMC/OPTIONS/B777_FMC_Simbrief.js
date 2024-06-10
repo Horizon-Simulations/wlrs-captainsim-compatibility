@@ -25,11 +25,20 @@ class FMCSaltyOptions_Simbrief {
               let value = fmc.inOut;
               fmc.clearUserInput();
               SaltyDataStore.set("OPTIONS_SIMBRIEF_ID", value);
-              SaltyDataStore.set("OPTIONS_SIMBRIEF_USER", "");
               FMCSaltyOptions_Simbrief.ShowPage(fmc);
         }
+
+        /* LSK2 */
+        fmc.onLeftInput[0] = () => {
+            let value = fmc.inOut;
+            fmc.clearUserInput();
+            SaltyDataStore.set("OPTIONS_SIMBRIEF_ID", "");
+            SaltyDataStore.set("OPTIONS_SIMBRIEF_USER", value);
+            FMCSaltyOptions_Simbrief.ShowPage(fmc);
+      }
         
         /* RSK1 */
+        /*
         fmc.onRightInput[0] = () => {
               let value = fmc.inOut;
               fmc.clearUserInput();
@@ -37,6 +46,7 @@ class FMCSaltyOptions_Simbrief {
               SaltyDataStore.set("OPTIONS_SIMBRIEF_USER", value);
               FMCSaltyOptions_Simbrief.ShowPage(fmc);
         }
+        */
 
         /* LSK6 */
         fmc.onLeftInput[5] = () => {
