@@ -363,8 +363,8 @@ class B777_FMC_PayloadManager {
             ["PAYLOAD (" + units + ")", "PAYLOAD (" + units + ")"],
             [payloadReqToRender, payloadToRender],
 			[(B777_FMC_PayloadManager.remainingPayload ? "REMAINING PAYLOAD" : ""), ""],
-            [(B777_FMC_PayloadManager.remainingPayload ? B777_FMC_PayloadManager.remainingPayload + " lb" : "") , ""],
-            ["\xa0RETURN TO", "SYNC FP"],
+            [(B777_FMC_PayloadManager.remainingPayload ? B777_FMC_PayloadManager.remainingPayload.toFixed(0) + " lb" : "") , "SYNC FP>"],
+            ["\xa0RETURN TO", ""],
             ["<INDEX", "EXECUTE>"]
         ];
 
@@ -452,6 +452,7 @@ class B777_FMC_PayloadManager {
                 	payloadModifier = 2.20462262;
             	}
             	requestedInPounds = parseFloat(this.fmc.inOut) * payloadModifier;
+				
             	if (parseFloat(requestedInPounds) > B777_FMC_PayloadManager.getMinPayload && parseFloat(requestedInPounds) < B777_FMC_PayloadManager.getMaxPayload) {
                 	B777_FMC_PayloadManager.requestedPayload = parseFloat(requestedInPounds);
                 	this.fmc.clearUserInput();
@@ -469,8 +470,7 @@ class B777_FMC_PayloadManager {
        };
 
 	   /* RSK5 */
-		this.fmc.onrightInput[4] = () => {
-			//payload
+		this.fmc.onRightInput[4] = () => {
 			if (isFinite(parseFloat(simbriefPayload))) {
 				let useImperial;
 				const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
@@ -495,7 +495,6 @@ class B777_FMC_PayloadManager {
             	requestedInPounds = parseFloat(simbriefPayload) * payloadModifier;
             	if (parseFloat(requestedInPounds) > B777_FMC_PayloadManager.getMinPayload && parseFloat(requestedInPounds) < B777_FMC_PayloadManager.getMaxPayload) {
                 	B777_FMC_PayloadManager.requestedPayload = parseFloat(requestedInPounds);
-                	this.fmc.clearUserInput();
                 	this.showPage1();
             	}
             	else {
@@ -504,7 +503,7 @@ class B777_FMC_PayloadManager {
                 }
             }
 			else {
-                    this.fmc.showErrorMessage(this.fmc.defaultInputErrorMessage);
+                    this.fmc.showErrorMessage("LOAD FLIGHT PLAN FIRST");
                     return false;
             }
 			//fuel
@@ -632,7 +631,7 @@ class B777_FMC_PayloadManager {
 		//8 - rear eco
 
         /* LSK1 */
-		//
+		/*
 		this.fmc.onLeftInput[1] = () => {
 			if (isFinite(parseInt(this.fmc.inOut))) {
 				let useImperial;
@@ -671,6 +670,7 @@ class B777_FMC_PayloadManager {
 					return false;
 			}
 		}
+			*/
         /* LSK3 */
        
         /* LSK4 */
