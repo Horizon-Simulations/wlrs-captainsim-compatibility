@@ -4,7 +4,6 @@ var B777_LowerEICAS_Stat;
         constructor() {
             super();
             this.isInitialised = false;
-            
         }
         get templateID() { return "B777LowerEICASStatTemplate"; }
         connectedCallback() {
@@ -19,10 +18,10 @@ var B777_LowerEICAS_Stat;
             
             //format: RPM - EGT - OILPRESS - OIL TEMP - OIL QTY, all will be doubled occurs for consistancy
             this.apuStart = [
-                [0,this.ambientTemp,0,54,5.9], [0, this.ambientTemp,0,54,5.9],
-                [0,this.ambientTemp,0,54,5.9], [0, this.ambientTemp,0,54,5.9],
-                [0,this.ambientTemp,0,54,5.9], [0, this.ambientTemp,0,54,5.9],
-                [0,this.ambientTemp,0,54,5.9], [0, this.ambientTemp,0,54,5.9],
+                [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
+                [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
+                [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
+                [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
                 [0,80,0,54,5.9], [0,80,0,54,5.9], [0,90,0,54,5.9], [0, 90,0,54,5.9],
                 [0,102,0,54,5.9], [0,102,0,54,5.9], [0,98,0,54,5.9], [0,98,0,54,5.9],
                 [0,90,0,54,5.9], [0,90,0,54,5.9], [0,90,0,54,5.9], [0, 90,0,54,5.9],
@@ -150,6 +149,7 @@ var B777_LowerEICAS_Stat;
             this.apuRPM = document.querySelector('#RPM');
             this.apuEGT = document.querySelector('#EGT');
             this.apuPress = document.querySelector('#apuPress');
+            this.apuTemp = document.querySelector('#temp');
             this.apuQty = document.querySelector('#qty');
             this.apuEGTUnit = document.querySelector("#egt-unit");
             this.hydraulicL = document.querySelector('#pressL');
@@ -161,7 +161,6 @@ var B777_LowerEICAS_Stat;
             // Call updateClock every second
             setInterval(this.updateClock.bind(this), 1000);
             // Call updateAPUData every 0.2 seconds
-            //let updateFreq = (((80000-14000))/this.apuEGTStart.length*2); //81s s the apu start time; takes 7 s to start showing values 
             setInterval(this.updateAPUData.bind(this), 200);
             this.isInitialised = true;
         }
@@ -190,20 +189,26 @@ var B777_LowerEICAS_Stat;
             this.utcTime.textContent = combinedUTC;
             this.date.textContent = combinedDate;
         }
+
         updateAPUData() {
             if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 7)
                 {
-                    //this.apuRPM.textContent
                     this.apuEGTUnit.textContent = "C";
                     let apuStarted = SimVar.GetSimVarValue("APU SWITCH", "Bool");
                     if (apuStarted) {
-                        let egt = this.apuStart[this.currentIndex][1];
-                        this.apuEGT.textContent = egt; //Math.round((Math.floor(Math.random() * 1) + 1)*egt + this.ambientTemp*1.8);       //heat factor = 1.8; random upper limit = 1.1
-                        this.currentIndex++;
-                        if (this.currentIndex >= this.apuEGTStart.length) {
-                            this.currentIndex = this.apuEGTStart.length - 1;
+                        let egt = this.apuStart[this.currentAPUIndex][1];
+                        this.apuEGT.textContent = Math.round((Math.floor(Math.random() * 1) + 1)*egt + this.ambientTemp*1.8);       //heat factor = 1.8; random upper limit = 1.1
+                        this.apuRPM.textContent = this.apuStart[this.currentAPUIndex][0];
+                        this.apuPress.textContent = this.apuStart[this.currentAPUIndex][2];
+                        this.apuTemp.textContent = this.apuStart[this.currentAPUIndex][3];
+                        this.apuQty.textContent = this.apuStart[this.currentAPUIndex][4];
+                        this.currentAPUIndex++;
+                        if (this.currentAPUIndex >= this.apuStart.length) {
+                            this.currentAPUIndex = this.apuStart.length - 1;
                         }
-                    } else {
+                    } 
+                    else 
+                    {
                        
                     }
                 }
@@ -211,6 +216,9 @@ var B777_LowerEICAS_Stat;
             {
                 this.apuEGT.textContent = "";
                 this.apuEGTUnit.textContent = "";
+                this.apuPress.textContent = "";
+                this.apuTemp.textContent = "";
+                this.apuQty.textContent = ""
             }
         }
     }
