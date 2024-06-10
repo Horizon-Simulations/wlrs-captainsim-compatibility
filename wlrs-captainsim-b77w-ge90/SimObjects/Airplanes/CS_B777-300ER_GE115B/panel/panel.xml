@@ -115,8 +115,6 @@
     </Electric>
   </Instrument>
 
-
-
 	<!-- Annunciations -->
 
 	<Annunciations>
@@ -863,6 +861,153 @@
 		</Annunciation>
 
 		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS C</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L + C</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L + R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS C + R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L + C + R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
 		  <Type>Memo</Type>
 		  <Text>SPEEDBRAKE ARMED</Text>
 		  <Condition>
@@ -943,36 +1088,6 @@
 						<Constant>0</Constant>
 					</Equal>
 				</And>
-
-
-			<!--
-				<StateMachine>
-					<State id="Off" value="0">
-						<Transition to="On">
-							<Lower>
-								<Simvar name="APU PCT RPM" unit="percent"/>
-								<Constant>99</Constant>
-							</Lower>
-						</Transition>
-					</State>
-					<State id="On" value="0">
-						<Transition to="Alerting">
-							<Greater>
-								<Simvar name="APU PCT RPM" unit="percent"/>
-								<Constant>99</Constant>
-							</Greater>
-						</Transition>
-					</State>
-					<State id="Alerting" value="1">
-						<Transition to="On">
-							<LowerEqual>
-								<Simvar name="APU PCT RPM" unit="percent"/>
-								<Constant>2</Constant>
-							</LowerEqual>
-						</Transition>
-					</State>
-				</StateMachine>
-			-->
 			</Condition>
 		</Annunciation>
 
