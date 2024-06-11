@@ -106,8 +106,7 @@ class B777RSNavModeSelector {
       toga: new ValueStateTracker(() => Simplane.getAutoPilotTOGAActive(), () => NavModeEvent.TOGA_CHANGED),
       grounded: new ValueStateTracker(() => Simplane.getIsGrounded(), () => NavModeEvent.GROUNDED),
       autopilot: new ValueStateTracker(() => Simplane.getAutoPilotActive(), () => NavModeEvent.AP_CHANGED),
-      autothrottle: new ValueStateTracker(() => SimVar.GetSimVarValue("AUTOPILOT THROTTLE ARM", "bool"), () => NavModeEvent.AT_CHANGED),
-      flare: new ValueStateTracker(() => SimVar.GetSimVarValue("L:FLARE_STATUS", "number") == 2, () => NavModeEvent.FLARE)
+      autothrottle: new ValueStateTracker(() => SimVar.GetSimVarValue("AUTOPILOT THROTTLE ARM", "bool"), () => NavModeEvent.AT_CHANGED)
     };
 
     /** The event handlers for each event type. */
@@ -143,8 +142,7 @@ class B777RSNavModeSelector {
       [`${NavModeEvent.LNAV_ACTIVE}`]: this.handleLNAVActive.bind(this),
       [`${NavModeEvent.FD_TOGGLE}`]: this.handleFdToggle.bind(this),
       [`${NavModeEvent.ALT_PRESSED}`]: this.handleAltPressed.bind(this),
-      [`${NavModeEvent.THROTTLE_TO_HOLD}`]: this.handleThrottleToHold.bind(this),
-      [`${NavModeEvent.FLARE}`]: this.handleFlare.bind(this)
+      [`${NavModeEvent.THROTTLE_TO_HOLD}`]: this.handleThrottleToHold.bind(this)
     };
 
     this.initialize();
@@ -276,16 +274,6 @@ class B777RSNavModeSelector {
   queueEvent(event) {
     this._eventQueue.push(event);
   }
-  
-  handleFlare() {
-    if (SimVar.GetSimVarValue("L:FLARE_STATUS", "number") == 2) {
-      this.currentVerticalActiveState = VerticalNavModeState.FLARE;
-      SimVar.SetSimVarValue("K:AP_VS_ON", "number", 1);
-      SimVar.SetSimVarValue("K:AP_VS_VAR_SET_METRIC", "number", -40.72);
-      SimVar.SetSimVarValue("K:AP_PITCH_REF_SET", "number", 10000);
-      this.activateIdleMode();
-    }
-  }
 
   /**
    * Handles when the autopilot turns on or off.
@@ -322,7 +310,7 @@ class B777RSNavModeSelector {
           break;
       }
     }
-   }
+  }
 
   /**
    * Handles when APPR LOC mode goes active.
@@ -405,7 +393,6 @@ class B777RSNavModeSelector {
            SimVar.SetSimVarValue("L:WT_CJ4_HDG_ON", "number", 0);
            SimVar.SetSimVarValue("K:HEADING_SLOT_INDEX_SET", "number", 1);
            SimVar.SetSimVarValue("K:AP_PANEL_HEADING_HOLD", "number", 0);
-           this.currentLateralActiveState = LateralNavModeState.ROLL;
            break;
          case LateralNavModeState.APPR:
            this.cancelApproachMode(true);
@@ -415,7 +402,7 @@ class B777RSNavModeSelector {
          case LateralNavModeState.ROLL:
            break;
        }
-       //this.currentLateralActiveState = LateralNavModeState.ROLL;
+       this.currentLateralActiveState = LateralNavModeState.ROLL;
 
        switch (this.currentVerticalActiveState) {
          case VerticalNavModeState.FLC:
@@ -440,12 +427,9 @@ class B777RSNavModeSelector {
            break;
          case VerticalNavModeState.PTCH:
            break;
-        case VerticalNavModeState.GS:
-          this.currentLateralActiveState = LateralNavModeState.ROLLOUT;
-          this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
-          break;
        }
-       //this.currentVerticalActiveState = VerticalNavModeState.PTCH;
+       this.currentVerticalActiveState = VerticalNavModeState.PTCH;
+       this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
        if (this.isVNAVOn) {
          this.isVNAVOn = false;
          SimVar.SetSimVarValue("L:WT_CJ4_VNAV_ON", "number", 0);
@@ -882,8 +866,6 @@ class B777RSNavModeSelector {
   handleTogaChanged(atOff = false) {
     //SET THROTTLE INTO THR REF
     this.setAPSpeedHoldMode();
-    SimVar.SetSimVarValue("L:FLARE_STATUS", "number", -1);
-    this.currentLateralArmedState = LateralNavModeState.NONE;
     Coherent.call("GENERAL_ENG_THROTTLE_MANAGED_MODE_SET", ThrottleMode.TOGA);
     this.activateThrustRefMode();
     if (Simplane.getIsGrounded()) {
@@ -1372,8 +1354,8 @@ class B777RSNavModeSelector {
    * Handles when the plane has fully captured the assigned lock altitude.
    */
   handleAltCaptured() {
-    this.isAltitudeLocked = this._inputDataStates.altLocked.state;
      if (this.isAltitudeLocked) {
+
        if (this.currentVerticalActiveState === VerticalNavModeState.ALTSCAP || this.currentVerticalActiveState === VerticalNavModeState.ALTVCAP
          || this.currentVerticalActiveState === VerticalNavModeState.ALTCAP) {
          const altLockValue = Math.floor(Simplane.getAutoPilotDisplayedAltitudeLockValue());
@@ -1444,9 +1426,6 @@ class B777RSNavModeSelector {
     SimVar.SetSimVarValue("L:AP_VS_ACTIVE", "number", 0);
     SimVar.SetSimVarValue("L:AP_ALT_HOLD_ACTIVE", "number", 0);
     this.activateSpeedMode();
-    if (Simplane.getAltitudeAboveGround() <= 60) {
-      this.handleFlare();
-    }
   }
 
   /**
@@ -1501,10 +1480,6 @@ class B777RSNavModeSelector {
 
       if (this.currentVerticalActiveState === VerticalNavModeState.GP) {
         this.currentVerticalActiveState = VerticalNavModeState.GS;
-      }
-
-      if (this.currentVerticalActiveState === VerticalNavModeState.GS && Simplane.getAltitudeAboveGround() < 60) {
-        this.currentVerticalActiveState = VerticalNavModeState.FLARE;
       }
     } else {
       this.approachMode = WT_ApproachType.NONE;
@@ -1741,7 +1716,6 @@ LateralNavModeState.APPR = 'APPR';
 LateralNavModeState.TO = 'TO';
 LateralNavModeState.GA = 'GA';
 LateralNavModeState.HDGHOLD = 'HDGHOLD';
-LateralNavModeState.ROLLOUT = 'ROLLOUT';
 
 class VerticalNavModeState { }
 VerticalNavModeState.NONE = 'NONE';
@@ -1760,7 +1734,6 @@ VerticalNavModeState.PATH = 'PATH';
 VerticalNavModeState.NOPATH = 'NOPATH';
 VerticalNavModeState.TO = 'TO';
 VerticalNavModeState.GA = 'GA';
-VerticalNavModeState.FLARE = 'FLARE';
 
 class LNavModeState { }
 LNavModeState.FMS = 'fms';
@@ -1808,7 +1781,6 @@ NavModeEvent.LNAV_ACTIVE = 'lnav_active';
 NavModeEvent.FD_TOGGLE = 'FD_TOGGLE';
 NavModeEvent.ALT_PRESSED = 'ALT_PRESSED';
 NavModeEvent.THROTTLE_TO_HOLD = 'throttle_to_hold';
-NavModeEvent.FLARE = 'FLARE';
 
 class WT_ApproachType { }
 WT_ApproachType.NONE = 'none';
