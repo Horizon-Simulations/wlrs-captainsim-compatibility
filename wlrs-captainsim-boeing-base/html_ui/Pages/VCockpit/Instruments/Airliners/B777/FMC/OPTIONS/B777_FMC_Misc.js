@@ -19,7 +19,7 @@ class FMCSaltyOptions_Misc {
             [`< ${fpSyncDisplayOption}`, "", ""],
             ["", "", "PAUSE AT T/D"],
             [`< ${pauseAtTdDisplayOption}`, `${pauseAtTd >= 1 ? "UNPAUSE>" : ""}`],
-            ["", ""],
+            ["<BLUR ENGINE", ""],
             ["", ""],
             ["", ""],
             ["", ""],
