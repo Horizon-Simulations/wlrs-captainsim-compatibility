@@ -29,10 +29,10 @@ class FMCSaltyOptions_Simbrief {
         }
 
         /* LSK2 */
-        fmc.onLeftInput[0] = () => {
+        fmc.onLeftInput[1] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("OPTIONS_SIMBRIEF_ID", "");
+            //SaltyDataStore.set("OPTIONS_SIMBRIEF_ID", "");
             SaltyDataStore.set("OPTIONS_SIMBRIEF_USER", value);
             FMCSaltyOptions_Simbrief.ShowPage(fmc);
       }
