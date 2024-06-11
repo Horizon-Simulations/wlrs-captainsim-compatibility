@@ -133,6 +133,8 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             finResFuel: "",
             contFuel: "",
             route_distance: "",
+            passengerCount: "",
+            cargoLoad: "",
             rteUplinkReady: false,            
             perfUplinkReady: false
         }

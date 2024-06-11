@@ -163,6 +163,11 @@ const getSimBriefPlan = (fmc, store, updateView) => {
             fmc.simbrief["contFuel"] = data.fuel.contingency;
             /* DISTANCE */
             fmc.simbrief["route_distance"] = data.general.route_distance;
+            /* PASSENGER */
+            fmc.simbrief["passengerCount"] = data.general.passengers;
+            /* WEIGHT */
+            fmc.simbrief["passengerCount"] = data.weights.cargo;
+
             fmc.simbrief.rteUplinkReady = true;
             fmc.simbrief.perfUplinkReady = true;
             return fmc.simbrief;
