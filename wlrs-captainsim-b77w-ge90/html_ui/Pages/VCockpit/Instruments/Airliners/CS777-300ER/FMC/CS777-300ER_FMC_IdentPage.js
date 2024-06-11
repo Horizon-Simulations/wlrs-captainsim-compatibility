@@ -1,6 +1,10 @@
 class FMCIdentPage {
     static ShowPage1(fmc) {
         fmc.clearDisplay();
+
+        WTDataStore.set("icaoModel", "1");
+        WTDataStore.set("engineModel", "GE90-115B1");
+
         fmc.activeSystem = "FMC";
         let model = SimVar.GetSimVarValue("ATC MODEL", "string", "FMC");
         if (!model) {

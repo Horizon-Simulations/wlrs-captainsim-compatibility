@@ -186,6 +186,12 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
     }
     Init() {
         super.Init();
+
+        //this.currentModel = WTDataStore.get("icaoModel", "B77W");
+        //this.currentEngine = WTDataStore.get("engineModel", "GE90-115B1");
+
+        //SimVar.SetSimVarValue("L:teevee_test", "number". this.currentModel);
+
         // Maybe this gets rid of slowdown on first fpln mod
         this.flightPlanManager.copyCurrentFlightPlanInto(1);
         this.timer = 0;

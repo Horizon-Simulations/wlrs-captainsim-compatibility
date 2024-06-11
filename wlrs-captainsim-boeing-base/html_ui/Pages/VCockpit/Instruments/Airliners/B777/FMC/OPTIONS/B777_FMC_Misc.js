@@ -11,17 +11,18 @@ class FMCSaltyOptions_Misc {
         const pauseAtTd = WTDataStore.get("PAUSE_AT_TD", 0);
         const pauseAtTdDisplayOption = pauseAtTd >= 1 ? onGreen : offGreen;
 
-        const showEngineBlur =  SaltyDataStore.get("SHOW_ENGINE_BLUR", 0);
+        const showEngineBlur =  WTDataStore.get("SHOW_ENGINE_BLUR", 0);
         const showEngineBlurDisplayOption = showEngineBlur >= 1 ? onGreen : offGreen;
         SimVar.SetSimVarValue("L:teevee_SHOW_ENGINE_BLUR", "bool", showEngineBlur);
-        //test
+
+        
         fmc.setTemplate([
             ["MISC OPTIONS"],
             ["", "", "FP SYNC (WORLD MAP FP)"],
             [`< ${fpSyncDisplayOption}`, "", ""],
             ["", "", "PAUSE AT T/D"],
             [`< ${pauseAtTdDisplayOption}`, `${pauseAtTd >= 1 ? "UNPAUSE>" : ""}`],
-            ["<BLUR ENGINE", ""],
+            ["BLUR ENGINE", ""],
             [`< ${showEngineBlurDisplayOption}`, ""],
             ["", ""],
             ["", ""],
@@ -46,8 +47,7 @@ class FMCSaltyOptions_Misc {
         };
 
         fmc.onLeftInput[2] = () => {
-            SaltyDataStore.set("SHOW_ENGINE_BLUR", fpSync >= 1 ? 0 : 1);
-            SimVar.SetSimVarValue("L:teevee_SHOW_ENGINE_BLUR", "bool", showEngineBlur);
+            WTDataStore.set("SHOW_ENGINE_BLUR", showEngineBlur >= 1 ? 0 : 1);
             FMCSaltyOptions_Misc.ShowPage(fmc);
         }
 
