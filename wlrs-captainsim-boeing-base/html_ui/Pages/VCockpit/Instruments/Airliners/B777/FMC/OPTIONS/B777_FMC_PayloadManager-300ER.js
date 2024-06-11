@@ -750,7 +750,7 @@ class B777_FMC_PayloadManager {
 
 	showPage3() {
         this.fmc.clearDisplay();
-
+		
         this.payloadValues = this.getPayloadValues();
 
 		if (!B777_FMC_PayloadManager.requestedPayload) {
@@ -804,14 +804,14 @@ class B777_FMC_PayloadManager {
         (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(0) : this.getTotalFuel().toFixed(0));
 		
 		var rows = [
-            ["PAYLOAD - FOW PASS", "2", "5"],
+            ["PAYLOAD - REAR PASS", "3", "5"],
             ["REQUEST", "CURRENT"],
             ["", ""],
-            ["FIRST ", "FIRST"],
+            ["FOW ECO", "FOW ECO"],
             ["22", "33"],
-            ["BUSINESS", "BUSINESS"],
+            ["MID ECO", "MID ECO"],
             ["20", "20"],
-            ["PERM ECO", "PREM ECO"],
+            ["AFT", "AFT ECO"],
             ["30", "33"],
 			["TOTAL", "TOTAL"],
             ["99" , "99"],
@@ -826,11 +826,13 @@ class B777_FMC_PayloadManager {
         /* LSK4 */
     
         /* LSK6 */
+		/*
         this.fmc.onLeftInput[5] = () => {
             FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
+		/*
         if (B777_FMC_PayloadManager.isPayloadManagerExecuted){
 			rows[12][1] = "RUNNING...";
 		} else {
@@ -856,8 +858,9 @@ class B777_FMC_PayloadManager {
 				});
 			};
 		}
-
+	*/
         this.fmc.setTemplate(rows);
+		
 
 		this.fmc.onPrevPage = () => {
             this.showPage2();
@@ -915,18 +918,26 @@ class B777_FMC_PayloadManager {
             payloadModifier = 0.45359237;
         }
         
+		const totalFuel = this.getTotalFuel() * weightPerGallon;
+		const fuelTankLeftCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+		const fuelTankCenterCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+		const fuelTankRightCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+        const fobToRender = totalFuel.toFixed(0);
+        const fobReqToRender = (B777_FMC_PayloadManager.requestedFuel ? (B777_FMC_PayloadManager.requestedFuel * weightPerGallon).toFixed(0) : fobToRender);
+        (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(0) : this.getTotalFuel().toFixed(0));
+
 		var rows = [
-            ["PAYLOAD - FOW PASS", "2", "5"],
+            ["PAYLOAD - FUEL", "4", "5"],
             ["REQUEST", "CURRENT"],
             ["", ""],
-            ["FIRST ", "FIRST"],
-            ["22", "33"],
-            ["BUSINESS", "BUSINESS"],
-            ["20", "20"],
-            ["PERM ECO", "PREM ECO"],
-            ["30", "33"],
-			["TOTAL", "TOTAL"],
-            ["99" , "99"],
+            ["LEFT " + units, "LEFT " + "(" + units + ")"],
+            ["22", fuelTankLeftCur],
+            ["CENTER " + units, "CENTER " + "(" + units + ")"],
+            ["44", fuelTankCenterCur],
+            ["RIGHT " + units, "RIGHT " + "(" + units + ")"],
+            ['33', fuelTankRightCur],
+			["TOTAL " + units, "TOTAL "  + "(" + units + ")"],
+            [fobReqToRender , fobToRender],
             ["\xa0RETURN TO", ""],
             ["<INDEX", "EXECUTE>"]
         ];
