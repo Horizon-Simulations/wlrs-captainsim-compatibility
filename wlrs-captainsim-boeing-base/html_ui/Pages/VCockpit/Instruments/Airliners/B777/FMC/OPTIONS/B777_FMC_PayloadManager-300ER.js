@@ -35,11 +35,10 @@ class B777_FMC_PayloadManager {
             "FIRST_CLASS": 4,
             "BUSINESS_CLASS": 5,
             "PREMIUM_ECONOMY": 6,
-            "FORWARD_ECONOMY": 7,
-            "REAR_ECONOMY": 8,
-            "FORWARD_BAGGAGE": 9,
-            "REAR_BAGGAGE": 10,
-			"BULK_CARGO": 11
+            "ECONOMY": 7,
+            "FORWARD_BAGGAGE": 10,
+            "REAR_BAGGAGE": 11,
+			"BULK_CARGO": 12
         };
     }
 
@@ -75,12 +74,36 @@ class B777_FMC_PayloadManager {
 		this._requestedFuel = value;
 	}
 
-	static get requestedPassPayload() {
-		return this._requestedPassPayload || null;
+	static get requestedFirstPass() {
+		return this._requestedFirstPass || null;
 	}
 
-	static set requestedPassPayload(value) {
-		this._requestedPassPayload = value;
+	static set requestedFirstPass(value) {
+		this._requestedFirstPass = value;
+	}
+
+	static get requestedBusinessClass() {
+		return this._requestedBusinessClass || null;
+	}
+
+	static set requestedBusinessClass(value) {
+		this._requestedBusinessClass = value;
+	}
+
+	static get requestedPremiumEco() {
+		return this._requestedPremiumEco || null;
+	}
+
+	static set requestedPremiumEco(value) {
+		this._requestedPremiumEco = value;
+	}
+	
+	static get requestedForwardEco() {
+		return this._requestedForwardEco || null;
+	}
+
+	static set requestedForwardEco(value) {
+		this._requestedForwardEco = value;
 	}
 
 	static get requestedCargoLoad() {
@@ -171,12 +194,11 @@ class B777_FMC_PayloadManager {
             {
                 "FIRST_CLASS": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.FIRST_CLASS),
                 "BUSINESS_CLASS": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.BUSINESS_CLASS),
-                "PREMIUM_ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.PREMIUM_ECONOMY),
                 "FORWARD_BAGGAGE": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.FORWARD_BAGGAGE)
             },
             {
-                "FORWARD_ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.FORWARD_ECONOMY),
-                "REAR_ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.REAR_ECONOMY),
+				"PREMIUM_ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.PREMIUM_ECONOMY),
+                "ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.FORWARD_ECONOMY),
                 "REAR_BAGGAGE": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.REAR_BAGGAGE),
 				"BULK_CARGO" : this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.BULK_CARGO)
             }
@@ -1279,7 +1301,7 @@ class B777_FMC_PayloadManager {
 				await this.increaseRearPayload(amount, requestedCenterOfGravity);
 				B777_FMC_PayloadManager.remainingPayload = B777_FMC_PayloadManager.remainingPayload - amount;
 			}
-			this.showPage1();
+			//this.showPage1();
 		}
 		/*
 
