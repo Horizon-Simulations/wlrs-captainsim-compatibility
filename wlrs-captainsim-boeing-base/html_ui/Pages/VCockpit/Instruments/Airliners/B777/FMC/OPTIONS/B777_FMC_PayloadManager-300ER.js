@@ -312,7 +312,7 @@ class B777_FMC_PayloadManager {
 
 	/*
 	calculatePassengerLoad() {
-        let business = B777_FMC_PayloadManager.;
+        let totalPass = B777_FMC_PayloadManager.requestedPassPayload;
         if (fuel > tankCapacity) {
             remainingFuel = fuel - tankCapacity;
             fuel = tankCapacity;
@@ -368,7 +368,7 @@ class B777_FMC_PayloadManager {
             units = "Kg";
             payloadModifier = 0.45359237;
         }
-		const simbriefPayload = this.fmc.simbrief.payload;		//test
+		const simbriefPayload = this.fmc.simbrief.payload;
 		const simbriefFuelLoad = this.fmc.simbrief.blockFuel;
         const totalFuel = this.getTotalFuel() * weightPerGallon;
 		const cgToRender = this.getCenterOfGravity().toFixed(2);
@@ -568,10 +568,11 @@ class B777_FMC_PayloadManager {
 				}
 			}
 			else {
-				this.fmc.showErrorMessage(this.fmc.defaultInputErrorMessage);
+				this.fmc.showErrorMessage("NO FLIGHT PLAN FOUND");
 				return false;
 			}
 		}
+
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
             FMCSaltyOptions.ShowPage1(this.fmc);
@@ -803,63 +804,24 @@ class B777_FMC_PayloadManager {
         (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(0) : this.getTotalFuel().toFixed(0));
 		
 		var rows = [
-            ["PAYLOAD - AFT PASS", "3", "5"],
+            ["PAYLOAD - FOW PASS", "2", "5"],
             ["REQUEST", "CURRENT"],
             ["", ""],
-            ["LEFT " + units, "LEFT " + "(" + units + ")"],
-            ["22", fuelTankLeftCur],
-            ["CENTER " + units, "CENTER " + "(" + units + ")"],
-            ["44", fuelTankCenterCur],
-            ["RIGHT " + units, "RIGHT " + "(" + units + ")"],
-            ['33', fuelTankRightCur],
-			["TOTAL " + units, "TOTAL "  + "(" + units + ")"],
-            [fobReqToRender , fobToRender],
+            ["FIRST ", "FIRST"],
+            ["22", "33"],
+            ["BUSINESS", "BUSINESS"],
+            ["20", "20"],
+            ["PERM ECO", "PREM ECO"],
+            ["30", "33"],
+			["TOTAL", "TOTAL"],
+            ["99" , "99"],
             ["\xa0RETURN TO", ""],
             ["<INDEX", "EXECUTE>"]
         ];
 
         /* LSK2 */
 
-
         /* LSK3 */
-        this.fmc.onLeftInput[4] = () => {
-            if(isFinite(parseFloat(this.fmc.inOut))){
-				let useImperial;
-				const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
-        		switch (storedUnits) {
-					case "KG":
-						useImperial = false;
-						break;
-					case "LBS":
-						useImperial = true;
-						break;
-					default:
-						useImperial = false;
-				}
-				let requestedInGallons;
-                let weightPerGallon;
-                if (useImperial) {
-                    weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "pounds");
-                }
-                else {
-                    weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
-                }
-				requestedInGallons = parseFloat(this.fmc.inOut) / weightPerGallon;
-				if (parseFloat(requestedInGallons) > B777_FMC_PayloadManager.getMinFuel && parseFloat(requestedInGallons) < B777_FMC_PayloadManager.getMaxFuel) {
-					B777_FMC_PayloadManager.requestedFuel = parseFloat(requestedInGallons);
-					this.fmc.clearUserInput();
-					this.showPage3();
-				}
-				else {
-					this.fmc.showErrorMessage("OUT OF RANGE");
-					return false;
-				}
-			}
-			else {
-				this.fmc.showErrorMessage(this.fmc.defaultInputErrorMessage);
-				return false;
-			}
-        };
        
         /* LSK4 */
     
@@ -952,26 +914,19 @@ class B777_FMC_PayloadManager {
             units = "Kg";
             payloadModifier = 0.45359237;
         }
-        const totalFuel = this.getTotalFuel() * weightPerGallon;
-		const fuelTankLeftCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
-		const fuelTankCenterCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallon")*weightPerGallon).toFixed(0);
-		const fuelTankRightCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
-        const fobToRender = totalFuel.toFixed(0);
-        const fobReqToRender = (B777_FMC_PayloadManager.requestedFuel ? (B777_FMC_PayloadManager.requestedFuel * weightPerGallon).toFixed(0) : fobToRender);
-        (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(0) : this.getTotalFuel().toFixed(0));
-		
+        
 		var rows = [
-            ["PAYLOAD - FUEL", "4", "5"],
+            ["PAYLOAD - FOW PASS", "2", "5"],
             ["REQUEST", "CURRENT"],
             ["", ""],
-            ["LEFT " + units, "LEFT " + "(" + units + ")"],
-            ["22", fuelTankLeftCur],
-            ["CENTER " + units, "CENTER " + "(" + units + ")"],
-            ["44", fuelTankCenterCur],
-            ["RIGHT " + units, "RIGHT " + "(" + units + ")"],
-            ['33', fuelTankRightCur],
-			["TOTAL " + units, "TOTAL "  + "(" + units + ")"],
-            [fobReqToRender , fobToRender],
+            ["FIRST ", "FIRST"],
+            ["22", "33"],
+            ["BUSINESS", "BUSINESS"],
+            ["20", "20"],
+            ["PERM ECO", "PREM ECO"],
+            ["30", "33"],
+			["TOTAL", "TOTAL"],
+            ["99" , "99"],
             ["\xa0RETURN TO", ""],
             ["<INDEX", "EXECUTE>"]
         ];
