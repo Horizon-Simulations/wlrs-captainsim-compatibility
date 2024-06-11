@@ -75,6 +75,22 @@ class B777_FMC_PayloadManager {
 		this._requestedFuel = value;
 	}
 
+	static get requestedPassPayload() {
+		return this._requestedPassPayload || null;
+	}
+
+	static set requestedPassPayload(value) {
+		this._requestedPassPayload = value;
+	}
+
+	static get requestedCargoLoad() {
+		return this._requestedCargoLoad || null;
+	}
+
+	static set requestedCargoLoad(value) {
+		this._requestedCargoLoad = value;
+	}
+
 	static get requestedPayload() {
 		return this._requestedPayload || null;
 	}
@@ -294,6 +310,18 @@ class B777_FMC_PayloadManager {
         return remainingFuel;
     }
 
+	/*
+	calculatePassengerLoad() {
+        let business = B777_FMC_PayloadManager.;
+        if (fuel > tankCapacity) {
+            remainingFuel = fuel - tankCapacity;
+            fuel = tankCapacity;
+        }
+        this.tankPriorityValues[1].CENTER = fuel;
+        return remainingFuel;
+    }
+	*/
+
 	showPage1() {
         this.fmc.clearDisplay();
 
@@ -303,7 +331,7 @@ class B777_FMC_PayloadManager {
 			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
 		}
 		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
-			B777_FMC_PayloadManager.requestedCenterOfGravity = 23.2;
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
 		}
 		if (!B777_FMC_PayloadManager.requestedFuel) {
 			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
@@ -503,7 +531,7 @@ class B777_FMC_PayloadManager {
                 }
             }
 			else {
-                    this.fmc.showErrorMessage("LOAD FLIGHT PLAN FIRST");
+                    this.fmc.showErrorMessage("NO FLIGHT PLAN FOUND");
                     return false;
             }
 			//fuel
@@ -546,7 +574,7 @@ class B777_FMC_PayloadManager {
 		}
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
-            FMC_Menu.showPage(this.fmc);
+            FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
@@ -564,11 +592,11 @@ class B777_FMC_PayloadManager {
 						this.calculateTanks(this.getTotalFuel());
 					}
 					if (B777_FMC_PayloadManager.requestedPayload) {
-						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload);
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					else {
-						this.calculatePayload(this.getTotalPayload(true));
+						this.calculatePayload(this.getTotalPayload(true),10,100);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					this.showPage1();
@@ -591,7 +619,7 @@ class B777_FMC_PayloadManager {
 			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
 		}
 		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
-			B777_FMC_PayloadManager.requestedCenterOfGravity = 23.2;
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
 		}
 
 		if (B777_FMC_PayloadManager.isPayloadManagerExecuted) {
@@ -607,6 +635,7 @@ class B777_FMC_PayloadManager {
 		let rearEcoSeats;
 
 		const weightPerSeat = 70; //kg
+		//const totalPasenger = (B777_FMC_PayloadManager.requestedPassPayload ? B777_FMC_PayloadManager.requestedPassPayload : totalPasenger);
 		
 		var rows = [
             ["PAYLOAD - FOW PASS", "2", "5"],
@@ -619,7 +648,7 @@ class B777_FMC_PayloadManager {
             ["PERM ECO", "PREM ECO"],
             ["30", "33"],
 			["TOTAL", "TOTAL"],
-            ["" , ""],
+            ["99" , "99"],
             ["\xa0RETURN TO", ""],
             ["<INDEX", "EXECUTE>"]
         ];
@@ -678,7 +707,7 @@ class B777_FMC_PayloadManager {
 		
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
-            FMC_Menu.showPage(this.fmc);
+            FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
@@ -696,11 +725,11 @@ class B777_FMC_PayloadManager {
 						this.calculateTanks(this.getTotalFuel());
 					}
 					if (B777_FMC_PayloadManager.requestedPayload) {
-						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload);
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					else {
-						this.calculatePayload(this.getTotalPayload(true));
+						this.calculatePayload(this.getTotalPayload(true),10,100);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					this.showPage2();
@@ -727,7 +756,7 @@ class B777_FMC_PayloadManager {
 			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
 		}
 		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
-			B777_FMC_PayloadManager.requestedCenterOfGravity = 23.2;
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
 		}
 		if (!B777_FMC_PayloadManager.requestedFuel) {
 			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
@@ -836,7 +865,7 @@ class B777_FMC_PayloadManager {
     
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
-            FMC_Menu.showPage(this.fmc);
+            FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
@@ -854,11 +883,11 @@ class B777_FMC_PayloadManager {
 						this.calculateTanks(this.getTotalFuel());
 					}
 					if (B777_FMC_PayloadManager.requestedPayload) {
-						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload);
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					else {
-						this.calculatePayload(this.getTotalPayload(true));
+						this.calculatePayload(this.getTotalPayload(true),10,10);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					this.showPage3();
@@ -885,7 +914,7 @@ class B777_FMC_PayloadManager {
 			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
 		}
 		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
-			B777_FMC_PayloadManager.requestedCenterOfGravity = 23.2;
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
 		}
 		if (!B777_FMC_PayloadManager.requestedFuel) {
 			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
@@ -994,7 +1023,7 @@ class B777_FMC_PayloadManager {
     
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
-            FMC_Menu.showPage(this.fmc);
+            FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
@@ -1012,11 +1041,11 @@ class B777_FMC_PayloadManager {
 						this.calculateTanks(this.getTotalFuel());
 					}
 					if (B777_FMC_PayloadManager.requestedPayload) {
-						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload);
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					else {
-						this.calculatePayload(this.getTotalPayload(true));
+						this.calculatePayload(this.getTotalPayload(true),10,100);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					this.showPage4();
@@ -1043,7 +1072,7 @@ class B777_FMC_PayloadManager {
 			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
 		}
 		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
-			B777_FMC_PayloadManager.requestedCenterOfGravity = 23.2;
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
 		}
 		if (!B777_FMC_PayloadManager.requestedFuel) {
 			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
@@ -1207,7 +1236,7 @@ class B777_FMC_PayloadManager {
        };
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
-            FMC_Menu.showPage(this.fmc);
+            FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
@@ -1225,11 +1254,11 @@ class B777_FMC_PayloadManager {
 						this.calculateTanks(this.getTotalFuel());
 					}
 					if (B777_FMC_PayloadManager.requestedPayload) {
-						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload);
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					else {
-						this.calculatePayload(this.getTotalPayload(true));
+						this.calculatePayload(this.getTotalPayload(true),10,100);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					this.showPage5();
@@ -1258,11 +1287,11 @@ class B777_FMC_PayloadManager {
 		await this.setPayloadValue(11, 0);
 	}
 
-    async calculatePayload(requestedPayload) {
+    async calculatePayload(requestedPayload,requestedPassPayload,requestedCargoLoad) {
 		await this.resetPayload();
 		B777_FMC_PayloadManager.remainingPayload = requestedPayload;
 		let amount = 0;
-		let requestedCenterOfGravity = (B777_FMC_PayloadManager.requestedCenterOfGravity ? B777_FMC_PayloadManager.requestedCenterOfGravity : 23.2);
+		let requestedCenterOfGravity = (B777_FMC_PayloadManager.requestedCenterOfGravity ? B777_FMC_PayloadManager.requestedCenterOfGravity : 28.2);
 		while (B777_FMC_PayloadManager.remainingPayload > 0) {
 			B777_FMC_PayloadManager.centerOfGravity = this.getCenterOfGravity();
 			if (B777_FMC_PayloadManager.remainingPayload > 30000) {
@@ -1286,6 +1315,9 @@ class B777_FMC_PayloadManager {
 			}
 			this.showPage1();
 		}
+		/*
+
+		*/
 	}
 
 	async increaseFrontPayload(amount, requestedCenterOfGravity) {
@@ -1321,6 +1353,7 @@ class B777_FMC_PayloadManager {
 			await this.setPayloadValue(B777_FMC_PayloadManager.payloadIndex.FORWARD_ECONOMY, amount + actualValue);
 		}
 	}
+
 }
 B777_FMC_PayloadManager.isPayloadManagerExecuted = undefined;
 B777_FMC_PayloadManager.centerOfGravity = undefined;
