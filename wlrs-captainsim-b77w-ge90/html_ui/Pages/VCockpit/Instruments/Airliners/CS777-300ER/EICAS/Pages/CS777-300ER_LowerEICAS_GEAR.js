@@ -18,6 +18,7 @@ var B777_LowerEICAS_GEAR;
 
         //FROM WT:
         /* BRAKE TEMPERATURE SIMULATION */
+
         /**
          * Initializes brake temperatures to equal the outside temperature
          * @private
@@ -25,7 +26,7 @@ var B777_LowerEICAS_GEAR;
 
         /*
         setInitialBrakeTemps() {
-            const oat = this.oat.get();
+            const oat = SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "Celcius").toFixed(0);
             const left = this.leftBrakeTemps.map(sys => {
                 this.initializeBrakeSystem(sys, oat);
                 return this.mapTemperatureToDisplayNumber(oat);
