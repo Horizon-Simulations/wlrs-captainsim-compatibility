@@ -249,7 +249,10 @@ var Boeing_FMA;
             else if (ApproachStatus.isRolloutActive) {
                 SimVar.SetSimVarValue("L:ROLLOUT_ACTIVE", "bool", true); 
                 //SimVar.SetSimVarValue("K:AUTO_THROTTLE_ARM", "bool", false);
-                return 7;
+                if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") !=  1)
+                    {
+                        return 7;
+                    }
             }
             else if (this.lateralMode == "HDGHOLD") {
                 return 2;
@@ -296,7 +299,7 @@ var Boeing_FMA;
             else if (this.lateralArmed === "FORCE TOGA") {
                 return -1;
             }
-            else if (ApproachStatus.isRolloutArmed && SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  1 && Simplane.getAutoPilotFlightDirectorActive(1)) {
+            else if (ApproachStatus.isRolloutArmed && SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") !=  1 && Simplane.getAutoPilotFlightDirectorActive(1)) {
                 return 4;
             }
             else if (this.lateralArmed === "APPR LNV1") {
@@ -350,7 +353,7 @@ var Boeing_FMA;
             //1 RNAV/VISUAL
             //0 - not initialized
             //4 - no autoland (implemented later)
-            if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  3 && Simplane.getAutoPilotActive() && SimVar.GetSimVarValue("K:AP_APR_HOLD_ON", "bool")) {
+            if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  3 && Simplane.getAutoPilotActive() && SimVar.GetSimVarValue("K:AP_APR_HOLD_ON", "bool") && this.verticalMode === "GS" && this.lateralArmed === "APPR LOC1") {
                 return 2;
             }
             else if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  2 && Simplane.getAutoPilotActive() && SimVar.GetSimVarValue("K:AP_APR_HOLD_ON", "bool")) {
