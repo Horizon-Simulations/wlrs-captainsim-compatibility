@@ -35,10 +35,10 @@ class B777_FMC_PayloadManager {
             "FIRST_CLASS": 4,
             "BUSINESS_CLASS": 5,
             "PREMIUM_ECONOMY": 6,
-            "ECONOMY": 7,
-            "FORWARD_BAGGAGE": 10,
-            "REAR_BAGGAGE": 11,
-			"BULK_CARGO": 12
+			"ECONOMY": 7,
+            "FORWARD_BAGGAGE": 8,
+            "REAR_BAGGAGE": 9,
+			"BULK_CARGO": 10
         };
     }
 
@@ -72,6 +72,14 @@ class B777_FMC_PayloadManager {
 
 	static set requestedFuel(value) {
 		this._requestedFuel = value;
+	}
+
+	static get requestedPassPayload() {
+		return this._requestedPassPayload || null;
+	}
+
+	static set requestedPassPayload(value) {
+		this._requestedPassPayload = value;
 	}
 
 	static get requestedFirstPass() {
@@ -198,7 +206,7 @@ class B777_FMC_PayloadManager {
             },
             {
 				"PREMIUM_ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.PREMIUM_ECONOMY),
-                "ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.FORWARD_ECONOMY),
+                "ECONOMY": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.ECONOMY),
                 "REAR_BAGGAGE": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.REAR_BAGGAGE),
 				"BULK_CARGO" : this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.BULK_CARGO)
             }
@@ -654,8 +662,7 @@ class B777_FMC_PayloadManager {
 		let firstSeats;
 		let businessSeats;
 		let premiumEcoSeats;
-		let fowardEcoSeats;
-		let rearEcoSeats;
+		let ecoSeats;
 
 		const weightPerSeat = 70; //kg
 		//const totalPasenger = (B777_FMC_PayloadManager.requestedPassPayload ? B777_FMC_PayloadManager.requestedPassPayload : totalPasenger);
@@ -829,12 +836,12 @@ class B777_FMC_PayloadManager {
             ["PAYLOAD - REAR PASS", "3", "5"],
             ["REQUEST", "CURRENT"],
             ["", ""],
-            ["FOW ECO", "FOW ECO"],
+            ["ECONOMY", "ECONOMY"],
             ["22", "33"],
-            ["MID ECO", "MID ECO"],
-            ["20", "20"],
-            ["AFT", "AFT ECO"],
-            ["30", "33"],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
 			["TOTAL", "TOTAL"],
             ["99" , "99"],
             ["\xa0RETURN TO", ""],
@@ -1301,7 +1308,7 @@ class B777_FMC_PayloadManager {
 				await this.increaseRearPayload(amount, requestedCenterOfGravity);
 				B777_FMC_PayloadManager.remainingPayload = B777_FMC_PayloadManager.remainingPayload - amount;
 			}
-			//this.showPage1();
+			this.showPage1();
 		}
 		/*
 
@@ -1330,15 +1337,15 @@ class B777_FMC_PayloadManager {
 		let randomRear;
 		let actualValue;
 		if (B777_FMC_PayloadManager.centerOfGravity < (requestedCenterOfGravity - 0.05)) {
-			actualValue = this.getPayloadValueFromCache(B777_FMC_PayloadManager.payloadIndex.REAR_ECONOMY);
-			await this.setPayloadValue(B777_FMC_PayloadManager.payloadIndex.REAR_ECONOMY, amount + actualValue);
+			actualValue = this.getPayloadValueFromCache(B777_FMC_PayloadManager.payloadIndex.ECONOMY);
+			await this.setPayloadValue(B777_FMC_PayloadManager.payloadIndex.ECONOMY, amount + actualValue);
 		} else if (B777_FMC_PayloadManager.centerOfGravity < (requestedCenterOfGravity - 0.01)) {
 			randomRear = keys[Math.floor(Math.random() * keys.length)];
 			actualValue = this.getPayloadValueFromCache(B777_FMC_PayloadManager.payloadIndex[randomRear]);
 			await this.setPayloadValue(B777_FMC_PayloadManager.payloadIndex[randomRear], amount + actualValue);
 		} else {
-			actualValue = this.getPayloadValueFromCache(B777_FMC_PayloadManager.payloadIndex.FORWARD_ECONOMY);
-			await this.setPayloadValue(B777_FMC_PayloadManager.payloadIndex.FORWARD_ECONOMY, amount + actualValue);
+			actualValue = this.getPayloadValueFromCache(B777_FMC_PayloadManager.payloadIndex.ECONOMY);
+			await this.setPayloadValue(B777_FMC_PayloadManager.payloadIndex.ECONOMY, amount + actualValue);
 		}
 	}
 
