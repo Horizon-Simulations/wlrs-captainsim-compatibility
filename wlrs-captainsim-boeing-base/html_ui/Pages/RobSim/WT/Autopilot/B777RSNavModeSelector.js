@@ -445,7 +445,8 @@ class B777RSNavModeSelector {
           this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
           break;
        }
-       //this.currentVerticalActiveState = VerticalNavModeState.PTCH;
+       this.currentVerticalActiveState = VerticalNavModeState.PTCH;   //test - this will cause conflict with autoland for now
+       this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
        if (this.isVNAVOn) {
          this.isVNAVOn = false;
          SimVar.SetSimVarValue("L:WT_CJ4_VNAV_ON", "number", 0);
