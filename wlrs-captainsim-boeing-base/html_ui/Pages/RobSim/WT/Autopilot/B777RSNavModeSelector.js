@@ -445,7 +445,7 @@ class B777RSNavModeSelector {
           this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
           break;
        }
-       this.currentVerticalActiveState = VerticalNavModeState.PTCH;   //test - this will cause conflict with autoland for now
+       //this.currentVerticalActiveState = VerticalNavModeState.PTCH;   //test - this will cause conflict with autoland and TOGA for now
        this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
        if (this.isVNAVOn) {
          this.isVNAVOn = false;
