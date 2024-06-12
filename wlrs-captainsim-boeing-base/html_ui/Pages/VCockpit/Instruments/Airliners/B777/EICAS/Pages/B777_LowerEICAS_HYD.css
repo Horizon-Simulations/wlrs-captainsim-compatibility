@@ -68,3 +68,9 @@ b777-lower-eicas-hyd #baseHydLine line{
   stroke-width: 2.5px;
   stroke: var(--eicasWhite);
 }
+
+b777-lower-eicas-hyd #triangleDirections polygon{
+  stroke-width: 1.5px;
+  stroke: var(--eicasWhite);
+  fill: none;
+}
