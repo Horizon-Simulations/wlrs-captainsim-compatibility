@@ -14,6 +14,16 @@ var B777_LowerEICAS_GEAR;
             this.isInitialised = true;
             this.gearDoorOpenLines = document.querySelector("#open-labels");
             this.gearDoorClosedText = document.querySelector("#closed-labels");
+            this.noseLeft = document.querySelector("#brakeTemp1");
+            this.noseRight = document.querySelector("#brakeTemp2");
+            this.mainLeft1 = document.querySelector("#brakeTemp3");
+            this.mainLeft2 = document.querySelector("#brakeTemp4");
+            this.mainLeft3 = document.querySelector("#brakeTemp5");
+            this.mainLeft4 = document.querySelector("#brakeTemp6");
+            this.mainLeft5 = document.querySelector("#brakeTemp7");
+            this.mainLeft6 = document.querySelector("#brakeTemp8");
+            this.mainRight1 = document.querySelector("#brakeTemp9"); 
+            //wait a sec this is not right, I'll check later
         }
 
         //FROM WT:
@@ -27,6 +37,8 @@ var B777_LowerEICAS_GEAR;
         /*
         setInitialBrakeTemps() {
             const oat = SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "Celcius").toFixed(0);
+            this.noseLeft.textContent = oat;
+
             const left = this.leftBrakeTemps.map(sys => {
                 this.initializeBrakeSystem(sys, oat);
                 return this.mapTemperatureToDisplayNumber(oat);
