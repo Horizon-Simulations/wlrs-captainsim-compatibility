@@ -722,34 +722,16 @@
     
    	<Component ID="ENGINE">
       <OverrideTemplateParameters>  <!--test-->
-        <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
-        <UseTemplate Name="ASOBO_GT_Update">
-          <FREQUENCY>5</FREQUENCY>
-          <UPDATE_CODE>
-            (L:teevee_SHOW_ENGINE_BLUR, Bool) 1 &gt; if {
-              6000 (&gt;MIN_RPM_FOR_SLOW)
-              8000 (&gt;MIN_RPM_FOR_BLUR)
-            }
-            els {
-              19000 (&gt;MIN_RPM_FOR_SLOW)
-              32000 (&gt;MIN_RPM_FOR_BLUR)
-            }
-            
-          </UPDATE_CODE>
-        </UseTemplate>
+        <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
+        <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
       </OverrideTemplateParameters>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>1</ENG_ID>
 				<ANIM_NODE>N1_1_anim</ANIM_NODE>
-        <!--<MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>-->
 			</UseTemplate>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>2</ENG_ID>
 				<ANIM_NODE>N1_2_anim</ANIM_NODE>
-        <!--<MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>-->
 			</UseTemplate>
 		</Component>
 

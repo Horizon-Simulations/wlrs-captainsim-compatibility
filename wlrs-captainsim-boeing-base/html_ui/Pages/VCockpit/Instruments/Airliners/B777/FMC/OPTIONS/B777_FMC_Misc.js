@@ -18,9 +18,9 @@ class FMCSaltyOptions_Misc {
         
         fmc.setTemplate([
             ["MISC OPTIONS"],
-            ["", "", "FP SYNC (WORLD MAP FP)"],
+            ["FP SYNC (WORLD MAP FP)", "", ""],
             [`< ${fpSyncDisplayOption}`, "", ""],
-            ["", "", "PAUSE AT T/D"],
+            ["PAUSE AT T/D", "", ""],
             [`< ${pauseAtTdDisplayOption}`, `${pauseAtTd >= 1 ? "UNPAUSE>" : ""}`],
             ["BLUR ENGINE", ""],
             [`< ${showEngineBlurDisplayOption}`, ""],
@@ -49,6 +49,14 @@ class FMCSaltyOptions_Misc {
         fmc.onLeftInput[2] = () => {
             WTDataStore.set("SHOW_ENGINE_BLUR", showEngineBlur >= 1 ? 0 : 1);
             FMCSaltyOptions_Misc.ShowPage(fmc);
+            if (showEngineBlur == 0) {
+                SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 4000);
+                SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 8000);
+            }
+            else {
+                SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 19000);
+                SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 32000);
+            }
         }
 
         /* LSK6 */
