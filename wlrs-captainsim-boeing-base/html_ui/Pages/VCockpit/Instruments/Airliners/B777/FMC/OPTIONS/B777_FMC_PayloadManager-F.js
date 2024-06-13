@@ -636,7 +636,7 @@ class B777_FMC_PayloadManager {
             ["22", "33"],
             ["REAR " + units, "REAR " + units],
             ["20", "20"],
-            ["SPECIAL (cars)", "PORCHES (cars)"],
+            ["SPECIAL (cars)", "PORSCHE (cars)"],
             ["2", "0"],
 			["TOTAL " + units, "TOTAL " + units],
             ["99" , "99"],
