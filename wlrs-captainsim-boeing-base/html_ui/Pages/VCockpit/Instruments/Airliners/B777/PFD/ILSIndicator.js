@@ -357,27 +357,10 @@ class Jet_PFD_ILSIndicator extends HTMLElement {
         this.appendChild(this.rootSVG);
     }
     update(_deltaTime) {
-        const lnav = SimVar.GetSimVarValue("H:B777_FMC_1_AP_LNAV", "bool");
-        const vnav = SimVar.GetSimVarValue("H:B777_FMC_1_AP_VNAV", "bool");
-
-        if (lnav || vnav) {
-            if (lnav == 1 && vnav == 1) {
-                this.NAVIdent.textContent = "LNAV/VNAV";
-            } else if (lnav==1) {
-                this.NAVIdent.textContent = "LNAV";
-            } else if (vnav==1) {
-                this.NAVIdent.textContent = "VNAV";
-            } else {
-                this.NAVIdent.textContent = "";
-            }            
-            this.NAVIdent.setAttribute("visibility", "visible");
-        }
             
-        else
-        {
-            this.NAVIdent.setAttribute("visibility", "hidden");
             this.updateNPS();
             if (this.gsVisible || this.locVisible || this.infoVisible) {
+                this.NAVIdent.setAttribute("visibility", "hidden");
                 let localizer = this.gps.radioNav.getBestILSBeacon();
                 let isApproachLoaded = Simplane.getAutoPilotApproachLoaded();
                 let approachType = Simplane.getAutoPilotApproachType();
@@ -460,7 +443,21 @@ class Jet_PFD_ILSIndicator extends HTMLElement {
                         this.InfoGroup.setAttribute("visibility", "hidden");
                     }
                 }
-            }
+        }
+        const lnav = SimVar.GetSimVarValue("L:AP_LNAV_ARMED", "bool");
+        const vnav = SimVar.GetSimVarValue("L:AP_VNAV_ARMED", "bool");
+
+        if (lnav || vnav) {
+            if (lnav == 1 && vnav == 1) {
+                this.NAVIdent.textContent = "LNAV/VNAV";
+            } else if (lnav==1) {
+                this.NAVIdent.textContent = "LNAV";
+            } else if (vnav==1) {
+                this.NAVIdent.textContent = "VNAV";
+            } else {
+                this.NAVIdent.textContent = "";
+            }            
+            this.NAVIdent.setAttribute("visibility", "visible");
         }
     }
     updateNPS() {
