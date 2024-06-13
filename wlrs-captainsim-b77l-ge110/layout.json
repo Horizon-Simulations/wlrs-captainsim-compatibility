@@ -61,11 +61,6 @@
       "date": 133033970880000000
     },
     {
-      "path": "SimObjects/Airplanes/CS772LR_GE110/aircraft.cfg",
-      "size": 3934,
-      "date": 133264684066117550
-    },
-    {
       "path": "SimObjects/Airplanes/CS772LR_GE110/approach.FLT",
       "size": 4226,
       "date": 133033970880000000
@@ -146,7 +141,7 @@
       "date": 133261168800000000
     },
     {
-      "path": "SimObjects/Airplanes/CS772LR_GE110/model.3/m772_201_interior.xml",
+      "path": "SimObjects/Airplanes/CS772LR_GE110/model/m172_204.xml",
       "size": 334502,
       "date": 133261168800000000
     },
