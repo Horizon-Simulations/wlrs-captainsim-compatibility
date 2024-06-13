@@ -333,92 +333,132 @@ class Jet_PFD_ILSIndicator extends HTMLElement {
             this.ILSOrigin.setAttribute("text-anchor", "start");
             this.ILSOrigin.setAttribute("alignment-baseline", "central");
             this.InfoGroup.appendChild(this.ILSOrigin);
+
         }
+        
+        this.NAVIdentGroup = document.createElementNS(Avionics.SVG.NS, "g");
+        this.NAVIdentGroup.setAttribute("id", "NAVIdentGroup");
+        this.NAVIdentGroup.setAttribute("transform", "translate(112 73)");
+        
+        this.rootSVG.appendChild(this.NAVIdentGroup);
+        {
+            this.NAVIdent = document.createElementNS(Avionics.SVG.NS, "text");
+            this.NAVIdent.textContent = "";
+            this.NAVIdent.setAttribute("x", "0");
+            this.NAVIdent.setAttribute("y", "45");
+            this.NAVIdent.setAttribute("fill", "white");
+            this.NAVIdent.setAttribute("font-size", "15");
+            this.NAVIdent.setAttribute("font-family", "BoeingEFIS");
+            this.NAVIdent.setAttribute("text-anchor", "start");
+            this.NAVIdent.setAttribute("alignment-baseline", "central");
+            this.NAVIdentGroup.appendChild(this.NAVIdent);
+        }
+        
         this.appendChild(this.rootSVG);
     }
     update(_deltaTime) {
-        this.updateNPS();
-        if (this.gsVisible || this.locVisible || this.infoVisible) {
-            let localizer = this.gps.radioNav.getBestILSBeacon();
-            let isApproachLoaded = Simplane.getAutoPilotApproachLoaded();
-            let approachType = Simplane.getAutoPilotApproachType();
-            if (this.gs_cursorGroup && this.gsVisible) {
-                if (isApproachLoaded && (approachType == 10)) {
-                    let gsi = -SimVar.GetSimVarValue("GPS VERTICAL ERROR", "meters");
-                    let delta = 0.5 + (gsi / 150.0) / 2;
-                    let y = this.gs_cursorMinY + (this.gs_cursorMaxY - this.gs_cursorMinY) * delta;
-                    y = Math.min(this.gs_cursorMinY, Math.max(this.gs_cursorMaxY, y));
-                    this.gs_cursorGroup.setAttribute("transform", "translate(" + this.gs_cursorPosX + ", " + y + ")");
-                    //Diamond Parked at top
-                    if (delta >= 0.95) {
-                        this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+        const lnav = SimVar.GetSimVarValue("H:B777_FMC_1_AP_LNAV", "bool");
+        const vnav = SimVar.GetSimVarValue("H:B777_FMC_1_AP_VNAV", "bool");
+
+        if (lnav || vnav) {
+            if (lnav == 1 && vnav == 1) {
+                this.NAVIdent.textContent = "LNAV/VNAV";
+            } else if (lnav==1) {
+                this.NAVIdent.textContent = "LNAV";
+            } else if (vnav==1) {
+                this.NAVIdent.textContent = "VNAV";
+            } else {
+                this.NAVIdent.textContent = "";
+            }            
+            this.NAVIdent.setAttribute("visibility", "visible");
+        }
+            
+        else
+        {
+            this.NAVIdent.setAttribute("visibility", "hidden");
+            this.updateNPS();
+            if (this.gsVisible || this.locVisible || this.infoVisible) {
+                let localizer = this.gps.radioNav.getBestILSBeacon();
+                let isApproachLoaded = Simplane.getAutoPilotApproachLoaded();
+                let approachType = Simplane.getAutoPilotApproachType();
+                if (this.gs_cursorGroup && this.gsVisible) {
+                    if (isApproachLoaded && (approachType == 10)) {
+                        let gsi = -SimVar.GetSimVarValue("GPS VERTICAL ERROR", "meters");
+                        let delta = 0.5 + (gsi / 150.0) / 2;
+                        let y = this.gs_cursorMinY + (this.gs_cursorMaxY - this.gs_cursorMinY) * delta;
+                        y = Math.min(this.gs_cursorMinY, Math.max(this.gs_cursorMaxY, y));
+                        this.gs_cursorGroup.setAttribute("transform", "translate(" + this.gs_cursorPosX + ", " + y + ")");
+                        //Diamond Parked at top
+                        if (delta >= 0.95) {
+                            this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+                        }
+                        //Diamond Parked at bottom
+                        else if (delta <= 0.05) {
+                            this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+                        }
+                        //Diamond in normal range
+                        else {
+                            this.gs_cursorShapeUp.setAttribute("fill",  "#D570FF"); 
+                        }
+                        this.gs_cursorShapeUp.setAttribute("visibility", "visible");
                     }
-                    //Diamond Parked at bottom
-                    else if (delta <= 0.05) {
-                        this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+                    else if (localizer && localizer.id > 0 && (SimVar.GetSimVarValue("NAV HAS GLIDE SLOPE:" + localizer.id, "Bool"))) {
+                        let gsi = -SimVar.GetSimVarValue("NAV GSI:" + localizer.id, "number") / 127.0;
+                        let delta = (gsi + 1.0) * 0.5;
+                        let y = this.gs_cursorMinY + (this.gs_cursorMaxY - this.gs_cursorMinY) * delta;
+                        y = Math.min(this.gs_cursorMinY, Math.max(this.gs_cursorMaxY, y));
+                        this.gs_cursorGroup.setAttribute("transform", "translate(" + this.gs_cursorPosX + ", " + y + ")");
+                        if (delta >= 0.95) {
+                            this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+                        }
+                        else if (delta <= 0.05) {
+                            this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+                        }
+                        else {
+                            this.gs_cursorShapeUp.setAttribute("fill",  "#D570FF"); 
+                        }
+                        this.gs_cursorShapeUp.setAttribute("visibility", "visible");
                     }
-                    //Diamond in normal range
                     else {
-                        this.gs_cursorShapeUp.setAttribute("fill",  "#D570FF"); 
+                        this.gs_cursorShapeUp.setAttribute("visibility", "hidden");
                     }
-                    this.gs_cursorShapeUp.setAttribute("visibility", "visible");
                 }
-                else if (localizer && localizer.id > 0 && (SimVar.GetSimVarValue("NAV HAS GLIDE SLOPE:" + localizer.id, "Bool"))) {
-                    let gsi = -SimVar.GetSimVarValue("NAV GSI:" + localizer.id, "number") / 127.0;
-                    let delta = (gsi + 1.0) * 0.5;
-                    let y = this.gs_cursorMinY + (this.gs_cursorMaxY - this.gs_cursorMinY) * delta;
-                    y = Math.min(this.gs_cursorMinY, Math.max(this.gs_cursorMaxY, y));
-                    this.gs_cursorGroup.setAttribute("transform", "translate(" + this.gs_cursorPosX + ", " + y + ")");
-                    if (delta >= 0.95) {
-                        this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
-                    }
-                    else if (delta <= 0.05) {
-                        this.gs_cursorShapeUp.setAttribute("fill",  "transparent"); 
+                if (this.loc_cursorGroup && this.locVisible) {
+                    if (localizer && localizer.id > 0) {
+                        let cdi = SimVar.GetSimVarValue("NAV CDI:" + localizer.id, "number") / 127.0;
+                        let delta = (cdi + 1.0) * 0.5;
+                        let x = this.loc_cursorMinX + (this.loc_cursorMaxX - this.loc_cursorMinX) * delta;
+                        x = Math.max(this.loc_cursorMinX, Math.min(this.loc_cursorMaxX, x));
+                        this.loc_cursorGroup.setAttribute("transform", "translate(" + x + ", " + this.loc_cursorPosY + ")");
+                        if (delta >= 0.95) {
+                            this.loc_cursorShapeRight.setAttribute("fill",  "transparent"); 
+                        }
+                        else if (delta <= 0.05) {
+                            this.loc_cursorShapeRight.setAttribute("fill",  "transparent"); 
+                        }
+                        else {
+                            this.loc_cursorShapeRight.setAttribute("fill",  "#D570FF");
+                        }
                     }
                     else {
-                        this.gs_cursorShapeUp.setAttribute("fill",  "#D570FF"); 
+                        this.loc_cursorShapeRight.setAttribute("visibility", "hidden");
                     }
-                    this.gs_cursorShapeUp.setAttribute("visibility", "visible");
                 }
-                else {
-                    this.gs_cursorShapeUp.setAttribute("visibility", "hidden");
-                }
-            }
-            if (this.loc_cursorGroup && this.locVisible) {
-                if (localizer && localizer.id > 0) {
-                    let cdi = SimVar.GetSimVarValue("NAV CDI:" + localizer.id, "number") / 127.0;
-                    let delta = (cdi + 1.0) * 0.5;
-                    let x = this.loc_cursorMinX + (this.loc_cursorMaxX - this.loc_cursorMinX) * delta;
-                    x = Math.max(this.loc_cursorMinX, Math.min(this.loc_cursorMaxX, x));
-                    this.loc_cursorGroup.setAttribute("transform", "translate(" + x + ", " + this.loc_cursorPosY + ")");
-                    if (delta >= 0.95) {
-                        this.loc_cursorShapeRight.setAttribute("fill",  "transparent"); 
-                    }
-                    else if (delta <= 0.05) {
-                        this.loc_cursorShapeRight.setAttribute("fill",  "transparent"); 
+                if (this.InfoGroup && this.infoVisible) {
+                    if (localizer && localizer.id > 0) {
+                        this.InfoGroup.setAttribute("visibility", "visible");
+                        if (this.ILSIdent) {
+                            this.ILSIdent.textContent = localizer.ident;
+                        }
+                        else if (this.ILSFreq) {
+                            this.ILSIdent.textContent = localizer.freq.toFixed(2);
+                        }     
+                        if (this.ILSDist)
+                            this.ILSDist.textContent = SimVar.GetSimVarValue("NAV HAS DME:" + localizer.id, "Bool") ? "DME " + SimVar.GetSimVarValue("NAV DME:" + localizer.id, "nautical miles").toFixed(1) : "";
                     }
                     else {
-                        this.loc_cursorShapeRight.setAttribute("fill",  "#D570FF");
+                        this.InfoGroup.setAttribute("visibility", "hidden");
                     }
-                }
-                else {
-                    this.loc_cursorShapeRight.setAttribute("visibility", "hidden");
-                }
-            }
-            if (this.InfoGroup && this.infoVisible) {
-                if (localizer && localizer.id > 0) {
-                    this.InfoGroup.setAttribute("visibility", "visible");
-                    if (this.ILSIdent) {
-                        this.ILSIdent.textContent = localizer.ident;
-                    }
-                    else if (this.ILSFreq) {
-                        this.ILSIdent.textContent = localizer.freq.toFixed(2);
-                    }     
-                    if (this.ILSDist)
-                        this.ILSDist.textContent = SimVar.GetSimVarValue("NAV HAS DME:" + localizer.id, "Bool") ? "DME " + SimVar.GetSimVarValue("NAV DME:" + localizer.id, "nautical miles").toFixed(1) : "";
-                }
-                else {
-                    this.InfoGroup.setAttribute("visibility", "hidden");
                 }
             }
         }
