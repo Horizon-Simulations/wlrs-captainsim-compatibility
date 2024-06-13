@@ -26,18 +26,26 @@ class B777_FMC_PayloadManager {
             "RIGHT_MAIN": "FUEL TANK RIGHT MAIN QUANTITY"
         };
     }
-
+	//based on Atlas 
     static get payloadIndex() {
         return {
             "PILOT": 1,
             "COPILOT": 2,
-            "CREW": 3,
-            "CARGO_FRONT_TOP": 4,
-            "CARGO_FRONT_BOTTOM": 5,
-            "CARGO_REAR_TOP": 6,
-            "CARGO_REAR_BOTTOM": 7
+            "CARGO_FRONT_TOP": 3,
+            "CARGO_FRONT_BOTTOM": 4,
+            "CARGO_REAR_TOP": 5,
+            "CARGO_REAR_BOTTOM": 6,
+			"SPECIAL_CARGO": 7
         };
     }
+
+	static get PorscheOnBoard() {
+		return this._PorscheOnBoard;
+	}
+
+	static set PorscheOnBoard(value) {
+		this._PorscheOnBoard = value;
+	}
 
     static get isPayloadManagerExecuted() {
 		return this._isPayloadManagerExecuted;
@@ -108,7 +116,7 @@ class B777_FMC_PayloadManager {
 	}
 
 	static get getMinFuel(){
-		return 0;
+		return 100;
 	}
 
 	static get getMaxPayload(){
@@ -146,7 +154,6 @@ class B777_FMC_PayloadManager {
             {
                 "PILOT": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.PILOT),
                 "COPILOT": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.COPILOT),
-                "CREW": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.CREW),
             },
             {
                 "CARGO_FRONT_TOP": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.CARGO_FRONT_TOP),
@@ -155,7 +162,10 @@ class B777_FMC_PayloadManager {
             {
                 "CARGO_REAR_TOP": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.CARGO_REAR_TOP),
                 "CARGO_REAR_BOTTOM": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.CARGO_REAR_BOTTOM)
-            }
+            },
+			{
+				"SPECIAL_CARGO": this.getPayloadValue(B777_FMC_PayloadManager.payloadIndex.SPECIAL_CARGO)
+			}
         ];
 	}
 
@@ -343,8 +353,8 @@ class B777_FMC_PayloadManager {
         (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(2) : this.getTotalFuel().toFixed(2));
 		
 		var rows = [
-            ["PAYLOAD MANAGER"],
-            ["REQ INPUT", "ACT VALUES"],
+            ["PAYLOAD - GENERAL", "1", "4"],
+            ["REQUEST", "CURRENT"],
             ["", ""],
             ["CG", "CG"],
             [cgReqToRender + " %", cgToRender + " %"],
@@ -353,14 +363,14 @@ class B777_FMC_PayloadManager {
             ["PAYLOAD (" + units + ")", "PAYLOAD (" + units + ")"],
             [payloadReqToRender, payloadToRender],
 			[(B777_FMC_PayloadManager.remainingPayload ? "REMAINING PAYLOAD" : ""), ""],
-            [(B777_FMC_PayloadManager.remainingPayload ? B777_FMC_PayloadManager.remainingPayload + " lb" : "") , ""],
+            [(B777_FMC_PayloadManager.remainingPayload ? B777_FMC_PayloadManager.remainingPayload.toFixed(0) + " lb" : "") , "SYNC FP>"],
             ["\xa0RETURN TO", ""],
             ["<INDEX", "EXECUTE>"]
         ];
 
         /* LSK2 */
         this.fmc.onLeftInput[1] = () => {
-			if (isFinite(parseFloat(this.fmc.inOut))) {
+            if (isFinite(parseFloat(this.fmc.inOut))) {
 				let cgToSet = parseFloat(this.fmc.inOut);
                 if (cgToSet > B777_FMC_PayloadManager.getMinCenterOfGravity && cgToSet < B777_FMC_PayloadManager.getMaxCenterOfGravity) {
                     B777_FMC_PayloadManager.requestedCenterOfGravity = cgToSet;
@@ -442,6 +452,7 @@ class B777_FMC_PayloadManager {
                 	payloadModifier = 2.20462262;
             	}
             	requestedInPounds = parseFloat(this.fmc.inOut) * payloadModifier;
+				
             	if (parseFloat(requestedInPounds) > B777_FMC_PayloadManager.getMinPayload && parseFloat(requestedInPounds) < B777_FMC_PayloadManager.getMaxPayload) {
                 	B777_FMC_PayloadManager.requestedPayload = parseFloat(requestedInPounds);
                 	this.fmc.clearUserInput();
@@ -457,9 +468,86 @@ class B777_FMC_PayloadManager {
                     return false;
             }
        };
+
+	   /* RSK5 */
+		this.fmc.onRightInput[4] = () => {
+			if (isFinite(parseFloat(simbriefPayload))) {
+				let useImperial;
+				const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+        		switch (storedUnits) {
+					case "KG":
+						useImperial = false;
+						break;
+					case "LBS":
+						useImperial = true;
+						break;
+					default:
+						useImperial = false;
+				}
+            	let requestedInPounds;
+            	let payloadModifier;
+            	if (useImperial) {
+                	payloadModifier = 1.0;
+            	}
+            	else {
+                	payloadModifier = 2.20462262;
+            	}
+            	requestedInPounds = parseFloat(simbriefPayload) * payloadModifier;
+            	if (parseFloat(requestedInPounds) > B777_FMC_PayloadManager.getMinPayload && parseFloat(requestedInPounds) < B777_FMC_PayloadManager.getMaxPayload) {
+                	B777_FMC_PayloadManager.requestedPayload = parseFloat(requestedInPounds);
+                	this.showPage1();
+            	}
+            	else {
+                	this.fmc.showErrorMessage("OUT OF RANGE");
+                	return false;
+                }
+            }
+			else {
+                    this.fmc.showErrorMessage("NO FLIGHT PLAN FOUND");
+                    return false;
+            }
+			//fuel
+			if(isFinite(parseFloat(simbriefFuelLoad))){
+				let useImperial;
+				const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+        		switch (storedUnits) {
+					case "KG":
+						useImperial = false;
+						break;
+					case "LBS":
+						useImperial = true;
+						break;
+					default:
+						useImperial = false;
+				}
+				let requestedInGallons;
+                let weightPerGallon;
+                if (useImperial) {
+                    weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "pounds");
+                }
+                else {
+                    weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
+                }
+				requestedInGallons = parseFloat(simbriefFuelLoad) / weightPerGallon;
+				if (parseFloat(requestedInGallons) > B777_FMC_PayloadManager.getMinFuel && parseFloat(requestedInGallons) < B777_FMC_PayloadManager.getMaxFuel) {
+					B777_FMC_PayloadManager.requestedFuel = parseFloat(requestedInGallons);
+					this.fmc.clearUserInput();
+					this.showPage1();
+				}
+				else {
+					this.fmc.showErrorMessage("OUT OF RANGE");
+					return false;
+				}
+			}
+			else {
+				this.fmc.showErrorMessage("NO FLIGHT PLAN FOUND");
+				return false;
+			}
+		}
+
         /* LSK6 */
         this.fmc.onLeftInput[5] = () => {
-            FMC_Menu.showPage(this.fmc);
+            FMCSaltyOptions.ShowPage1(this.fmc);
         }
 
         /* RSK6 */
@@ -477,19 +565,403 @@ class B777_FMC_PayloadManager {
 						this.calculateTanks(this.getTotalFuel());
 					}
 					if (B777_FMC_PayloadManager.requestedPayload) {
-						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload);
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					else {
-						this.calculatePayload(this.getTotalPayload(true));
+						this.calculatePayload(this.getTotalPayload(true),10,100);
 						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
 					}
 					this.showPage1();
 				});
-			};		
+			};
 		}
 
         this.fmc.setTemplate(rows);
+
+		this.fmc.onNextPage = () => {
+            this.showPage2();
+        }
+    }
+	
+	showPage2() {
+        this.fmc.clearDisplay();
+
+        this.payloadValues = this.getPayloadValues();
+
+		if (!B777_FMC_PayloadManager.requestedPayload) {
+			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
+		}
+		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
+		}
+
+		if (B777_FMC_PayloadManager.isPayloadManagerExecuted) {
+			this.fmc.refreshPageCallback = () => {
+				this.showPage2();
+			};
+		}
+
+		let weightPerGallon;
+        let units;
+        let payloadModifier;
+		let useImperial;
+		const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+        switch (storedUnits) {
+            case "KG":
+                useImperial = false;
+                break;
+            case "LBS":
+                useImperial = true;
+                break;
+            default:
+                useImperial = false;
+        }
+        if (useImperial) {
+            weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "pounds");
+            units = "Lbs";
+            payloadModifier = 1.0;
+        }
+        else {
+            weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
+            units = "Kg";
+            payloadModifier = 0.45359237;
+        }
+		
+		var rows = [
+            ["PAYLOAD - UPPER CARGO", "2", "4"],
+            ["REQUEST", "CURRENT"],
+            ["", ""],
+            ["FOWARD " + units, "FOWARD " + units],
+            ["22", "33"],
+            ["REAR " + units, "REAR " + units],
+            ["20", "20"],
+            ["SPECIAL (cars)", "PORCHES (cars)"],
+            ["2", "0"],
+			["TOTAL " + units, "TOTAL " + units],
+            ["99" , "99"],
+            ["\xa0RETURN TO", ""],
+            ["<INDEX", "EXECUTE>"]
+        ];
+        
+		
+        /* LSK6 */
+        this.fmc.onLeftInput[5] = () => {
+            FMCSaltyOptions.ShowPage1(this.fmc);
+        }
+
+        /* RSK6 */
+        if (B777_FMC_PayloadManager.isPayloadManagerExecuted){
+			rows[12][1] = "RUNNING...";
+		} else {
+			rows[12][1] = "EXECUTE>";
+			this.fmc.onRightInput[5] = () => {
+				B777_FMC_PayloadManager.isPayloadManagerExecuted = true;
+				this.flushFuelAndPayload().then(() => {
+					if (B777_FMC_PayloadManager.requestedFuel) {
+						this.calculateTanks(B777_FMC_PayloadManager.requestedFuel);
+					}
+					else {
+						this.calculateTanks(this.getTotalFuel());
+					}
+					if (B777_FMC_PayloadManager.requestedPayload) {
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
+						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
+					}
+					else {
+						this.calculatePayload(this.getTotalPayload(true),10,100);
+						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
+					}
+					this.showPage2();
+				});
+			};
+		}
+
+        this.fmc.setTemplate(rows);
+
+		this.fmc.onPrevPage = () => {
+            this.showPage1();
+        }
+		this.fmc.onNextPage = () => {
+            this.showPage3();
+        }
+    }
+
+	showPage3() {
+        this.fmc.clearDisplay();
+		
+        this.payloadValues = this.getPayloadValues();
+
+		if (!B777_FMC_PayloadManager.requestedPayload) {
+			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
+		}
+		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
+		}
+		if (!B777_FMC_PayloadManager.requestedFuel) {
+			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
+		}
+
+		if (B777_FMC_PayloadManager.isPayloadManagerExecuted) {
+			this.fmc.refreshPageCallback = () => {
+				this.showPage3();
+			};
+		}
+
+		let weightPerGallon;
+        let units;
+        let payloadModifier;
+		let useImperial;
+
+		const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+        switch (storedUnits) {
+            case "KG":
+                useImperial = false;
+                break;
+            case "LBS":
+                useImperial = true;
+                break;
+            default:
+                useImperial = false;
+        }
+        if (useImperial) {
+            weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "pounds");
+            units = "Lbs";
+            payloadModifier = 1.0;
+        }
+        else {
+            weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
+            units = "Kg";
+            payloadModifier = 0.45359237;
+        }
+        const totalFuel = this.getTotalFuel() * weightPerGallon;
+		const fuelTankLeftCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+		const fuelTankCenterCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+		const fuelTankRightCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+        const fobToRender = totalFuel.toFixed(0);
+        const fobReqToRender = (B777_FMC_PayloadManager.requestedFuel ? (B777_FMC_PayloadManager.requestedFuel * weightPerGallon).toFixed(0) : fobToRender);
+        (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(0) : this.getTotalFuel().toFixed(0));
+		
+		var rows = [
+            ["PAYLOAD - LOWER CARGO", "3", "4"],
+            ["REQUEST", "CURRENT"],
+            ["", ""],
+            ["FOWARD " + units, "FOWARD " + units],
+            ["22", "33"],
+            ["REAR " + units, "REAR " + units],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+			["TOTAL", "TOTAL"],
+            ["99" , "99"],
+            ["\xa0RETURN TO", ""],
+            ["<INDEX", "EXECUTE>"]
+        ];
+
+        /* LSK2 */
+
+        /* LSK3 */
+       
+        /* LSK4 */
+    
+        /* LSK6 */
+		
+        this.fmc.onLeftInput[5] = () => {
+            FMCSaltyOptions.ShowPage1(this.fmc);
+        }
+
+        /* RSK6 */
+		
+        if (B777_FMC_PayloadManager.isPayloadManagerExecuted){
+			rows[12][1] = "RUNNING...";
+		} else {
+			rows[12][1] = "EXECUTE>";
+			this.fmc.onRightInput[5] = () => {
+				B777_FMC_PayloadManager.isPayloadManagerExecuted = true;
+				this.flushFuelAndPayload().then(() => {
+					if (B777_FMC_PayloadManager.requestedFuel) {
+						this.calculateTanks(B777_FMC_PayloadManager.requestedFuel);
+					}
+					else {
+						this.calculateTanks(this.getTotalFuel());
+					}
+					if (B777_FMC_PayloadManager.requestedPayload) {
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
+						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
+					}
+					else {
+						this.calculatePayload(this.getTotalPayload(true),10,10);
+						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
+					}
+					this.showPage3();
+				});
+			};
+		}
+
+        this.fmc.setTemplate(rows);
+
+		this.fmc.onPrevPage = () => {
+            this.showPage2();
+        }
+		this.fmc.onNextPage = () => {
+            this.showPage4();
+        }
+    }
+
+	showPage4() {
+        this.fmc.clearDisplay();
+
+        this.payloadValues = this.getPayloadValues();
+
+		if (!B777_FMC_PayloadManager.requestedPayload) {
+			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
+		}
+		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.2;
+		}
+		if (!B777_FMC_PayloadManager.requestedFuel) {
+			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
+		}
+
+		if (B777_FMC_PayloadManager.isPayloadManagerExecuted) {
+			this.fmc.refreshPageCallback = () => {
+				this.showPage4();
+			};
+		}
+
+		let weightPerGallon;
+        let units;
+        let payloadModifier;
+		let useImperial;
+
+		const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+        switch (storedUnits) {
+            case "KG":
+                useImperial = false;
+                break;
+            case "LBS":
+                useImperial = true;
+                break;
+            default:
+                useImperial = false;
+        }
+        if (useImperial) {
+            weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "pounds");
+            units = "Lbs";
+            payloadModifier = 1.0;
+        }
+        else {
+            weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
+            units = "Kg";
+            payloadModifier = 0.45359237;
+        }
+        
+		const totalFuel = this.getTotalFuel() * weightPerGallon;
+		const fuelTankLeftCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+		const fuelTankCenterCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+		const fuelTankRightCur = parseFloat(SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallon")*weightPerGallon).toFixed(0);
+        const fobToRender = totalFuel.toFixed(0);
+        const fobReqToRender = (B777_FMC_PayloadManager.requestedFuel ? (B777_FMC_PayloadManager.requestedFuel * weightPerGallon).toFixed(0) : fobToRender);
+        (B777_FMC_PayloadManager.requestedFuel ? B777_FMC_PayloadManager.requestedFuel.toFixed(0) : this.getTotalFuel().toFixed(0));
+
+		var rows = [
+            ["PAYLOAD - FUEL", "4", "4"],
+            ["REQUEST", "CURRENT"],
+            ["", ""],
+            ["LEFT " + units, "LEFT " + "(" + units + ")"],
+            ["22", fuelTankLeftCur],
+            ["CENTER " + units, "CENTER " + "(" + units + ")"],
+            ["44", fuelTankCenterCur],
+            ["RIGHT " + units, "RIGHT " + "(" + units + ")"],
+            ['33', fuelTankRightCur],
+			["TOTAL " + units, "TOTAL "  + "(" + units + ")"],
+            [fobReqToRender , fobToRender],
+            ["\xa0RETURN TO", ""],
+            ["<INDEX", "EXECUTE>"]
+        ];
+
+        /* LSK2 */
+
+
+        /* LSK3 */
+        this.fmc.onLeftInput[4] = () => {
+            if(isFinite(parseFloat(this.fmc.inOut))){
+				let useImperial;
+				const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+        		switch (storedUnits) {
+					case "KG":
+						useImperial = false;
+						break;
+					case "LBS":
+						useImperial = true;
+						break;
+					default:
+						useImperial = false;
+				}
+				let requestedInGallons;
+                let weightPerGallon;
+                if (useImperial) {
+                    weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "pounds");
+                }
+                else {
+                    weightPerGallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilograms");
+                }
+				requestedInGallons = parseFloat(this.fmc.inOut) / weightPerGallon;
+				if (parseFloat(requestedInGallons) > B777_FMC_PayloadManager.getMinFuel && parseFloat(requestedInGallons) < B777_FMC_PayloadManager.getMaxFuel) {
+					B777_FMC_PayloadManager.requestedFuel = parseFloat(requestedInGallons);
+					this.fmc.clearUserInput();
+					this.showPage4();
+				}
+				else {
+					this.fmc.showErrorMessage("OUT OF RANGE");
+					return false;
+				}
+			}
+			else {
+				this.fmc.showErrorMessage(this.fmc.defaultInputErrorMessage);
+				return false;
+			}
+        };
+       
+        /* LSK4 */
+    
+        /* LSK6 */
+        this.fmc.onLeftInput[5] = () => {
+            FMCSaltyOptions.ShowPage1(this.fmc);
+        }
+
+        /* RSK6 */
+        if (B777_FMC_PayloadManager.isPayloadManagerExecuted){
+			rows[12][1] = "RUNNING...";
+		} else {
+			rows[12][1] = "EXECUTE>";
+			this.fmc.onRightInput[5] = () => {
+				B777_FMC_PayloadManager.isPayloadManagerExecuted = true;
+				this.flushFuelAndPayload().then(() => {
+					if (B777_FMC_PayloadManager.requestedFuel) {
+						this.calculateTanks(B777_FMC_PayloadManager.requestedFuel);
+					}
+					else {
+						this.calculateTanks(this.getTotalFuel());
+					}
+					if (B777_FMC_PayloadManager.requestedPayload) {
+						this.calculatePayload(B777_FMC_PayloadManager.requestedPayload,B777_FMC_PayloadManager.requestedPassPayload,B777_FMC_PayloadManager.requestedCargoLoad);
+						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
+					}
+					else {
+						this.calculatePayload(this.getTotalPayload(true),10,100);
+						B777_FMC_PayloadManager.isPayloadManagerExecuted = false;
+					}
+					this.showPage4();
+				});
+			};
+		}
+
+        this.fmc.setTemplate(rows);
+
+		this.fmc.onPrevPage = () => {
+            this.showPage3();
+        }
     }
 
     async resetPayload() {
