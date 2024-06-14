@@ -400,6 +400,61 @@
       "path": "effects/texture/TX-STROBE.DDS.json",
       "size": 119,
       "date": 133302997000099088
+    },
+    {
+      "path": "effects/fx_flashlight.fx",
+      "size": 1376,
+      "date": 133105923713572996
+    },
+    {
+      "path": "effects/texture/TX-ALLO-2.dds",
+      "size": 1048704,
+      "date": 133121131977880201
+    },
+    {
+      "path": "effects/texture/TX-ALLO-2.DDS.json",
+      "size": 119,
+      "date": 133029956663691984
+    },
+    {
+      "path": "effects/texture/TX-FLASH.dds",
+      "size": 1048704,
+      "date": 133121132168304121
+    },
+    {
+      "path": "effects/texture/TX-FLASH.DDS.json",
+      "size": 119,
+      "date": 133029956662721098
+    },
+    {
+      "path": "effects/texture/TX-LIGHT.dds",
+      "size": 1048704,
+      "date": 133121132296410025
+    },
+    {
+      "path": "effects/texture/TX-LIGHT.DDS.json",
+      "size": 119,
+      "date": 133029956663892179
+    },
+    {
+      "path": "effects/texture/TX-LIGHT2.dds",
+      "size": 1048704,
+      "date": 133121132415028078
+    },
+    {
+      "path": "effects/texture/TX-LIGHT2.DDS.json",
+      "size": 119,
+      "date": 132622815780000000
+    },
+    {
+      "path": "effects/texture/TX-NAV.dds",
+      "size": 1048704,
+      "date": 133121131746178787
+    },
+    {
+      "path": "effects/texture/TX-NAV.DDS.json",
+      "size": 119,
+      "date": 133029956663691984
     }
   ]
 }
