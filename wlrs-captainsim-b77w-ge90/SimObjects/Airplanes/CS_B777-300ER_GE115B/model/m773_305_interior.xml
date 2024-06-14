@@ -451,7 +451,6 @@
 					0 (&gt;A:HYDRAULIC SWITCH:2, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:3, Bool)
 					0 (&gt;A:HYDRAULIC SWITCH:4, Bool)
-          0 (&gt;L:TEEVEE_APPROACH_CAT, Enum)  <!--inop-->
 
         </UPDATE_CODE>
       </UseTemplate>

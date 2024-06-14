@@ -93,7 +93,6 @@ circuit.80 = True,0.5
 circuit.83 = False,1.0
 
 [LocalVars.0]
-XMLVAR_SeatBelts=1
 B777_MFD_NAV_MODE=2
 B777_ADIRU_SWITCH_1=0
 SALTY_IRS_STATE=0
