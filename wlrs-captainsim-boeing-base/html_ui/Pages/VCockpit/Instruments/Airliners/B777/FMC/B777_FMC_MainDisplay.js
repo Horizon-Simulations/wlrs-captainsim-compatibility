@@ -293,6 +293,16 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             this.useLbs = true;
         }
         this.timer ++;
+        //set the engine so that it won't bug out and hide all the nodes
+        const showEngineBlur =  WTDataStore.get("SHOW_ENGINE_BLUR", 0);
+        if (showEngineBlur == 1) {
+            SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 4000);
+            SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 8000);
+        }
+        else {
+            SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 19000);
+            SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 32000);
+        }
     }
     onInputAircraftSpecific(input) {
         console.log("B777_FMC_MainDisplay.onInputAircraftSpecific input = '" + input + "'");

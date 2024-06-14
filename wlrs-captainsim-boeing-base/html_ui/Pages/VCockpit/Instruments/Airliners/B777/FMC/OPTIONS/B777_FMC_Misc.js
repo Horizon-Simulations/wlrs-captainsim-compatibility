@@ -13,7 +13,6 @@ class FMCSaltyOptions_Misc {
 
         const showEngineBlur =  WTDataStore.get("SHOW_ENGINE_BLUR", 0);
         const showEngineBlurDisplayOption = showEngineBlur >= 1 ? onGreen : offGreen;
-        SimVar.SetSimVarValue("L:teevee_SHOW_ENGINE_BLUR", "bool", showEngineBlur);
 
         
         fmc.setTemplate([
@@ -49,14 +48,6 @@ class FMCSaltyOptions_Misc {
         fmc.onLeftInput[2] = () => {
             WTDataStore.set("SHOW_ENGINE_BLUR", showEngineBlur >= 1 ? 0 : 1);
             FMCSaltyOptions_Misc.ShowPage(fmc);
-            if (showEngineBlur == 0) {
-                SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 4000);
-                SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 8000);
-            }
-            else {
-                SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 19000);
-                SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 32000);
-            }
         }
 
         /* LSK6 */
