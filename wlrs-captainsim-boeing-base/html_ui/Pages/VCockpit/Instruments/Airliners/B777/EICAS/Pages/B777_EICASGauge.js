@@ -1,6 +1,7 @@
 var B777_EICAS_Common;
 (function (B777_EICAS_Common) {
     class GaugeDefinition {
+        //this control the fuel flow box
         constructor() {
             this.getValue = null;
             this.minValue = 0;
@@ -20,7 +21,7 @@ var B777_EICAS_Common;
         }
     }
     GaugeDefinition.VALUE_TEXT_BOX_HEIGHT = 15;
-    GaugeDefinition.VALUE_TEXT_X_OFFSET_FROM_BOX = 5;
+    GaugeDefinition.VALUE_TEXT_X_OFFSET_FROM_BOX = 15;
     GaugeDefinition.GAUGE_TOP = 20;
     GaugeDefinition.GAUGE_WIDTH = 12;
     B777_EICAS_Common.GaugeDefinition = GaugeDefinition;
@@ -221,7 +222,7 @@ var B777_EICAS_Common;
             this.barHeight = 100;
         }
     }
-    GaugeDualDefinition.VALUE_TEXT_X_OFFSET = 20;
+    GaugeDualDefinition.VALUE_TEXT_X_OFFSET = 0;
     GaugeDualDefinition.VALUE_INDICATOR_X_OFFSET = 7;
     GaugeDualDefinition.VALUE_INDICATOR_LENGTH = 16;
     GaugeDualDefinition.VALUE_INDICATOR_HEIGHT = 8;
@@ -261,6 +262,7 @@ var B777_EICAS_Common;
                         x1 = 100 - x1;
                     }
 
+                    //indicator pos (triangle)
                     x1 = x1 + sign*GaugeDualDefinition.VALUE_INDICATOR_X_OFFSET;
                     x2 = x1 + sign*GaugeDualDefinition.VALUE_INDICATOR_LENGTH;
 
@@ -274,6 +276,7 @@ var B777_EICAS_Common;
                     ].join(" ");
                     this.indicator.setAttribute("points", points);
                     this.indicator.setAttribute("class", "indicatorNormal");
+                    this.indicator.setAttribute("fill", "white");   //inop
                     _parent.appendChild(this.indicator);
                     this.barTop = _definition.barTop;
                     this.barHeight = _definition.barHeight;
