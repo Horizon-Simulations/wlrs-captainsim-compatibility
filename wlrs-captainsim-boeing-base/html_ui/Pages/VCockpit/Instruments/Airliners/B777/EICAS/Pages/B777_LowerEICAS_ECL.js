@@ -40,17 +40,22 @@ var B777_LowerEICAS_ECL;
             this.maxCursorIndex = 0;
             this.eventTimeout = 0;
             this.buildChecklist();
-            this.addEventListener("mousedown", this.OnMouseDown.bind(this));
-            this.addEventListener("mousemove", this.OnMouseMove.bind(this));
-            this.addEventListener("mouseup", this.OnMouseUp.bind(this));
-            this.addEventListener("mouseleave", (e) => {
-                this.bMouseOver = false;
-                this.OnMouseUp(e);
-            });
-            this.addEventListener("mouseenter", () => {
-                this.bMouseOver = true;
-            });
-            this.addEventListener("mousewheel", this.OnMouseWheel.bind(this));
+            
+            //BLIND THIS WITH WHAT?
+            //this.addEventListener("mousedown", this.OnMouseDown.bind(this));
+            //this.addEventListener("mousemove", this.OnMouseMove.bind(this));
+            //this.addEventListener("mouseup", this.OnMouseUp.bind(this));
+            //this.addEventListener("mouseleave", (e) => {
+            //    this.bMouseOver = false;
+            //    this.OnMouseUp(e);
+            //});
+            
+            //this.addEventListener("mouseenter", () => {
+            //    this.bMouseOver = true;
+            //});
+
+            //this.addEventListener("mousewheel", this.OnMouseWheel.bind(this));
+            
             document.body.style.overflow = "hidden";
             document.body.style.clip = "auto";
             document.body.style.position = "absolute";
@@ -228,8 +233,8 @@ var B777_LowerEICAS_ECL;
             this.clearChecklist();
             this.buildTitle();
             this.buildBody();
-            this.updateBottomMenus();
-            this.updateNextLineItem();
+            //this.updateBottomMenus();
+            //this.updateNextLineItem();
         }
         //Builds Checklist Title.
         buildTitle() {
@@ -247,6 +252,7 @@ var B777_LowerEICAS_ECL;
                 this.buildItem(normalChecklists[this.normalChecklistSequence].items[i], i);
             }
         }
+        
         //Builds initial state and UI elements for individual checklist items.
         buildItem(item, i) {
             //Set Item state Properties and push to main logic array checklistItems.
@@ -263,12 +269,10 @@ var B777_LowerEICAS_ECL;
                 lineItem.conditions[0] = "";
             }
             this.checklistItems.push(lineItem);
-
             //Create Item text.
             let text = this.querySelector("#item" + i + "-text");
             text.setAttribute("x", "9%");
             text.setAttribute("y", item.y);
-
             //Handles special variable conditions for Flaps position
             if (item.special != undefined) {
                 if (SimVar.GetSimVarValue(item.conditions[0].specialCondition, item.conditions[0].specialSimvarType) === 0) {
@@ -282,7 +286,6 @@ var B777_LowerEICAS_ECL;
                 text.textContent = item.name;
             }
             text.style.visibility = "visible";
-
             //Create Item grey box if closed loop.
             let box = this.querySelector("#box" + i);
             let boxTop = this.querySelector("#boxTop" + i);
@@ -307,6 +310,7 @@ var B777_LowerEICAS_ECL;
             let tick = this.querySelector("#tick" + i);
             tick.setAttribute("d", "M 18," + (item.y - 8) + "l 6.4 8 l 12.8 -16 l -1.6 -1.6 l -11.2 14.4 l -4.8 -6.4 Z");
         }
+        
         //Toggles open loop items between pending and checked states and pushes cursor to next unchecked item.
         toggleItem(cPos) {
             if (this.checklistItems[cPos].conditionType === "open") {
@@ -322,6 +326,7 @@ var B777_LowerEICAS_ECL;
                 }
             }
         }
+        /*
         //Overrides an individual checklist item.
         itemOverride() {
             if (this.nextItemPosition === -1) {
@@ -350,6 +355,7 @@ var B777_LowerEICAS_ECL;
             this.displayMenu();
             this.updateBottomMenus();
         }
+            */
         clearMenu() {
             for (let i = 0; i < 10; i++) {
                 let item = this.querySelector("#menu-item" + i);
@@ -358,6 +364,7 @@ var B777_LowerEICAS_ECL;
             let bg = this.querySelector("#normalBG");
             bg.style.fill = "#53536c";
         }
+        /*
         displayMenu() {
             this.nextItemBox.style.visibility = "hidden";
             for (let i = 0; i < menus[this.menuOpen].items.length; i++) {
@@ -383,7 +390,10 @@ var B777_LowerEICAS_ECL;
                 this.nonNormalButton.style.visibility = "hidden";
             }
         }
-    }B777_LowerEICAS_ECL.Display = Display;
+        */
+    }
+    
+    B777_LowerEICAS_ECL.Display = Display;
 })(B777_LowerEICAS_ECL || (B777_LowerEICAS_ECL = {}));
 customElements.define("b777-lower-eicas-ecl", B777_LowerEICAS_ECL.Display);
 //# sourceMappingURL=B747_8_LowerEICAS_ECL.js.map 

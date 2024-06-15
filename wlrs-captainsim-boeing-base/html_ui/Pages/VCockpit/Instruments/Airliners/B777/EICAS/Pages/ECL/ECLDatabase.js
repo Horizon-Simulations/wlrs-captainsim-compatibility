@@ -96,17 +96,41 @@ const normalChecklists = [
         checklistPriority: 0,
         items: [
             {
-                name: "Oxygen............................Tested, 100%",
+                name: "OXYGEN.....................................SET",
                 conditionType: "open",
                 y: "130"
             },
             {
-                name: "Flight instruments....Heading __, Altimeter __",
-                conditionType: "open",
+                name: "PASSENGER SIGN.............................SET",
+                conditionType: "closed",
+                conditions: [
+                    {
+                        simvar: "L:XMLVAR_SEAT_BELTS_ON",
+                        simvarType: "bool",
+                        simvarTrueCondition: 1
+                    }
+                ],
                 y: "170"
             },
             {
-                name: "Parking brake..............................Set",
+                name: "FLIGHT INSTRUMENT..........................SET",
+                conditionType: "open",
+                y: "210"
+            },
+            {
+                name: "AUTOBRAKE..................................RTO",
+                conditionType: "closed",
+                conditions: [
+                    {
+                        simvar: "AUTO BRAKE SWITCH CB",
+                        simvarType: "enum",
+                        simvarTrueCondition: 0
+                    }
+                ],
+                y: "250"
+            },
+            {
+                name: "PARKING BRAKE...............................SET",
                 conditionType: "closed",
                 conditions: [
                     {
@@ -115,34 +139,24 @@ const normalChecklists = [
                         simvarTrueCondition: 1
                     }
                 ],
-                y: "210"
+                y: "290"
             },
             {
-                name: "Fuel control switches...................CUTOFF",
+                name: "FUEL CONTROL SWITCHES....................CUTOFF",
                 conditionType: "closed",
                 conditions: [
                     {
-                        simvar: "FUELSYSTEM VALVE OPEN:5",
+                        simvar: "FUELSYSTEM VALVE SWITCH:3",
                         simvarType: "bool",
                         simvarTrueCondition: 0
                     },
                     {
-                        simvar: "FUELSYSTEM VALVE OPEN:6",
-                        simvarType: "bool",
-                        simvarTrueCondition: 0
-                    },
-                    {
-                        simvar: "FUELSYSTEM VALVE OPEN:7",
-                        simvarType: "bool",
-                        simvarTrueCondition: 0
-                    },
-                    {
-                        simvar: "FUELSYSTEM VALVE OPEN:8",
+                        simvar: "FUELSYSTEM VALVE SWITCH:4",
                         simvarType: "bool",
                         simvarTrueCondition: 0
                     }
                 ],
-                y: "250"
+                y: "330"
             }
         ]
     },
