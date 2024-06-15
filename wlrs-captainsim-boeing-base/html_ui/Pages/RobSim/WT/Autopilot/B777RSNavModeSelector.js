@@ -884,6 +884,7 @@ class B777RSNavModeSelector {
     //SET THROTTLE INTO THR REF
     this.setAPSpeedHoldMode();
     SimVar.SetSimVarValue("L:FLARE_STATUS", "number", -1);
+    SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", -1);
     this.currentLateralArmedState = LateralNavModeState.NONE;
     Coherent.call("GENERAL_ENG_THROTTLE_MANAGED_MODE_SET", ThrottleMode.TOGA);
     this.activateThrustRefMode();
