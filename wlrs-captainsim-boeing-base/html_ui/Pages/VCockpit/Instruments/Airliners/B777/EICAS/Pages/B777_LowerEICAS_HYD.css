@@ -1,7 +1,7 @@
 :root {
   --eicasWhite: white;
   --eicasBlack: black;
-  --eicasGrei: #4e4e4e;
+  --eicasGrei: #646464;
   --eicasBlu: #00b7ff;
   --eicasFrameBlue: #00c3ff;
   --eicasFrameBorderDarkBlue: #003444;
@@ -58,19 +58,41 @@ b777-lower-eicas-hyd #value text{
   text-anchor: "end";
 }
 
-b777-lower-eicas-hyd #pumps rect{
+b777-lower-eicas-hyd #Frame #pumps rect{
   fill: none;
   stroke-width: 2.5px;
   stroke: var(--eicasWhite);
 }
 
-b777-lower-eicas-hyd #baseHydLine line{
+b777-lower-eicas-hyd #Frame #baseHydLine line{
   stroke-width: 2.5px;
   stroke: var(--eicasWhite);
 }
 
-b777-lower-eicas-hyd #triangleDirections polygon{
+b777-lower-eicas-hyd #Frame #triangleDirections polygon{
   stroke-width: 1.5px;
   stroke: var(--eicasWhite);
   fill: none;
+}
+
+b777-lower-eicas-hyd #Frame #valves circle{
+  fill: none;
+  stroke-width: 2.5px;
+  stroke: limegreen;
+}
+
+
+
+b777-lower-eicas-hyd #Active #activeHydLine line{
+  stroke-width: 5px;
+  stroke: limegreen;
+}
+
+b777-lower-eicas-hyd #Active #pumps rect{
+  fill: none;
+  stroke-width: 5px;
+  stroke: limegreen;
+}
+b777-lower-eicas-hyd #Active #triangleDirections polygon{
+  fill: limegreen;
 }
