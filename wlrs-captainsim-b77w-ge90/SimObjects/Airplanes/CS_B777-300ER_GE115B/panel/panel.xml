@@ -1184,22 +1184,10 @@
 		  <Type>Memo</Type>
 		  <Text>PASS SIGNS ON</Text>
 		  <Condition>
-				<Or>
-					<And>
-						<Equal>
-							<Simvar name="L:WT_SEAT_BELTS_MODE" unit="Number"/>
-							<Constant>1</Constant> 
-						</Equal>
-						<LowerEqual>
-							<Simvar name="INDICATED ALTITUDE" unit="feet"/>
-							<Constant>10000</Constant>
-						</LowerEqual>
-					</And>
-					<Equal>
-						<Simvar name="L:WT_SEAT_BELTS_MODE" unit="Number"/>
-						<Constant>2</Constant>  
-					</Equal>
-				</Or>
+				<Equal>
+					<Simvar name="L:XMLVAR_SEAT_BELTS_ON" unit="Bool"/>
+					<Constant>1</Constant> 
+				</Equal>
 			</Condition>
 		</Annunciation>
 

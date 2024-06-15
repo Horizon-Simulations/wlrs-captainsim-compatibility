@@ -303,6 +303,14 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             SimVar.SetSimVarValue("L:MIN_RPM_FOR_SLOW", "number", 19000);
             SimVar.SetSimVarValue("L:MIN_RPM_FOR_BLUR", "number", 32000);
         }
+        //update seatbelts status
+        if ((SimVar.GetSimVarValue("L:WT_SEAT_BELTS_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:WT_SEAT_BELTS_MODE", "number") == 2) {
+            SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", true);
+        }
+        else {
+            SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", false);
+        }
+
     }
     onInputAircraftSpecific(input) {
         console.log("B777_FMC_MainDisplay.onInputAircraftSpecific input = '" + input + "'");

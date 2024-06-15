@@ -433,6 +433,7 @@ var Airliners;
         PopupMenu_ItemType[PopupMenu_ItemType["SUBMENU"] = 6] = "SUBMENU";
         PopupMenu_ItemType[PopupMenu_ItemType["CHECKBOX"] = 7] = "CHECKBOX";
     })(PopupMenu_ItemType || (PopupMenu_ItemType = {}));
+    
     class PopupMenu_Item {
         constructor(_type, _section, _y, _height) {
             this.y = 0;
