@@ -159,3 +159,14 @@ b777-lower-eicas-engine {
       b777-lower-eicas-engine .gauge text.invert {
         fill: var(--eicasBlack); }
 
+  b777-lower-eicas-engine #FFBox rect{
+    fill: none; 
+    stroke: white;
+    stroke-width: 2.5px;
+  }
+  b777-lower-eicas-engine #FFValue text{
+    fill: white; 
+    font-size: 28px;
+  }
+  
+

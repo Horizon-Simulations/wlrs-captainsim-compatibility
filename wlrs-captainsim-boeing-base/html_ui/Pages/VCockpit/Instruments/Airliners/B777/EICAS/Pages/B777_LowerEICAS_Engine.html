@@ -3,14 +3,14 @@
 <script type="text/html" id="B777LowerEICASEngineTemplate">
     <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
         <g id="EngineStates">
-            <text id="Engine1_State" x="10%" y="5%"></text>
-            <text id="Engine2_State" x="25%" y="5%"></text>
+            <text id="Engine1_State" x="10%" y="22%"></text>
+            <text id="Engine2_State" x="40%" y="22%"></text>
         </g>
 
         <g id="Labels">
             <text class="Label" x="23.5%" y="20%">N</text>
             <text class="Label" x="25%" y="21%">2</text>
-            <text class="Label" x="17.5%" y="31%">FF</text>
+            <text class="Label" x="24.5%" y="31%">FF</text>
             <text class="Label" x="17.25%" y="43%">OIL P</text>
             <text class="Label" x="17.25%" y="58%">OIL T</text>
             <text class="Label" x="17.25%" y="74%">OIL Q</text>
@@ -28,11 +28,17 @@
             <g id="N2_1_GAUGE" transform="translate(0, 90)"></g>
             <g id="N2_2_GAUGE" transform="translate(180, 90)"></g>
         </g>
+
+        <g id="FFBox">
+            <rect x="30px" y="170px" width="65px" height="35px" />
+            <rect x="206px" y="170px" width="65px" height="35px" />
+        </g>
+
+        <g id="FFValue">
+            <text id="FFValue1" x="63px" y="190px">0.9</text>
+            <text id="FFValue2" x="238px" y="190px">0.9</text>
+        </g>
     </svg>
-
-    <div id="FFGauges" class="gauges">
-
-    </div>
 
     <div id="OilPGauges" class="gauges">
 
