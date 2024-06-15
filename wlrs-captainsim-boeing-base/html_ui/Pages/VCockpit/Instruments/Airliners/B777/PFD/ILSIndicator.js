@@ -447,7 +447,7 @@ class Jet_PFD_ILSIndicator extends HTMLElement {
         const lnav = SimVar.GetSimVarValue("L:AP_LNAV_ARMED", "bool");
         const vnav = SimVar.GetSimVarValue("L:AP_VNAV_ARMED", "bool");
 
-        if (lnav || vnav) {
+        if ((lnav || vnav) && !this.infoVisible) {
             if (lnav == 1 && vnav == 1) {
                 this.NAVIdent.textContent = "LNAV/VNAV";
             } else if (lnav==1) {
