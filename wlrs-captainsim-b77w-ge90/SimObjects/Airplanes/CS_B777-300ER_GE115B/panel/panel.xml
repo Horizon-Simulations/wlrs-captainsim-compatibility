@@ -1211,7 +1211,7 @@
 				<Or>
 					<And>
 						<Equal>
-							<Simvar name="L:O08_001_GL3" unit="Number"/>
+							<Simvar name="L:NO_SMOKING_KNOB" unit="Number"/>
 							<Constant>1</Constant> 
 						</Equal>
 						<LowerEqual>
@@ -1220,7 +1220,7 @@
 						</LowerEqual>
 					</And>
 					<Equal>
-						<Simvar name="L:O08_001_GL3" unit="Number"/>
+						<Simvar name="L:NO_SMOKING_KNOB" unit="Number"/>
 						<Constant>2</Constant>  
 					</Equal>
 				</Or>

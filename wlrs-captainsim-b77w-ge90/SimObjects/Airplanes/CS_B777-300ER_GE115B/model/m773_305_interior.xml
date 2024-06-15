@@ -1405,8 +1405,8 @@
 					<IE_NAME>Knob_NoSmoking</IE_NAME>
 					<NODE_ID>O08_001_GL3</NODE_ID>
 					<ANIM_NAME>O08_001_GL3</ANIM_NAME>
-          <LOCALVAR_TO_WATCH_0>L:O08_001_GL3</LOCALVAR_TO_WATCH_0>
-          <TOOLTIPID>No Smoking: %((L:O08_001_GL3))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
+          <LOCALVAR_TO_WATCH_0>L:NO_SMOKING_KNOB</LOCALVAR_TO_WATCH_0>
+          <TOOLTIPID>No Smoking: %((L:NO_SMOKING_KNOB))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
 				</UseTemplate>
 
         <UseTemplate Name="Asobo_Interaction_Base_Template">
@@ -1537,7 +1537,7 @@
             <NODE_ID>O07_003_BUT</NODE_ID>
             <FAULT_LIGHT>O07_003_LT2</FAULT_LIGHT>
           </UseTemplate>
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2 switch-->
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2 switch-->  <!--it does pump resevior 4, but not shown, will work out later-->
             <ID>4</ID>
             <ANIM_NAME>O07_004_BUT</ANIM_NAME>
             <NODE_ID>O07_004_BUT</NODE_ID>
@@ -1881,7 +1881,7 @@
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
           <ID>2</ID>
         </UseTemplate>s
-        <UseTemplate Name="teevee_APU_Starter_Knob_Template"> <!--TODo: GO TO BLENDER MODEL AND CHECK THE NAME OF THE FAULT LIGHT-->
+        <UseTemplate Name="teevee_APU_Starter_Knob_Template">
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
           <!--777 INOP-->
