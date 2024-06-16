@@ -6,7 +6,9 @@ var B777_LowerEICAS_HYD;
             this.isInitialised = false;
 
             this.lineL_ENG = new Array();
+            this.lineR_ENG = new Array();
             this.lineL_ELEC = new Array();
+            this.lineR_ELEC = new Array();
 
         }
         get templateID() { return "B777LowerEICASHydTemplate"; }
@@ -29,8 +31,12 @@ var B777_LowerEICAS_HYD;
             //add elements
             this.lineL_ENG.push(document.querySelector("#L_ENG_ACTIVE1"));
             this.lineL_ENG.push(document.querySelector("#L_ENG_ACTIVE2"));
+            this.lineR_ENG.push(document.querySelector("#R_ENG_ACTIVE1"));
+            this.lineR_ENG.push(document.querySelector("#R_ENG_ACTIVE2"));
             this.lineL_ELEC.push(document.querySelector("#L_ELEC_ACTIVE1"));
             this.lineL_ELEC.push(document.querySelector("#L_ELEC_ACTIVE2"));
+            this.lineR_ELEC.push(document.querySelector("#R_ELEC_ACTIVE1"));
+            this.lineR_ELEC.push(document.querySelector("#R_ELEC_ACTIVE2"));
             
 
             //initial hide
@@ -40,10 +46,20 @@ var B777_LowerEICAS_HYD;
             for(var i = 0; i < this.lineL_ENG.length; i++) {
                 this.lineL_ELEC[i].setAttribute("visibility", "hidden");
             }
+            for(var i = 0; i < this.lineR_ENG.length; i++) {
+                this.lineR_ENG[i].setAttribute("visibility", "hidden");
+            }
+            for(var i = 0; i < this.lineR_ENG.length; i++) {
+                this.lineR_ELEC[i].setAttribute("visibility", "hidden");
+            }
             document.querySelector("#L_SHARE1").setAttribute("visibility", "hidden");
             document.querySelector("#L_SHARE2").setAttribute("visibility", "hidden");
             document.querySelector("#L_ENG_PUMP").setAttribute("visibility", "hidden");
             document.querySelector("#L_ELEC_PUMP").setAttribute("visibility", "hidden");
+            document.querySelector("#R_SHARE1").setAttribute("visibility", "hidden");
+            document.querySelector("#R_SHARE2").setAttribute("visibility", "hidden");
+            document.querySelector("#R_ENG_PUMP").setAttribute("visibility", "hidden");
+            document.querySelector("#R_ELEC_PUMP").setAttribute("visibility", "hidden");
 
             setInterval(this.updateHydraulic.bind(this), 200);
             this.isInitialised = true;
@@ -77,9 +93,25 @@ var B777_LowerEICAS_HYD;
                 }
             }
             else{
+                document.querySelector("#L_ENG_PUMP").setAttribute("visibility", "hidden");
                 for(var i = 0; i < this.lineL_ENG.length; i++) {
                     this.lineL_ENG[i].setAttribute("visibility", "hidden");
-                    document.querySelector("#L_ENG_PUMP").setAttribute("visibility", "hidden");
+                }
+            }
+
+            if (SimVar.GetSimVarValue("A:HYDRAULIC SWITCH:2", "bool") && SimVar.GetSimVarValue("A:TURB ENG N1:2", "percent") > 2) {
+                //turn on when circuit on
+                document.querySelector("#R_ENG_PUMP").setAttribute("visibility", "visible");
+                if (SimVar.GetSimVarValue("A:HYDRAULIC PRESSURE:2", "psi") > 2200) {
+                    for(var i = 0; i < this.lineR_ENG.length; i++) {
+                        this.lineR_ENG[i].setAttribute("visibility", "visible");   
+                    }
+                }
+            }
+            else{
+                document.querySelector("#R_ENG_PUMP").setAttribute("visibility", "hidden");
+                for(var i = 0; i < this.lineR_ENG.length; i++) {
+                    this.lineR_ENG[i].setAttribute("visibility", "hidden");
                 }
             }
 
@@ -89,26 +121,62 @@ var B777_LowerEICAS_HYD;
         updateLogicKnobs() {
             //handles ON position
             if (SimVar.GetSimVarValue("L:XMLVAR_HYDRAULICS_DEMAND_LEFT", "Number") == 2) {
-                for(var i = 0; i < this.lineL_ELEC.length; i++) {
-                    this.demandLeft = true;
-                    this.lineL_ELEC[i].setAttribute("visibility", "visible");
-                    document.querySelector("#L_ELEC_PUMP").setAttribute("visibility", "visible");
-                    SimVar.GetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 1);
+                document.querySelector("#L_ELEC_PUMP").setAttribute("visibility", "visible");
+                //SimVar.SetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 1); //DO NOT USE, JUST FOR TESTING, LOGIC IN WT TEMPLATE/FMC
+
+                if ((SimVar.GetSimVarValue("A:HYDRAULIC PRESSURE:1", "psi") > 2200)) {
+                    for(var i = 0; i < this.lineL_ELEC.length; i++) {
+                        this.demandLeft = true;
+                        this.lineL_ELEC[i].setAttribute("visibility", "visible");
+                    }
+                }
+                else {
+                    //SimVar.SetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 1);
+                    for(var i = 0; i < this.lineL_ELEC.length; i++) {
+                        this.demandLeft = true;
+                        this.lineL_ELEC[i].setAttribute("visibility", "hidden");
+                    }
+                }
+            }
+            if (SimVar.GetSimVarValue("L:XMLVAR_HYDRAULICS_DEMAND_RIGHT", "Number") == 2) {
+                document.querySelector("#R_ELEC_PUMP").setAttribute("visibility", "visible");
+                //SimVar.SetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 2);  //DON'T USE :)
+                if ((SimVar.GetSimVarValue("A:HYDRAULIC PRESSURE:2", "psi") > 2200)) {
+                    for(var i = 0; i < this.lineR_ELEC.length; i++) {
+                        this.demandRight = true;
+                        this.lineR_ELEC[i].setAttribute("visibility", "visible");
+                    }
+                }
+                else {
+                    //SimVar.SetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 1);
+                    for(var i = 0; i < this.lineR_ELEC.length; i++) {
+                        this.demandRight = true;
+                        this.lineR_ELEC[i].setAttribute("visibility", "hidden");
+                    }
                 }
             }
 
             //handles OFF position
             if (SimVar.GetSimVarValue("L:XMLVAR_HYDRAULICS_DEMAND_LEFT", "Number") == 0) {
+                document.querySelector("#L_ELEC_PUMP").setAttribute("visibility", "hidden");
+                //SimVar.SetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 1);
                 for(var i = 0; i < this.lineL_ELEC.length; i++) {
-                    this.demandLeft = false;
+                    this.demandLeft = true;
                     this.lineL_ELEC[i].setAttribute("visibility", "hidden");
-                    document.querySelector("#L_ELEC_PUMP").setAttribute("visibility", "hidden");
+                }
+            }
+            if (SimVar.GetSimVarValue("L:XMLVAR_HYDRAULICS_DEMAND_RIGHT", "Number") == 0) {
+                document.querySelector("#R_ELEC_PUMP").setAttribute("visibility", "hidden");
+                 //SimVar.SetSimVarValue("K:HYDRAULIC_SWITCH_TOGGLE", "Number", 1);
+                for(var i = 0; i < this.lineR_ELEC.length; i++) {
+                    this.demandRight = true;
+                    this.lineR_ELEC[i].setAttribute("visibility", "hidden");
                 }
             }
 
 
             //handle share elements
-            if (this.demandLeft || (SimVar.GetSimVarValue("A:HYDRAULIC PRESSURE:1", "psi") > 2200))
+            if ((SimVar.GetSimVarValue("A:HYDRAULIC PRESSURE:1", "psi") > 2200))
             {
                 document.querySelector("#L_SHARE1").setAttribute("visibility", "visible");
                 document.querySelector("#L_SHARE2").setAttribute("visibility", "visible");
@@ -116,6 +184,15 @@ var B777_LowerEICAS_HYD;
             else {
                 document.querySelector("#L_SHARE1").setAttribute("visibility", "hidden");
                 document.querySelector("#L_SHARE2").setAttribute("visibility", "hidden");
+            }
+            if ((SimVar.GetSimVarValue("A:HYDRAULIC PRESSURE:2", "psi") > 2200))
+            {
+                document.querySelector("#R_SHARE1").setAttribute("visibility", "visible");
+                document.querySelector("#R_SHARE2").setAttribute("visibility", "visible");
+            }
+            else {
+                document.querySelector("#R_SHARE1").setAttribute("visibility", "hidden");
+                document.querySelector("#R_SHARE2").setAttribute("visibility", "hidden");
             }
         }
 

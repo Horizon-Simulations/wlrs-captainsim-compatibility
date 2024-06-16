@@ -51,7 +51,9 @@
                 <text x="41" y="358">ELEC</text>
 
                 <text x="51" y="420">S0V</text>
+                <text x="521" y="420">S0V</text>
                 <!--can't set upright text:)-->
+                <!--left-->
                 <text x="137" y="220">P</text>
                 <text x="137" y="235">R</text>
                 <text x="137" y="250">I</text>
@@ -66,6 +68,22 @@
                 <text x="137" y="397">A</text>
                 <text x="137" y="412">N</text>
                 <text x="137" y="427">D</text>
+
+                <!--right-->
+                <text x="457" y="220">P</text>
+                <text x="457" y="235">R</text>
+                <text x="457" y="250">I</text>
+                <text x="457" y="265">M</text>
+                <text x="457" y="280">A</text>
+                <text x="457" y="295">R</text>
+                <text x="457" y="310">Y</text>
+
+                <text x="457" y="352">D</text>
+                <text x="457" y="367">E</text>
+                <text x="457" y="382">M</text>
+                <text x="457" y="397">A</text>
+                <text x="457" y="412">N</text>
+                <text x="457" y="427">D</text>
 
             </g>
             
@@ -91,15 +109,27 @@
                 <line id="" x1="33" x2="33" y1="450" y2="254"></line>
                 <line id="" x1="33" x2="33" y1="210" y2="170"></line>
                 <line id="" x1="32" x2="71" y1="170" y2="170"></line>
-                
 
                 <!--share L_ENG and L_ELEC-->
-                <line id="" x1="69" x2="70" y1="116" y2="170"></line>
+                <line id="" x1="69" x2="69" y1="116" y2="170"></line>
 
                 <!--L_ELEC LINES-->
                 <line id="" x1="69" x2="102" y1="170" y2="170"></line>
                 <line id="" x1="101" x2="101" y1="450" y2="384"></line>
                 <line id="" x1="101" x2="101" y1="170" y2="339"></line>
+
+                <!--R_ENG LINES-->
+                <line id="" x1="568" x2="568" y1="450" y2="254"></line>
+                <line id="" x1="568" x2="568" y1="210" y2="170"></line>
+                <line id="" x1="534" x2="569" y1="170" y2="170"></line>
+
+                <!--share R_ENG and R_ELEC-->
+                <line id="" x1="535" x2="535" y1="116" y2="171"></line>
+
+                <!--R_ELEC LINES-->
+                <line id="" x1="535" x2="500" y1="170" y2="170"></line>
+                <line id="" x1="500" x2="500" y1="450" y2="384"></line>
+                <line id="" x1="500" x2="500" y1="170" y2="339"></line>
                 
             </g>
             
@@ -111,21 +141,24 @@
                 <rect id="" x="300" y="300" width="37" height="45"/>    <!--C2_ELEC-->
                 <rect id="" x="300" y="300" width="37" height="45"/>    <!--C1_AIR-->
                 <rect id="" x="300" y="300" width="37" height="45"/>    <!--C2_AIR-->
-                <rect id="" x="300" y="300" width="37" height="45"/>    <!--R_ENG-->
-                <rect id="" x="300" y="300" width="37" height="45"/>    <!--R_ELEC-->
+                <rect id="" x="549" y="210" width="37" height="45"/>    <!--R_ENG-->
+                <rect id="" x="482" y="339" width="37" height="45"/>    <!--R_ELEC-->
 
                 <rect id="" x="300" y="300" width="37" height="45"/>    <!--RAT-->
             </g>
 
             <g id="triangleDirections">
                 <polygon points="61, 115.5, 69, 100, 77, 115.5"/>
+                <polygon points="528, 115.5, 535, 100, 542, 115.5"/>
             </g>
 
             <g id="valves">
                 <circle cx="33" cy="414" r="14"/>
+                <circle cx="568" cy="414" r="14"/>
             </g>
             <!--valve green line-->
             <line id="" x1="33" x2="33" y1="399" y2="429" stroke="limegreen" stroke-width="3.2"></line>
+            <line id="" x1="568" x2="568" y1="399" y2="429" stroke="limegreen" stroke-width="3.2"></line>
 
         </g>
 
@@ -141,15 +174,31 @@
                 <line id="L_ELEC_ACTIVE2" x1="101" x2="101" y1="450" y2="170"></line>
 
                 <line id="L_SHARE1" x1="69" x2="70" y1="116" y2="170"></line>
+
+                <!--R_ENG LINES-->
+                <line id="R_ENG_ACTIVE1" x1="568" x2="568" y1="450" y2="170"></line>
+                <line id="R_ENG_ACTIVE2" x1="568" x2="534" y1="170" y2="170"></line>
+
+                <!--R_ELEC LINES-->
+                <line id="R_ELEC_ACTIVE1" x1="535" x2="497.5" y1="170" y2="170"></line>
+                <line id="R_ELEC_ACTIVE2" x1="500" x2="500" y1="450" y2="170"></line>
+
+                <line id="R_SHARE1" x1="535" x2="535" y1="116" y2="170"></line>
+
+                
             </g>
 
             <g id="pumps">
                 <rect id="L_ENG_PUMP" x="15" y="210" width="37" height="45"/>
                 <rect id="L_ELEC_PUMP" x="82" y="339" width="37" height="45"/>
+
+                <rect id="R_ENG_PUMP" x="549" y="210" width="37" height="45"/>
+                <rect id="R_ELEC_PUMP" x="482" y="339" width="37" height="45"/>
             </g>
 
             <g id="triangleDirections">
                 <polygon id="L_SHARE2" points="59, 117.5, 69, 98, 79, 117.5"/>
+                <polygon id="R_SHARE2" points="525, 117.5, 535, 98, 545, 117.5"/>
             </g>
             
         </g>
