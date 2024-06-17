@@ -390,6 +390,7 @@
 			</And>
 			</Condition>
 		</Annunciation>
+
 		<!--		SINCE CS777 DON'T HAVE THURST ASYM COMP YET, I'LL JUST LEAVE THIS ON FOR SITUAIONAL SUPPORT
 		<Annunciation>
 		  <Type>Caution</Type>
@@ -414,6 +415,7 @@
 		  </Condition>
 		</Annunciation>
 		-->
+		
 		<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>ENG SHUTDOWN</Text>
