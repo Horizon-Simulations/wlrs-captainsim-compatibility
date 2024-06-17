@@ -2,7 +2,7 @@
   --eicasWhite: white;
   --eicasBlack: black;
   --eicasGrey: #c8c8c8;
-  --eicasBlue: cyan;
+  --eicasBlu: cyan;
   --eicasGreen: lime;
   --eicasOrange: #db7200;
   --eicasRed: red;
@@ -18,7 +18,7 @@ top: 4.25%;
 height: 88%;
 display: block; }
 b777-lower-eicas-gear #fixed-elements {
-  stroke: var(--eicasBlue);
+  stroke: var(--eicasBlu);
   stroke-width: 2; 
   fill-opacity: 0; }
 b777-lower-eicas-gear #closed-elements {
@@ -26,8 +26,8 @@ b777-lower-eicas-gear #closed-elements {
     stroke-width: 1.5; 
     fill-opacity: 0; }    
 b777-lower-eicas-gear #cyan-elements {
-  stroke: var(--eicasBlue);
-   fill: var(--eicasBlue);
+  stroke: var(--eicasBlu);
+   fill: var(--eicasBlu);
   stroke-width: 1.5; }  
 b777-lower-eicas-gear #closed-labels {
   stroke-width: 1.5;  

@@ -11,7 +11,6 @@ SimOnGround=True
 Transponder=2000
 TransponderState=1
 
-
 [Engine Parameters.1.0]
 ThrottleLeverPct=0
 PropellerLeverPct=0
