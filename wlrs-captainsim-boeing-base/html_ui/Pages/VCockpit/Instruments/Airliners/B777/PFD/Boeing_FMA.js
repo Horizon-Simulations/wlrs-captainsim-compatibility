@@ -353,7 +353,7 @@ var Boeing_FMA;
             //1 RNAV/VISUAL
             //0 - not initialized
             //4 - no autoland (implemented later)
-            if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  3 && Simplane.getAutoPilotActive() && SimVar.GetSimVarValue("K:AP_APR_HOLD_ON", "bool") && this.verticalMode === "GS" && this.lateralArmed === "APPR LOC1") {
+            if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  3 && Simplane.getAutoPilotActive() && SimVar.GetSimVarValue("K:AP_APR_HOLD_ON", "bool") && this.verticalMode === "GS" && this.lateralMode === "APPR LOC1") {
                 return 2;
             }
             else if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") ==  2 && Simplane.getAutoPilotActive() && SimVar.GetSimVarValue("K:AP_APR_HOLD_ON", "bool")) {
