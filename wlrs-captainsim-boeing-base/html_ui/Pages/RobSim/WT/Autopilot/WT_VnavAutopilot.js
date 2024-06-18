@@ -1556,23 +1556,23 @@ class WT_VerticalAutopilot {
     }
 
     buildConstraintText(waypoint) {
-        let constraintText = undefined;
-        switch (waypoint.legAltitudeDescription) {
-            case 1:
-                constraintText = Math.floor(waypoint.legAltitude1).toFixed(0);
-                break;
-            case 2:
-                constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + "A";
-                break;
-            case 3:
-                constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + "B";
-                break;
-            case 4:
-                constraintText = Math.floor(waypoint.legAltitude2).toFixed(0) + "A" + Math.floor(waypoint.legAltitude1).toFixed(0) + "B";
-                break;
-        }
-        return constraintText;
-    }
+		let constraintText = undefined;
+		switch (waypoint.legAltitudeDescription) {
+			case 1:
+				constraintText = Math.floor(waypoint.legAltitude1).toFixed(0);
+				break;
+			case 2:
+				constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + 'A';
+				break;
+			case 3:
+				constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + 'B';
+				break;
+			case 4:
+				constraintText = Math.floor(waypoint.legAltitude2).toFixed(0) + 'A' + Math.floor(waypoint.legAltitude1).toFixed(0) + 'B';
+				break;
+		}
+		return constraintText;
+	}
 
     fmsTextValues() {
         //Datastore for VNAV Window in FMS TEXT
