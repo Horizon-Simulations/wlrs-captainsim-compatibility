@@ -11,6 +11,9 @@ class B777_EICAS extends Airliners.BaseEICAS {
         }
         this.currentPage = "B777_EICAS_fuel";
 
+        //for fuel simulations
+        this.delta_t = 1000;
+
         //format: RPM - EGT - OILPRESS - OIL TEMP - OIL QTY, all will be doubled occurs for consistancy
         this.apuStart = [
             [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
@@ -135,6 +138,7 @@ class B777_EICAS extends Airliners.BaseEICAS {
         ];
         this.currentAPUIndex = 0;
         setInterval(this.updateAPUData.bind(this), 110);
+        setInterval(this.updateFuelTemperature.bind(this), this.delta_t);
     }
 
     reboot() {
@@ -206,8 +210,50 @@ class B777_EICAS extends Airliners.BaseEICAS {
         super.onUpdate(_deltaTime);
         this.updateAnnunciations();
         this.updateEngines(_deltaTime);
+        //this.updateFuelTemperature();
     }
 
+    updateFuelTemperature() {
+        // idea from chatGPT and https://aviation.stackexchange.com/questions/97174/how-can-i-determine-the-fuel-temperature-in-the-tanks-of-an-airbus-a320-during-c
+        const T_initial = 20;  // Initial fuel temperature in °C
+        const h = 100;  // Convective heat transfer coefficient in W/(m²·K)
+        const c_f = 2200;  // Specific heat capacity of kerosene in J/(kg·K)
+        const A = 0.7 * 440;  // Effective surface area (70% of wing area) in m²
+        //const delta_t = 1;  // Time step in seconds
+
+        // Get the mass of the fuel in kg
+        const m_f_per_gallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilogram");
+        const fuel_quantity_gallons = SimVar.GetSimVarValue("FUEL TOTAL QUANTITY", "gallons");
+        const m_f = m_f_per_gallon * fuel_quantity_gallons;
+
+        // Get the ambient temperature in °C
+        const T_ambient = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "Celsius");
+
+        // Get the fuel flow rates for both engines in kg/s
+        const engine1FuelFlow = SimVar.GetSimVarValue("ENG FUEL FLOW GPH:1", "gallons per hour") * m_f_per_gallon / 3600;
+        const engine2FuelFlow = SimVar.GetSimVarValue("ENG FUEL FLOW GPH:2", "gallons per hour") * m_f_per_gallon / 3600;
+        const totalFuelFlow = engine1FuelFlow + engine2FuelFlow;
+
+        // Assume a fixed temperature for the returning fuel from the engines (simplification)
+        const T_engineFuelReturn = 80;  // Temperature in °C
+
+        // Initialize or get the current fuel temperature
+        if (typeof this.T_f === 'undefined') {
+            this.T_f = T_initial;
+        }
+
+        // Calculate b and new temperature using the improved formula
+        const b = (h * A) / (m_f * c_f);
+        const heatExchangeAmbient = (T_ambient - this.T_f) * Math.exp(-b * (this.delta_t/1000));
+        const heatExchangeFuelFlow = (totalFuelFlow / m_f) * (T_engineFuelReturn - this.T_f) * ((this.delta_t/1000) / 3600);  // Convert delta_t to hours
+
+        // Update fuel temperature
+        this.T_f = T_ambient + (this.T_f - T_ambient) * Math.exp(-b * (this.delta_t/1000)) + heatExchangeFuelFlow;
+
+        // Set the simulated fuel temperature
+        SimVar.SetSimVarValue("L:FUEL_TEMP", "Celsius", this.T_f);
+    }
+    
     updateAPUData() {
         this.ambientTemp = (SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "Celcius")).toFixed(0);
         if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 7)
