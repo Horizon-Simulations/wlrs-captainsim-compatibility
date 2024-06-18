@@ -223,17 +223,6 @@
 				</And>
 			</Condition>
 		</Annunciation>
-
-		<Annunciation>
-			<Type>Warning</Type>
-			<Text>OVERSPEED</Text>
-			<Condition>
-				<Equal>
-				<Simvar name="OVERSPEED WARNING" unit="Bool"/>
-				<Constant>1</Constant>
-				</Equal>
-			</Condition>
-		</Annunciation>
 		
 		<Annunciation>
 			<Type>Warning</Type>
