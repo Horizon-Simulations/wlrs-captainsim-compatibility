@@ -1348,3 +1348,30 @@ var Airliners;
     Airliners.PopupMenu_Handler = PopupMenu_Handler;
 })(Airliners || (Airliners = {}));
 //# sourceMappingURL=BaseAirliners.js.map
+
+/*
+
+var WarningSystemAlertIDs;
+(function (WarningSystemAlertIDs) {
+    WarningSystemAlertIDs["AirspeedLow"] = "airspeed-low";
+    WarningSystemAlertIDs["Overspeed"] = "overspeed";
+    WarningSystemAlertIDs["ConfigFlaps"] = "config-flaps";
+    WarningSystemAlertIDs["ConfigGear"] = "config-gear";
+    WarningSystemAlertIDs["ConfigRudder"] = "config-rudder";
+    WarningSystemAlertIDs["ConfigSpoiler"] = "config-spoiler";
+    WarningSystemAlertIDs["ConfigStabilizer"] = "config-stabilizer";
+    WarningSystemAlertIDs["StabGreenband"] = "stab-greenband";
+    WarningSystemAlertIDs["TailStrike"] = "tail-strike";
+    WarningSystemAlertIDs["SinkRate"] = "sink-rate";
+    WarningSystemAlertIDs["Terrain"] = "terrain";
+    WarningSystemAlertIDs["DontSink"] = "dont-sink";
+    WarningSystemAlertIDs["TooLowGear"] = "too-low-gear";
+    WarningSystemAlertIDs["TooLowFlaps"] = "too-low-flaps";
+    WarningSystemAlertIDs["TooLowTerrain"] = "too-low-terrain";
+    WarningSystemAlertIDs["Glideslope"] = "glideslope";
+    //CautionTerrain = 'caution-terrain',       // EGPWS -> terrain lookahead, we can't do!
+    WarningSystemAlertIDs["HudTakeoff"] = "hud-takeoff";
+    WarningSystemAlertIDs["TcasOff"] = "tcas-off";
+})(WarningSystemAlertIDs || (WarningSystemAlertIDs = {}));
+
+*/

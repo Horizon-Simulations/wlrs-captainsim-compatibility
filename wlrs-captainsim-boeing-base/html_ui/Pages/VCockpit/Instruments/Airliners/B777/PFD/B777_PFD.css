@@ -168,4 +168,23 @@ b777-pfd-element #Mainframe #InstrumentsContainer #ILS {
   z-index: 1;
 }
 
+b777-pfd-element #Mainframe #TimeCriticalWarning{
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+b777-pfd-element #Mainframe #TimeCriticalWarning{
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+}
+
+b777-pfd-element #Mainframe #TimeCriticalWarning #text{
+  font-size: 18px;
+  fill: red;
+}
+
 /*# sourceMappingURL=B747_8_PFD.css.map */
