@@ -356,27 +356,6 @@
     </MouseRect>
   </PartInfo>
 
-  <Animation name="A02_014_BUY" guid="92C2FB8A-3495-42FA-9ED9-39F643AD06C6" length="100" type="Sim" typeParam2="A02_014_BUY" typeParam="AutoPlay"/>
-  <PartInfo>
-    <Name>A02_014_BUY</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:A02_014_BUY) 100 * 0 max 100 min
-        </Code>
-        <Lag>100</Lag>
-      </Parameter>
-    </Animation>
-    <MouseRect>
-      <TooltipText>Seat Arm Rest</TooltipText>
-      <Cursor>Hand</Cursor>
-      <CallbackCode>
-        (L:A02_014_BUY) ! (&gt;L:A02_014_BUY)
-      </CallbackCode>
-    </MouseRect>
-  </PartInfo>
-
   <Animation name="A01_006_AC1" guid="427B2BA9-7D73-4BC1-B03D-2F63F9708295" length="100" type="Sim" typeParam2="A01_006_AC1" typeParam="AutoPlay"/>
   <PartInfo>
     <Name>A01_006_AC1</Name>
@@ -6512,7 +6491,7 @@
       </UseTemplate>
     </Component>
 
-  <Component ID="Pilot_seats">
+  <Component ID="Pilot_seats">      
       <Component ID="Pilot_seat_l" Node="A02_001_BUX">
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <TOOLTIPID>PILOT SEAT %((L:teevee_777_Pilot_seat_l))%{case}%{:0}(Click to pull out)%{:1}(Click to push in)%{end}</TOOLTIPID>
@@ -6520,6 +6499,16 @@
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
             (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_l, bool) ! (&gt;L:teevee_777_Pilot_seat_l, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+      <Component ID="Pilot_seat_l_arm_rest" Node="A02_005_BUY">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>ARM REST %((L:teevee_777_Pilot_seat_l_arm_rest))%{case}%{:0}(Click to extend)%{:1}(Click to stow)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_l_arm_rest, bool) ! (&gt;L:teevee_777_Pilot_seat_l_arm_rest, bool) }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -6534,6 +6523,27 @@
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
+      <Component ID="Pilot_seat_r_arm_rest" Node="A02_004_BUY">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>ARM REST %((L:teevee_777_Pilot_seat_r_arm_rest))%{case}%{:0}(Click to extend)%{:1}(Click to stow)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_r_arm_rest, bool) ! (&gt;L:teevee_777_Pilot_seat_r_arm_rest, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <Component ID="Pilot_seat_jump_arm_rest" Node="A02_014_BUY">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>ARM REST %((L:teevee_777_Pilot_seat_jump_arm_rest))%{case}%{:0}(Click to extend)%{:1}(Click to stow)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_jump_arm_rest, bool) ! (&gt;L:teevee_777_Pilot_seat_jump_arm_rest, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
 
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_NAME>A02_006_BUG</ANIM_NAME>
@@ -6541,13 +6551,31 @@
         <ANIM_LENGTH>60</ANIM_LENGTH>
         <ANIM_CODE>(L:teevee_777_Pilot_seat_l, bool) 60 *</ANIM_CODE>
       </UseTemplate>
-
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_005_BUY</ANIM_NAME>
+        <ANIM_LAG>100</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_l_arm_rest, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_NAME>A02_008_BUG</ANIM_NAME>
         <ANIM_LAG>20</ANIM_LAG>
         <ANIM_LENGTH>60</ANIM_LENGTH>
         <ANIM_CODE>(L:teevee_777_Pilot_seat_r, bool) 60 *</ANIM_CODE>
       </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_004_BUY</ANIM_NAME>
+        <ANIM_LAG>100</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_r_arm_rest, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_014_BUY</ANIM_NAME>
+        <ANIM_LAG>100</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_jump_arm_rest, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
+
     </Component>
 
 
