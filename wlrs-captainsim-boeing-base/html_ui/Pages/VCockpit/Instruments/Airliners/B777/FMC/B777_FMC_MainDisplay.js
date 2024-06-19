@@ -112,6 +112,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             cruiseAltitude: "",
             originIcao: "",
             destinationIcao: "",
+            alternateIcao: "",
             blockFuel: "",
             payload: "",
             estZfw: "",
@@ -119,7 +120,6 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             navlog: "",
             icao_airline: "",
             flight_number: "",
-            alternateIcao: "",
             avgTropopause: "",
             ete: "",
             blockTime: "",
@@ -219,6 +219,9 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         this.onRte = () => {
             FMCRoutePage.ShowPage1(this);
         };
+        this.onAltn = () => {
+            FMCRoutePage.ShowPage2(this);
+        };
         this.onDepArr = () => {
             B777_FMC_DepArrIndexPage.ShowPage1(this);
         };
@@ -242,7 +245,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             B777_FMC_ProgPage.ShowPage1(this);
         };
         this.onAtc = () => { 
-            FMC_ATC_Index.ShowPage(this);
+            //FMC_ATC_Index.ShowPage(this);
         };
         this.onFmcComm = () => { 
             FMC_COMM_Index.ShowPage(this);
