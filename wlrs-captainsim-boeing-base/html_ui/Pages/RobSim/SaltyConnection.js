@@ -126,14 +126,17 @@ const getATIS = async (icao, lines, type, store, updateView) => {
 */
 const getSimBriefPlan = (fmc, store, updateView) => {
     const userid = SaltyDataStore.get("OPTIONS_SIMBRIEF_ID", "");
+    const username = SaltyDataStore.get("OPTIONS_SIMBRIEF_USER", "");
 
-    if (!userid) {
-        fmc.showErrorMessage("UNABLE TO SEND MESSAGE");
+    if (!userid && !username) {
+        fmc.showErrorMessage("NO SIMBRIEF ID/USERNAME");
         throw ("No simbrief username provided");
     }
+    
 
-    return SimBriefApi.getFltPlan(userid)
-        .then(data => {
+    //return SimBriefApi.getFltPlanUserID(userid)
+    //    .then(data => {
+        const handleData = (data) => {
             fmc.simbrief["units"] = data.params.units;
             fmc.simbrief["route"] = data.general.route;
             fmc.simbrief["cruiseAltitude"] = data.general.initial_altitude;
@@ -145,7 +148,7 @@ const getSimBriefPlan = (fmc, store, updateView) => {
             fmc.simbrief["navlog"] = data.navlog.fix;
             fmc.simbrief["icao_airline"] = typeof data.general.icao_airline === 'string' ? data.general.icao_airline : "";
             fmc.simbrief["flight_number"] = data.general.flight_number;
-            fmc.simbrief["alternateIcao"] = data.alternate.icao_code;
+            fmc.simbrief["alternateIcao"] = data.alternate.icao_code;       //under testing, this can be multiple alternates
             fmc.simbrief["avgTropopause"] = data.general.avg_tropopause;
             /* TIMES */
             fmc.simbrief["ete"] = data.times.est_time_enroute;
@@ -171,13 +174,21 @@ const getSimBriefPlan = (fmc, store, updateView) => {
             fmc.simbrief.rteUplinkReady = true;
             fmc.simbrief.perfUplinkReady = true;
             return fmc.simbrief;
-        })
-        .catch(_err => {
+        };//)
+        const handleError = (_err) => {
+        //.catch(_err => {
             fmc.showErrorMessage("UNABLE TO LOAD CLEARANCE");
             fmc.simbrief.rteUplinkReady = true;
             fmc.simbrief.perfUplinkReady = true;
             updateView();
-        });
+        };//);
+
+        if (username) {
+            return SimBriefApi.getFltPlanUsername(username).then(handleData).catch(handleError);
+        } else {
+            return SimBriefApi.getFltPlanUserID(userid).then(handleData).catch(handleError);
+        }
+    
 }
 
 /**
@@ -230,7 +241,12 @@ const convertWaypointIdentCoords = (ident) => {
 }
 
 const getFplnFromSimBrief = async (fmc) => {
-    const url = "http://www.simbrief.com/api/xml.fetcher.php?json=1&userid=" + SaltyDataStore.get("OPTIONS_SIMBRIEF_ID", "");
+    this.url = "http://www.simbrief.com/api/xml.fetcher.php?json=1&username=" + SaltyDataStore.get("OPTIONS_SIMBRIEF_USER", "");
+    const userID = SaltyDataStore.get("OPTIONS_SIMBRIEF_ID", "");
+    if (userID != "") {
+        this.url = "http://www.simbrief.com/api/xml.fetcher.php?json=1&userid=" + SaltyDataStore.get("OPTIONS_SIMBRIEF_ID", "");
+    }    
+    
     let json = "";
     let routeArr;
     let partial = false;
@@ -293,9 +309,25 @@ const getFplnFromSimBrief = async (fmc) => {
         fmc.updateRouteDestination(parseAirport(dest), updateRoute);
     };
 
+    //Since I don't have access to Simbrief API, I can't take a whole list
+    //const updateAlternateList = () => {
+    //    console.log("UPDATE ALTERNATE LISTS");
+    //    const dest = json.destination.icao_code;
+    //    fmc.updateRouteDestination(parseAirport(dest), updateRoute);
+    //};
+
+    //this might crash
+    /*
+    const updateAlternate0 = () => {
+        console.log("UPDATE ALTERNATE 0");
+        const altn = json.alternate.0.icao_code;
+        fmc.updateRouteDestination(parseAirport(altn), updateRoute);
+    };
+    */
+
     const updateRoute = () => {
         console.log("UPDATE ROUTE");
-        let idx = 0; // TODO starting from 1 to skip departure trans for now
+        let idx = 1; //un todo// TODO starting from 1 to skip departure trans for now
 
         console.log(routeArr)
 
