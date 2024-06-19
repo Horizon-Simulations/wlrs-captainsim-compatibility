@@ -527,7 +527,7 @@ class B777_FMC_PayloadManager {
             }
        };
 
-	   /* RSK5 */
+	   	/* RSK5 */
 		this.fmc.onRightInput[4] = () => {
 			if (isFinite(parseFloat(simbriefPayload))) {
 				let useImperial;
