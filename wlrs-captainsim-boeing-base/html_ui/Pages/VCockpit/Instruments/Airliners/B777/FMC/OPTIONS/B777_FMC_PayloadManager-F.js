@@ -342,6 +342,8 @@ class B777_FMC_PayloadManager {
             units = "Kg";
             payloadModifier = 0.45359237;
         }
+		const simbriefPayload = this.fmc.simbrief.payload;
+		const simbriefFuelLoad = this.fmc.simbrief.blockFuel;
         const totalFuel = this.getTotalFuel() * weightPerGallon;
 		const cgToRender = this.getCenterOfGravity().toFixed(2);
 		const cgReqToRender = (B777_FMC_PayloadManager.requestedCenterOfGravity ? B777_FMC_PayloadManager.requestedCenterOfGravity.toFixed(2) : cgToRender);
@@ -469,7 +471,7 @@ class B777_FMC_PayloadManager {
             }
        };
 
-	   /* RSK5 */
+	   	/* RSK5 */
 		this.fmc.onRightInput[4] = () => {
 			if (isFinite(parseFloat(simbriefPayload))) {
 				let useImperial;
