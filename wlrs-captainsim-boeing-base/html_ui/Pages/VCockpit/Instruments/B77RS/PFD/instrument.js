@@ -9,6 +9,11 @@ var APVerticalModes;
     APVerticalModes[APVerticalModes["GP"] = 6] = "GP";
     APVerticalModes[APVerticalModes["GS"] = 7] = "GS";
     APVerticalModes[APVerticalModes["CAP"] = 8] = "CAP";
+    APVerticalModes[APVerticalModes["TO"] = 9] = "TO";
+    APVerticalModes[APVerticalModes["GA"] = 10] = "GA";
+    APVerticalModes[APVerticalModes["FPA"] = 11] = "FPA";
+    APVerticalModes[APVerticalModes["FLARE"] = 12] = "FLARE";
+    APVerticalModes[APVerticalModes["LEVEL"] = 13] = "LEVEL";
 })(APVerticalModes || (APVerticalModes = {}));
 var APLateralModes;
 (function (APLateralModes) {
@@ -21,6 +26,14 @@ var APLateralModes;
     APLateralModes[APLateralModes["LOC"] = 6] = "LOC";
     APLateralModes[APLateralModes["BC"] = 7] = "BC";
     APLateralModes[APLateralModes["NAV"] = 8] = "NAV";
+    APLateralModes[APLateralModes["ROLLOUT"] = 9] = "ROLLOUT";      //index changed compare to WT
+    APLateralModes[APLateralModes["TO"] = 10] = "TO";
+    APLateralModes[APLateralModes["GA"] = 11] = "GA";
+    APLateralModes[APLateralModes["HEADING_HOLD"] = 12] = "HEADING_HOLD";
+    APLateralModes[APLateralModes["TRACK"] = 13] = "TRACK";
+    APLateralModes[APLateralModes["TRACK_HOLD"] = 14] = "TRACK_HOLD";
+    APLateralModes[APLateralModes["FMS_LOC"] = 15] = "FMS_LOC";
+    APLateralModes[APLateralModes["TO_LOC"] = 16] = "TO_LOC";
 })(APLateralModes || (APLateralModes = {}));
 var APAltitudeModes;
 (function (APAltitudeModes) {
@@ -67,39 +80,48 @@ var APStates;
  */
 var SimVarValueType;
 (function (SimVarValueType) {
+    SimVarValueType["Amps"] = "Amperes";
+    SimVarValueType["Bool"] = "bool";
+    SimVarValueType["Celsius"] = "celsius";
+    SimVarValueType["Degree"] = "degrees";
+    SimVarValueType["DegreesPerSecond"] = "degrees per second";
+    SimVarValueType["Enum"] = "enum";
+    SimVarValueType["Farenheit"] = "farenheit";
+    SimVarValueType["Feet"] = "feet";
+    SimVarValueType["FPM"] = "feet per minute";
+    SimVarValueType["GAL"] = "gallons";
+    SimVarValueType["GPH"] = "gph";
+    SimVarValueType["Hertz"] = "hertz";
+    SimVarValueType["Hours"] = "Hours";
+    SimVarValueType["HPA"] = "hectopascals";
+    SimVarValueType["InHG"] = "inches of mercury";
+    SimVarValueType["KHz"] = "KHz";
+    SimVarValueType["Knots"] = "knots";
+    SimVarValueType["LBS"] = "pounds";
+    SimVarValueType["LLA"] = "latlonalt";
+    SimVarValueType["Mach"] = "mach";
+    SimVarValueType["MB"] = "Millibars";
+    SimVarValueType["Meters"] = "meters";
+    SimVarValueType["MetersPerSecond"] = "meters per second";
+    SimVarValueType["MetersPerSecondSquared"] = "meters per second squared";
+    SimVarValueType["MillimetersWater"] = "millimeters of water";
+    SimVarValueType["MHz"] = "MHz";
+    SimVarValueType["NM"] = "nautical mile";
     SimVarValueType["Number"] = "number";
     SimVarValueType["Percent"] = "percent";
-    SimVarValueType["Degree"] = "degrees";
-    SimVarValueType["Knots"] = "knots";
-    SimVarValueType["Feet"] = "feet";
-    SimVarValueType["Meters"] = "meters";
-    SimVarValueType["FPM"] = "feet per minute";
-    SimVarValueType["Radians"] = "radians";
-    SimVarValueType["InHG"] = "inches of mercury";
-    SimVarValueType["MB"] = "Millibars";
-    SimVarValueType["Bool"] = "Bool";
-    SimVarValueType["Celsius"] = "celsius";
-    SimVarValueType["MHz"] = "MHz";
-    SimVarValueType["KHz"] = "KHz";
-    SimVarValueType["NM"] = "nautical mile";
-    SimVarValueType["String"] = "string";
-    SimVarValueType["RPM"] = "Rpm";
-    SimVarValueType["PPH"] = "Pounds per hour";
-    SimVarValueType["GPH"] = "gph";
-    SimVarValueType["Farenheit"] = "farenheit";
-    SimVarValueType["PSI"] = "psi";
-    SimVarValueType["GAL"] = "gallons";
-    SimVarValueType["LBS"] = "pounds";
-    SimVarValueType["Hours"] = "Hours";
-    SimVarValueType["Volts"] = "Volts";
-    SimVarValueType["Amps"] = "Amperes";
-    SimVarValueType["Seconds"] = "seconds";
-    SimVarValueType["Enum"] = "Enum";
-    SimVarValueType["LLA"] = "latlonalt";
-    SimVarValueType["MetersPerSecond"] = "meters per second";
-    SimVarValueType["Mach"] = "mach";
+    SimVarValueType["PercentOver100"] = "percent over 100";
     SimVarValueType["Pounds"] = "pounds";
+    SimVarValueType["PPH"] = "Pounds per hour";
+    SimVarValueType["PSI"] = "psi";
+    SimVarValueType["Radians"] = "radians";
+    SimVarValueType["RadiansPerSecond"] = "radians per second";
+    SimVarValueType["Rankine"] = "rankine";
+    SimVarValueType["RPM"] = "Rpm";
+    SimVarValueType["Seconds"] = "seconds";
     SimVarValueType["SlugsPerCubicFoot"] = "slug per cubic foot";
+    SimVarValueType["String"] = "string";
+    SimVarValueType["Volts"] = "Volts";
+    SimVarValueType["FtLb"] = "Foot pounds";
 })(SimVarValueType || (SimVarValueType = {}));
 
 /**
@@ -168,6 +190,7 @@ class NumberUnit {
                 out.set(this.number + converted, this.unit);
             }
             else {
+                // eslint-disable-next-line @typescript-eslint/no-this-alias
                 out = this;
                 this._number += converted;
             }
@@ -185,6 +208,7 @@ class NumberUnit {
                 out.set(this.number - converted, this.unit);
             }
             else {
+                // eslint-disable-next-line @typescript-eslint/no-this-alias
                 out = this;
                 this._number -= converted;
             }
@@ -247,8 +271,11 @@ class NumberUnit {
         if (converted === undefined) {
             return false;
         }
+        if (isNaN(converted) && this.isNaN()) {
+            return true;
+        }
         const diff = this.number - converted;
-        return Math.abs(diff) < 1e-14;
+        return !isNaN(diff) && Math.abs(diff) < 1e-14;
     }
     /**
      * Checks whether this NumberUnit has a numeric value of NaN.
@@ -515,28 +542,41 @@ var UnitFamily;
     UnitFamily["Angle"] = "angle";
     UnitFamily["Duration"] = "duration";
     UnitFamily["Weight"] = "weight";
+    UnitFamily["Mass"] = "weight";
     UnitFamily["Volume"] = "volume";
     UnitFamily["Pressure"] = "pressure";
     UnitFamily["Temperature"] = "temperature";
+    UnitFamily["TemperatureDelta"] = "temperature_delta";
     UnitFamily["Speed"] = "speed";
     UnitFamily["Acceleration"] = "acceleration";
     UnitFamily["WeightFlux"] = "weight_flux";
+    UnitFamily["MassFlux"] = "weight_flux";
     UnitFamily["VolumeFlux"] = "volume_flux";
+    UnitFamily["Density"] = "density";
+    UnitFamily["Force"] = "force";
+    UnitFamily["DistancePerWeight"] = "distance_per_weight";
+    UnitFamily["DistanceRatio"] = "distance_ratio";
+    UnitFamily["WeightPerDistance"] = "weight_per_distance";
 })(UnitFamily || (UnitFamily = {}));
 /**
  * Predefined unit types.
  */
 class UnitType {
 }
+class UnitType {
+}
 UnitType.METER = new SimpleUnit(UnitFamily.Distance, 'meter', 1);
-UnitType.FOOT = new SimpleUnit(UnitFamily.Distance, 'foot', 0.3048);
 UnitType.KILOMETER = new SimpleUnit(UnitFamily.Distance, 'kilometer', 1000);
+UnitType.INCH = new SimpleUnit(UnitFamily.Distance, 'inch', 0.0254);
+UnitType.FOOT = new SimpleUnit(UnitFamily.Distance, 'foot', 0.3048);
 /** Statute mile. */
 UnitType.MILE = new SimpleUnit(UnitFamily.Distance, 'mile', 1609.34);
 /** Nautical mile. */
 UnitType.NMILE = new SimpleUnit(UnitFamily.Distance, 'nautical mile', 1852);
 /** Great-arc radian. The average radius of Earth. */
 UnitType.GA_RADIAN = new SimpleUnit(UnitFamily.Distance, 'great arc radian', 6378100);
+/** 9.80665 meters, for internal use. */
+UnitType.G_METER = new SimpleUnit(UnitFamily.Distance, '9.80665 meter', 9.80665);
 UnitType.RADIAN = new SimpleUnit(UnitFamily.Angle, 'radian', 1);
 UnitType.DEGREE = new SimpleUnit(UnitFamily.Angle, 'degree', Math.PI / 180);
 UnitType.ARC_MIN = new SimpleUnit(UnitFamily.Angle, 'minute', Math.PI / 180 / 60);
@@ -547,24 +587,37 @@ UnitType.MINUTE = new SimpleUnit(UnitFamily.Duration, 'minute', 60);
 UnitType.HOUR = new SimpleUnit(UnitFamily.Duration, 'hour', 3600);
 UnitType.KILOGRAM = new SimpleUnit(UnitFamily.Weight, 'kilogram', 1);
 UnitType.POUND = new SimpleUnit(UnitFamily.Weight, 'pound', 0.453592);
+UnitType.SLUG = new SimpleUnit(UnitFamily.Weight, 'slug', 14.59390);
 UnitType.TON = new SimpleUnit(UnitFamily.Weight, 'ton', 907.185);
 UnitType.TONNE = new SimpleUnit(UnitFamily.Weight, 'tonne', 1000);
 /** Weight equivalent of one liter of fuel, using the generic conversion 1 gallon = 6.7 pounds. */
 UnitType.LITER_FUEL = new SimpleUnit(UnitFamily.Weight, 'liter', 0.80283679);
-/** Weight equivalent of one pound of fuel, using the generic conversion 1 gallon = 6.7 pounds. */
+/** Weight equivalent of one gallon of fuel, using the generic conversion 1 gallon = 6.7 pounds. */
 UnitType.GALLON_FUEL = new SimpleUnit(UnitFamily.Weight, 'gallon', 3.0390664);
+/** Weight equivalent of one imperial gallon of fuel, using the generic conversion 1 gallon = 6.7 pounds. */
+UnitType.IMP_GALLON_FUEL = new SimpleUnit(UnitFamily.Weight, 'imperial gallon', 3.6497683);
 UnitType.LITER = new SimpleUnit(UnitFamily.Volume, 'liter', 1);
 UnitType.GALLON = new SimpleUnit(UnitFamily.Volume, 'gallon', 3.78541);
 /** Hectopascal. */
 UnitType.HPA = new SimpleUnit(UnitFamily.Pressure, 'hectopascal', 1);
+/** Millibar. */
+UnitType.MB = new SimpleUnit(UnitFamily.Pressure, 'millibar', 1);
 /** Atmosphere. */
 UnitType.ATM = new SimpleUnit(UnitFamily.Pressure, 'atmosphere', 1013.25);
 /** Inch of mercury. */
 UnitType.IN_HG = new SimpleUnit(UnitFamily.Pressure, 'inch of mercury', 33.8639);
 /** Millimeter of mercury. */
 UnitType.MM_HG = new SimpleUnit(UnitFamily.Pressure, 'millimeter of mercury', 1.33322);
+/** Pound per square inch. */
+UnitType.PSI = new SimpleUnit(UnitFamily.Pressure, 'pound per square inch', 68.9476);
+UnitType.KELVIN = new SimpleUnit(UnitFamily.Temperature, 'kelvin', 1, 0);
 UnitType.CELSIUS = new SimpleUnit(UnitFamily.Temperature, '° Celsius', 1, 273.15);
 UnitType.FAHRENHEIT = new SimpleUnit(UnitFamily.Temperature, '° Fahrenheit', 5 / 9, 459.67);
+UnitType.RANKINE = new SimpleUnit(UnitFamily.Temperature, '° Rankine', 5 / 9, 0);
+/** Change in degrees Celsius. */
+UnitType.DELTA_CELSIUS = new SimpleUnit(UnitFamily.TemperatureDelta, 'Δ° Celsius', 1);
+/** Change in degrees Fahrenheit. */
+UnitType.DELTA_FAHRENHEIT = new SimpleUnit(UnitFamily.TemperatureDelta, 'Δ° Fahrenheit', 5 / 9);
 UnitType.KNOT = new CompoundUnit(UnitFamily.Speed, [UnitType.NMILE], [UnitType.HOUR], 'knot');
 /** Kilometer per hour. */
 UnitType.KPH = new CompoundUnit(UnitFamily.Speed, [UnitType.KILOMETER], [UnitType.HOUR]);
@@ -586,16 +639,34 @@ UnitType.MPS_PER_SEC = new CompoundUnit(UnitFamily.Acceleration, [UnitType.METER
 UnitType.FPM_PER_SEC = new CompoundUnit(UnitFamily.Acceleration, [UnitType.FOOT], [UnitType.MINUTE, UnitType.SECOND]);
 /** Foot per second per second. */
 UnitType.FPS_PER_SEC = new CompoundUnit(UnitFamily.Acceleration, [UnitType.FOOT], [UnitType.SECOND, UnitType.SECOND]);
+/** Knot per second. */
+UnitType.KNOT_PER_SEC = new CompoundUnit(UnitFamily.Acceleration, [UnitType.NMILE], [UnitType.HOUR, UnitType.SECOND]);
 /** Average gravitational acceleration on Earth at sea level. */
-UnitType.G_ACCEL = new CompoundUnit(UnitFamily.Acceleration, [new SimpleUnit(UnitFamily.Distance, '9.80665 meter', 9.80665)], [UnitType.SECOND, UnitType.SECOND]);
+UnitType.G_ACCEL = new CompoundUnit(UnitFamily.Acceleration, [UnitType.G_METER], [UnitType.SECOND, UnitType.SECOND]);
 /** Kilogram per hour. */
 UnitType.KGH = new CompoundUnit(UnitFamily.WeightFlux, [UnitType.KILOGRAM], [UnitType.HOUR]);
 /** Pound per hour. */
 UnitType.PPH = new CompoundUnit(UnitFamily.WeightFlux, [UnitType.POUND], [UnitType.HOUR]);
 /** Weight equivalent of one liter of fuel per hour, using the generic conversion 1 gallon = 6.7 pounds. */
 UnitType.LPH_FUEL = new CompoundUnit(UnitFamily.WeightFlux, [UnitType.LITER_FUEL], [UnitType.HOUR]);
-/** Weight equivalent of one gallon fuel per hour, using the generic conversion 1 gallon = 6.7 pounds. */
+/** Weight equivalent of one gallon of fuel per hour, using the generic conversion 1 gallon = 6.7 pounds. */
 UnitType.GPH_FUEL = new CompoundUnit(UnitFamily.WeightFlux, [UnitType.GALLON_FUEL], [UnitType.HOUR]);
+/** Weight equivalent of one imperial gallon of fuel per hour, using the generic conversion 1 gallon = 6.7 pounds. */
+UnitType.IGPH_FUEL = new CompoundUnit(UnitFamily.WeightFlux, [UnitType.IMP_GALLON_FUEL], [UnitType.HOUR]);
+/** Density in slugs per cubic foot */
+UnitType.SLUG_PER_FT3 = new CompoundUnit(UnitFamily.Density, [UnitType.SLUG], [UnitType.FOOT, UnitType.FOOT, UnitType.FOOT]);
+/** Density in kilograms per cubic meter */
+UnitType.KG_PER_M3 = new CompoundUnit(UnitFamily.Density, [UnitType.KILOGRAM], [UnitType.METER, UnitType.METER, UnitType.METER]);
+/** Newton. */
+UnitType.NEWTON = new CompoundUnit(UnitFamily.Force, [UnitType.KILOGRAM, UnitType.METER], [UnitType.SECOND, UnitType.SECOND]);
+/** Pound (force). */
+UnitType.POUND_FORCE = new CompoundUnit(UnitFamily.Force, [UnitType.POUND, UnitType.G_METER], [UnitType.SECOND, UnitType.SECOND]);
+/** One statute mile per weight equivalent of one gallon of fuel, using the generic conversion 1 gallon = 6.7 pounds. */
+UnitType.MILE_PER_GALLON_FUEL = new CompoundUnit(UnitFamily.DistancePerWeight, [UnitType.MILE], [UnitType.GALLON_FUEL]);
+/** One nautical mile per weight equivalent of one gallon of fuel, using the generic conversion 1 gallon = 6.7 pounds. */
+UnitType.NMILE_PER_GALLON_FUEL = new CompoundUnit(UnitFamily.DistancePerWeight, [UnitType.NMILE], [UnitType.GALLON_FUEL]);
+/** One foot per nautical mile. */
+UnitType.FOOT_PER_NMILE = new CompoundUnit(UnitFamily.DistanceRatio, [UnitType.FOOT], [UnitType.NMILE]);
 
 /**
  * Utility class for manipulating bit flags.
@@ -707,6 +778,14 @@ class BitFlags {
  * A {@link Subscription} which executes a handler function every time it receives a notification.
  */
 class HandlerSubscription {
+    /** @inheritdoc */
+    get isAlive() {
+        return this._isAlive;
+    }
+    /** @inheritdoc */
+    get isPaused() {
+        return this._isPaused;
+    }
     /**
      * Constructor.
      * @param handler This subscription's handler. The handler will be called each time this subscription receives a
@@ -722,14 +801,6 @@ class HandlerSubscription {
         this._isAlive = true;
         this._isPaused = false;
         this.canInitialNotify = initialNotifyFunc !== undefined;
-    }
-    /** @inheritdoc */
-    get isAlive() {
-        return this._isAlive;
-    }
-    /** @inheritdoc */
-    get isPaused() {
-        return this._isPaused;
     }
     /**
      * Sends an initial notification to this subscription.
@@ -747,6 +818,7 @@ class HandlerSubscription {
             throw new Error('Subscription: cannot pause a dead Subscription.');
         }
         this._isPaused = true;
+        return this;
     }
     /** @inheritdoc */
     resume(initialNotify = false) {
@@ -754,12 +826,13 @@ class HandlerSubscription {
             throw new Error('Subscription: cannot resume a dead Subscription.');
         }
         if (!this._isPaused) {
-            return;
+            return this;
         }
         this._isPaused = false;
         if (initialNotify) {
             this.initialNotify();
         }
+        return this;
     }
     /** @inheritdoc */
     destroy() {
@@ -781,14 +854,14 @@ class SubscribablePipe extends HandlerSubscription {
         let handler;
         let onDestroy;
         if (typeof arg4 === 'function') {
-            handler = (input) => {
-                to.set(arg3(input));
+            handler = (fromVal) => {
+                to.set(arg3(fromVal, to.get()));
             };
             onDestroy = arg4;
         }
         else {
-            handler = (input) => {
-                to.set(input);
+            handler = (fromVal) => {
+                to.set(fromVal);
             };
             onDestroy = arg3;
         }
@@ -802,17 +875,32 @@ class SubscribablePipe extends HandlerSubscription {
 class AbstractSubscribable {
     constructor() {
         this.isSubscribable = true;
-        this.subs = [];
         this.notifyDepth = 0;
         /** A function which sends initial notifications to subscriptions. */
         this.initialNotifyFunc = this.notifySubscription.bind(this);
         /** A function which responds to when a subscription to this subscribable is destroyed. */
         this.onSubDestroyedFunc = this.onSubDestroyed.bind(this);
     }
+    /**
+     * Adds a subscription to this subscribable.
+     * @param sub The subscription to add.
+     */
+    addSubscription(sub) {
+        if (this.subs) {
+            this.subs.push(sub);
+        }
+        else if (this.singletonSub) {
+            this.subs = [this.singletonSub, sub];
+            delete this.singletonSub;
+        }
+        else {
+            this.singletonSub = sub;
+        }
+    }
     /** @inheritdoc */
     sub(handler, initialNotify = false, paused = false) {
         const sub = new HandlerSubscription(handler, this.initialNotifyFunc, this.onSubDestroyedFunc);
-        this.subs.push(sub);
+        this.addSubscription(sub);
         if (paused) {
             sub.pause();
         }
@@ -823,23 +911,27 @@ class AbstractSubscribable {
     }
     /** @inheritdoc */
     unsub(handler) {
-        const toDestroy = this.subs.find(sub => sub.handler === handler);
+        let toDestroy = undefined;
+        if (this.singletonSub && this.singletonSub.handler === handler) {
+            toDestroy = this.singletonSub;
+        }
+        else if (this.subs) {
+            toDestroy = this.subs.find(sub => sub.handler === handler);
+        }
         toDestroy === null || toDestroy === void 0 ? void 0 : toDestroy.destroy();
     }
     /**
      * Notifies subscriptions that this subscribable's value has changed.
      */
     notify() {
+        const canCleanUpSubs = this.notifyDepth === 0;
         let needCleanUpSubs = false;
         this.notifyDepth++;
-        const subLen = this.subs.length;
-        for (let i = 0; i < subLen; i++) {
+        if (this.singletonSub) {
             try {
-                const sub = this.subs[i];
-                if (sub.isAlive && !sub.isPaused) {
-                    this.notifySubscription(sub);
+                if (this.singletonSub.isAlive && !this.singletonSub.isPaused) {
+                    this.notifySubscription(this.singletonSub);
                 }
-                needCleanUpSubs || (needCleanUpSubs = !sub.isAlive);
             }
             catch (error) {
                 console.error(`AbstractSubscribable: error in handler: ${error}`);
@@ -847,10 +939,58 @@ class AbstractSubscribable {
                     console.error(error.stack);
                 }
             }
+            if (canCleanUpSubs) {
+                // If subscriptions were added during the notification, then singletonSub would be deleted and replaced with
+                // the subs array.
+                if (this.singletonSub) {
+                    needCleanUpSubs = !this.singletonSub.isAlive;
+                }
+                else if (this.subs) {
+                    for (let i = 0; i < this.subs.length; i++) {
+                        if (!this.subs[i].isAlive) {
+                            needCleanUpSubs = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (this.subs) {
+            const subLen = this.subs.length;
+            for (let i = 0; i < subLen; i++) {
+                try {
+                    const sub = this.subs[i];
+                    if (sub.isAlive && !sub.isPaused) {
+                        this.notifySubscription(sub);
+                    }
+                    needCleanUpSubs || (needCleanUpSubs = !sub.isAlive);
+                }
+                catch (error) {
+                    console.error(`AbstractSubscribable: error in handler: ${error}`);
+                    if (error instanceof Error) {
+                        console.error(error.stack);
+                    }
+                }
+            }
+            // If subscriptions were added during the notification and a cleanup operation is not already pending, then we
+            // need to check if any of the new subscriptions are already dead and if so, pend a cleanup operation.
+            if (canCleanUpSubs && !needCleanUpSubs) {
+                for (let i = subLen; i < this.subs.length; i++) {
+                    if (!this.subs[i].isAlive) {
+                        needCleanUpSubs = true;
+                        break;
+                    }
+                }
+            }
         }
         this.notifyDepth--;
-        if (needCleanUpSubs && this.notifyDepth === 0) {
-            this.subs = this.subs.filter(sub => sub.isAlive);
+        if (needCleanUpSubs) {
+            if (this.singletonSub) {
+                delete this.singletonSub;
+            }
+            else if (this.subs) {
+                this.subs = this.subs.filter(sub => sub.isAlive);
+            }
         }
     }
     /**
@@ -868,7 +1008,15 @@ class AbstractSubscribable {
         // If we are not in the middle of a notify operation, remove the subscription.
         // Otherwise, do nothing and let the post-notify clean-up code handle it.
         if (this.notifyDepth === 0) {
-            this.subs.splice(this.subs.indexOf(sub), 1);
+            if (this.singletonSub === sub) {
+                delete this.singletonSub;
+            }
+            else if (this.subs) {
+                const index = this.subs.indexOf(sub);
+                if (index >= 0) {
+                    this.subs.splice(index, 1);
+                }
+            }
         }
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
@@ -887,7 +1035,7 @@ class AbstractSubscribable {
             sub = new SubscribablePipe(this, to, this.onSubDestroyedFunc);
             paused = arg2 !== null && arg2 !== void 0 ? arg2 : false;
         }
-        this.subs.push(sub);
+        this.addSubscription(sub);
         if (paused) {
             sub.pause();
         }
@@ -908,6 +1056,14 @@ AbstractSubscribable.DEFAULT_EQUALITY_FUNC = (a, b) => a === b;
  * An implementation of {@link MappedSubscribable}.
  */
 class MappedSubscribableClass extends AbstractSubscribable {
+    /** @inheritdoc */
+    get isAlive() {
+        return this._isAlive;
+    }
+    /** @inheritdoc */
+    get isPaused() {
+        return this._isPaused;
+    }
     /**
      * Constructor.
      * @param input This subscribable's input.
@@ -921,7 +1077,7 @@ class MappedSubscribableClass extends AbstractSubscribable {
         this.input = input;
         this.mapFunc = mapFunc;
         this.equalityFunc = equalityFunc;
-        this.isSubscribable = true;
+        this.canInitialNotify = true;
         this._isAlive = true;
         this._isPaused = false;
         if (initialVal && mutateFunc) {
@@ -936,14 +1092,6 @@ class MappedSubscribableClass extends AbstractSubscribable {
         this.inputSub = this.input.sub(inputValue => {
             this.updateValue(inputValue);
         }, true);
-    }
-    /** @inheritdoc */
-    get isAlive() {
-        return this._isAlive;
-    }
-    /** @inheritdoc */
-    get isPaused() {
-        return this._isPaused;
     }
     /**
      * Re-maps this subject's value from its input, and notifies subscribers if this results in a change to the mapped
@@ -967,10 +1115,11 @@ class MappedSubscribableClass extends AbstractSubscribable {
             throw new Error('MappedSubscribable: cannot pause a dead subscribable');
         }
         if (this._isPaused) {
-            return;
+            return this;
         }
         this.inputSub.pause();
         this._isPaused = true;
+        return this;
     }
     /** @inheritdoc */
     resume() {
@@ -978,10 +1127,11 @@ class MappedSubscribableClass extends AbstractSubscribable {
             throw new Error('MappedSubscribable: cannot resume a dead subscribable');
         }
         if (!this._isPaused) {
-            return;
+            return this;
         }
         this._isPaused = false;
         this.inputSub.resume(true);
+        return this;
     }
     /** @inheritdoc */
     destroy() {
@@ -989,6 +1139,126 @@ class MappedSubscribableClass extends AbstractSubscribable {
         this.inputSub.destroy();
     }
 }
+class BasePublisher {
+    /**
+     * Creates an instance of BasePublisher.
+     * @param bus The common event bus.
+     * @param pacer An optional pacer to control the rate of publishing.
+     */
+    constructor(bus, pacer = undefined) {
+        this.bus = bus;
+        this.publisher = this.bus.getPublisher();
+        this.publishActive = false;
+        this.pacer = pacer;
+    }
+    /**
+     * Start publishing.
+     */
+    startPublish() {
+        this.publishActive = true;
+    }
+    /**
+     * Stop publishing.
+     */
+    stopPublish() {
+        this.publishActive = false;
+    }
+    /**
+     * Tells whether or not the publisher is currently active.
+     * @returns True if the publisher is active, false otherwise.
+     */
+    isPublishing() {
+        return this.publishActive;
+    }
+    /**
+     * A callback called when the publisher receives an update cycle.
+     */
+    onUpdate() {
+        return;
+    }
+    /**
+     * Publish a message if publishing is acpive
+     * @param topic The topic key to publish to.
+     * @param data The data type for chosen topic.
+     * @param sync Whether or not the event should be synced to other instruments. Defaults to `false`.
+     * @param isCached Whether or not the event should be cached. Defaults to `true`.
+     */
+    publish(topic, data, sync = false, isCached = true) {
+        if (this.publishActive && (!this.pacer || this.pacer.canPublish(topic, data))) {
+            this.publisher.pub(topic, data, sync, isCached);
+        }
+    }
+}
+
+/**
+ * A publisher than handles publishing a debounced stall warning event based on an input AoA.
+ */
+class StallWarningPublisher extends BasePublisher {
+    /**
+     * Creates an instance of the StallWarningPublisher. Requires the `aoa` (if not provided) and `on_ground` events from `AdcEvents``.
+     * @param bus The event bus to use with this instance.
+     * @param aoaThreshold The AoA stall warning threshold, where 1 is 100% of stall AoA.
+     * @param debounceMs The amount of time, in milliseconds, to debounce the stall warning. Defaults to 500 ms.
+     * @param aoa An optional subscribable that provides the AoA value, in degrees.
+     */
+    constructor(bus, aoaThreshold, debounceMs = 500, aoa) {
+        super(bus);
+        this.aoaThreshold = aoaThreshold;
+        this.debounceMs = debounceMs;
+        this.stallAoA = SimVar.GetSimVarValue('STALL ALPHA', SimVarValueType.Degree);
+        this.stallWarningOn = false;
+        this.previousTime = -1;
+        this.aoa = aoa !== null && aoa !== void 0 ? aoa : ConsumerSubject.create(bus.getSubscriber().on('aoa'), 0);
+        this.onGround = ConsumerValue.create(bus.getSubscriber().on('on_ground'), true);
+        this.debounceTimeRemaining = debounceMs;
+    }
+    /** @inheritdoc */
+    onUpdate() {
+        if (this.isPublishing()) {
+            const time = Date.now();
+            if (this.previousTime === -1) {
+                this.previousTime = time;
+            }
+            const deltaTime = time - this.previousTime;
+            if (this.aoa.get() >= (this.aoaThreshold * this.stallAoA) && !this.onGround.get()) {
+                this.debounceTimeRemaining = Math.max(this.debounceTimeRemaining - deltaTime, 0);
+                if (this.debounceTimeRemaining === 0) {
+                    this.setStallWarningOn(true);
+                }
+                else {
+                    this.setStallWarningOn(false);
+                }
+            }
+            else {
+                this.debounceTimeRemaining = this.debounceMs;
+                this.setStallWarningOn(false);
+            }
+            this.previousTime = time;
+        }
+        else {
+            this.previousTime = -1;
+        }
+    }
+    /**
+     * Sets whether the stall warning is on or not.
+     * @param isOn Whether the stall warning is on.
+     */
+    setStallWarningOn(isOn) {
+        if (this.stallWarningOn !== isOn) {
+            this.publish('stall_warning_on', isOn, true, true);
+            this.stallWarningOn = isOn;
+        }
+    }
+}
+
+/// <reference types="@microsoft/msfs-types/pages/vcockpit/instruments/shared/utils/xmllogic" />
+/** The kind of data to return. */
+var CompositeLogicXMLValueType;
+(function (CompositeLogicXMLValueType) {
+    CompositeLogicXMLValueType[CompositeLogicXMLValueType["Any"] = 0] = "Any";
+    CompositeLogicXMLValueType[CompositeLogicXMLValueType["Number"] = 1] = "Number";
+    CompositeLogicXMLValueType[CompositeLogicXMLValueType["String"] = 2] = "String";
+})(CompositeLogicXMLValueType || (CompositeLogicXMLValueType = {}));
 
 /**
  * 2D vector mathematical operations.
@@ -1163,28 +1433,28 @@ class Vec3Math {
         return vec;
     }
     /**
-     * Gets the spherical angle theta of a vector in radians.
-     * @param vec - a vector.
-     * @returns the spherical angle theta of the vector.
+     * Gets the spherical angle theta (polar angle) of a vector in radians.
+     * @param vec A vector.
+     * @returns The spherical angle theta of the vector.
      */
     static theta(vec) {
         return Math.atan2(Math.hypot(vec[0], vec[1]), vec[2]);
     }
     /**
-     * Gets the spherical angle phi of a vector in radians.
-     * @param vec - a vector.
-     * @returns the spherical angle phi of the vector.
+     * Gets the spherical angle phi (azimuthal angle) of a vector in radians.
+     * @param vec A vector.
+     * @returns The spherical angle phi of the vector.
      */
     static phi(vec) {
         return Math.atan2(vec[1], vec[0]);
     }
     /**
      * Sets the components of a vector.
-     * @param x - the new x-component.
-     * @param y - the new y-component.
-     * @param z - the new z-component.
-     * @param vec - the vector to change.
-     * @returns the vector after it has been changed.
+     * @param x The new x-component.
+     * @param y The new y-component.
+     * @param z The new z-component.
+     * @param vec The vector to change.
+     * @returns The vector after it has been changed.
      */
     static set(x, y, z, vec) {
         vec[0] = x;
@@ -1194,17 +1464,17 @@ class Vec3Math {
     }
     /**
      * Sets the spherical components of a vector.
-     * @param r - the new length (magnitude).
-     * @param theta - the new spherical angle theta, in radians.
-     * @param phi - the new spherical angle phi, in radians.
-     * @param vec - the vector to change.
-     * @returns the vector after it has been changed.
+     * @param r The new length (magnitude).
+     * @param theta The new spherical angle theta (polar angle), in radians.
+     * @param phi The new spherical angle phi (azimuthal angle), in radians.
+     * @param vec The vector to change.
+     * @returns The vector after it has been changed.
      */
     static setFromSpherical(r, theta, phi, vec) {
         const sinTheta = Math.sin(theta);
-        vec[0] = sinTheta * Math.cos(phi);
-        vec[1] = sinTheta * Math.sin(phi);
-        vec[2] = Math.cos(theta);
+        vec[0] = r * sinTheta * Math.cos(phi);
+        vec[1] = r * sinTheta * Math.sin(phi);
+        vec[2] = r * Math.cos(theta);
         return vec;
     }
     /**
@@ -1314,6 +1584,14 @@ class Vec3Math {
         return vec1[0] === vec2[0] && vec1[1] === vec2[1] && vec1[2] === vec2[2];
     }
     /**
+     * Checks if a vector is finite. A vector is considered finite if all of its components are finite.
+     * @param vec The vector to check.
+     * @returns Whether the specified vector is finite.
+     */
+    static isFinite(vec) {
+        return isFinite(vec[0]) && isFinite(vec[1]) && isFinite(vec[2]);
+    }
+    /**
      * Copies one vector to another.
      * @param from The vector from which to copy.
      * @param to The vector to which to copy.
@@ -1394,7 +1672,28 @@ class VecNMath {
      * @returns Whether the two vectors are equal.
      */
     static equals(vec1, vec2) {
-        return vec1.length === vec2.length && vec1.every((element, index) => element === vec2[index]);
+        if (vec1.length !== vec2.length) {
+            return false;
+        }
+        for (let i = 0; i < vec1.length; i++) {
+            if (vec1[i] !== vec2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * Checks if a vector is finite. A vector is considered finite if all of its components are finite.
+     * @param vec The vector to check.
+     * @returns Whether the specified vector is finite.
+     */
+    static isFinite(vec) {
+        for (let i = 0; i < vec.length; i++) {
+            if (!isFinite(vec[i])) {
+                return false;
+            }
+        }
+        return true;
     }
     /**
      * Copies one vector to another.
@@ -1458,9 +1757,66 @@ class Vec2Subject extends AbstractSubscribable {
             x = arg1[0];
             y = arg1[1];
         }
-        const equals = x === this.value[0] && y === this.value[1];
+        const equals = SubscribableUtils.NUMERIC_NAN_EQUALITY(x, this.value[0]) && SubscribableUtils.NUMERIC_NAN_EQUALITY(y, this.value[1]);
         if (!equals) {
             Vec2Math.set(x, y, this.value);
+            this.notify();
+        }
+    }
+}
+/**
+ * A Subject which allows a 3D vector to be observed.
+ */
+class Vec3Subject extends AbstractSubscribable {
+    /**
+     * Constructor.
+     * @param value The value of this subject.
+     */
+    constructor(value) {
+        super();
+        this.value = value;
+        /** @inheritdoc */
+        this.isMutableSubscribable = true;
+    }
+    /**
+     * Creates a Vec3Subject.
+     * @param initialVal The initial value.
+     * @returns A Vec3Subject.
+     */
+    static create(initialVal) {
+        return new Vec3Subject(initialVal);
+    }
+    /**
+     * Creates a Vec3Subject.
+     * @param initialVal The initial value.
+     * @returns A Vec3Subject.
+     * @deprecated Use `Vec3Subject.create()` instead.
+     */
+    static createFromVector(initialVal) {
+        return new Vec3Subject(initialVal);
+    }
+    /** @inheritdoc */
+    get() {
+        return this.value;
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    set(arg1, arg2, arg3) {
+        let x, y, z;
+        if (typeof arg1 === 'number') {
+            x = arg1;
+            y = arg2;
+            z = arg3;
+        }
+        else {
+            x = arg1[0];
+            y = arg1[1];
+            z = arg1[2];
+        }
+        const equals = SubscribableUtils.NUMERIC_NAN_EQUALITY(x, this.value[0])
+            && SubscribableUtils.NUMERIC_NAN_EQUALITY(y, this.value[1])
+            && SubscribableUtils.NUMERIC_NAN_EQUALITY(z, this.value[2]);
+        if (!equals) {
+            Vec3Math.set(x, y, z, this.value);
             this.notify();
         }
     }
@@ -1516,7 +1872,7 @@ class VecNSubject extends AbstractSubscribable {
         let equals = true;
         const len = array.length;
         for (let i = 0; i < len; i++) {
-            if (array[i] !== this.value[i]) {
+            if (!SubscribableUtils.NUMERIC_NAN_EQUALITY(array[i], this.value[i])) {
                 equals = false;
                 break;
             }
@@ -1730,6 +2086,88 @@ class Transform2D {
         return this;
     }
     /**
+     * Adds a translation to this transformation.
+     * @param x The x translation.
+     * @param y The y translation.
+     * @param order The order in which to add the translation, relative to this existing transformation, either
+     * `'before'` or `'after'`. Defaults to `'after'`.
+     * @returns This transformation, after it has been changed.
+     */
+    addTranslation(x, y, order = 'after') {
+        if (order === 'before') {
+            Transform2D.addCache[0].toTranslation(x, y);
+            Transform2D.addCache[1].set(this);
+        }
+        else {
+            Transform2D.addCache[0].set(this);
+            Transform2D.addCache[1].toTranslation(x, y);
+        }
+        return Transform2D.concat(this, Transform2D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addScale(x, y, arg3, arg4, arg5) {
+        let originX, originY, order;
+        if (typeof arg3 === 'number') {
+            originX = arg3;
+            originY = arg4;
+            order = arg5;
+        }
+        else {
+            order = arg3;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform2D.addCache[0].toScale(x, y) : Transform2D.addCache[0].toScale(x, y, originX, originY);
+            Transform2D.addCache[1].set(this);
+        }
+        else {
+            Transform2D.addCache[0].set(this);
+            originX === undefined ? Transform2D.addCache[1].toScale(x, y) : Transform2D.addCache[1].toScale(x, y, originX, originY);
+        }
+        return Transform2D.concat(this, Transform2D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addRotation(theta, arg2, arg3, arg4) {
+        let originX, originY, order;
+        if (typeof arg2 === 'number') {
+            originX = arg2;
+            originY = arg3;
+            order = arg4;
+        }
+        else {
+            order = arg2;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform2D.addCache[0].toRotation(theta) : Transform2D.addCache[0].toRotation(theta, originX, originY);
+            Transform2D.addCache[1].set(this);
+        }
+        else {
+            Transform2D.addCache[0].set(this);
+            originX === undefined ? Transform2D.addCache[1].toRotation(theta) : Transform2D.addCache[1].toRotation(theta, originX, originY);
+        }
+        return Transform2D.concat(this, Transform2D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addReflection(theta, arg2, arg3, arg4) {
+        let originX, originY, order;
+        if (typeof arg2 === 'number') {
+            originX = arg2;
+            originY = arg3;
+            order = arg4;
+        }
+        else {
+            order = arg2;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform2D.addCache[0].toReflection(theta) : Transform2D.addCache[0].toReflection(theta, originX, originY);
+            Transform2D.addCache[1].set(this);
+        }
+        else {
+            Transform2D.addCache[0].set(this);
+            originX === undefined ? Transform2D.addCache[1].toReflection(theta) : Transform2D.addCache[1].toReflection(theta, originX, originY);
+        }
+        return Transform2D.concat(this, Transform2D.addCache);
+    }
+    /**
      * Concatenates one or more transformations and returns the result. Concatenating transformations `[A, B, ...]`
      * results in a transformation that is equivalent to first applying `A`, then applying `B`, etc. Note that this order
      * is the _opposite_ of the one resulting from multiplying the individual transformation _matrices_
@@ -1768,6 +2206,7 @@ class Transform2D {
     }
 }
 Transform2D.offsetOriginCache = [new Transform2D(), undefined, new Transform2D()];
+Transform2D.addCache = [new Transform2D(), new Transform2D()];
 Transform2D.concatCache = [new Transform2D(), new Transform2D()];
 
 /**
@@ -2021,7 +2460,7 @@ class Transform3D {
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
     toScale(x, y, z, originX, originY, originZ) {
-        this.set(x, 0, 0, 0, 0, y, 0, 0, 0, 0, 1, 0);
+        this.set(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0);
         if (originX !== undefined && originY !== undefined && originZ !== undefined) {
             this.offsetOrigin(originX, originY, originZ);
         }
@@ -2076,6 +2515,140 @@ class Transform3D {
         return this;
     }
     /**
+     * Adds a translation to this transformation.
+     * @param x The x translation.
+     * @param y The y translation.
+     * @param z The z translation.
+     * @param order The order in which to add the translation, relative to this existing transformation, either
+     * `'before'` or `'after'`. Defaults to `'after'`.
+     * @returns This transformation, after it has been changed.
+     */
+    addTranslation(x, y, z, order = 'after') {
+        if (order === 'before') {
+            Transform3D.addCache[0].toTranslation(x, y, z);
+            Transform3D.addCache[1].set(this);
+        }
+        else {
+            Transform3D.addCache[0].set(this);
+            Transform3D.addCache[1].toTranslation(x, y, z);
+        }
+        return Transform3D.concat(this, Transform3D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addScale(x, y, z, arg4, arg5, arg6, arg7) {
+        let originX, originY, originZ, order;
+        if (typeof arg4 === 'number') {
+            originX = arg4;
+            originY = arg5;
+            originZ = arg6;
+            order = arg7;
+        }
+        else {
+            order = arg4;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform3D.addCache[0].toScale(x, y, z) : Transform3D.addCache[0].toScale(x, y, z, originX, originY, originZ);
+            Transform3D.addCache[1].set(this);
+        }
+        else {
+            Transform3D.addCache[0].set(this);
+            originX === undefined ? Transform3D.addCache[1].toScale(x, y, z) : Transform3D.addCache[1].toScale(x, y, z, originX, originY, originZ);
+        }
+        return Transform3D.concat(this, Transform3D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addRotationX(theta, arg2, arg3, arg4, arg5) {
+        let originX, originY, originZ, order;
+        if (typeof arg2 === 'number') {
+            originX = arg2;
+            originY = arg3;
+            originZ = arg4;
+            order = arg5;
+        }
+        else {
+            order = arg2;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform3D.addCache[0].toRotationX(theta) : Transform3D.addCache[0].toRotationX(theta, originX, originY, originZ);
+            Transform3D.addCache[1].set(this);
+        }
+        else {
+            Transform3D.addCache[0].set(this);
+            originX === undefined ? Transform3D.addCache[1].toRotationX(theta) : Transform3D.addCache[1].toRotationX(theta, originX, originY, originZ);
+        }
+        return Transform3D.concat(this, Transform3D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addRotationY(theta, arg2, arg3, arg4, arg5) {
+        let originX, originY, originZ, order;
+        if (typeof arg2 === 'number') {
+            originX = arg2;
+            originY = arg3;
+            originZ = arg4;
+            order = arg5;
+        }
+        else {
+            order = arg2;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform3D.addCache[0].toRotationY(theta) : Transform3D.addCache[0].toRotationY(theta, originX, originY, originZ);
+            Transform3D.addCache[1].set(this);
+        }
+        else {
+            Transform3D.addCache[0].set(this);
+            originX === undefined ? Transform3D.addCache[1].toRotationY(theta) : Transform3D.addCache[1].toRotationY(theta, originX, originY, originZ);
+        }
+        return Transform3D.concat(this, Transform3D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addRotationZ(theta, arg2, arg3, arg4, arg5) {
+        let originX, originY, originZ, order;
+        if (typeof arg2 === 'number') {
+            originX = arg2;
+            originY = arg3;
+            originZ = arg4;
+            order = arg5;
+        }
+        else {
+            order = arg2;
+        }
+        if (order === 'before') {
+            originX === undefined ? Transform3D.addCache[0].toRotationZ(theta) : Transform3D.addCache[0].toRotationZ(theta, originX, originY, originZ);
+            Transform3D.addCache[1].set(this);
+        }
+        else {
+            Transform3D.addCache[0].set(this);
+            originX === undefined ? Transform3D.addCache[1].toRotationZ(theta) : Transform3D.addCache[1].toRotationZ(theta, originX, originY, originZ);
+        }
+        return Transform3D.concat(this, Transform3D.addCache);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    addRotation(theta, axisX, axisY, axisZ, arg5, arg6, arg7, arg8) {
+        let originX, originY, originZ, order;
+        if (typeof arg5 === 'number') {
+            originX = arg5;
+            originY = arg6;
+            originZ = arg7;
+            order = arg8;
+        }
+        else {
+            order = arg5;
+        }
+        if (order === 'before') {
+            originX === undefined
+                ? Transform3D.addCache[0].toRotation(theta, axisX, axisY, axisZ)
+                : Transform3D.addCache[0].toRotation(theta, axisX, axisY, axisZ, originX, originY, originZ);
+            Transform3D.addCache[1].set(this);
+        }
+        else {
+            Transform3D.addCache[0].set(this);
+            originX === undefined
+                ? Transform3D.addCache[1].toRotation(theta, axisX, axisY, axisZ)
+                : Transform3D.addCache[1].toRotation(theta, axisX, axisY, axisZ, originX, originY, originZ);
+        }
+        return Transform3D.concat(this, Transform3D.addCache);
+    }
+    /**
      * Concatenates one or more transformations and returns the result. Concatenating transformations `[A, B, ...]`
      * results in a transformation that is equivalent to first applying `A`, then applying `B`, etc. Note that this order
      * is the _opposite_ of the one resulting from multiplying the individual transformation _matrices_
@@ -2118,9 +2691,10 @@ class Transform3D {
     }
 }
 Transform3D.offsetOriginCache = [new Transform3D(), undefined, new Transform3D()];
+Transform3D.addCache = [new Transform3D(), new Transform3D()];
 Transform3D.concatCache = [new Transform3D(), new Transform3D()];
 
-[Vec3Math.create()];
+[Vec3Math.create()];        //create to where?
 
 /**
  * A utitlity class for basic math.
@@ -2147,6 +2721,24 @@ class MathUtils {
         return Math.round(value / precision) * precision;
     }
     /**
+     * Ceils a number.
+     * @param value The number to ceil.
+     * @param precision The precision with which to ceil. Defaults to `1`.
+     * @returns The ceiled number.
+     */
+    static ceil(value, precision = 1) {
+        return Math.ceil(value / precision) * precision;
+    }
+    /**
+     * Floors a number.
+     * @param value The number to floor.
+     * @param precision The precision with which to floor. Defaults to `1`.
+     * @returns The floored number.
+     */
+    static floor(value, precision = 1) {
+        return Math.floor(value / precision) * precision;
+    }
+    /**
      * Calculates the angular difference between two angles in the range `[0, 2 * pi)`. The calculation supports both
      * directional and non-directional differences. The directional difference is the angle swept from the start angle
      * to the end angle proceeding in the direction of increasing angle. The non-directional difference is the smaller
@@ -2159,6 +2751,20 @@ class MathUtils {
     static diffAngle(start, end, directional = true) {
         const diff = ((end - start) % MathUtils.TWO_PI + MathUtils.TWO_PI) % MathUtils.TWO_PI;
         return directional ? diff : Math.min(diff, MathUtils.TWO_PI - diff);
+    }
+    /**
+     * Calculates the angular difference between two angles in the range `[0, 360)`. The calculation supports both
+     * directional and non-directional differences. The directional difference is the angle swept from the start angle
+     * to the end angle proceeding in the direction of increasing angle. The non-directional difference is the smaller
+     * of the two angles swept from the start angle to the end angle proceeding in either direction.
+     * @param start The starting angle, in degrees.
+     * @param end The ending angle, in degrees.
+     * @param directional Whether to calculate the directional difference. Defaults to `true`.
+     * @returns The angular difference between the two angles, in degrees, in the range `[0, 360)`.
+     */
+    static diffAngleDeg(start, end, directional = true) {
+        const diff = ((end - start) % 360 + 360) % 360;
+        return directional ? diff : Math.min(diff, 360 - diff);
     }
     /**
      * Linearly interpolates a keyed value along one dimension.
@@ -2180,11 +2786,47 @@ class MathUtils {
             return y0;
         }
     }
+    /**
+     * Linearly interpolates a keyed vector along one dimension. If the known vectors and the result vector have unequal
+     * lengths, then only the components shared by all vectors are interpolated in the result.
+     * @param out The object to which to write the result.
+     * @param x The key of the vector to interpolate.
+     * @param x0 The key of the first known vector.
+     * @param x1 The key of the second known vector.
+     * @param y0 The first known vector.
+     * @param y1 The second known vector.
+     * @param clampStart Whether to clamp the components of the interpolated vector to those of the first known vector.
+     * Defaults to false.
+     * @param clampEnd Whether to clamp the components of the interpolated vector to those of the second known vector.
+     * Defaults to false.
+     * @returns The interpolated vector corresponding to the specified key.
+     */
+    static lerpVector(out, x, x0, x1, y0, y1, clampStart = false, clampEnd = false) {
+        const length = Math.min(y0.length, y1.length, out.length);
+        for (let i = 0; i < length; i++) {
+            out[i] = MathUtils.lerp(x, x0, x1, y0[i], y1[i], clampStart, clampEnd);
+        }
+        return out;
+    }
+    /**
+     * Gets the sign of a number, including 0.
+     * @param n The number to get the sign of.
+     * @returns 1.0 if the number is positive, +0 or Infinity;
+      -1.0 if the number is negative, -0 or -Infinity;
+      NaN if the number is NaN
+     */
+    static hardSign(n) {
+        return isNaN(n) ? NaN : (n < 0 || Object.is(n, -0) ? -1 : 1);
+    }
 }
 /** Twice the value of pi. */
 MathUtils.TWO_PI = Math.PI * 2;
 /** Half the value of pi. */
 MathUtils.HALF_PI = Math.PI / 2;
+/** Square root of 3. */
+MathUtils.SQRT3 = Math.sqrt(3);
+/** Square root of 1/3. */
+MathUtils.SQRT1_3 = 1 / Math.sqrt(3);
 
 /**
  * A read-only wrapper for a GeoPoint.
@@ -2260,9 +2902,9 @@ class GeoPointReadOnly {
      * Offsets this point by an initial bearing and distance along a great circle.
      * @param bearing The initial true bearing (forward azimuth), in degrees, by which to offset.
      * @param distance The distance, in great-arc radians, by which to offset.
-     * @param out The GeoPoint to which to write the results. If not supplied, a new GeoPoint object is created.
+     * @param out The GeoPoint to which to write the result. If not supplied, a new GeoPoint object is created.
      * @returns The offset point.
-     * @throws {Error} if argument `out` is undefined.
+     * @throws Error if argument `out` is undefined.
      */
     offset(bearing, distance, out) {
         if (!out) {
@@ -2274,15 +2916,27 @@ class GeoPointReadOnly {
      * Offsets this point by a constant bearing and distance along a rhumb line.
      * @param bearing The true bearing, in degrees, by which to offset.
      * @param distance The distance, in great-arc radians, by which to offset.
-     * @param out The GeoPoint to which to write the results. If not supplied, a new GeoPoint object is created.
+     * @param out The GeoPoint to which to write the result. If not supplied, a new GeoPoint object is created.
      * @returns The offset point.
-     * @throws {Error} If argument `out` is undefined.
+     * @throws Error if argument `out` is undefined.
      */
     offsetRhumb(bearing, distance, out) {
         if (!out) {
             throw new Error('Cannot mutate a read-only GeoPoint.');
         }
         return this.source.offsetRhumb(bearing, distance, out);
+    }
+    /**
+     * Gets the antipode of this point.
+     * @param out The GeoPoint ot which to write the result.
+     * @returns The antipode of this point.
+     * @throws Error if argument `out` is undefined.
+     */
+    antipode(out) {
+        if (!out) {
+            throw new Error('Cannot mutate a read-only GeoPoint.');
+        }
+        return this.source.antipode(out);
     }
     /**
      * Calculates the cartesian (x, y, z) representation of this point, in units of great-arc radians. By convention,
@@ -2426,7 +3080,7 @@ class GeoPoint {
      * Offsets this point by an initial bearing and distance along a great circle.
      * @param bearing The initial true bearing (forward azimuth), in degrees, by which to offset.
      * @param distance The distance, in great-arc radians, by which to offset.
-     * @param out The GeoPoint to which to write the results. By default this point.
+     * @param out The GeoPoint to which to write the result. By default this point.
      * @returns The offset point.
      */
     offset(bearing, distance, out) {
@@ -2449,7 +3103,7 @@ class GeoPoint {
      * Offsets this point by a constant bearing and distance along a rhumb line.
      * @param bearing The true bearing, in degrees, by which to offset.
      * @param distance The distance, in great-arc radians, by which to offset.
-     * @param out The GeoPoint to which to write the results. By default this point.
+     * @param out The GeoPoint to which to write the result. By default this point.
      * @returns The offset point.
      */
     offsetRhumb(bearing, distance, out) {
@@ -2474,6 +3128,14 @@ class GeoPoint {
         }
         return (out !== null && out !== void 0 ? out : this).set(offsetLat, offsetLon);
     }
+    /**
+     * Gets the antipode of this point.
+     * @param out The GeoPoint to which to write the results. By default this point.
+     * @returns The antipode of this point.
+     */
+    antipode(out) {
+        return (out !== null && out !== void 0 ? out : this).set(-this._lat, this._lon + 180);
+    }
     /** @inheritdoc */
     toCartesian(out) {
         return GeoPoint.sphericalToCartesian(this, out);
@@ -2481,9 +3143,13 @@ class GeoPoint {
     // eslint-disable-next-line jsdoc/require-jsdoc
     equals(arg1, arg2, arg3) {
         const other = GeoPoint.asLatLonInterface(arg1, arg2);
-        const tolerance = typeof arg1 === 'number' ? arg3 : arg2;
         if (other) {
-            return this.distance(other) <= (tolerance !== null && tolerance !== void 0 ? tolerance : GeoPoint.EQUALITY_TOLERANCE);
+            if (isNaN(this._lat) && isNaN(this._lon) && isNaN(other.lat) && isNaN(other.lon)) {
+                return true;
+            }
+            const tolerance = typeof arg1 === 'number' ? arg3 : arg2;
+            const distance = this.distance(other);
+            return !isNaN(distance) && distance <= (tolerance !== null && tolerance !== void 0 ? tolerance : GeoPoint.EQUALITY_TOLERANCE);
         }
         else {
             return false;
@@ -2520,10 +3186,10 @@ class GeoPoint {
         else {
             let lat1, lon1, lat2, lon2;
             if (typeof arg1 === 'number') {
-                lat1 = arg1 * Avionics.Utils.DEG2RAD;
-                lon1 = arg2 * Avionics.Utils.DEG2RAD;
-                lat2 = arg3 * Avionics.Utils.DEG2RAD;
-                lon2 = arg4 * Avionics.Utils.DEG2RAD;
+                lat1 = arg1;
+                lon1 = arg2;
+                lat2 = arg3;
+                lon2 = arg4;
             }
             else {
                 lat1 = arg1.lat;
@@ -2531,6 +3197,10 @@ class GeoPoint {
                 lat2 = arg2.lat;
                 lon2 = arg2.lon;
             }
+            lat1 *= Avionics.Utils.DEG2RAD;
+            lon1 *= Avionics.Utils.DEG2RAD;
+            lat2 *= Avionics.Utils.DEG2RAD;
+            lon2 *= Avionics.Utils.DEG2RAD;
             // haversine formula
             const sinHalfDeltaLat = Math.sin((lat2 - lat1) / 2);
             const sinHalfDeltaLon = Math.sin((lon2 - lon1) / 2);
@@ -3092,10 +3762,10 @@ class GeoCircle {
     static createFromPoint(point, radius) {
         return new GeoCircle(GeoPoint.sphericalToCartesian(point, GeoCircle.vec3Cache[0]), radius);
     }
-    // eslint-disable-next-line jsdoc/require-jsdoc
     static createGreatCircle(arg1, arg2) {
         return new GeoCircle(GeoCircle._getGreatCircleNormal(arg1, arg2, GeoCircle.vec3Cache[0]), Math.PI / 2);
     }
+    /* eslint-enable jsdoc/require-jsdoc */
     /**
      * Creates a new great circle defined by one point and a bearing offset. The new great circle will be equivalent to
      * the path projected from the point with the specified initial bearing (forward azimuth).
@@ -3201,10 +3871,18 @@ class NavMath {
         }
     }
     /**
+     * Inverts a heading value by adding 180 and normalizing.
+     * @param heading The heading to invert/reciprocate.
+     * @returns The inverted/reciprocated heading.
+     * */
+    static reciprocateHeading(heading) {
+        return NavMath.normalizeHeading(heading + 180);
+    }
+    /**
      * Gets the turn radius for a given true airspeed.
-     * @param airspeedTrue The true airspeed of the plane.
+     * @param airspeedTrue The true airspeed of the plane, in knots.
      * @param bankAngle The bank angle of the plane, in degrees.
-     * @returns The airplane turn radius.
+     * @returns The airplane turn radius, in meters.
      */
     static turnRadius(airspeedTrue, bankAngle) {
         return (Math.pow(airspeedTrue, 2) / (11.26 * Math.tan(bankAngle * Avionics.Utils.DEG2RAD)))
@@ -3212,8 +3890,8 @@ class NavMath {
     }
     /**
      * Gets the required bank angle for a given true airspeed and turn radius.
-     * @param airspeedTrue The true airspeed of the plane.
-     * @param radius The airplane turn radius.
+     * @param airspeedTrue The true airspeed of the plane, in knots.
+     * @param radius The airplane turn radius, in meters.
      * @returns The required bank angle, in degrees.
      */
     static bankAngle(airspeedTrue, radius) {
@@ -3504,7 +4182,7 @@ NavMath.vec3Cache = [new Float64Array(3)];
 NavMath.geoPointCache = [new GeoPoint(0, 0), new GeoPoint(0, 0)];
 NavMath.geoCircleCache = [new GeoCircle(new Float64Array(3), 0)];
 
-/// <reference types="msfstypes/Coherent/Facilities" />
+/// <reference types="@microsoft/msfs-types/coherent/facilities" />
 /**
  * A utility class for working with magnetic variation (magnetic declination).
  */
@@ -3552,20 +4230,25 @@ class GeoPointSubject extends AbstractSubscribable {
     /**
      * Constructor.
      * @param value The value of this subject.
+     * @param tolerance The tolerance of this subject's equality check, defined as the maximum allowed great-circle
+     * distance between two equal points in great-arc radians. Defaults to {@link GeoPoint.EQUALITY_TOLERANCE}.
      */
-    constructor(value) {
+    constructor(value, tolerance) {
         super();
         this.value = value;
+        this.tolerance = tolerance;
         /** @inheritdoc */
         this.isMutableSubscribable = true;
     }
     /**
      * Creates a GeoPointSubject.
      * @param initialVal The initial value.
+     * @param tolerance The tolerance of the subject's equality check, defined as the maximum allowed great-circle
+     * distance between two equal points in great-arc radians. Defaults to {@link GeoPoint.EQUALITY_TOLERANCE}.
      * @returns A GeoPointSubject.
      */
-    static create(initialVal) {
-        return new GeoPointSubject(initialVal);
+    static create(initialVal, tolerance) {
+        return new GeoPointSubject(initialVal, tolerance);
     }
     /**
      * Creates a GeoPointSubject.
@@ -3583,7 +4266,7 @@ class GeoPointSubject extends AbstractSubscribable {
     // eslint-disable-next-line jsdoc/require-jsdoc
     set(arg1, arg2) {
         const isArg1Number = typeof arg1 === 'number';
-        const equals = isArg1Number ? this.value.equals(arg1, arg2) : this.value.equals(arg1);
+        const equals = isArg1Number ? this.value.equals(arg1, arg2, this.tolerance) : this.value.equals(arg1, this.tolerance);
         if (!equals) {
             isArg1Number ? this.value.set(arg1, arg2) : this.value.set(arg1);
             this.notify();
@@ -3816,6 +4499,7 @@ class AbstractGeoProjection {
 AbstractGeoProjection.vec2Cache = [new Float64Array(2)];
 AbstractGeoProjection.vec3Cache = [new Float64Array(3)];
 AbstractGeoProjection.geoPointCache = [new GeoPoint(0, 0)];
+
 /**
  * A Mercator projection.
  */
@@ -4314,6 +4998,7 @@ new Map([
     ['ap_heading_selected', { name: 'AUTOPILOT HEADING LOCK DIR:1', type: SimVarValueType.Degree }],
     ['ap_altitude_selected', { name: 'AUTOPILOT ALTITUDE LOCK VAR:1', type: SimVarValueType.Feet }],
     ['ap_master_status', { name: 'AUTOPILOT MASTER', type: SimVarValueType.Bool }],
+    ['ap_disengage_status', { name: 'AUTOPILOT DISENGAGED', type: SimVarValueType.Bool }],
     ['ap_yd_status', { name: 'AUTOPILOT YAW DAMPER', type: SimVarValueType.Bool }],
     ['ap_heading_hold', { name: 'AUTOPILOT HEADING LOCK', type: SimVarValueType.Bool }],
     ['ap_nav_hold', { name: 'AUTOPILOT NAV1 LOCK', type: SimVarValueType.Bool }],
@@ -4328,10 +5013,13 @@ new Map([
     ['ap_alt_hold', { name: 'AUTOPILOT ALTITUDE LOCK', type: SimVarValueType.Bool }],
     ['ap_glideslope_hold', { name: 'AUTOPILOT GLIDESLOPE HOLD', type: SimVarValueType.Bool }],
     ['ap_pitch_hold', { name: 'AUTOPILOT PITCH HOLD', type: SimVarValueType.Bool }],
+    ['ap_toga_hold', { name: 'AUTOPILOT TAKEOFF POWER ACTIVE', type: SimVarValueType.Bool }],
     ['ap_vs_selected', { name: 'AUTOPILOT VERTICAL HOLD VAR:1', type: SimVarValueType.FPM }],
+    ['ap_fpa_selected', { name: 'L:WT_AP_FPA_Target:#index#', type: SimVarValueType.Degree, indexed: true }],
     ['ap_ias_selected', { name: 'AUTOPILOT AIRSPEED HOLD VAR', type: SimVarValueType.Knots }],
     ['ap_mach_selected', { name: 'AUTOPILOT MACH HOLD VAR', type: SimVarValueType.Number }],
     ['ap_selected_speed_is_mach', { name: 'AUTOPILOT MANAGED SPEED IN MACH', type: SimVarValueType.Bool }],
+    ['ap_selected_speed_is_manual', { name: 'L:XMLVAR_SpeedIsManuallySet', type: SimVarValueType.Bool }],
     ['flight_director_bank', { name: 'AUTOPILOT FLIGHT DIRECTOR BANK', type: SimVarValueType.Degree }],
     ['flight_director_pitch', { name: 'AUTOPILOT FLIGHT DIRECTOR PITCH', type: SimVarValueType.Degree }],
     ['flight_director_is_active_1', { name: 'AUTOPILOT FLIGHT DIRECTOR ACTIVE:1', type: SimVarValueType.Bool }],
@@ -4476,6 +5164,9 @@ class Subject extends AbstractSubscribable {
      * @param value The properties to apply.
      */
     apply(value) {
+        if (typeof this.value !== 'object' || this.value === null) {
+            return;
+        }
         let changed = false;
         for (const prop in value) {
             changed = value[prop] !== this.value[prop];
@@ -4519,7 +5210,23 @@ class GameStateProvider {
         if ((_a = window.parent) === null || _a === void 0 ? void 0 : _a.document.body.hasAttribute('gamestate')) {
             const attribute = window.parent.document.body.getAttribute('gamestate');
             if (attribute !== null) {
-                this.gameState.set(GameState[attribute]);
+                const state = GameState[attribute];
+                // The game state is set briefly to ingame after loading is finished before changing to briefing. In order to
+                // not notify subscribers of this erroneous ingame state, we will debounce any state changes into ingame by two
+                // frames.
+                if (state === GameState.ingame && this.gameState.get() !== GameState.ingame) {
+                    setTimeout(() => {
+                        setTimeout(() => {
+                            const newAttribute = window.parent.document.body.getAttribute('gamestate');
+                            if (newAttribute !== null) {
+                                this.gameState.set(GameState[newAttribute]);
+                            }
+                        });
+                    });
+                }
+                else {
+                    this.gameState.set(state);
+                }
                 return;
             }
         }
@@ -4645,11 +5352,7 @@ var UserFacilityType;
     UserFacilityType[UserFacilityType["RADIAL_RADIAL"] = 0] = "RADIAL_RADIAL";
     UserFacilityType[UserFacilityType["RADIAL_DISTANCE"] = 1] = "RADIAL_DISTANCE";
     UserFacilityType[UserFacilityType["LAT_LONG"] = 2] = "LAT_LONG";
-})(UserFacilityType || (UserFacilityType = {}));
-/**
- * ARINC 424 Leg Types
- */
-var LegType;
+})(UserFacilityType || (UserFacilityType = {}));var LegType;
 (function (LegType) {
     /** An unknown leg type. */
     LegType[LegType["Unknown"] = 0] = "Unknown";
@@ -4714,11 +5417,12 @@ var LegType;
     LegType[LegType["VM"] = 22] = "VM";
     /** A heading-to-radial intercept leg. */
     LegType[LegType["VR"] = 23] = "VR";
-    /** A leg representing a discontinuity in the flight plan. */
+    /** A leg representing a lateral and vertical discontinuity in the flight plan. */
     LegType[LegType["Discontinuity"] = 99] = "Discontinuity";
-    /** A leg representing a discontinuity in the flight plan that does not prevent sequencing. */
+    /** A leg representing a lateral and vertical discontinuity in the flight plan that does not prevent sequencing. */
     LegType[LegType["ThruDiscontinuity"] = 100] = "ThruDiscontinuity";
 })(LegType || (LegType = {}));
+/**
 /**
  * Types of altitude restrictions on procedure legs.
  */
@@ -4849,6 +5553,8 @@ var FacilitySearchType;
     FacilitySearchType[FacilitySearchType["Ndb"] = 4] = "Ndb";
     FacilitySearchType[FacilitySearchType["Boundary"] = 5] = "Boundary";
     FacilitySearchType[FacilitySearchType["User"] = 6] = "User";
+    FacilitySearchType[FacilitySearchType["Visual"] = 7] = "Visual";
+    FacilitySearchType[FacilitySearchType["AllExceptVisual"] = 8] = "AllExceptVisual";
 })(FacilitySearchType || (FacilitySearchType = {}));
 /**
  * A type of airspace boundary.
@@ -5015,22 +5721,31 @@ class ICAO {
         return icao.substr(3, 4).trim();
     }
     /**
-     * Gets whether an icao is a facility type.
-     * @param icao The icao to get the facility type for.
-     * @returns a bool whether or not this icao is a facility type.
+     * Checks whether an ICAO string defines a facility (optionally of a specific type).
+     * @param icao An ICAO string.
+     * @param type The specific facility type to check against. If not defined, this method will return `true` as long as
+     * the ICAO string defines any valid facility type.
+     * @returns Whether the given ICAO string defines a facility of the specified type.
      */
-    static isFacility(icao) {
+    static isFacility(icao, type) {
         switch (icao[0]) {
             case 'A':
+                return type === undefined || type === FacilityType.Airport;
             case 'W':
+                return type === undefined || type === FacilityType.Intersection;
             case 'V':
+                return type === undefined || type === FacilityType.VOR;
             case 'N':
+                return type === undefined || type === FacilityType.NDB;
             case 'U':
+                return type === undefined || type === FacilityType.USR;
             case 'R':
+                return type === undefined || type === FacilityType.RWY;
             case 'S':
-                return true;
+                return type === undefined || type === FacilityType.VIS;
+            default:
+                return false;
         }
-        return false;
     }
     /**
      * Gets the ident for a given ICAO string.
@@ -5053,6 +5768,97 @@ class ICAO {
  * An empty ICAO.
  */
 ICAO.emptyIcao = '            ';
+ICAO.emptyIcao = '            ';
+/**
+ * Utility functions for working with facilities.
+ */
+class FacilityUtils {
+    /**
+     * Checks whether a facility is of a given type.
+     * @param facility The facility to check.
+     * @param type The facility type to check against.
+     * @returns Whether the facility is of the specified type.
+     */
+    static isFacilityType(facility, type) {
+        // Need to check for the intersection version of VOR/NDB facilities - these facilities have identical ICAOs
+        // to their VOR/NDB counterparts, so we need to manually check the __Type property on the facility object.
+        if (facility['__Type'] === 'JS_FacilityIntersection') {
+            return type === FacilityType.Intersection;
+        }
+        return ICAO.isFacility(facility.icao, type);
+    }
+    /**
+     * Gets the magnetic variation at a facility, in degrees. If the facility is a VOR, the magnetic variation defined
+     * by the VOR is returned. For all other facilities, the modeled magnetic variation at the location of the facility
+     * is returned.
+     * @param facility A facility.
+     * @returns The magnetic variation at the specified facility, in degrees.
+     */
+    static getMagVar(facility) {
+        if (FacilityUtils.isFacilityType(facility, FacilityType.VOR)) {
+            return -facility.magneticVariation; // VOR facility magvar is positive west instead of the standard positive east
+        }
+        else {
+            return MagVar.get(facility.lat, facility.lon);
+        }
+    }
+    /**
+     * Gets latitude/longitude coordinates corresponding to a radial and distance from a reference facility.
+     * @param reference The reference facility.
+     * @param radial The magnetic radial, in degrees.
+     * @param distance The distance, in nautical miles.
+     * @param out The GeoPoint object to which to write the result.
+     * @returns The latitude/longitude coordinates corresponding to the specified radial and distance from the reference
+     * facility.
+     */
+    static getLatLonFromRadialDistance(reference, radial, distance, out) {
+        return FacilityUtils.geoPointCache[0].set(reference).offset(MagVar.magneticToTrue(radial, FacilityUtils.getMagVar(reference)), UnitType.NMILE.convertTo(distance, UnitType.GA_RADIAN), out);
+    }
+    /**
+     * Gets latitude/longitude coordinates corresponding to the intersection of two facility radials.
+     * @param reference1 The first reference facility.
+     * @param radial1 The first magnetic radial, in degrees.
+     * @param reference2 The second reference facility.
+     * @param radial2 The second magnetic radial, in degrees.
+     * @param out The GeoPoint object to which to write the result.
+     * @returns The latitude/longitude coordinates corresponding to the intersection of the two specified radials. If
+     * the specified radials do not intersect at a unique point, `NaN` is written to both `lat` and `lon`.
+     */
+    static getLatLonFromRadialRadial(reference1, radial1, reference2, radial2, out) {
+        const magVar1 = FacilityUtils.getMagVar(reference1);
+        const magVar2 = FacilityUtils.getMagVar(reference2);
+        const radialCircle1 = FacilityUtils.geoCircleCache[0].setAsGreatCircle(reference1, MagVar.magneticToTrue(radial1, magVar1));
+        const radialCircle2 = FacilityUtils.geoCircleCache[1].setAsGreatCircle(reference2, MagVar.magneticToTrue(radial2, magVar2));
+        const radial1IncludesRef2 = radialCircle1.includes(reference2);
+        const radial2IncludesRef1 = radialCircle2.includes(reference1);
+        if (radial1IncludesRef2 && radial2IncludesRef1) {
+            // Radials are parallel or antiparallel, and therefore do not have a unique intersection point.
+            return out.set(NaN, NaN);
+        }
+        else if (radial1IncludesRef2) {
+            // Reference 2 lies along the great circle of radial 1. The intersection point therefore is either reference 2
+            // or its antipode. One of the two lies on the radial, and the other lies on the anti-radial.
+            return radialCircle1.angleAlong(reference1, reference2, Math.PI) < Math.PI ? out.set(reference2) : out.set(reference2).antipode();
+        }
+        else if (radial2IncludesRef1) {
+            // Reference 1 lies along the great circle of radial 2. The intersection point therefore is either reference 1
+            // or its antipode. One of the two lies on the radial, and the other lies on the anti-radial.
+            return radialCircle2.angleAlong(reference2, reference1, Math.PI) < Math.PI ? out.set(reference1) : out.set(reference1).antipode();
+        }
+        // Radials, unlike great circles, do not circumscribe the globe. Therefore, we choose the order of the intersection
+        // operation carefully to ensure that the first solution (if it exists) is the "correct" intersection.
+        const numIntersections = radialCircle1.encircles(reference2)
+            ? radialCircle2.intersectionGeoPoint(radialCircle1, FacilityUtils.intersectionCache)
+            : radialCircle1.intersectionGeoPoint(radialCircle2, FacilityUtils.intersectionCache);
+        if (numIntersections === 0) {
+            return out.set(NaN, NaN);
+        }
+        return out.set(FacilityUtils.intersectionCache[0]);
+    }
+}
+FacilityUtils.geoPointCache = [new GeoPoint(0, 0)];
+FacilityUtils.geoCircleCache = [new GeoCircle(Vec3Math.create(), 0), new GeoCircle(Vec3Math.create(), 0)];
+FacilityUtils.intersectionCache = [new GeoPoint(0, 0), new GeoPoint(0, 0)];
 
 var RunwaySurfaceCategory;
 (function (RunwaySurfaceCategory) {
@@ -5089,12 +5895,31 @@ class RunwayUtils {
             runwayDesignator: RunwayDesignator.RUNWAY_DESIGNATOR_NONE,
             course: 0,
             elevation: 0,
+            elevationEnd: 0,
+            gradient: 0,
             latitude: 0,
             longitude: 0,
             length: 0,
+            width: 0,
             startThresholdLength: 0,
-            endThresholdLength: 0
+            endThresholdLength: 0,
+            surface: RunwaySurfaceType.Concrete,
+            lighting: RunwayLightingType.Unknown
         };
+    }
+    /**
+     * Utility method to return all of the one-way runways from a single airport facility
+     * @param airport is the Airport Facility to evaluate
+     * @returns all of the one-way runways in the airport facility, sorted.
+     */
+    static getOneWayRunwaysFromAirport(airport) {
+        const runways = [];
+        airport.runways.map((r, i) => RunwayUtils.getOneWayRunways(r, i)).forEach(d => {
+            runways.push(d[0]);
+            runways.push(d[1]);
+        });
+        runways.sort(RunwayUtils.sortRunways);
+        return runways;
     }
     /**
      * Utility method to return two one-way runways from a single runway facility
@@ -5111,6 +5936,7 @@ class RunwayUtils {
             let course = 0;
             let thresholdDistanceFromCenter = 0;
             let thresholdElevation = 0;
+            let endThresholdElevation = 0;
             let ilsFrequency;
             let startThresholdLength = 0, endThresholdLength = 0;
             if (i === 0) {
@@ -5118,6 +5944,7 @@ class RunwayUtils {
                 course = runway.direction;
                 thresholdDistanceFromCenter = (runway.length / 2) - runway.primaryThresholdLength;
                 thresholdElevation = runway.primaryElevation;
+                endThresholdElevation = runway.secondaryElevation;
                 ilsFrequency = runway.primaryILSFrequency.freqMHz === 0 ? undefined : runway.primaryILSFrequency;
                 startThresholdLength = runway.primaryThresholdLength;
                 endThresholdLength = runway.secondaryThresholdLength;
@@ -5127,6 +5954,7 @@ class RunwayUtils {
                 course = NavMath.normalizeHeading(runway.direction + 180);
                 thresholdDistanceFromCenter = (runway.length / 2) - runway.secondaryThresholdLength;
                 thresholdElevation = runway.secondaryElevation;
+                endThresholdElevation = runway.primaryElevation;
                 ilsFrequency = runway.secondaryILSFrequency.freqMHz === 0 ? undefined : runway.secondaryILSFrequency;
                 startThresholdLength = runway.secondaryThresholdLength;
                 endThresholdLength = runway.primaryThresholdLength;
@@ -5142,15 +5970,35 @@ class RunwayUtils {
                 runwayDesignator: designator,
                 course,
                 elevation: thresholdElevation,
+                elevationEnd: endThresholdElevation,
+                gradient: (endThresholdElevation - thresholdElevation) / (runway.length - startThresholdLength - endThresholdLength) * 100,
                 latitude: coordinates.lat,
                 longitude: coordinates.lon,
                 ilsFrequency,
                 length: runway.length,
+                width: runway.width,
                 startThresholdLength,
-                endThresholdLength
+                endThresholdLength,
+                surface: runway.surface,
+                lighting: runway.lighting
             });
         }
         return splitRunways;
+    }
+    /**
+     * Gets a name for a paired runway. Names are formatted as dash-separated pairs of directional (one-way) runway
+     * designations, with optional leading zero padding of the runway numbers. If the specified runway is not paired,
+     * then the name will be the designation of the primary runway only.
+     * @param runway A paired runway.
+     * @param padded Whether the runway numbers should be padded with leading zeroes. Defaults to `true`.
+     * @returns The name for the specified paired runway.
+     */
+    static getRunwayPairNameString(runway, padded = true) {
+        const pad = padded ? 2 : 0;
+        const dashIndex = runway.designation.search('-');
+        const primary = `${(dashIndex < 0 ? runway.designation : runway.designation.substring(0, dashIndex)).padStart(pad, '0')}${RunwayUtils.getDesignatorLetter(runway.designatorCharPrimary)}`;
+        const secondary = dashIndex < 0 ? '' : `-${runway.designation.substring(dashIndex + 1).padStart(pad, '0')}${RunwayUtils.getDesignatorLetter(runway.designatorCharSecondary)}`;
+        return primary + secondary;
     }
     /**
      * Utility method to return the runway name from the number and designator (L/R/C/W)
@@ -5166,6 +6014,35 @@ class RunwayUtils {
             numberText = numberText.padStart(2, '0');
         }
         return prefix + numberText + RunwayUtils.getDesignatorLetter(designator);
+    }
+    /**
+     * Gets the primary runway number for a paired runway.
+     * @param runway A paired runway.
+     * @returns The primary runway number for the specified runway.
+     */
+    static getRunwayNumberPrimary(runway) {
+        const dashIndex = runway.designation.search('-');
+        if (dashIndex < 0) {
+            return parseInt(runway.designation);
+        }
+        else {
+            return parseInt(runway.designation.substring(0, dashIndex));
+        }
+    }
+    /**
+     * Gets the secondary runway number for a paired runway.
+     * @param runway A paired runway.
+     * @returns The secondary runway number for the specified runway, or `undefined` if the runway has no secondary
+     * runway.
+     */
+    static getRunwayNumberSecondary(runway) {
+        const dashIndex = runway.designation.search('-');
+        if (dashIndex < 0) {
+            return undefined;
+        }
+        else {
+            return parseInt(runway.designation.substring(dashIndex + 1));
+        }
     }
     /**
      * Gets a one-way runway from an airport that matches a runway designation by number and designator.
@@ -5356,12 +6233,13 @@ class RunwayUtils {
     }
     /**
      * Gets the ICAO string for the runway facility associated with a one-way runway.
-     * @param airport The runway's parent airport.
+     * @param airport The runway's parent airport, or the ICAO of the airport.
      * @param runway A one-way runway.
      * @returns the ICAO string for the runway facility associated with the one-way runway.
      */
     static getRunwayFacilityIcao(airport, runway) {
-        return `R  ${airport.icao.substr(7, 4)}RW${runway.designation.padEnd(3, ' ')}`;
+        const icao = typeof airport === 'string' ? airport : airport.icao;
+        return `R  ${icao.substring(7, 11)}RW${runway.designation.padEnd(3, ' ')}`;
     }
     /**
      * Creates a runway waypoint facility from a runway.
@@ -5391,18 +6269,19 @@ class RunwayUtils {
         return String.fromCharCode(48 + n + (n > 9 ? 7 : 0));
     }
     /**
-     * Gets the runway surface category from a runway based on its surface type.
-     * @param runway An {@link AirportRunway}.
-     * @returns The surface category of that runway.
+     * Gets the runway surface category from a runway or runway surface type.
+     * @param runway A runway or runway surface type.
+     * @returns The surface category of the specified runway or runway surface type.
      */
     static getSurfaceCategory(runway) {
-        if (this.SURFACES_HARD.includes(runway.surface)) {
+        const surface = typeof runway === 'object' ? runway.surface : runway;
+        if (this.SURFACES_HARD.includes(surface)) {
             return RunwaySurfaceCategory.Hard;
         }
-        else if (this.SURFACES_SOFT.includes(runway.surface)) {
+        else if (this.SURFACES_SOFT.includes(surface)) {
             return RunwaySurfaceCategory.Soft;
         }
-        else if (this.SURFACES_WATER.includes(runway.surface)) {
+        else if (this.SURFACES_WATER.includes(surface)) {
             return RunwaySurfaceCategory.Water;
         }
         else {
