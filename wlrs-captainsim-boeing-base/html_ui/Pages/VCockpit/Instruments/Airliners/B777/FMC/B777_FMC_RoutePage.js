@@ -18,6 +18,7 @@ class FMCRoutePage {
         this._modStr;
         this._originCell;
         this._destinationCell;
+        this._alternateCell;
         this._distanceCell;
         this._flightNoCell;
         this._airwayInput = "";
@@ -306,7 +307,6 @@ class FMCRoutePage {
                     this.store.purgeUplink = "";
                 }
                 this.update(true);
-                console.log("A")
             };
 
             if (this._fmc.flightPlanManager.getCurrentFlightPlan().findSegmentByWaypointIndex(this._rows[0].fpIdx) !== SegmentType.Departure) {
@@ -501,6 +501,21 @@ class FMCRoutePage {
                     this.update(true);
                 }
             });
+        });
+    }
+
+    setAlternate(icao) {
+        this._fmc.updateRouteDestination(icao, (result) => {
+            if (result) {
+                this._fmc.flightPlanManager.setApproachTransitionIndex(-1, () => {
+                    this._fmc.flightPlanManager.setArrivalProcIndex(-1, () => {
+                        this._fmc.flightPlanManager.setApproachIndex(-1, () => {
+                            this._fmc.fpHasChanged = true;
+                            this.update(true);
+                        });
+                    });
+                });
+            }
         });
     }
 
