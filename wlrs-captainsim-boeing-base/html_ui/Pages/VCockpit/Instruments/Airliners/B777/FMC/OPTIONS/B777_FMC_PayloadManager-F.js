@@ -232,7 +232,7 @@ class B777_FMC_PayloadManager {
 			};
 			B777_FMC_PayloadManager.tankPriority.forEach((tanks, index) => {
 				tanks.forEach((tank) => {
-					setTankFuel(B777_FMC_PayloadManager.tankVariables[tank], 0).then(() => {
+					setTankFuel(B777_FMC_PayloadManager.tankVariables[tank], 100).then(() => {
 						console.log(B777_FMC_PayloadManager.tankVariables[tank] + ' flushed');
 					});
 				});
