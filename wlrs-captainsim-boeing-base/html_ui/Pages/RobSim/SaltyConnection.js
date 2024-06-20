@@ -327,7 +327,7 @@ const getFplnFromSimBrief = async (fmc) => {
 
     const updateRoute = () => {
         console.log("UPDATE ROUTE");
-        let idx = 1; //un todo// TODO starting from 1 to skip departure trans for now
+        let idx = 0; //todo// TODO starting from 1 to skip departure trans for now
 
         console.log(routeArr)
 
