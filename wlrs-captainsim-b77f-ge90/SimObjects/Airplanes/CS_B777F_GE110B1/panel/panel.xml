@@ -630,16 +630,20 @@
 		  <Type>Memo</Type>
 		  <Text>DOORS AUTO</Text>
 		  <Condition>
-		  <And>
-			<Equal>
-			  <Simvar name="INTERACTIVE POINT OPEN:10" unit="percent"/>
-			  <Constant>0</Constant>
-			</Equal>
-			<Equal>
-			  <Simvar name="INTERACTIVE POINT OPEN:1" unit="percent"/>
-			  <Constant>0</Constant>
-			</Equal>
-		  </And>
+			<And>
+				<Equal>
+					<Simvar name="INTERACTIVE POINT OPEN:0" unit="percent"/>
+					<Constant>0</Constant>
+				</Equal>
+				<Equal>
+					<Simvar name="INTERACTIVE POINT OPEN:4" unit="percent"/>
+					<Constant>0</Constant>
+				</Equal>
+				<LowerEqual>
+					<Simvar name="INDICATED ALTITUDE" unit="feet"/>
+					<Constant>10000</Constant>
+				</LowerEqual>
+			</And>
 		  </Condition>
 		</Annunciation>
 		
