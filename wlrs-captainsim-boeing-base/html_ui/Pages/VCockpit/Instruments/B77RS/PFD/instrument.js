@@ -5768,7 +5768,6 @@ class ICAO {
  * An empty ICAO.
  */
 ICAO.emptyIcao = '            ';
-ICAO.emptyIcao = '            ';
 /**
  * Utility functions for working with facilities.
  */
@@ -5860,6 +5859,217 @@ FacilityUtils.geoPointCache = [new GeoPoint(0, 0)];
 FacilityUtils.geoCircleCache = [new GeoCircle(Vec3Math.create(), 0), new GeoCircle(Vec3Math.create(), 0)];
 FacilityUtils.intersectionCache = [new GeoPoint(0, 0), new GeoPoint(0, 0)];
 
+/**
+ * Utility functions for working with intersection facilities.
+ */
+class IntersectionFacilityUtils {
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static isTerminal(arg) {
+        const icao = typeof arg === 'string' ? arg : arg.icao;
+        if (!ICAO.isFacility(icao, FacilityType.Intersection)) {
+            throw new Error(`Facility with ICAO ${icao} is not an intersection`);
+        }
+        return IntersectionFacilityUtils.TERMINAL_REGEX.test(icao);
+    }
+    /**
+     * Gets the non-terminal version of an intersection ICAO. If the ICAO is already a non-terminal intersection ICAO,
+     * then an identical string will be returned.
+     * @param icao An intersection ICAO.
+     * @returns The non-terminal version of the specified intersection ICAO.
+     * @throws Error if the specified ICAO is not an intersection ICAO.
+     */
+    static getNonTerminalICAO(icao) {
+        if (!ICAO.isFacility(icao, FacilityType.Intersection)) {
+            throw new Error(`Facility with ICAO ${icao} is not an intersection`);
+        }
+        return IntersectionFacilityUtils.TERMINAL_REGEX.test(icao) ? `${icao.substring(0, 3)}    ${icao.substring(7)}` : icao;
+    }
+    /**
+     * Gets an ICAO string from itself.
+     * @param icao An ICAO string.
+     * @returns The specified ICAO string.
+     */
+    static getIcaoIdentity(icao) {
+        return icao;
+    }
+    /**
+     * Gets an ICAO string from a facility.
+     * @param facility A facility.
+     * @returns The specified facility's ICAO string.
+     */
+    static getIcaoFacility(facility) {
+        return facility.icao;
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static filterDuplicates(array, arg2, arg3) {
+        if (array.length === 0) {
+            return [];
+        }
+        let getIcao;
+        let retainTerminal;
+        if (typeof arg2 === 'function') {
+            getIcao = arg2;
+            retainTerminal = arg3 !== null && arg3 !== void 0 ? arg3 : false;
+        }
+        else {
+            retainTerminal = arg2 !== null && arg2 !== void 0 ? arg2 : false;
+            if (typeof array[0] === 'string') {
+                getIcao = IntersectionFacilityUtils.getIcaoIdentity;
+            }
+            else {
+                getIcao = IntersectionFacilityUtils.getIcaoFacility;
+            }
+        }
+        // Build the set of ICAOs to filter.
+        IntersectionFacilityUtils.filterDuplicatesSet.clear();
+        for (let i = 0; i < array.length; i++) {
+            const icao = getIcao(array[i]);
+            if (ICAO.isFacility(icao, FacilityType.Intersection) && IntersectionFacilityUtils.isTerminal(icao) === retainTerminal) {
+                IntersectionFacilityUtils.filterDuplicatesSet.add(IntersectionFacilityUtils.getNonTerminalICAO(icao));
+            }
+        }
+        // If there are no ICAOs to filter, then just return a copy of the original array.
+        if (IntersectionFacilityUtils.filterDuplicatesSet.size === 0) {
+            return array.slice();
+        }
+        const filtered = array.filter(icao => {
+            return IntersectionFacilityUtils.filterDuplicatesHelper(icao, getIcao, retainTerminal, IntersectionFacilityUtils.filterDuplicatesSet);
+        });
+        IntersectionFacilityUtils.filterDuplicatesSet.clear();
+        return filtered;
+    }
+    /**
+     * Checks whether an element should be filtered out from an array such that the filtered array does not contain any
+     * elements that are mapped to duplicate terminal/non-terminal intersection pairs.
+     * @param element The element to check.
+     * @param getIcao A function which maps elements to ICAOs.
+     * @param retainTerminal Whether to retain the terminal version of a duplicate pair in the filtered array.
+     * @param nonTerminalIcaosToFilter A set of non-terminal ICAOs to filter out of the array.
+     * @returns Whether the specified element should be filtered out from an array such that the filtered array does not
+     * contain any elements that are mapped to duplicate terminal/non-terminal intersection pairs.
+     */
+    static filterDuplicatesHelper(element, getIcao, retainTerminal, nonTerminalIcaosToFilter) {
+        const icao = getIcao(element);
+        if (!ICAO.isFacility(icao, FacilityType.Intersection)) {
+            return true;
+        }
+        const isTerminal = IntersectionFacilityUtils.isTerminal(icao);
+        if (isTerminal === retainTerminal) {
+            return true;
+        }
+        if (isTerminal) {
+            return !nonTerminalIcaosToFilter.has(IntersectionFacilityUtils.getNonTerminalICAO(icao));
+        }
+        else {
+            return !nonTerminalIcaosToFilter.has(icao);
+        }
+    }
+}
+IntersectionFacilityUtils.TERMINAL_REGEX = /^...[a-zA-Z\d]/;
+IntersectionFacilityUtils.filterDuplicatesSet = new Set();
+
+/**
+ * Utility functions for working with user facilities.
+ */
+class UserFacilityUtils {
+    /**
+     * Creates a user facility from latitude/longitude coordinates.
+     * @param icao The ICAO string of the new facility.
+     * @param lat The latitude of the new facility.
+     * @param lon The longitude of the new facility.
+     * @param isTemporary Whether the new facility is temporary.
+     * @param name The name of the new facility.
+     * @returns A new user facility.
+     */
+    static createFromLatLon(icao, lat, lon, isTemporary = false, name) {
+        const fac = {
+            icao,
+            name: name !== null && name !== void 0 ? name : '',
+            lat,
+            lon,
+            userFacilityType: UserFacilityType.LAT_LONG,
+            isTemporary,
+            region: '',
+            city: '',
+            magvar: MagVar.get(lat, lon)
+        };
+        return fac;
+    }
+    /**
+     * Creates a user facility from a radial and distance relative to a reference facility.
+     * @param icao The ICAO string of the new facility.
+     * @param reference The reference facility.
+     * @param radial The magnetic radial, in degrees, of the reference facility on which the new facility lies.
+     * @param distance The distance, in nautical miles, from the reference facility.
+     * @param isTemporary Whether the new facility is temporary.
+     * @param name The name of the new facility.
+     * @returns A new user facility.
+     */
+    static createFromRadialDistance(icao, reference, radial, distance, isTemporary = false, name) {
+        const location = FacilityUtils.getLatLonFromRadialDistance(reference, radial, distance, UserFacilityUtils.geoPointCache[0]);
+        return {
+            icao,
+            name: name !== null && name !== void 0 ? name : '',
+            lat: location.lat,
+            lon: location.lon,
+            userFacilityType: UserFacilityType.RADIAL_DISTANCE,
+            isTemporary,
+            region: '',
+            city: '',
+            magvar: MagVar.get(location),
+            reference1Icao: reference.icao,
+            reference1Radial: radial,
+            reference1MagVar: FacilityUtils.getMagVar(reference),
+            reference1Distance: distance
+        };
+    }
+    /**
+     * Creates a user facility from a radial and distance relative to a reference facility.
+     * @param icao The ICAO string of the new facility.
+     * @param reference1 The first reference facility.
+     * @param radial1 The magnetic radial, in degrees, of the first reference facility on which the new facility lies.
+     * @param reference2 The second reference facility.
+     * @param radial2 The magnetic radial, in degrees, of the second reference facility on which the new facility lies.
+     * @param isTemporary Whether the new facility is temporary.
+     * @param name The name of the new facility.
+     * @returns A new user facility, or `undefined` if the specified radials do not intersect at a unique point.
+     */
+    static createFromRadialRadial(icao, reference1, radial1, reference2, radial2, isTemporary = false, name) {
+        const location = FacilityUtils.getLatLonFromRadialRadial(reference1, radial1, reference2, radial2, UserFacilityUtils.geoPointCache[0]);
+        if (isNaN(location.lat) || isNaN(location.lon)) {
+            return undefined;
+        }
+        return {
+            icao,
+            name: name !== null && name !== void 0 ? name : '',
+            lat: location.lat,
+            lon: location.lon,
+            userFacilityType: UserFacilityType.RADIAL_RADIAL,
+            isTemporary,
+            region: '',
+            city: '',
+            magvar: MagVar.get(location),
+            reference1Icao: reference1.icao,
+            reference1Radial: radial1,
+            reference1MagVar: FacilityUtils.getMagVar(reference1),
+            reference2Icao: reference2.icao,
+            reference2Radial: radial2,
+            reference2MagVar: FacilityUtils.getMagVar(reference2)
+        };
+    }
+}
+UserFacilityUtils.geoPointCache = [new GeoPoint(0, 0)];
+
+var RunwaySurfaceCategory;
+(function (RunwaySurfaceCategory) {
+    RunwaySurfaceCategory[RunwaySurfaceCategory["Unknown"] = 1] = "Unknown";
+    RunwaySurfaceCategory[RunwaySurfaceCategory["Hard"] = 2] = "Hard";
+    RunwaySurfaceCategory[RunwaySurfaceCategory["Soft"] = 4] = "Soft";
+    RunwaySurfaceCategory[RunwaySurfaceCategory["Water"] = 8] = "Water";
+})(RunwaySurfaceCategory || (RunwaySurfaceCategory = {}));
+/**
+ * Methods for working with Runways and Runway Designations.
+ */
 var RunwaySurfaceCategory;
 (function (RunwaySurfaceCategory) {
     RunwaySurfaceCategory[RunwaySurfaceCategory["Unknown"] = 1] = "Unknown";
@@ -6339,6 +6549,362 @@ RunwayUtils.SURFACES_WATER = [
 RunwayUtils.tempGeoPoint = new GeoPoint(0, 0);
 
 /**
+ * Utility functions for working with airport data.
+ */
+class AirportUtils {
+    /**
+     * Attempts to get the region code of an airport.
+     * @param facility The facility record for the airport.
+     * @returns The region code of an airport, or `undefined` if one could not be found.
+     */
+    static tryGetRegionCode(facility) {
+        // Airports don't have region codes in their ICAO strings, so we will try a series of increasingly ugly hacks to
+        // deduce the region code
+        // First, we will look for any non-circling approach and see if we can find a runway fix and grab its region code,
+        // which should always be the same code as the airport
+        for (let i = 0; i < facility.approaches.length; i++) {
+            const approach = facility.approaches[i];
+            if (approach.runway.length === 0 || approach.finalLegs.length === 0) {
+                continue;
+            }
+            const fixIcao = approach.finalLegs[approach.finalLegs.length - 1].fixIcao;
+            if (ICAO.isFacility(fixIcao, FacilityType.RWY)) {
+                const region = ICAO.getRegionCode(fixIcao);
+                if (AirportUtils.REGION_CODES.has(region)) {
+                    return region;
+                }
+            }
+        }
+        // Next, we will grab region codes from final approach fixes. If they all match, then it's a good bet the airport
+        // region code is the same.
+        if (facility.approaches.length > 1) {
+            let region = undefined;
+            let regionCount = 0;
+            for (let i = 0; i < facility.approaches.length; i++) {
+                const approach = facility.approaches[i];
+                for (let j = 0; j < approach.finalLegs.length; j++) {
+                    const leg = approach.finalLegs[j];
+                    if (leg.fixTypeFlags === FixTypeFlags.FAF && ICAO.isFacility(leg.fixIcao)) {
+                        const fafRegion = ICAO.getRegionCode(leg.fixIcao);
+                        if (AirportUtils.REGION_CODES.has(fafRegion)) {
+                            region !== null && region !== void 0 ? region : (region = fafRegion);
+                            if (region !== fafRegion) {
+                                region = undefined;
+                            }
+                            regionCount++;
+                            break;
+                        }
+                    }
+                }
+                if (region === undefined && regionCount > 0) {
+                    break;
+                }
+            }
+            if (region !== undefined && regionCount > 1) {
+                return region;
+            }
+        }
+        // Next, we will grab the first two letters of the airport ident if the ident is exactly four letters and does not
+        // contain any numerals.
+        const ident = ICAO.getIdent(facility.icao);
+        if (ident.length === 4 && ident.search(AirportUtils.NUMERAL_REGEX) < 0) {
+            const region = ident.substring(0, 2);
+            if (AirportUtils.REGION_CODES.has(region)) {
+                return region;
+            }
+        }
+        // Finally, we will search every procedure (excluding enroute transitions) at the airport for terminal intersections.
+        // The region codes of these intersections should be the same as that of the airport.
+        // Departures
+        for (let i = 0; i < facility.departures.length; i++) {
+            const departure = facility.departures[i];
+            for (let j = 0; j < departure.commonLegs.length; j++) {
+                const leg = departure.commonLegs[j];
+                if (ICAO.isFacility(leg.fixIcao) && ICAO.getAssociatedAirportIdent(leg.fixIcao) === ident) {
+                    const region = ICAO.getRegionCode(leg.fixIcao);
+                    if (AirportUtils.REGION_CODES.has(region)) {
+                        return region;
+                    }
+                }
+            }
+            for (let j = 0; j < departure.runwayTransitions.length; j++) {
+                const transition = departure.runwayTransitions[j];
+                for (let k = 0; k < transition.legs.length; k++) {
+                    const leg = transition.legs[k];
+                    if (ICAO.isFacility(leg.fixIcao) && ICAO.getAssociatedAirportIdent(leg.fixIcao) === ident) {
+                        const region = ICAO.getRegionCode(leg.fixIcao);
+                        if (AirportUtils.REGION_CODES.has(region)) {
+                            return region;
+                        }
+                    }
+                }
+            }
+        }
+        // Arrivals
+        for (let i = 0; i < facility.arrivals.length; i++) {
+            const arrival = facility.arrivals[i];
+            for (let j = 0; j < arrival.commonLegs.length; j++) {
+                const leg = arrival.commonLegs[j];
+                if (ICAO.isFacility(leg.fixIcao) && ICAO.getAssociatedAirportIdent(leg.fixIcao) === ident) {
+                    const region = ICAO.getRegionCode(leg.fixIcao);
+                    if (AirportUtils.REGION_CODES.has(region)) {
+                        return region;
+                    }
+                }
+            }
+            for (let j = 0; j < arrival.runwayTransitions.length; j++) {
+                const transition = arrival.runwayTransitions[j];
+                for (let k = 0; k < transition.legs.length; k++) {
+                    const leg = transition.legs[k];
+                    if (ICAO.isFacility(leg.fixIcao) && ICAO.getAssociatedAirportIdent(leg.fixIcao) === ident) {
+                        const region = ICAO.getRegionCode(leg.fixIcao);
+                        if (AirportUtils.REGION_CODES.has(region)) {
+                            return region;
+                        }
+                    }
+                }
+            }
+        }
+        // Approaches
+        for (let i = 0; i < facility.approaches.length; i++) {
+            const approach = facility.approaches[i];
+            for (let j = 0; j < approach.finalLegs.length; j++) {
+                const leg = approach.finalLegs[j];
+                if (ICAO.isFacility(leg.fixIcao) && ICAO.getAssociatedAirportIdent(leg.fixIcao) === ident) {
+                    const region = ICAO.getRegionCode(leg.fixIcao);
+                    if (AirportUtils.REGION_CODES.has(region)) {
+                        return region;
+                    }
+                }
+            }
+            for (let j = 0; j < approach.transitions.length; j++) {
+                const transition = approach.transitions[j];
+                for (let k = 0; k < transition.legs.length; k++) {
+                    const leg = transition.legs[k];
+                    if (ICAO.isFacility(leg.fixIcao) && ICAO.getAssociatedAirportIdent(leg.fixIcao) === ident) {
+                        const region = ICAO.getRegionCode(leg.fixIcao);
+                        if (AirportUtils.REGION_CODES.has(region)) {
+                            return region;
+                        }
+                    }
+                }
+            }
+        }
+        return undefined;
+    }
+    /**
+     * Gets the elevation of an airport, in meters. The elevation is estimated as the average elevation of the airport's
+     * runways. If the airport has no runways, an elevation cannot be estimated and `undefined` is returned instead.
+     * @param facility The facility record for the airport.
+     * @returns The elevation of the specified airport, in meters, or `undefined` if the elevation could not be
+     * determined.
+     */
+    static getElevation(facility) {
+        if (facility.runways.length === 0) {
+            return undefined;
+        }
+        return facility.runways.reduce((sum, runway) => sum + runway.elevation, 0) / facility.runways.length;
+    }
+    /**
+     * Gets the longest runway of an airport.
+     * @param facility The facility record for the airport.
+     * @returns The longest runway as an AirportRunway, or null.
+     */
+    static getLongestRunway(facility) {
+        let longestRunway = null;
+        for (const runway of facility.runways) {
+            if (longestRunway === null || runway.length > longestRunway.length) {
+                longestRunway = runway;
+            }
+        }
+        return longestRunway;
+    }
+    /**
+     * Get a list of runways at an airport matching specific criteria.
+     * @param facility The facility record for the airport.
+     * @param minLength The minimum length of the runway, in feet.
+     * @param surfaceTypes An optional bitfield of RunwaySurfaceCategory values to allow.
+     * @returns A list of matching runways.
+     */
+    static getFilteredRunways(facility, minLength, surfaceTypes) {
+        minLength = UnitType.METER.convertFrom(minLength, UnitType.FOOT);
+        const result = [];
+        for (const runway of facility.runways) {
+            if (runway.length >= minLength) {
+                if (surfaceTypes === undefined ||
+                    BitFlags.isAny(RunwayUtils.getSurfaceCategory(runway), surfaceTypes)) {
+                    result.push(runway);
+                }
+            }
+        }
+        return result;
+    }
+    /**
+     * Checks to see whether an airport has a runway matching specific criteria.   This is a
+     * lighter version of getFilteredRunways that doesn't do any extra assignments.
+     * @param facility The facility record for the airport.
+     * @param minLength The minimum length of the runway, in feet.
+     * @param surfaceTypes An optional bitfield of RunwaySurfaceCategory values to allow.
+     * @returns A boolean if a matching runway exists.
+     */
+    static hasMatchingRunway(facility, minLength, surfaceTypes) {
+        minLength = UnitType.METER.convertFrom(minLength, UnitType.FOOT);
+        for (const runway of facility.runways) {
+            if (runway.length >= minLength) {
+                if (surfaceTypes === undefined ||
+                    BitFlags.isAny(RunwayUtils.getSurfaceCategory(runway), surfaceTypes)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+AirportUtils.REGION_CODES = new Set([
+    'AG', 'AN', 'AY', 'BG', 'BI', 'BK', 'CY', 'DA', 'DB', 'DF', 'DG', 'DI', 'DN', 'DR', 'DT', 'DX', 'EB', 'ED', 'EE',
+    'EF', 'EG', 'EH', 'EI', 'EK', 'EL', 'EN', 'EP', 'ES', 'ET', 'EV', 'EY', 'FA', 'FB', 'FC', 'FD', 'FE', 'FG', 'FH',
+    'FI', 'FJ', 'FK', 'FL', 'FM', 'FN', 'FO', 'FP', 'FQ', 'FS', 'FT', 'FV', 'FW', 'FX', 'FY', 'FZ', 'GA', 'GB', 'GC',
+    'GE', 'GF', 'GG', 'GL', 'GM', 'GO', 'GQ', 'GS', 'GU', 'GV', 'HA', 'HB', 'HD', 'HE', 'HH', 'HK', 'HL', 'HR', 'HS',
+    'HT', 'HU', 'K1', 'K2', 'K3', 'K4', 'K5', 'K6', 'K7', 'LA', 'LB', 'LC', 'LD', 'LE', 'LF', 'LG', 'LH', 'LI', 'LJ',
+    'LK', 'LL', 'LM', 'LO', 'LP', 'LQ', 'LR', 'LS', 'LT', 'LU', 'LV', 'LW', 'LX', 'LY', 'LZ', 'MB', 'MD', 'MG', 'MH',
+    'MK', 'MM', 'MN', 'MP', 'MR', 'MS', 'MT', 'MU', 'MW', 'MY', 'MZ', 'NC', 'NF', 'NG', 'NI', 'NL', 'NS', 'NT', 'NV',
+    'NW', 'NZ', 'OA', 'OB', 'OE', 'OI', 'OJ', 'OK', 'OL', 'OM', 'OO', 'OP', 'OR', 'OS', 'OT', 'OY', 'PA', 'PG', 'PH',
+    'PJ', 'PK', 'PL', 'PM', 'PO', 'PP', 'PT', 'PW', 'RC', 'RJ', 'RK', 'RO', 'RP', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG',
+    'SI', 'SJ', 'SK', 'SL', 'SM', 'SO', 'SP', 'SS', 'SU', 'SV', 'SW', 'SY', 'TA', 'TB', 'TD', 'TF', 'TG', 'TI', 'TJ',
+    'TK', 'TL', 'TN', 'TQ', 'TT', 'TU', 'TV', 'TX', 'UA', 'UB', 'UC', 'UD', 'UE', 'UG', 'UH', 'UI', 'UK', 'UL', 'UM',
+    'UN', 'UO', 'UR', 'US', 'UT', 'UU', 'UW', 'VA', 'VC', 'VD', 'VE', 'VG', 'VH', 'VI', 'VL', 'VM', 'VN', 'VO', 'VR',
+    'VT', 'VV', 'VY', 'WA', 'WB', 'WI', 'WM', 'WR', 'WS', 'YB', 'YM', 'ZB', 'ZG', 'ZH', 'ZK', 'ZL', 'ZM', 'ZP', 'ZS',
+    'ZU', 'ZW', 'ZY'
+]);
+AirportUtils.NUMERAL_REGEX = /\d/;
+
+/**
+ * A utility class for working with approach procedures.
+ */
+class ApproachUtils {
+    /**
+     * Gets the best RNAV minimum type available for a given approach.
+     * @param query The approach to check, or its RNAV type flags.
+     * @returns The best RNAV minimum type available for the specified approach.
+     */
+    static getBestRnavType(query) {
+        const rnavTypeFlags = typeof query === 'number' ? query : query.rnavTypeFlags;
+        if (rnavTypeFlags & RnavTypeFlags.LPV) {
+            return RnavTypeFlags.LPV;
+        }
+        if (rnavTypeFlags & RnavTypeFlags.LNAVVNAV) {
+            return RnavTypeFlags.LNAVVNAV;
+        }
+        if (rnavTypeFlags & RnavTypeFlags.LP) {
+            return RnavTypeFlags.LP;
+        }
+        if (rnavTypeFlags & RnavTypeFlags.LNAV) {
+            return RnavTypeFlags.LNAV;
+        }
+        return RnavTypeFlags.None;
+    }
+    /**
+     * Checks whether an approach procedure is an RNP (AR) approach.
+     * @param approach The approach procedure to check.
+     * @returns Whether the approach procedure is an RNP (AR) approach.
+     */
+    static isRnpAr(approach) {
+        return approach.approachType === ApproachType.APPROACH_TYPE_RNAV
+            && approach.rnavTypeFlags === RnavTypeFlags.None
+            && approach.runwayNumber !== 0;
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static getFrequencyFromAirport(facility, approach) {
+        if (typeof approach === 'number') {
+            approach = facility.approaches[approach];
+        }
+        if (approach) {
+            switch (approach.approachType) {
+                case ApproachType.APPROACH_TYPE_ILS:
+                case ApproachType.APPROACH_TYPE_LOCALIZER:
+                case ApproachType.APPROACH_TYPE_LDA:
+                case ApproachType.APPROACH_TYPE_SDF:
+                    return RunwayUtils.getLocFrequency(facility, approach.runwayNumber, approach.runwayDesignator);
+                case ApproachType.APPROACH_TYPE_LOCALIZER_BACK_COURSE:
+                    return RunwayUtils.getBcFrequency(facility, approach.runwayNumber, approach.runwayDesignator);
+            }
+        }
+        return undefined;
+    }
+    /**
+     * Gets the origin facility ICAO for the FAF leg of an approach.
+     * The facility type is **not** checked against the approach type to ensure it is valid,
+     * in contrast to {@link getReferenceFacility} which does perform these checks.
+     * @param approach The approach for which to get a reference facility.
+     * @returns The ICAO of the origin facility for the FAF leg of the specified approach,
+     * or `undefined` if one could not be found.
+     */
+    static getFafOriginIcao(approach) {
+        const finalLegs = approach.finalLegs;
+        // Find the faf
+        let fafLeg = undefined;
+        for (let i = 0; i < finalLegs.length; i++) {
+            const leg = finalLegs[i];
+            if (BitFlags.isAll(leg.fixTypeFlags, FixTypeFlags.FAF)) {
+                fafLeg = leg;
+                break;
+            }
+        }
+        if (!fafLeg || fafLeg.originIcao === ICAO.emptyIcao) {
+            return undefined;
+        }
+        return fafLeg.originIcao;
+    }
+    /**
+     * Gets the reference facility for an approach. Only ILS, LOC (BC), LDA, SDF, VOR(DME), and NDB(DME) approaches can
+     * have reference facilities.
+     * @param approach The approach for which to get a reference facility.
+     * @param facLoader The facility loader.
+     * @returns A Promise which is fulfilled with the reference facility for the specified approach, or `undefined` if
+     * one could not be found.
+     */
+    static async getReferenceFacility(approach, facLoader) {
+        let facilityType;
+        let isLoc = false;
+        switch (approach.approachType) {
+            case ApproachType.APPROACH_TYPE_ILS:
+            case ApproachType.APPROACH_TYPE_LOCALIZER:
+            case ApproachType.APPROACH_TYPE_LOCALIZER_BACK_COURSE:
+            case ApproachType.APPROACH_TYPE_LDA:
+            case ApproachType.APPROACH_TYPE_SDF:
+                isLoc = true;
+            // eslint-disable-next-line no-fallthrough
+            case ApproachType.APPROACH_TYPE_VOR:
+            case ApproachType.APPROACH_TYPE_VORDME:
+                facilityType = FacilityType.VOR;
+                break;
+            case ApproachType.APPROACH_TYPE_NDB:
+            case ApproachType.APPROACH_TYPE_NDBDME:
+                facilityType = FacilityType.NDB;
+                break;
+            default:
+                return undefined;
+        }
+        const originIcao = ApproachUtils.getFafOriginIcao(approach);
+        if (!originIcao || !ICAO.isFacility(originIcao, facilityType)) {
+            return undefined;
+        }
+        try {
+            const facility = await facLoader.getFacility(facilityType, originIcao);
+            if (isLoc && facility.type !== VorType.ILS) {
+                return undefined;
+            }
+            else {
+                return facility;
+            }
+        }
+        catch (_a) {
+            return undefined;
+        }
+    }
+}
+
+/**
  * Types of airspaces.
  */
 var AirspaceType;
@@ -6404,7 +6970,10 @@ var MSFSAPStates;
     MSFSAPStates[MSFSAPStates["None"] = -2147483648] = "None";
 })(MSFSAPStates || (MSFSAPStates = {}));
 
-/// <reference types="msfstypes/JS/common" />
+/// <reference types="@microsoft/msfs-types/js/common" />
+/// <reference types="@microsoft/msfs-types/js/simplane" />
+const airportIcaoRegionPattern = new RegExp(/^A../);
+
 /**
  * A type map of facility type to facility search type.
  */
@@ -6418,7 +6987,9 @@ var MSFSAPStates;
     /** VOR facility type. */
     [FacilityType.VOR]: FacilitySearchType.Vor,
     /** USR facility type. */
-    [FacilityType.USR]: FacilitySearchType.User
+    [FacilityType.USR]: FacilitySearchType.User,
+    /** Visual facility type. */
+    [FacilityType.VIS]: FacilitySearchType.Visual
 });
 /**
  * A class that handles loading facility data from the simulator.
@@ -6523,6 +7094,10 @@ class FacilityLoader {
      */
     async getFacilityFromCoherent(type, icao) {
         const isMismatch = ICAO.getFacilityType(icao) !== type;
+        // Remove the region code from the icao
+        if (type === FacilityType.Airport) {
+            icao = icao.replace(airportIcaoRegionPattern, 'A  ');
+        }
         let queue = FacilityLoader.requestQueue;
         let cache = FacilityLoader.facCache;
         if (isMismatch) {
@@ -6602,7 +7177,10 @@ class FacilityLoader {
     async startNearestSearchSession(type) {
         switch (type) {
             case FacilitySearchType.User:
+            case FacilitySearchType.Visual:
                 return this.startRepoNearestSearchSession(type);
+            case FacilitySearchType.AllExceptVisual:
+                return this.startCoherentNearestSearchSession(FacilitySearchType.All);
             default:
                 return this.startCoherentNearestSearchSession(type);
         }
@@ -6626,7 +7204,7 @@ class FacilityLoader {
                 session = new NearestIntersectionSearchSession(sessionId);
                 break;
             case FacilitySearchType.Vor:
-                session = new NearestIntersectionSearchSession(sessionId);
+                session = new NearestVorSearchSession(sessionId);
                 break;
             case FacilitySearchType.Boundary:
                 session = new NearestBoundarySearchSession(sessionId);
@@ -6650,7 +7228,9 @@ class FacilityLoader {
         const sessionId = FacilityLoader.repoSearchSessionId--;
         switch (type) {
             case FacilitySearchType.User:
-                return new NearestUserFacilitySearchSession(this.facilityRepo, sessionId);
+                return new NearestRepoFacilitySearchSession(this.facilityRepo, sessionId);
+            case FacilitySearchType.Visual:
+                return new NearestRepoFacilitySearchSession(this.facilityRepo, sessionId);
             default:
                 throw new Error();
         }
@@ -6691,21 +7271,32 @@ class FacilityLoader {
         isNaN(raw.altimeterA) && delete raw.altimeterA;
         raw.altimeterQ < 0 && delete raw.altimeterQ;
         isNaN(raw.slp) && delete raw.slp;
+        raw.maxWindDir < 0 && delete raw.maxWindDir;
+        raw.minWindDir < 0 && delete raw.minWindDir;
+        raw.windDir < 0 && delete raw.windDir;
         return raw;
     }
     /**
      * Searches for ICAOs by their ident portion only.
      * @param filter The type of facility to filter by. Selecting ALL will search all facility type ICAOs.
      * @param ident The partial or complete ident to search for.
-     * @param maxItems The max number of matches to return.
-     * @returns A collection of matched ICAOs.
+     * @param maxItems The maximum number of matches to return. Defaults to 40.
+     * @returns An array of matched ICAOs. Exact matches are sorted before partial matches.
      */
     async searchByIdent(filter, ident, maxItems = 40) {
         if (!FacilityLoader.isInitialized) {
             await this.awaitInitialization();
         }
-        const results = await Coherent.call('SEARCH_BY_IDENT', ident, filter, maxItems);
-        if (filter === FacilitySearchType.User || filter === FacilitySearchType.All) {
+        let results;
+        if (filter !== FacilitySearchType.User && filter !== FacilitySearchType.Visual) {
+            const coherentFilter = filter === FacilitySearchType.AllExceptVisual ? FacilitySearchType.All : filter;
+            results = await Coherent.call('SEARCH_BY_IDENT', ident, coherentFilter, maxItems);
+        }
+        else {
+            results = [];
+        }
+        const facRepositorySearchTypes = FacilityLoader.facRepositorySearchTypes[filter];
+        if (facRepositorySearchTypes) {
             this.facilityRepo.forEach(fac => {
                 const facIdent = ICAO.getIdent(fac.icao);
                 if (facIdent === ident) {
@@ -6714,7 +7305,7 @@ class FacilityLoader {
                 else if (facIdent.startsWith(ident)) {
                     results.push(fac.icao);
                 }
-            }, FacilityLoader.facRepositorySearchTypes);
+            }, facRepositorySearchTypes);
         }
         return results;
     }
@@ -6724,7 +7315,7 @@ class FacilityLoader {
      * @param ident The exact ident to search for. (ex: DEN, KDEN, ITADO)
      * @param lat The latitude to find facilities nearest to.
      * @param lon The longitude to find facilities nearest to.
-     * @param maxItems The max number of matches to return.
+     * @param maxItems The maximum number of matches to return. Defaults to 40.
      * @returns An array of matching facilities, sorted by distance to the given lat/lon, with nearest at the beginning of the array.
      */
     async findNearestFacilitiesByIdent(filter, ident, lat, lon, maxItems = 40) {
@@ -6799,6 +7390,30 @@ class FacilityLoader {
             FacilityLoader.airwayCache.delete(FacilityLoader.airwayCache.keys().next().value);
         }
     }
+    /**
+     * Gets the AIRAC cycles associated with the facility database.
+     * @returns an object containing the previous, current, and next cycles.
+     * If an error occurs and the MSFS facility cycle cannot be determined, the effective cycle for the current date is used instead.
+     */
+    static getDatabaseCycles() {
+        if (FacilityLoader.databaseCycleCache === undefined) {
+            const facilitiesRange = SimVar.GetGameVarValue('FLIGHT NAVDATA DATE RANGE', SimVarValueType.String);
+            let current = AiracUtils.parseFacilitiesCycle(facilitiesRange);
+            if (current === undefined) {
+                console.error('FacilityLoader: Could not get facility database AIRAC cycle! Falling back to current cycle.');
+                // fall back to current cycle!
+                current = AiracUtils.getCurrentCycle(new Date());
+            }
+            const previous = AiracUtils.getOffsetCycle(current, -1);
+            const next = AiracUtils.getOffsetCycle(current, 1);
+            FacilityLoader.databaseCycleCache = {
+                previous,
+                current,
+                next,
+            };
+        }
+        return FacilityLoader.databaseCycleCache;
+    }
 }
 FacilityLoader.MAX_FACILITY_CACHE_ITEMS = 1000;
 FacilityLoader.MAX_AIRWAY_CACHE_ITEMS = 1000;
@@ -6808,10 +7423,16 @@ FacilityLoader.facCache = new Map();
 FacilityLoader.typeMismatchFacCache = new Map();
 FacilityLoader.airwayCache = new Map();
 FacilityLoader.searchSessions = new Map();
-FacilityLoader.facRepositorySearchTypes = [FacilityType.USR];
+FacilityLoader.facRepositorySearchTypes = {
+    [FacilitySearchType.All]: [FacilityType.USR, FacilityType.VIS],
+    [FacilitySearchType.User]: [FacilityType.USR],
+    [FacilitySearchType.Visual]: [FacilityType.VIS],
+    [FacilitySearchType.AllExceptVisual]: [FacilityType.USR]
+};
 FacilityLoader.repoSearchSessionId = -1;
 FacilityLoader.isInitialized = false;
 FacilityLoader.initPromiseResolveQueue = [];
+
 /**
  * A session for searching for nearest facilities through Coherent.
  */
@@ -6887,9 +7508,10 @@ class NearestIntersectionSearchSession extends CoherentNearestSearchSession {
     /**
      * Sets the filter for the intersection nearest search.
      * @param typeMask A bitmask to determine which JS intersection types to show.
+     * @param showTerminalWaypoints Whether or not to show terminal waypoints. Defaults to true.
      */
-    setIntersectionFilter(typeMask) {
-        Coherent.call('SET_NEAREST_INTERSECTION_FILTER', this.sessionId, typeMask);
+    setIntersectionFilter(typeMask, showTerminalWaypoints = true) {
+        Coherent.call('SET_NEAREST_INTERSECTION_FILTER', this.sessionId, typeMask, showTerminalWaypoints ? 1 : 0);
     }
 }
 /**
@@ -6931,9 +7553,9 @@ class NearestBoundarySearchSession extends CoherentNearestSearchSession {
     }
 }
 /**
- * A session for searching for nearest user facilities.
+ * A session for searching for nearest facilities that uses the facility repository.
  */
-class NearestUserFacilitySearchSession {
+class NearestRepoFacilitySearchSession {
     /**
      * Creates an instance of a NearestUserSearchSession.
      * @param repo The facility repository in which to search.
@@ -6980,6 +7602,7 @@ class NearestUserFacilitySearchSession {
         this.filter = filter;
     }
 }
+
 /**
  * An airway.
  */
@@ -7043,6 +7666,7 @@ var AirwayStatus;
      */
     AirwayStatus[AirwayStatus["PARTIAL"] = 2] = "PARTIAL";
 })(AirwayStatus || (AirwayStatus = {}));
+
 /**
  * The Airway Builder.
  */
@@ -7169,6 +7793,11 @@ class AirwayBuilder {
  * the two operations separately.
  */
 class BinaryHeap {
+    // eslint-disable-next-line jsdoc/require-returns
+    /** The number of elements contained in this heap. */
+    get size() {
+        return this.tree.length;
+    }
     /**
      * Constructor.
      * @param comparator The function that this heap uses to compare the keys of its elements. The function returns 0 if
@@ -7178,11 +7807,6 @@ class BinaryHeap {
     constructor(comparator) {
         this.comparator = comparator;
         this.tree = [];
-    }
-    // eslint-disable-next-line jsdoc/require-returns
-    /** The number of elements contained in this heap. */
-    get size() {
-        return this.tree.length;
     }
     /**
      * Finds the element in this heap with the smallest key.
@@ -7324,6 +7948,18 @@ class BinaryHeap {
  * A sorted array.
  */
 class SortedArray {
+    // eslint-disable-next-line jsdoc/require-returns
+    /** A read-only version of the array object backing this sorted array. */
+    get array() {
+        return this._array;
+    }
+    /**
+     * The number of elements in this array.
+     * @returns The number of elements in the array.
+     */
+    get length() {
+        return this._array.length;
+    }
     /**
      * Constructor.
      * @param comparatorFunc A function which defines the relative sorting priority of two elements. The function should
@@ -7336,18 +7972,6 @@ class SortedArray {
         this.comparatorFunc = comparatorFunc;
         this.equalityFunc = equalityFunc;
         this._array = [];
-    }
-    // eslint-disable-next-line jsdoc/require-returns
-    /** A read-only version of the array object backing this sorted array. */
-    get array() {
-        return this._array;
-    }
-    /**
-     * The number of elements in this array.
-     * @returns The number of elements in the array.
-     */
-    get length() {
-        return this._array.length;
     }
     /**
      * Finds the index of the first or last element in this array whose sorting priority is equal to a query element. If
@@ -7403,25 +8027,59 @@ class SortedArray {
         return -1;
     }
     /**
+     * Gets the element at a specified index.
+     * @param index An index.
+     * @returns The element at the specified index.
+     * @throws RangeError if index is out of bounds.
+     */
+    get(index) {
+        if (index < 0 || index >= this._array.length) {
+            throw new RangeError();
+        }
+        return this._array[index];
+    }
+    /**
      * Gets the element at a specified index, if it exists.
      * @param index An index.
      * @returns The element at the specified index, or undefined if the index is out of bounds.
      */
-    get(index) {
+    peek(index) {
         return this._array[index];
+    }
+    /**
+     * Gets the first element in this array.
+     * @returns The first element in this array.
+     * @throws RangeError if this array is empty.
+     */
+    first() {
+        if (this._array.length === 0) {
+            throw new RangeError();
+        }
+        return this._array[0];
     }
     /**
      * Gets the first element in this array, if it exists.
      * @returns The first element in this array, or undefined if this array is empty.
      */
-    first() {
+    peekFirst() {
         return this._array[0];
+    }
+    /**
+     * Gets the last element in this array.
+     * @returns The last element in this array.
+     * @throws RangeError if this array is empty.
+     */
+    last() {
+        if (this._array.length === 0) {
+            throw new RangeError();
+        }
+        return this._array[this._array.length - 1];
     }
     /**
      * Gets the last element in this array, if it exists.
      * @returns The last element in this array, or undefined if this array is empty.
      */
-    last() {
+    peekLast() {
         return this._array[this._array.length - 1];
     }
     /**
@@ -7511,6 +8169,17 @@ class SortedArray {
         return numRemoved;
     }
     /**
+     * Removes an element at a specific index from this array and returns it.
+     * @param index The index of the element to remove.
+     * @returns The removed element, or `undefined` if no element was removed.
+     */
+    removeAt(index) {
+        if (index < 0 || index >= this._array.length) {
+            return undefined;
+        }
+        return this._array.splice(index, 1)[0];
+    }
+    /**
      * Removes the last element from this array and returns it.
      * @returns The removed element, or `undefined` if the array was empty.
      */
@@ -7523,6 +8192,12 @@ class SortedArray {
      */
     shift() {
         return this._array.shift();
+    }
+    /**
+     * Re-sorts this array using its sorting function.
+     */
+    resort() {
+        this._array.sort(this.comparatorFunc);
     }
     /**
      * Finds the index of the first occurrence of an element in this array. This array is searched for the first element
@@ -7580,6 +8255,11 @@ SortedArray.DEFAULT_EQUALITY_FUNC = (a, b) => a === b;
  * A k-dimensional search tree.
  */
 class KdTree {
+    // eslint-disable-next-line jsdoc/require-returns
+    /** The number of elements in this tree. */
+    get size() {
+        return this.elements.length;
+    }
     /**
      * Constructor.
      * @param dimensionCount The number of dimensions supported by this tree. If this argument is not an integer, it will
@@ -7619,11 +8299,6 @@ class KdTree {
         this.keyCache = [
             new Float64Array(this.dimensionCount)
         ];
-    }
-    // eslint-disable-next-line jsdoc/require-returns
-    /** The number of elements in this tree. */
-    get size() {
-        return this.elements.length;
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
     searchKey(key, radius, arg3, out, filter) {
@@ -7816,6 +8491,7 @@ class KdTree {
         if (!this.removeElementFromArrays(element)) {
             return false;
         }
+        this.resetIndexArrays();
         this.rebuild();
         return true;
     }
@@ -7830,6 +8506,7 @@ class KdTree {
             removed = this.removeElementFromArrays(element) || removed;
         }
         if (removed) {
+            this.resetIndexArrays();
             this.rebuild();
         }
         return removed;
@@ -7850,15 +8527,20 @@ class KdTree {
         this.keys[index] = this.keys[lastIndex];
         this.elements.length--;
         this.keys.length--;
+        return true;
+    }
+    /**
+     * Resets this tree's index arrays such that each array contains the indexes 0 to N-1 in order, where N is the
+     * number of elements in the tree.
+     */
+    resetIndexArrays() {
         for (let i = 0; i < this.dimensionCount; i++) {
             const array = this.indexArrays[i];
-            const indexInArray = array.indexOf(index);
-            if (indexInArray >= 0) {
-                array[indexInArray] = array[array.length - 1];
-                array.length--;
+            array.length = this.elements.length;
+            for (let j = 0; j < array.length; j++) {
+                array[j] = j;
             }
         }
-        return true;
     }
     /**
      * Removes elements from this tree, then inserts elements into this tree as a single operation. The tree will be
@@ -7869,8 +8551,12 @@ class KdTree {
      * @param toInsert An iterable of the elements to insert.
      */
     removeAndInsert(toRemove, toInsert) {
+        let removed = false;
         for (const element of toRemove) {
-            this.removeElementFromArrays(element);
+            removed = this.removeElementFromArrays(element) || removed;
+        }
+        if (removed) {
+            this.resetIndexArrays();
         }
         this.insertAll(toInsert);
     }
@@ -7878,11 +8564,11 @@ class KdTree {
      * Rebuilds and balances this tree.
      */
     rebuild() {
+        // clear the tree structure
+        this.nodes.length = 0;
         if (this.size === 0) {
             return;
         }
-        // clear the tree structure
-        this.nodes.length = 0;
         // sort index arrays
         for (let i = 0; i < this.dimensionCount; i++) {
             this.indexArrays[i].sort(this.indexSortFuncs[i]);
@@ -8198,17 +8884,32 @@ var SubscribableArrayEventType;
  */
 class AbstractSubscribableArray {
     constructor() {
-        this.subs = [];
         this.notifyDepth = 0;
         /** A function which sends initial notifications to subscriptions. */
         this.initialNotifyFunc = this.initialNotify.bind(this);
         /** A function which responds to when a subscription to this subscribable is destroyed. */
         this.onSubDestroyedFunc = this.onSubDestroyed.bind(this);
     }
+    /**
+     * Adds a subscription to this array.
+     * @param sub The subscription to add.
+     */
+    addSubscription(sub) {
+        if (this.subs) {
+            this.subs.push(sub);
+        }
+        else if (this.singletonSub) {
+            this.subs = [this.singletonSub, sub];
+            delete this.singletonSub;
+        }
+        else {
+            this.singletonSub = sub;
+        }
+    }
     /** @inheritdoc */
     sub(handler, initialNotify = false, paused = false) {
         const sub = new HandlerSubscription(handler, this.initialNotifyFunc, this.onSubDestroyedFunc);
-        this.subs.push(sub);
+        this.addSubscription(sub);
         if (paused) {
             sub.pause();
         }
@@ -8219,7 +8920,13 @@ class AbstractSubscribableArray {
     }
     /** @inheritdoc */
     unsub(handler) {
-        const toDestroy = this.subs.find(sub => sub.handler === handler);
+        let toDestroy = undefined;
+        if (this.singletonSub && this.singletonSub.handler === handler) {
+            toDestroy = this.singletonSub;
+        }
+        else if (this.subs) {
+            toDestroy = this.subs.find(sub => sub.handler === handler);
+        }
         toDestroy === null || toDestroy === void 0 ? void 0 : toDestroy.destroy();
     }
     /**
@@ -8250,27 +8957,73 @@ class AbstractSubscribableArray {
      * @param modifiedItem The item modified by the operation.
      */
     notify(index, type, modifiedItem) {
+        const canCleanUpSubs = this.notifyDepth === 0;
         let needCleanUpSubs = false;
         this.notifyDepth++;
-        const subLen = this.subs.length;
-        for (let i = 0; i < subLen; i++) {
+        if (this.singletonSub) {
             try {
-                const sub = this.subs[i];
-                if (sub.isAlive && !sub.isPaused) {
-                    sub.handler(index, type, modifiedItem, this.getArray());
+                if (this.singletonSub.isAlive && !this.singletonSub.isPaused) {
+                    this.singletonSub.handler(index, type, modifiedItem, this.getArray());
                 }
-                needCleanUpSubs || (needCleanUpSubs = !sub.isAlive);
             }
             catch (error) {
-                console.error(`ArraySubject: error in handler: ${error}`);
+                console.error(`AbstractSubscribableArray: error in handler: ${error}`);
                 if (error instanceof Error) {
                     console.error(error.stack);
                 }
             }
+            if (canCleanUpSubs) {
+                // If subscriptions were added during the notification, then singletonSub would be deleted and replaced with
+                // the subs array.
+                if (this.singletonSub) {
+                    needCleanUpSubs = !this.singletonSub.isAlive;
+                }
+                else if (this.subs) {
+                    for (let i = 0; i < this.subs.length; i++) {
+                        if (!this.subs[i].isAlive) {
+                            needCleanUpSubs = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (this.subs) {
+            const subLen = this.subs.length;
+            for (let i = 0; i < subLen; i++) {
+                try {
+                    const sub = this.subs[i];
+                    if (sub.isAlive && !sub.isPaused) {
+                        sub.handler(index, type, modifiedItem, this.getArray());
+                    }
+                    needCleanUpSubs || (needCleanUpSubs = !sub.isAlive);
+                }
+                catch (error) {
+                    console.error(`AbstractSubscribableArray: error in handler: ${error}`);
+                    if (error instanceof Error) {
+                        console.error(error.stack);
+                    }
+                }
+            }
+            // If subscriptions were added during the notification and a cleanup operation is not already pending, then we
+            // need to check if any of the new subscriptions are already dead and if so, pend a cleanup operation.
+            if (canCleanUpSubs && !needCleanUpSubs) {
+                for (let i = subLen; i < this.subs.length; i++) {
+                    if (!this.subs[i].isAlive) {
+                        needCleanUpSubs = true;
+                        break;
+                    }
+                }
+            }
         }
         this.notifyDepth--;
-        if (needCleanUpSubs && this.notifyDepth === 0) {
-            this.subs = this.subs.filter(sub => sub.isAlive);
+        if (needCleanUpSubs) {
+            if (this.singletonSub) {
+                delete this.singletonSub;
+            }
+            else if (this.subs) {
+                this.subs = this.subs.filter(sub => sub.isAlive);
+            }
         }
     }
     /**
@@ -8289,7 +9042,15 @@ class AbstractSubscribableArray {
         // If we are not in the middle of a notify operation, remove the subscription.
         // Otherwise, do nothing and let the post-notify clean-up code handle it.
         if (this.notifyDepth === 0) {
-            this.subs.splice(this.subs.indexOf(sub), 1);
+            if (this.singletonSub === sub) {
+                delete this.singletonSub;
+            }
+            else if (this.subs) {
+                const index = this.subs.indexOf(sub);
+                if (index >= 0) {
+                    this.subs.splice(index, 1);
+                }
+            }
         }
     }
 }
@@ -8298,6 +9059,10 @@ class AbstractSubscribableArray {
  * A subscribable which provides a sorted version of a source SubscribableArray.
  */
 class SortedMappedSubscribableArray extends AbstractSubscribableArray {
+    /** @inheritdoc */
+    get length() {
+        return this.sorted.length;
+    }
     /**
      * Constructor.
      * @param source The source array subject for this subscribable.
@@ -8314,10 +9079,6 @@ class SortedMappedSubscribableArray extends AbstractSubscribableArray {
         this.equalityFunc = equalityFunc;
         this.sorted = new SortedArray(this.comparatorFunc, this.equalityFunc);
         this.sourceSub = source.sub(this.onSourceChanged.bind(this), true);
-    }
-    /** @inheritdoc */
-    get length() {
-        return this.sorted.length;
     }
     /**
      * Creates a new SortedMappedSubscribableArray.
@@ -8370,11 +9131,15 @@ class SortedMappedSubscribableArray extends AbstractSubscribableArray {
             this.notify(0, SubscribableArrayEventType.Added, elements instanceof Array ? this.sorted.array : elements);
         }
         else {
-            const sorted = elements instanceof Array ? Array.from(elements).sort(this.comparatorFunc) : [elements];
-            const len = sorted.length;
-            for (let i = 0; i < len; i++) {
-                const toInsert = sorted[i];
-                this.notify(this.sorted.insert(toInsert), SubscribableArrayEventType.Added, toInsert);
+            if (elements instanceof Array) {
+                const len = elements.length;
+                for (let i = 0; i < len; i++) {
+                    const toInsert = elements[i];
+                    this.notify(this.sorted.insert(toInsert), SubscribableArrayEventType.Added, toInsert);
+                }
+            }
+            else {
+                this.notify(this.sorted.insert(elements), SubscribableArrayEventType.Added, elements);
             }
         }
     }
@@ -8383,13 +9148,20 @@ class SortedMappedSubscribableArray extends AbstractSubscribableArray {
      * @param elements An element or array of elements to remove.
      */
     remove(elements) {
-        const sorted = elements instanceof Array ? Array.from(elements).sort(this.comparatorFunc) : [elements];
-        const len = sorted.length;
-        for (let i = 0; i < len; i++) {
-            const toRemove = sorted[i];
-            const removedIndex = this.sorted.remove(toRemove);
+        if (elements instanceof Array) {
+            const len = elements.length;
+            for (let i = 0; i < len; i++) {
+                const toRemove = elements[i];
+                const removedIndex = this.sorted.remove(toRemove);
+                if (removedIndex >= 0) {
+                    this.notify(removedIndex, SubscribableArrayEventType.Removed, toRemove);
+                }
+            }
+        }
+        else {
+            const removedIndex = this.sorted.remove(elements);
             if (removedIndex >= 0) {
-                this.notify(removedIndex, SubscribableArrayEventType.Removed, toRemove);
+                this.notify(removedIndex, SubscribableArrayEventType.Removed, elements);
             }
         }
     }
@@ -8407,13 +9179,17 @@ class SortedMappedSubscribableArray extends AbstractSubscribableArray {
 }
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+/**
+ * Types of facility repository sync events.
+ */
 var FacilityRepositorySyncType;
 (function (FacilityRepositorySyncType) {
-    FacilityRepositorySyncType[FacilityRepositorySyncType["Add"] = 0] = "Add";
-    FacilityRepositorySyncType[FacilityRepositorySyncType["Remove"] = 1] = "Remove";
-    FacilityRepositorySyncType[FacilityRepositorySyncType["DumpRequest"] = 2] = "DumpRequest";
-    FacilityRepositorySyncType[FacilityRepositorySyncType["DumpResponse"] = 3] = "DumpResponse";
+    FacilityRepositorySyncType["Add"] = "Add";
+    FacilityRepositorySyncType["Remove"] = "Remove";
+    FacilityRepositorySyncType["DumpRequest"] = "DumpRequest";
+    FacilityRepositorySyncType["DumpResponse"] = "DumpResponse";
 })(FacilityRepositorySyncType || (FacilityRepositorySyncType = {}));
+
 /**
  * A repository of facilities.
  */
@@ -8424,13 +9200,38 @@ class FacilityRepository {
      */
     constructor(bus) {
         this.bus = bus;
-        this.repos = {};
+        this.publisher = this.bus.getPublisher();
+        this.repos = new Map();
         this.trees = {
-            [FacilityType.USR]: new GeoKdTree(FacilityRepository.treeKeyFunc)
+            [FacilityType.USR]: new GeoKdTree(FacilityRepository.treeKeyFunc),
+            [FacilityType.VIS]: new GeoKdTree(FacilityRepository.treeKeyFunc),
         };
         this.ignoreSync = false;
         bus.getSubscriber().on(FacilityRepository.SYNC_TOPIC).handle(this.onSyncEvent.bind(this));
-        this.pubSyncEvent(FacilityRepositorySyncType.DumpRequest);
+        // Request a dump from any existing instances on other instruments to initialize the repository.
+        this.pubSyncEvent({
+            type: FacilityRepositorySyncType.DumpRequest, uid: this.lastDumpRequestUid = Math.random() * Number.MAX_SAFE_INTEGER
+        });
+    }
+    /**
+     * Gets the number of facilities stored in this repository.
+     * @param types The types of facilities to count. Defaults to all facility types.
+     * @returns The number of facilities stored in this repository.
+     */
+    size(types) {
+        var _a, _b;
+        let size = 0;
+        if (types === undefined) {
+            for (const repo of this.repos.values()) {
+                size += repo.size;
+            }
+        }
+        else {
+            for (let i = 0; i < types.length; i++) {
+                size += (_b = (_a = this.repos.get(types[i])) === null || _a === void 0 ? void 0 : _a.size) !== null && _b !== void 0 ? _b : 0;
+            }
+        }
+        return size;
     }
     /**
      * Retrieves a facility from this repository.
@@ -8442,11 +9243,11 @@ class FacilityRepository {
         if (!ICAO.isFacility(icao)) {
             return undefined;
         }
-        return (_a = this.repos[ICAO.getFacilityType(icao)]) === null || _a === void 0 ? void 0 : _a.get(icao);
+        return (_a = this.repos.get(ICAO.getFacilityType(icao))) === null || _a === void 0 ? void 0 : _a.get(icao);
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
     search(type, lat, lon, radius, arg5, out, filter) {
-        if (type !== FacilityType.USR) {
+        if (type !== FacilityType.USR && type !== FacilityType.VIS) {
             throw new Error(`FacilityRepository: spatial searches are not supported for facility type ${type}`);
         }
         if (typeof arg5 === 'number') {
@@ -8468,19 +9269,38 @@ class FacilityRepository {
             throw new Error(`FacilityRepository: invalid facility ICAO ${fac.icao}`);
         }
         this.addToRepo(fac);
-        this.pubSyncEvent(FacilityRepositorySyncType.Add, [fac]);
+        this.pubSyncEvent({ type: FacilityRepositorySyncType.Add, facs: [fac] });
+    }
+    /**
+     * Adds multiple facilities from this repository and all other repositories synced with this one. For each added
+     * facility, if this repository already contains a facility with the same ICAO, the existing facility will be
+     * replaced with the new one.
+     * @param facs The facilities to add.
+     */
+    addMultiple(facs) {
+        this.addMultipleToRepo(facs);
+        this.pubSyncEvent({ type: FacilityRepositorySyncType.Add, facs: Array.from(facs) });
     }
     /**
      * Removes a facility from this repository and all other repositories synced with this one.
-     * @param fac The facility to remove.
+     * @param fac The facility to remove, or the ICAO of the facility to remove.
      * @throws Error if the facility has an invalid ICAO.
      */
     remove(fac) {
-        if (!ICAO.isFacility(fac.icao)) {
-            throw new Error(`FacilityRepository: invalid facility ICAO ${fac.icao}`);
+        const icao = typeof fac === 'string' ? fac : fac.icao;
+        if (!ICAO.isFacility(icao)) {
+            throw new Error(`FacilityRepository: invalid facility ICAO ${icao}`);
         }
-        this.removeFromRepo(fac);
-        this.pubSyncEvent(FacilityRepositorySyncType.Remove, [fac]);
+        this.removeFromRepo(icao);
+        this.pubSyncEvent({ type: FacilityRepositorySyncType.Remove, facs: [icao] });
+    }
+    /**
+     * Removes multiple facilities from this repository and all other repositories synced with this one.
+     * @param facs The facilities to remove, or the ICAOs of the facilties to remove.
+     */
+    removeMultiple(facs) {
+        this.removeMultipleFromRepo(facs);
+        this.pubSyncEvent({ type: FacilityRepositorySyncType.Remove, facs: facs.map(fac => typeof fac === 'object' ? fac.icao : fac) });
     }
     /**
      * Iterates over every facility in this respository with a visitor function.
@@ -8489,10 +9309,15 @@ class FacilityRepository {
      */
     forEach(fn, types) {
         var _a;
-        const keys = types !== null && types !== void 0 ? types : Object.keys(this.repos);
-        const len = keys.length;
-        for (let i = 0; i < len; i++) {
-            (_a = this.repos[keys[i]]) === null || _a === void 0 ? void 0 : _a.forEach(fn);
+        if (types === undefined) {
+            for (const repo of this.repos.values()) {
+                repo.forEach(fn);
+            }
+        }
+        else {
+            for (let i = 0; i < types.length; i++) {
+                (_a = this.repos.get(types[i])) === null || _a === void 0 ? void 0 : _a.forEach(fn);
+            }
         }
     }
     /**
@@ -8500,13 +9325,14 @@ class FacilityRepository {
      * @param fac The facility to add.
      */
     addToRepo(fac) {
-        var _a;
-        var _b;
         const facilityType = ICAO.getFacilityType(fac.icao);
-        const repo = (_a = (_b = this.repos)[facilityType]) !== null && _a !== void 0 ? _a : (_b[facilityType] = new Map());
+        let repo = this.repos.get(facilityType);
+        if (repo === undefined) {
+            this.repos.set(facilityType, repo = new Map());
+        }
         const existing = repo.get(fac.icao);
         repo.set(fac.icao, fac);
-        if (facilityType === FacilityType.USR) {
+        if (facilityType === FacilityType.USR || facilityType === FacilityType.VIS) {
             if (existing === undefined) {
                 this.trees[facilityType].insert(fac);
             }
@@ -8514,31 +9340,128 @@ class FacilityRepository {
                 this.trees[facilityType].removeAndInsert([existing], [fac]);
             }
         }
-        if (existing !== undefined) {
-            this.bus.pub(`facility_changed_${fac.icao}`, fac, false, false);
+        if (existing === undefined) {
+            this.publisher.pub('facility_added', fac, false, false);
+        }
+        else {
+            this.publisher.pub(`facility_changed_${fac.icao}`, fac, false, false);
+            this.publisher.pub('facility_changed', fac, false, false);
+        }
+    }
+    /**
+     * Adds multiple facilities to this repository.
+     * @param facs The facilities to add.
+     */
+    addMultipleToRepo(facs) {
+        if (facs.length === 0) {
+            return;
+        }
+        const addedFacilities = [];
+        const changedFacilitiesRemoved = [];
+        const changedFacilitiesAdded = [];
+        for (let i = 0; i < facs.length; i++) {
+            const fac = facs[i];
+            const facilityType = ICAO.getFacilityType(fac.icao);
+            let repo = this.repos.get(facilityType);
+            if (repo === undefined) {
+                this.repos.set(facilityType, repo = new Map());
+            }
+            const existing = repo.get(fac.icao);
+            repo.set(fac.icao, fac);
+            if (existing === undefined) {
+                addedFacilities.push(fac);
+            }
+            else {
+                changedFacilitiesRemoved.push(existing);
+                changedFacilitiesAdded.push(fac);
+            }
+        }
+        const addedUserFacilities = facs.filter(fac => FacilityUtils.isFacilityType(fac, FacilityType.USR));
+        if (addedUserFacilities.length > 0) {
+            const removedUserFacilities = changedFacilitiesRemoved.filter(fac => FacilityUtils.isFacilityType(fac, FacilityType.USR));
+            this.trees[FacilityType.USR].removeAndInsert(removedUserFacilities, addedUserFacilities);
+        }
+        const addedVisFacilities = facs.filter(fac => FacilityUtils.isFacilityType(fac, FacilityType.VIS));
+        if (addedVisFacilities.length > 0) {
+            const removedVisFacilities = changedFacilitiesRemoved.filter(fac => FacilityUtils.isFacilityType(fac, FacilityType.VIS));
+            this.trees[FacilityType.VIS].removeAndInsert(removedVisFacilities, addedVisFacilities);
+        }
+        for (let i = 0; i < addedFacilities.length; i++) {
+            const fac = addedFacilities[i];
+            this.publisher.pub('facility_added', fac, false, false);
+        }
+        for (let i = 0; i < changedFacilitiesAdded.length; i++) {
+            const fac = changedFacilitiesAdded[i];
+            this.publisher.pub(`facility_changed_${fac.icao}`, fac, false, false);
+            this.publisher.pub('facility_changed', fac, false, false);
         }
     }
     /**
      * Removes a facility from this repository.
-     * @param fac The facility to remove.
+     * @param fac The facility to remove, or the ICAO of the facility to remove.
      */
     removeFromRepo(fac) {
-        var _a;
-        const facilityType = ICAO.getFacilityType(fac.icao);
-        (_a = this.repos[ICAO.getFacilityType(fac.icao)]) === null || _a === void 0 ? void 0 : _a.delete(fac.icao);
-        if (facilityType !== FacilityType.USR) {
+        const icao = typeof fac === 'string' ? fac : fac.icao;
+        const facilityType = ICAO.getFacilityType(icao);
+        const repo = this.repos.get(ICAO.getFacilityType(icao));
+        if (repo === undefined) {
             return;
         }
-        this.trees[facilityType].remove(fac);
+        const facilityInRepo = repo.get(icao);
+        if (facilityInRepo === undefined) {
+            return;
+        }
+        repo.delete(icao);
+        if (facilityType === FacilityType.USR || facilityType === FacilityType.VIS) {
+            this.trees[facilityType].remove(facilityInRepo);
+        }
+        this.publisher.pub(`facility_removed_${icao}`, facilityInRepo, false, false);
+        this.publisher.pub('facility_removed', facilityInRepo, false, false);
     }
     /**
-     * Publishes a sync event over the event bus.
-     * @param type The type of sync event.
-     * @param facs The event's user facilities.
+     * Removes multiple facilities from this repository.
+     * @param facs The facilities to remove, or the ICAOs of the facilities to remove.
      */
-    pubSyncEvent(type, facs) {
+    removeMultipleFromRepo(facs) {
+        if (facs.length === 0) {
+            return;
+        }
+        const removedFacilities = [];
+        for (let i = 0; i < facs.length; i++) {
+            const fac = facs[i];
+            const icao = typeof fac === 'string' ? fac : fac.icao;
+            const repo = this.repos.get(ICAO.getFacilityType(icao));
+            if (repo === undefined) {
+                continue;
+            }
+            const facilityInRepo = repo.get(icao);
+            if (facilityInRepo === undefined) {
+                continue;
+            }
+            repo.delete(icao);
+            removedFacilities.push(facilityInRepo);
+        }
+        const removedUserFacilities = removedFacilities.filter(fac => FacilityUtils.isFacilityType(fac, FacilityType.USR));
+        if (removedUserFacilities.length > 0) {
+            this.trees[FacilityType.USR].removeAll(removedUserFacilities);
+        }
+        const removedVisFacilities = removedFacilities.filter(fac => FacilityUtils.isFacilityType(fac, FacilityType.VIS));
+        if (removedVisFacilities.length > 0) {
+            this.trees[FacilityType.VIS].removeAll(removedVisFacilities);
+        }
+        for (let i = 0; i < removedFacilities.length; i++) {
+            const removedFac = removedFacilities[i];
+            this.publisher.pub(`facility_removed_${removedFac.icao}`, removedFac, false, false);
+            this.publisher.pub('facility_removed', removedFac, false, false);
+        }
+    }
+    /**
+     * Publishes a facility added or removed sync event over the event bus.
+     * @param data The event data.
+     */
+    pubSyncEvent(data) {
         this.ignoreSync = true;
-        this.bus.pub(FacilityRepository.SYNC_TOPIC, { type, facs }, true, false);
+        this.publisher.pub(FacilityRepository.SYNC_TOPIC, data, true, false);
         this.ignoreSync = false;
     }
     /**
@@ -8550,18 +9473,37 @@ class FacilityRepository {
             return;
         }
         switch (data.type) {
-            case FacilityRepositorySyncType.Add:
             case FacilityRepositorySyncType.DumpResponse:
-                data.facs.forEach(fac => this.addToRepo(fac));
+                // Only accept responses to your own dump requests.
+                if (data.uid !== this.lastDumpRequestUid) {
+                    break;
+                }
+                else {
+                    this.lastDumpRequestUid = undefined;
+                }
+            // eslint-disable-next-line no-fallthrough
+            case FacilityRepositorySyncType.Add:
+                if (data.facs.length === 1) {
+                    this.addToRepo(data.facs[0]);
+                }
+                else {
+                    this.addMultipleToRepo(data.facs);
+                }
                 break;
             case FacilityRepositorySyncType.Remove:
-                data.facs.forEach(fac => this.removeFromRepo(fac));
+                if (data.facs.length === 1) {
+                    this.removeFromRepo(data.facs[0]);
+                }
+                else {
+                    this.removeMultipleFromRepo(data.facs);
+                }
                 break;
             case FacilityRepositorySyncType.DumpRequest:
-                {
+                // Don't respond to your own dump requests.
+                if (data.uid !== this.lastDumpRequestUid) {
                     const facs = [];
                     this.forEach(fac => facs.push(fac));
-                    this.pubSyncEvent(FacilityRepositorySyncType.DumpResponse, facs);
+                    this.pubSyncEvent({ type: FacilityRepositorySyncType.DumpResponse, uid: data.uid, facs });
                 }
                 break;
         }
@@ -8676,7 +9618,15 @@ class CombinedSubject extends AbstractSubscribable {
 /**
  * A subscribable subject that is a mapped stream from one or more input subscribables.
  */
-class MappedSubject {
+class MappedSubject extends AbstractSubscribable {
+    /** @inheritdoc */
+    get isAlive() {
+        return this._isAlive;
+    }
+    /** @inheritdoc */
+    get isPaused() {
+        return this._isPaused;
+    }
     /**
      * Creates a new MappedSubject.
      * @param mapFunc The function which maps this subject's inputs to a value.
@@ -8686,81 +9636,107 @@ class MappedSubject {
      * @param inputs The subscribables which provide the inputs to this subject.
      */
     constructor(mapFunc, equalityFunc, mutateFunc, initialVal, ...inputs) {
-        this.isSubscribable = true;
-        this.input = CombinedSubject.create(...inputs);
-        if (initialVal !== undefined && mutateFunc !== undefined) {
-            this.mapped = this.input.map(mapFunc, equalityFunc, mutateFunc, initialVal);
+        super();
+        this.mapFunc = mapFunc;
+        this.equalityFunc = equalityFunc;
+        /** @inheritdoc */
+        this.canInitialNotify = true;
+        this._isAlive = true;
+        this._isPaused = false;
+        this.inputs = inputs;
+        this.inputValues = inputs.map(input => input.get());
+        if (initialVal && mutateFunc) {
+            this.value = initialVal;
+            mutateFunc(this.value, this.mapFunc(this.inputValues, undefined));
+            this.mutateFunc = (newVal) => { mutateFunc(this.value, newVal); };
         }
         else {
-            this.mapped = this.input.map(mapFunc, equalityFunc);
+            this.value = this.mapFunc(this.inputValues, undefined);
+            this.mutateFunc = (newVal) => { this.value = newVal; };
         }
-    }
-    /** @inheritdoc */
-    get isAlive() {
-        return this.input.isAlive;
-    }
-    /** @inheritdoc */
-    get isPaused() {
-        return this.input.isPaused;
+        this.inputSubs = this.inputs.map((input, index) => input.sub(inputValue => {
+            this.inputValues[index] = inputValue;
+            this.updateValue();
+        }));
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static create(mapFunc, ...args) {
-        let equalityFunc, mutateFunc, initialVal;
+    static create(...args) {
+        let mapFunc, equalityFunc, mutateFunc, initialVal;
         if (typeof args[0] === 'function') {
-            equalityFunc = args.shift();
+            // Mapping function was supplied.
+            mapFunc = args.shift();
+            if (typeof args[0] === 'function') {
+                equalityFunc = args.shift();
+            }
+            else {
+                equalityFunc = AbstractSubscribable.DEFAULT_EQUALITY_FUNC;
+            }
+            if (typeof args[0] === 'function') {
+                mutateFunc = args.shift();
+                initialVal = args.shift();
+            }
         }
         else {
-            equalityFunc = AbstractSubscribable.DEFAULT_EQUALITY_FUNC;
-        }
-        if (typeof args[0] === 'function') {
-            mutateFunc = args.shift();
-            initialVal = args.shift();
+            mapFunc = MappedSubject.IDENTITY_MAP;
+            equalityFunc = MappedSubject.NEVER_EQUALS;
         }
         return new MappedSubject(mapFunc, equalityFunc, mutateFunc, initialVal, ...args);
     }
+    /**
+     * Re-maps this subject's value from its input, and notifies subscribers if this results in a change to the mapped
+     * value according to this subject's equality function.
+     */
+    updateValue() {
+        const value = this.mapFunc(this.inputValues, this.value);
+        if (!this.equalityFunc(this.value, value)) {
+            this.mutateFunc(value);
+            this.notify();
+        }
+    }
     /** @inheritdoc */
     get() {
-        return this.mapped.get();
-    }
-    /** @inheritdoc */
-    sub(handler, initialNotify = false, paused = false) {
-        return this.mapped.sub(handler, initialNotify, paused);
-    }
-    /** @inheritdoc */
-    unsub(handler) {
-        this.mapped.unsub(handler);
-    }
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    map(fn, equalityFunc, mutateFunc, initialVal) {
-        if (initialVal !== undefined && mutateFunc !== undefined && equalityFunc !== undefined) {
-            return this.mapped.map(fn, equalityFunc, mutateFunc, initialVal);
-        }
-        else {
-            return this.mapped.map(fn, equalityFunc);
-        }
-    }
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    pipe(to, arg2, arg3) {
-        if (typeof arg2 === 'function') {
-            return this.mapped.pipe(to, arg2, arg3);
-        }
-        else {
-            return this.mapped.pipe(to, arg2);
-        }
+        return this.value;
     }
     /** @inheritdoc */
     pause() {
-        this.input.pause();
+        if (!this._isAlive) {
+            throw new Error('MappedSubject: cannot pause a dead subject');
+        }
+        if (this._isPaused) {
+            return this;
+        }
+        for (let i = 0; i < this.inputSubs.length; i++) {
+            this.inputSubs[i].pause();
+        }
+        this._isPaused = true;
+        return this;
     }
     /** @inheritdoc */
     resume() {
-        this.input.resume();
+        if (!this._isAlive) {
+            throw new Error('MappedSubject: cannot resume a dead subject');
+        }
+        if (!this._isPaused) {
+            return this;
+        }
+        this._isPaused = false;
+        for (let i = 0; i < this.inputSubs.length; i++) {
+            this.inputValues[i] = this.inputs[i].get();
+            this.inputSubs[i].resume();
+        }
+        this.updateValue();
+        return this;
     }
     /** @inheritdoc */
     destroy() {
-        this.input.destroy();
+        this._isAlive = false;
+        for (let i = 0; i < this.inputSubs.length; i++) {
+            this.inputSubs[i].destroy();
+        }
     }
 }
+MappedSubject.IDENTITY_MAP = SubscribableMapFunctions.identity();
+MappedSubject.NEVER_EQUALS = () => false;
 
 /**
  * Types of changes made to {@link SubscribableSet}.
@@ -8779,6 +9755,11 @@ var SubscribableSetEventType;
  * @template T
  */
 class ArraySubject extends AbstractSubscribableArray {
+    // eslint-disable-next-line jsdoc/require-returns
+    /** The length of this array. */
+    get length() {
+        return this.array.length;
+    }
     /**
      * Constructs an observable array.
      * @param arr The initial array elements.
@@ -8786,11 +9767,6 @@ class ArraySubject extends AbstractSubscribableArray {
     constructor(arr) {
         super();
         this.array = arr;
-    }
-    // eslint-disable-next-line jsdoc/require-returns
-    /** The length of this array. */
-    get length() {
-        return this.array.length;
     }
     /**
      * Creates and returns a new observable array.
@@ -8807,8 +9783,9 @@ class ArraySubject extends AbstractSubscribableArray {
      * @param item The item to insert.
      * @param index The optional index to insert the item to. Will add the item at then end if index not given.
      */
-    insert(item, index = -1) {
-        if (index === -1 || index > this.array.length - 1) {
+    insert(item, index) {
+        if (index === undefined || index > this.array.length - 1) {
+            index = this.array.length;
             this.array.push(item);
         }
         else {
@@ -8908,7 +9885,7 @@ class ObjectSubject {
     /** @inheritdoc */
     sub(handler, initialNotify = false, paused = false) {
         const sub = new HandlerSubscription(handler, this.initialNotifyFunc, this.onSubDestroyedFunc);
-        this.subs.push(sub);
+        this.addSubscription(sub);
         if (paused) {
             sub.pause();
         }
@@ -8917,9 +9894,31 @@ class ObjectSubject {
         }
         return sub;
     }
+    /**
+     * Adds a subscription to this subscribable.
+     * @param sub The subscription to add.
+     */
+    addSubscription(sub) {
+        if (this.subs) {
+            this.subs.push(sub);
+        }
+        else if (this.singletonSub) {
+            this.subs = [this.singletonSub, sub];
+            delete this.singletonSub;
+        }
+        else {
+            this.singletonSub = sub;
+        }
+    }
     /** @inheritdoc */
     unsub(handler) {
-        const toDestroy = this.subs.find(sub => sub.handler === handler);
+        let toDestroy = undefined;
+        if (this.singletonSub && this.singletonSub.handler === handler) {
+            toDestroy = this.singletonSub;
+        }
+        else if (this.subs) {
+            toDestroy = this.subs.find(sub => sub.handler === handler);
+        }
         toDestroy === null || toDestroy === void 0 ? void 0 : toDestroy.destroy();
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
@@ -8945,16 +9944,14 @@ class ObjectSubject {
      * @param oldValue The old value of the property that changed.
      */
     notify(key, oldValue) {
+        const canCleanUpSubs = this.notifyDepth === 0;
         let needCleanUpSubs = false;
         this.notifyDepth++;
-        const subLen = this.subs.length;
-        for (let i = 0; i < subLen; i++) {
+        if (this.singletonSub) {
             try {
-                const sub = this.subs[i];
-                if (sub.isAlive && !sub.isPaused) {
-                    sub.handler(this.obj, key, this.obj[key], oldValue);
+                if (this.singletonSub.isAlive && !this.singletonSub.isPaused) {
+                    this.singletonSub.handler(this.obj, key, this.obj[key], oldValue);
                 }
-                needCleanUpSubs || (needCleanUpSubs = !sub.isAlive);
             }
             catch (error) {
                 console.error(`ObjectSubject: error in handler: ${error}`);
@@ -8962,10 +9959,58 @@ class ObjectSubject {
                     console.error(error.stack);
                 }
             }
+            if (canCleanUpSubs) {
+                // If subscriptions were added during the notification, then singletonSub would be deleted and replaced with
+                // the subs array.
+                if (this.singletonSub) {
+                    needCleanUpSubs = !this.singletonSub.isAlive;
+                }
+                else if (this.subs) {
+                    for (let i = 0; i < this.subs.length; i++) {
+                        if (!this.subs[i].isAlive) {
+                            needCleanUpSubs = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else if (this.subs) {
+            const subLen = this.subs.length;
+            for (let i = 0; i < subLen; i++) {
+                try {
+                    const sub = this.subs[i];
+                    if (sub.isAlive && !sub.isPaused) {
+                        sub.handler(this.obj, key, this.obj[key], oldValue);
+                    }
+                    needCleanUpSubs || (needCleanUpSubs = canCleanUpSubs && !sub.isAlive);
+                }
+                catch (error) {
+                    console.error(`ObjectSubject: error in handler: ${error}`);
+                    if (error instanceof Error) {
+                        console.error(error.stack);
+                    }
+                }
+            }
+            // If subscriptions were added during the notification and a cleanup operation is not already pending, then we
+            // need to check if any of the new subscriptions are already dead and if so, pend a cleanup operation.
+            if (canCleanUpSubs && !needCleanUpSubs) {
+                for (let i = subLen; i < this.subs.length; i++) {
+                    if (!this.subs[i].isAlive) {
+                        needCleanUpSubs = true;
+                        break;
+                    }
+                }
+            }
         }
         this.notifyDepth--;
-        if (needCleanUpSubs && this.notifyDepth === 0) {
-            this.subs = this.subs.filter(sub => sub.isAlive);
+        if (needCleanUpSubs) {
+            if (this.singletonSub) {
+                delete this.singletonSub;
+            }
+            else if (this.subs) {
+                this.subs = this.subs.filter(sub => sub.isAlive);
+            }
         }
     }
     /**
@@ -8986,7 +10031,15 @@ class ObjectSubject {
         // If we are not in the middle of a notify operation, remove the subscription.
         // Otherwise, do nothing and let the post-notify clean-up code handle it.
         if (this.notifyDepth === 0) {
-            this.subs.splice(this.subs.indexOf(sub), 1);
+            if (this.singletonSub === sub) {
+                delete this.singletonSub;
+            }
+            else if (this.subs) {
+                const index = this.subs.indexOf(sub);
+                if (index >= 0) {
+                    this.subs.splice(index, 1);
+                }
+            }
         }
     }
     // eslint-disable-next-line jsdoc/require-jsdoc
@@ -9024,7 +10077,7 @@ class ObjectSubject {
 /**
  * A type map of search type to concrete facility loader query type.
  */
-new Map([
+const facilitySearchTypeMap = new Map([
     [FacilitySearchType.Airport, FacilityType.Airport],
     [FacilitySearchType.Intersection, FacilityType.Intersection],
     [FacilitySearchType.Vor, FacilityType.VOR],
@@ -9430,6 +10483,7 @@ var FlightPathVectorFlags;
     /** A fallback path. */
     FlightPathVectorFlags[FlightPathVectorFlags["Fallback"] = 4096] = "Fallback";
 })(FlightPathVectorFlags || (FlightPathVectorFlags = {}));
+
 /**
  * A prototype for signalling application-specific type metadata for plan segments.
  */
@@ -9444,6 +10498,7 @@ var FlightPlanSegmentType;
     FlightPlanSegmentType["MissedApproach"] = "MissedApproach";
     FlightPlanSegmentType["RandomDirectTo"] = "RandomDirectTo";
 })(FlightPlanSegmentType || (FlightPlanSegmentType = {}));
+
 /**
  * A segment of a flight plan.
  */
@@ -9477,12 +10532,21 @@ var LegDefinitionFlags;
     LegDefinitionFlags[LegDefinitionFlags["MissedApproach"] = 2] = "MissedApproach";
     LegDefinitionFlags[LegDefinitionFlags["Obs"] = 4] = "Obs";
     LegDefinitionFlags[LegDefinitionFlags["VectorsToFinal"] = 8] = "VectorsToFinal";
+    LegDefinitionFlags[LegDefinitionFlags["VectorsToFinalFaf"] = 16] = "VectorsToFinalFaf";
 })(LegDefinitionFlags || (LegDefinitionFlags = {}));
+
 var SpeedType;
 (function (SpeedType) {
     SpeedType[SpeedType["IAS"] = 0] = "IAS";
     SpeedType[SpeedType["MACH"] = 1] = "MACH";
 })(SpeedType || (SpeedType = {}));
+/*
+var SpeedUnit;
+(function (SpeedUnit) {
+    SpeedUnit[SpeedUnit["IAS"] = 0] = "IAS";
+    SpeedUnit[SpeedUnit["MACH"] = 1] = "MACH";
+})(SpeedUnit || (SpeedUnit = {}));
+*/
 
 /**
  * Utility class for working with flight path calculations.
@@ -9549,6 +10613,22 @@ class FlightPathUtils {
         return out.set(Vec3Math.set(vector.centerX, vector.centerY, vector.centerZ, FlightPathUtils.vec3Cache[0]), vector.radius);
     }
     /**
+     * Gets the direction of a turn described by a flight path circle vector.
+     * @param vector The flight path circle vector describing the turn.
+     * @returns The direction of the turn described by the flight path circle vector.
+     */
+    static getVectorTurnDirection(vector) {
+        return vector.radius > MathUtils.HALF_PI ? 'right' : 'left';
+    }
+    /**
+     * Gets the radius of a turn described by a flight path circle vector.
+     * @param vector The flight path circle vector describing the turn.
+     * @returns The radius of the turn described by the flight path circle vector, in great-arc radians.
+     */
+    static getVectorTurnRadius(vector) {
+        return Math.min(vector.radius, Math.PI - vector.radius);
+    }
+    /**
      * Gets the initial true course bearing of a flight path vector.
      * @param vector A flight path vector.
      * @returns The initial true course bearing of the vector, or undefined if one could not be calculated.
@@ -9563,6 +10643,22 @@ class FlightPathUtils {
      */
     static getVectorFinalCourse(vector) {
         return FlightPathUtils.setGeoCircleFromVector(vector, FlightPathUtils.geoCircleCache[0]).bearingAt(FlightPathUtils.geoPointCache[0].set(vector.endLat, vector.endLon), Math.PI);
+    }
+    /**
+     * Gets the true course for a flight plan leg.
+     * @param leg A flight plan leg.
+     * @param point The location from which to get magnetic variation if `magVarFacility` is not defined.
+     * @param magVarFacility The VOR facility which defines the magnetic variation used for the leg's course.
+     * @returns The true course for the specified flight plan leg.
+     */
+    static getLegTrueCourse(leg, point, magVarFacility) {
+        if (leg.trueDegrees) {
+            return leg.course;
+        }
+        const magVar = magVarFacility
+            ? -magVarFacility.magneticVariation // The sign of magnetic variation on VOR facilities is the opposite of the standard east = positive convention.
+            : Facilities.getMagVar(point.lat, point.lon);
+        return NavMath.normalizeHeading(leg.course + magVar);
     }
     /**
      * Gets the final position of a calculated leg.
@@ -9642,6 +10738,37 @@ class FlightPathUtils {
             : out instanceof Float64Array
                 ? Vec3Math.copy(circle.center, out)
                 : out.setFromCartesian(circle.center));
+    }
+    /**
+     * Gets the great circle tangent to a given path at a given tangent point. The tangent circle will contain the
+     * tangent point and have the same direction as the path at the tangent point.
+     * @param point The tangent point. If the point does not lie on the path, it will be projected onto the path.
+     * @param path The geo circle describing the path.
+     * @param out A GeoCircle object to which to write the result.
+     * @returns The great circle tangent to the specified path at the specified point.
+     */
+    static getGreatCircleTangentToPath(point, path, out) {
+        if (!(point instanceof Float64Array)) {
+            point = GeoPoint.sphericalToCartesian(point, FlightPathUtils.vec3Cache[0]);
+        }
+        const radialNormal = Vec3Math.normalize(Vec3Math.cross(path.center, point, FlightPathUtils.vec3Cache[1]), FlightPathUtils.vec3Cache[1]);
+        return out.set(Vec3Math.cross(point, radialNormal, FlightPathUtils.vec3Cache[1]), MathUtils.HALF_PI);
+    }
+    /**
+     * Gets the great circle tangent to a given flight path vector at a given tangent point. The tangent circle will
+     * contain the tangent point and have the same direction as the vector at the tangent point.
+     * @param point The tangent point. If the point does not lie on the vector, it will be projected onto the vector.
+     * @param vector The flight path vector.
+     * @param out A GeoCircle object to which to write the result.
+     * @returns The great circle tangent to the specified flight path vector at the specified point.
+     */
+    static getGreatCircleTangentToVector(point, vector, out) {
+        if (!(point instanceof Float64Array)) {
+            point = GeoPoint.sphericalToCartesian(point, FlightPathUtils.vec3Cache[0]);
+        }
+        const centerVec = Vec3Math.set(vector.centerX, vector.centerY, vector.centerZ, FlightPathUtils.vec3Cache[1]);
+        const radialNormal = Vec3Math.normalize(Vec3Math.cross(centerVec, point, FlightPathUtils.vec3Cache[1]), FlightPathUtils.vec3Cache[1]);
+        return out.set(Vec3Math.cross(point, radialNormal, FlightPathUtils.vec3Cache[1]), MathUtils.HALF_PI);
     }
     /**
      * Calculates and returns a circle describing a turn starting from a path at a specified point.
@@ -9725,6 +10852,29 @@ class FlightPathUtils {
         }
         const signedDiff = (angle - end) * (end >= 0 ? 1 : -1);
         return inclusive ? signedDiff <= angularTolerance : signedDiff < -angularTolerance;
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static projectVelocityToCircle(speed, position, direction, projectTo) {
+        if (projectTo.radius <= GeoCircle.ANGULAR_TOLERANCE) {
+            return NaN;
+        }
+        if (speed === 0) {
+            return 0;
+        }
+        if (!(position instanceof Float64Array)) {
+            position = GeoPoint.sphericalToCartesian(position, FlightPathUtils.vec3Cache[0]);
+        }
+        const velocityPath = typeof direction === 'number'
+            ? FlightPathUtils.geoCircleCache[0].setAsGreatCircle(position, direction)
+            : direction.isGreatCircle()
+                ? direction
+                : FlightPathUtils.geoCircleCache[0].setAsGreatCircle(position, FlightPathUtils.geoCircleCache[0].setAsGreatCircle(direction.center, position).center);
+        const sign = velocityPath.encircles(projectTo.center) ? 1 : -1;
+        const velocityPathNormal = Vec3Math.copy(velocityPath.center, FlightPathUtils.vec3Cache[1]);
+        const projectedRadialNormal = FlightPathUtils.geoCircleCache[0].setAsGreatCircle(projectTo.center, position).center;
+        const dot = Vec3Math.dot(projectedRadialNormal, velocityPathNormal);
+        const sinTheta = Math.sqrt(1 - MathUtils.clamp(dot * dot, 0, 1));
+        return speed * sinTheta * sign;
     }
     /**
      * Resolves the ingress to egress vectors for a set of flight plan leg calculations. This operation will populate the
@@ -10112,21 +11262,22 @@ class DefaultFacilityWaypointCache {
     }
     /** @inheritdoc */
     get(facility) {
-        let existing = this.cache.get(facility.icao);
+        const key = DefaultFacilityWaypointCache.getFacilityKey(facility);
+        let existing = this.cache.get(key);
         if (!existing) {
-            existing = new FacilityWaypoint(facility, this.bus);
-            this.addToCache(facility, existing);
+            existing = new BasicFacilityWaypoint(facility, this.bus);
+            this.addToCache(key, existing);
         }
         return existing;
     }
     /**
      * Adds a waypoint to this cache. If the size of the cache is greater than the maximum after the new waypoint is
      * added, a waypoint will be removed from the cache in FIFO order.
-     * @param facility The facility associated with the waypoint to add.
+     * @param key The key of the waypoint to add.
      * @param waypoint The waypoint to add.
      */
-    addToCache(facility, waypoint) {
-        this.cache.set(facility.icao, waypoint);
+    addToCache(key, waypoint) {
+        this.cache.set(key, waypoint);
         if (this.cache.size > this.size) {
             this.cache.delete(this.cache.keys().next().value);
         }
@@ -10139,6 +11290,17 @@ class DefaultFacilityWaypointCache {
     static getCache(bus) {
         var _a;
         return (_a = DefaultFacilityWaypointCache.INSTANCE) !== null && _a !== void 0 ? _a : (DefaultFacilityWaypointCache.INSTANCE = new DefaultFacilityWaypointCache(bus, 1000));
+    }
+    /**
+     * Gets the cache key for a facility.
+     * @param facility A facility.
+     * @returns The cache key for the specified facility.
+     */
+    static getFacilityKey(facility) {
+        if (FacilityUtils.isFacilityType(facility, FacilityType.Intersection) && ICAO.getFacilityType(facility.icao) !== FacilityType.Intersection) {
+            return `mismatch.${facility.icao}`;
+        }
+        return facility.icao;
     }
 }
 
@@ -10162,6 +11324,97 @@ var XPDRMode;
     XPDRMode[XPDRMode["ALT"] = 4] = "ALT";
     XPDRMode[XPDRMode["GROUND"] = 5] = "GROUND";
 })(XPDRMode || (XPDRMode = {}));
+/** A publiher to poll transponder simvars. */
+class XPDRSimVarPublisher extends SimVarPublisher {
+    /**
+     * Create an XPDRSimVarPublisher.
+     * @param bus The EventBus to publish to.
+     * @param pacer An optional pacer to use to control the pace of publishing.
+     * @param transponderCount The number of transponders supported by this publisher.
+     */
+    constructor(bus, pacer = undefined, transponderCount = 1) {
+        const vars = [];
+        for (let i = 0; i < transponderCount; i++) {
+            vars.push([`xpdr_mode_${i + 1}`, { name: `TRANSPONDER STATE:${i + 1}`, type: SimVarValueType.Number }]);
+            vars.push([`xpdr_code_${i + 1}`, { name: `TRANSPONDER CODE:${i + 1}`, type: SimVarValueType.Number }]);
+            vars.push([`xpdr_ident_${i + 1}`, { name: `TRANSPONDER IDENT:${i + 1}`, type: SimVarValueType.Bool }]);
+        }
+        super(new Map(vars), bus, pacer);
+    }
+}
+/** A transponder. */
+class XPDRInstrument {
+    /**
+     * Create an XPDRInstrument.
+     * @param bus The event bus to publish to.
+     * @param transponderCount The number of transponders supported by this instrument. Defaults to `1`.
+     */
+    constructor(bus, transponderCount = 1) {
+        this.bus = bus;
+        this.transponderCount = transponderCount;
+        this.identDebounceTimers = Array.from({ length: this.transponderCount }, () => new DebounceTimer());
+        this.bus = bus;
+        this.simVarPublisher = new XPDRSimVarPublisher(bus);
+        this.controlSubscriber = bus.getSubscriber();
+    }
+    /** Initialize the instrument. */
+    init() {
+        this.simVarPublisher.startPublish();
+        for (let i = 0; i < this.transponderCount; i++) {
+            this.controlSubscriber.on(`publish_xpdr_code_${i + 1}`).handle(this.setXpdrCode.bind(this, i + 1));
+            this.controlSubscriber.on(`publish_xpdr_mode_${i + 1}`).handle(this.setXpdrMode.bind(this, i + 1));
+            this.controlSubscriber.on(`xpdr_send_ident_${i + 1}`).handle(this.sendIdent.bind(this, i + 1));
+            // force standby on plane load when off
+            if (this.getXpdrMode(i + 1) === XPDRMode.OFF) {
+                this.setXpdrMode(i + 1, XPDRMode.STBY);
+            }
+        }
+    }
+    /**
+     * Perform events for the update loop.
+     */
+    onUpdate() {
+        // Currently, we just need to update our simvar publisher so it polls.
+        this.simVarPublisher.onUpdate();
+    }
+    /**
+     * Set the transponder code in the sim.
+     * @param index The index of the transponder.
+     * @param code The xpdr code.
+     */
+    setXpdrCode(index, code) {
+        const bcdCode = Avionics.Utils.make_xpndr_bcd16(code);
+        SimVar.SetSimVarValue(`K:${index}:XPNDR_SET`, 'Frequency BCD16', bcdCode);
+    }
+    /**
+     * Set the transponder mode in the sim.
+     * @param index The index of the transponder.
+     * @param mode The transponder mode.
+     */
+    setXpdrMode(index, mode) {
+        SimVar.SetSimVarValue(`TRANSPONDER STATE:${index}`, 'number', mode);
+    }
+    /**
+     * Gets xpdr mode from the sim.
+     * @param index The index of the transponder.
+     * @returns The xpdr mode.
+     */
+    getXpdrMode(index) {
+        return SimVar.GetSimVarValue(`TRANSPONDER STATE:${index}`, 'number');
+    }
+    /**
+     * Sends ident to ATC for 18 seconds.
+     * @param index The index of the transponder.
+     */
+    sendIdent(index) {
+        if (this.getXpdrMode(index) > XPDRMode.STBY) {
+            SimVar.SetSimVarValue(`K:${index}:XPNDR_IDENT_ON`, 'number', 1);
+            this.identDebounceTimers[index - 1].schedule(() => {
+                SimVar.SetSimVarValue(`K:${index}:XPNDR_IDENT_OFF`, 'number', 0);
+            }, 18000);
+        }
+    }
+}
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 var Wait;
