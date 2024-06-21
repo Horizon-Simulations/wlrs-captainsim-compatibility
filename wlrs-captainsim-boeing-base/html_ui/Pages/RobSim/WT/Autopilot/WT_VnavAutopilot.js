@@ -228,6 +228,8 @@ class WT_VerticalAutopilot {
     }
 
     get navMode() {
+        //const navSource = 3;
+        //return navSource;
         const navMode = this._navModeSelector.lNavModeState;
 		const navSource = navMode == LNavModeState.NAV2 ? 2 : navMode == LNavModeState.NAV1 ? 1 : 0;
 		return navSource;
@@ -258,7 +260,7 @@ class WT_VerticalAutopilot {
     }
 
     get glideslopeFpa() {
-		return SimVar.GetSimVarValue('NAV RAW GLIDE SLOPE:' + this.navMode, 'Degree');
+        return SimVar.GetSimVarValue('NAV RAW GLIDE SLOPE:' + this.navMode, 'Degree');      //return SimVar.GetSimVarValue("NAV RAW GLIDE SLOPE:3", "Degree");
     }
 
     get approachMode() {
@@ -290,24 +292,10 @@ class WT_VerticalAutopilot {
 
     
     update() {
-        //test
-        //KNOWN ISSUEs (IN THIS ONE)
-        //(IDLE THRUST AND TRY TO DESCEND EVEN IF IT HASN'T REACH DES POINT/TOD - might be the slew mode fault)
-
-        let signal =  SimVar.GetSimVarValue("L:FLARE_STATUS", "number");    //-1: not initialized, 0: initialuize; 1: armed; 2: active - NOTE: THIS WILL BE KEEP UNTIL WT AUTOLAND IS IMPLEMENTED
-
-        if (this._navModeSelector.altIntervention) {
-			this._navModeSelector.altIntervention = false;
-			this._constraintStatus = ConstraintStatus.OBSERVING_CLIMB;
-			this.setConstraintAltitude(true);
-		}
+        let signal =  SimVar.GetSimVarValue("L:FLARE_STATUS", "number");    //-1: not initialized, 0: initialuize; 1: armed; 2: active
         this._vnavState = this.checkVnavState();
         this._glidepathStatus = this.checkGlidepathStatus();
         this._glideslopeStatus = this.checkGlideslopeStatus();
-        //checked
-
-        //this condition link with L vars
-        //NOT IN NEW FILE
         if (this._glideslopeStatus === GlideslopeStatus.GS_ACTIVE && this._navModeSelector.currentVerticalActiveState != VerticalNavModeState.GA) {
             if (!SimVar.GetSimVarValue("AUTOPILOT GLIDESLOPE ACTIVE", "bool")) {
                 SimVar.SetSimVarValue("K:AP_APR_HOLD_ON", "bool", 1);
@@ -323,7 +311,6 @@ class WT_VerticalAutopilot {
             }
             return;
         }
-        //END NOT IN NEW FILE
     
         switch (this._vnavPathStatus) {
             case VnavPathStatus.NONE:
@@ -345,7 +332,7 @@ class WT_VerticalAutopilot {
 					console.log("path activate");
                     this._vnavPathStatus = VnavPathStatus.PATH_ACTIVE;
                     this.verticalMode = VerticalNavModeState.PATH;
-                    this._navModeSelector.activateSpeedMode();  //NOT IN NEW FILE
+                    this._navModeSelector.activateSpeedMode();
                     this._pathInterceptStatus = PathInterceptStatus.NONE;
                     if (this._glidepathStatus === GlidepathStatus.GP_ACTIVE) {
                         this._glidepathStatus = GlidepathStatus.NONE;
@@ -372,18 +359,9 @@ class WT_VerticalAutopilot {
                     break;
                 }
                 if (!this.canPathActivate(true) && this._pathInterceptStatus !== PathInterceptStatus.LEVELING && this._pathInterceptStatus !== PathInterceptStatus.LEVELED) {
-                    /*
                     this._vnavPathStatus = VnavPathStatus.NONE;
                     this.vsSlot = 1;
                     this.currentAltitudeTracking = AltitudeState.SELECTED;
-                    */
-                   //NEW FILE
-                    this.setVerticalNavModeState(VerticalNavModeState.PTCH);
-					this._vnavPathStatus = VnavPathStatus.NONE;
-					this.vsSlot = 1;
-					this.currentAltitudeTracking = AltitudeState.SELECTED;
-					this._navModeSelector.engagePitch();
-                    //END NEW FILE
 
                     if (this.verticalMode !== VerticalNavModeState.FLC) {
                         this._navModeSelector.engageFlightLevelChange();
@@ -431,10 +409,7 @@ class WT_VerticalAutopilot {
             case GlideslopeStatus.NONE:
                 break;
             case GlideslopeStatus.GS_CAN_ARM:
-                //if (this.lateralMode === LateralNavModeState.APPR && this.approachMode !== WT_ApproachType.RNAV && SimVar.GetSimVarValue("L:AP_APP_ARMED", "bool") === 1) {
-                //NEW FILE - NOTE: FOR SOME REASON: GLIDE SLOPE ARMED (L:APP_AP_ARMED) IS SWAPPED BETWEEN THE GLIDE PATH CAN ARM AND GLIDE SLOP CAN ARM, THE OLDER FILE SEEMS TO HAVE BETTER LOGIC, WILL BE TEST
-                if (this.lateralMode === LateralNavModeState.APPR && this.approachMode !== WT_ApproachType.RNAV) {
-
+                if (this.lateralMode === LateralNavModeState.APPR && this.approachMode !== WT_ApproachType.RNAV && SimVar.GetSimVarValue("L:AP_APP_ARMED", "bool") === 1) {
                     this._glideslopeStatus = GlideslopeStatus.GS_ARMED;
                 }
                 break;
@@ -488,8 +463,8 @@ class WT_VerticalAutopilot {
         this.setSnowflake();
         this.fmsTextValues();
         this.wtAltituteManager();
-        //IN NEW FILE - NOTE: SEEMS LIKE THIS IS THE CODE TO UPDATE THE TOD, I'LL REACTIVE IT 
-        if (this._vnavPathStatus !== VnavPathStatus.PATH_ACTIVE && this.distanceToTod > 0.1 && this.vnavState !== VnavState.NONE) {
+
+        /*if (this._vnavPathStatus !== VnavPathStatus.PATH_ACTIVE && this.distanceToTod > 0.1 && this.vnavState !== VnavState.NONE) {
             const todAlertDistance = AutopilotMath.calculateDescentDistance(this.path.fpa, 250) + (0.017 * this.groundSpeed);
             if (todAlertDistance > this.distanceToTod) {
                 MessageService.getInstance().post(FMS_MESSAGE_ID.TOD, () => {
@@ -499,10 +474,11 @@ class WT_VerticalAutopilot {
                     return todBlinkDistance > this.distanceToTod;
                 });
             }
-        }
+        }*/
     }
 
     setArmedApproachVerticalState() {
+        let altitude = Simplane.getAltitudeAboveGround();
         if (this._glidepathStatus === GlidepathStatus.GP_ARMED) {
             this._navModeSelector.setArmedApproachVerticalState(VerticalNavModeState.GP);
         }
@@ -551,11 +527,10 @@ class WT_VerticalAutopilot {
                     break;
                 }
                 if (this.path.fpa !== undefined && this.path.fpa == 0 && this.nextPath.fpa !== undefined && this.nextPath.fpa != 0) {
-                    //IN NEW FILE, THE CONDITION IS ACTIVATED, WHILE THE OLD FILE IS NOT, THIS NEED TO BE ACTIVATE STEP BY STEP AND TEST.
-                    //return true;  //IN OLD FILE
-                    if (this.nextPath.deviation <= 1000 && this.selectedAltitude < this.indicatedAltitude - 100) {
+                    return true;
+                    /*if (this.nextPath.deviation <= 1000 && this.selectedAltitude < this.indicatedAltitude - 100) {
                         return true;
-                    }
+                    }*/
                 }
                 if (this.firstPossibleDescentIndex && this._vnav.flightplan.activeWaypointIndex >= this.firstPossibleDescentIndex) {
                     const distance = this._vnav.getDistanceToTarget();
@@ -1556,23 +1531,23 @@ class WT_VerticalAutopilot {
     }
 
     buildConstraintText(waypoint) {
-		let constraintText = undefined;
-		switch (waypoint.legAltitudeDescription) {
-			case 1:
-				constraintText = Math.floor(waypoint.legAltitude1).toFixed(0);
-				break;
-			case 2:
-				constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + 'A';
-				break;
-			case 3:
-				constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + 'B';
-				break;
-			case 4:
-				constraintText = Math.floor(waypoint.legAltitude2).toFixed(0) + 'A' + Math.floor(waypoint.legAltitude1).toFixed(0) + 'B';
-				break;
-		}
-		return constraintText;
-	}
+        let constraintText = undefined;
+        switch (waypoint.legAltitudeDescription) {
+            case 1:
+                constraintText = Math.floor(waypoint.legAltitude1).toFixed(0);
+                break;
+            case 2:
+                constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + "A";
+                break;
+            case 3:
+                constraintText = Math.floor(waypoint.legAltitude1).toFixed(0) + "B";
+                break;
+            case 4:
+                constraintText = Math.floor(waypoint.legAltitude2).toFixed(0) + "A" + Math.floor(waypoint.legAltitude1).toFixed(0) + "B";
+                break;
+        }
+        return constraintText;
+    }
 
     fmsTextValues() {
         //Datastore for VNAV Window in FMS TEXT
