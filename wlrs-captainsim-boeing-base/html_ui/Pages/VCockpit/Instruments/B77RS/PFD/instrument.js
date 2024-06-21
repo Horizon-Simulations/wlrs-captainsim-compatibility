@@ -11417,18 +11417,50 @@ class XPDRInstrument {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
-var Wait;
-(function (Wait) {
+/**
+ * A utility class for generating Promises that wait for certain conditions before they are fulfilled.
+ */
+class Wait {
     /**
      * Waits for a set amount of time.
      * @param delay The amount of time to wait in milliseconds.
      * @returns a Promise which is fulfilled after the delay.
      */
-    // eslint-disable-next-line no-inner-declarations
-    function awaitDelay(delay) {
+    static awaitDelay(delay) {
         return new Promise(resolve => setTimeout(() => resolve(), delay));
     }
-    Wait.awaitDelay = awaitDelay;
+    /**
+     * Waits for a certain number of frames to elapse.
+     * @param count The number of frames to wait.
+     * @param glassCockpitRefresh Whether to wait for glass cockpit refresh frames instead of CoherentGT frames. Defaults
+     * to `false`.
+     */
+    static awaitFrames(count, glassCockpitRefresh = false) {
+        let elapsedFrameCount = 0;
+        if (glassCockpitRefresh) {
+            return new Promise(resolve => {
+                const callback = () => {
+                    if (++elapsedFrameCount > count) {
+                        resolve();
+                    }
+                    else {
+                        requestAnimationFrame(callback);
+                    }
+                };
+                requestAnimationFrame(callback);
+            });
+        }
+        else {
+            return new Promise(resolve => {
+                const id = setInterval(() => {
+                    if (++elapsedFrameCount > count) {
+                        clearInterval(id);
+                        resolve();
+                    }
+                }, 0);
+            });
+        }
+    }
     /**
      * Waits for a condition to be satisfied.
      * @param predicate A function which evaluates whether the condition is satisfied.
@@ -11439,8 +11471,7 @@ var Wait;
      * continually evaluated until it is satisfied. Defaults to 0.
      * @returns a Promise which is fulfilled when the condition is satisfied.
      */
-    // eslint-disable-next-line no-inner-declarations
-    function awaitCondition(predicate, interval = 0, timeout = 0) {
+    static awaitCondition(predicate, interval = 0, timeout = 0) {
         const t0 = Date.now();
         if (interval <= 0) {
             const loopFunc = (resolve, reject) => {
@@ -11468,10 +11499,101 @@ var Wait;
             });
         }
     }
-    Wait.awaitCondition = awaitCondition;
-})(Wait || (Wait = {}));
-
-new GeoPoint(0, 0);
+    /**
+     * Waits for a notification from a {@link Subscribable}, with an optional condition to end the wait based on the value
+     * of the subscribable.
+     * @param subscribable The subscribable to wait for.
+     * @param predicate A function which evaluates whether the value of the subscribable satisfies the condition for the
+     * wait to end. If not defined, any value is considered satisfactory.
+     * @param initialCheck Whether to immediately receive a notification from the subscribable at the start of the wait.
+     * Defaults to `false`.
+     * @param timeout The amount of time, in milliseconds, before the returned Promise is rejected if the condition is
+     * not satisfied. A zero or negative value causes the Promise to never be rejected. Defaults to 0.
+     * @returns A Promise which is fulfilled with the value of the subscribable when a notification is received with a
+     * value that satisfies the condition for the wait to end.
+     */
+    static awaitSubscribable(subscribable, predicate, initialCheck = false, timeout = 0) {
+        return new Promise((resolve, reject) => {
+            const sub = subscribable.sub(val => {
+                if (predicate === undefined || predicate(val)) {
+                    sub.destroy();
+                    resolve(val);
+                }
+            }, false, true);
+            sub.resume(initialCheck);
+            if (timeout > 0) {
+                setTimeout(() => {
+                    if (sub.isAlive) {
+                        sub.destroy();
+                        reject('Await condition timed out.');
+                    }
+                }, timeout);
+            }
+        });
+    }
+    /**
+     * Waits for an event from a {@link Consumer}, with an optional condition to end the wait based on the value of the
+     * consumed event.
+     * @param consumer The event consumer to wait for.
+     * @param predicate A function which evaluates whether the value of the consumed event satisfies the condition for
+     * the wait to end. If not defined, any value is considered satisfactory.
+     * @param initialCheck Whether to immediately receive an event from the event consumer at the start of the wait.
+     * Defaults to `false`.
+     * @param timeout The amount of time, in milliseconds, before the returned Promise is rejected if the condition is
+     * not satisfied. A zero or negative value causes the Promise to never be rejected. Defaults to 0.
+     * @returns A Promise which is fulfilled with the value of the consumed event when an event is received with a
+     * value that satisfies the condition for the wait to end.
+     */
+    static awaitConsumer(consumer, predicate, initialCheck = false, timeout = 0) {
+        return new Promise((resolve, reject) => {
+            const sub = consumer.handle(val => {
+                if (predicate === undefined || predicate(val)) {
+                    sub.destroy();
+                    resolve(val);
+                }
+            }, true);
+            sub.resume(initialCheck);
+            if (timeout > 0) {
+                setTimeout(() => {
+                    if (sub.isAlive) {
+                        sub.destroy();
+                        reject('Await condition timed out.');
+                    }
+                }, timeout);
+            }
+        });
+    }
+    /**
+     * Waits for an event from a {@link ReadonlySubEvent}, with an optional condition to end the wait based on the sender
+     * and data of the event.
+     * @param event The event to wait for.
+     * @param predicate A function which evaluates whether the sender and data of the event satisfy the condition for
+     * the wait to end. If not defined, any sender/data is considered satisfactory.
+     * @param timeout The amount of time, in milliseconds, before the returned Promise is rejected if the condition is
+     * not satisfied. A zero or negative value causes the Promise to never be rejected. Defaults to 0.
+     * @returns A Promise which is fulfilled with the data of the event when an event is received with a sender and data
+     * that satisfy the condition for the wait to end.
+     */
+    static awaitSubEvent(event, predicate, timeout = 0) {
+        return new Promise((resolve, reject) => {
+            const sub = event.on((sender, data) => {
+                if (predicate === undefined || predicate(data, sender)) {
+                    sub.destroy();
+                    resolve(data);
+                }
+            }, true);
+            sub.resume();
+            if (timeout > 0) {
+                setTimeout(() => {
+                    if (sub.isAlive) {
+                        sub.destroy();
+                        reject('Await condition timed out.');
+                    }
+                }, timeout);
+            }
+        });
+    }
+}
 
 new Map([
     ['flaps_handle_index', { name: 'FLAPS HANDLE INDEX', type: SimVarValueType.Number }],
@@ -11651,20 +11773,30 @@ var VNavVars;
     VNavVars["CaptureType"] = "L:WTAP_VNav_Alt_Capture_Type";
     /** The distance to the next TOD in meters, or -1 if one does not exist. */
     VNavVars["TODDistance"] = "L:WTAP_VNav_Distance_To_TOD";
+    /** The distance to the next BOD in meters, or -1 if one does not exist. */
+    VNavVars["BODDistance"] = "L:WTAP_VNav_Distance_To_BOD";
     /** The index of the leg for the next TOD. */
     VNavVars["TODLegIndex"] = "L:WTAP_VNav_TOD_Leg_Index";
     /** The distance from the end of the TOD leg that the TOD is, in meters. */
     VNavVars["TODDistanceInLeg"] = "L:WTAP_VNav_TOD_Distance_In_Leg";
     /** The index of the leg for the next BOD. */
     VNavVars["BODLegIndex"] = "L:WTAP_VNav_BOD_Leg_Index";
+    /** The distance to the next TOC in meters, or -1 if one does not exist. */
+    VNavVars["TOCDistance"] = "L:WTAP_VNav_Distance_To_TOC";
+    /** The distance to the next BOC in meters, or -1 if one does not exist. */
+    VNavVars["BOCDistance"] = "L:WTAP_VNav_Distance_To_BOC";
+    /** The index of the leg for the next TOC. */
+    VNavVars["TOCLegIndex"] = "L:WTAP_VNav_TOC_Leg_Index";
+    /** The distance from the end of the TOC leg that the TOC is, in meters. */
+    VNavVars["TOCDistanceInLeg"] = "L:WTAP_VNav_TOC_Distance_In_Leg";
+    /** The index of the leg for the next BOC. */
+    VNavVars["BOCLegIndex"] = "L:WTAP_VNav_BOC_Leg_Index";
     /** The index of the leg for the next constraint. */
     VNavVars["CurrentConstraintLegIndex"] = "L:WTAP_VNav_Constraint_Leg_Index";
     /** The current constraint altitude, in feet. */
     VNavVars["CurrentConstraintAltitude"] = "L:WTAP_VNav_Constraint_Altitude";
     /** The next constraint altitude, in feet. */
     VNavVars["NextConstraintAltitude"] = "L:WTAP_VNav_Next_Constraint_Altitude";
-    /** The distance to the next BOD, or -1 if one does not exist, in meters. */
-    VNavVars["BODDistance"] = "L:WTAP_VNav_Distance_To_BOD";
     /** The current required flight path angle, in degrees. */
     VNavVars["FPA"] = "L:WTAP_VNav_FPA";
     /** The required VS to the current constraint, in FPM. */
@@ -11679,6 +11811,8 @@ var VNavVars;
     VNavVars["GPFpa"] = "L:WTAP_GP_FPA";
     /** The required VS to the current constraint, in FPM. */
     VNavVars["GPRequiredVS"] = "L:WTAP_GP_Required_VS";
+    /** The approach glidepath service level. */
+    VNavVars["GPServiceLevel"] = "L:WTAP_GP_Service_Level";
 })(VNavVars || (VNavVars = {}));
 new Map([
     ['vnav_vertical_deviation', { name: VNavVars.VerticalDeviation, type: SimVarValueType.Feet }],
@@ -11692,6 +11826,11 @@ new Map([
     ['vnav_bod_distance', { name: VNavVars.BODDistance, type: SimVarValueType.Meters }],
     ['vnav_tod_global_leg_index', { name: VNavVars.TODLegIndex, type: SimVarValueType.Number }],
     ['vnav_bod_global_leg_index', { name: VNavVars.BODLegIndex, type: SimVarValueType.Number }],
+    ['vnav_toc_distance', { name: VNavVars.TOCDistance, type: SimVarValueType.Meters }],
+    ['vnav_toc_leg_distance', { name: VNavVars.TOCDistanceInLeg, type: SimVarValueType.Meters }],
+    ['vnav_boc_distance', { name: VNavVars.BOCDistance, type: SimVarValueType.Meters }],
+    ['vnav_toc_global_leg_index', { name: VNavVars.TOCLegIndex, type: SimVarValueType.Number }],
+    ['vnav_boc_global_leg_index', { name: VNavVars.BOCLegIndex, type: SimVarValueType.Number }],
     ['vnav_constraint_global_leg_index', { name: VNavVars.CurrentConstraintLegIndex, type: SimVarValueType.Number }],
     ['vnav_constraint_altitude', { name: VNavVars.CurrentConstraintAltitude, type: SimVarValueType.Feet }],
     ['vnav_next_constraint_altitude', { name: VNavVars.NextConstraintAltitude, type: SimVarValueType.Feet }],
@@ -11701,7 +11840,9 @@ new Map([
     ['gp_vertical_deviation', { name: VNavVars.GPVerticalDeviation, type: SimVarValueType.Feet }],
     ['gp_distance', { name: VNavVars.GPDistance, type: SimVarValueType.Meters }],
     ['gp_fpa', { name: VNavVars.GPFpa, type: SimVarValueType.Degree }],
-    ['gp_required_vs', { name: VNavVars.GPRequiredVS, type: SimVarValueType.FPM }]
+    ['gp_required_vs', { name: VNavVars.GPRequiredVS, type: SimVarValueType.FPM }],
+    ['gp_service_level', { name: VNavVars.GPServiceLevel, type: SimVarValueType.Number }]
+
 ]);
 
 /**
@@ -11715,6 +11856,11 @@ var LNavTransitionMode;
     LNavTransitionMode[LNavTransitionMode["Ingress"] = 1] = "Ingress";
     /** LNAV is attempting to track an egress vector. */
     LNavTransitionMode[LNavTransitionMode["Egress"] = 2] = "Egress";
+    /**
+     * LNAV is attempting to track a non-transition vector prior to where the ingress transition joins the base flight
+     * path after deactivating suspend mode.
+     */
+    LNavTransitionMode[LNavTransitionMode["Unsuspend"] = 3] = "Unsuspend";
 })(LNavTransitionMode || (LNavTransitionMode = {}));
 /**
  * Sim var names for LNAV data.
@@ -11766,7 +11912,10 @@ var LNavVars;
      * A positive value means the vector will be sequenced this distance prior to the vector end.
      */
     LNavVars["VectorAnticipationDistance"] = "L:WTAP_LNav_Vector_Anticipation_Distance";
+    /** The current along-track ground speed of the airplane. */
+    LNavVars["AlongTrackSpeed"] = "L:WTAP_LNav_Along_Track_Speed";
 })(LNavVars || (LNavVars = {}));
+
 new Map([
     ['lnav_dtk', { name: LNavVars.DTK, type: SimVarValueType.Degree }],
     ['lnav_xtk', { name: LNavVars.XTK, type: SimVarValueType.NM }],
@@ -11780,7 +11929,8 @@ new Map([
     ['lnav_leg_distance_remaining', { name: LNavVars.LegDistanceRemaining, type: SimVarValueType.NM }],
     ['lnav_vector_distance_along', { name: LNavVars.VectorDistanceAlong, type: SimVarValueType.NM }],
     ['lnav_vector_distance_remaining', { name: LNavVars.VectorDistanceRemaining, type: SimVarValueType.NM }],
-    ['lnav_vector_anticipation_distance', { name: LNavVars.VectorAnticipationDistance, type: SimVarValueType.NM }]
+    ['lnav_vector_anticipation_distance', { name: LNavVars.VectorAnticipationDistance, type: SimVarValueType.NM }],
+    ['lnav_along_track_speed', { name: LNavVars.AlongTrackSpeed, type: SimVarValueType.Knots }]
 ]);
 
 /**
@@ -11808,15 +11958,25 @@ var LNavDataVars;
     /** The nominal distance remaining to the destination. */
     LNavDataVars["DestinationDistance"] = "L:WT_LNavData_Destination_Distance";
 })(LNavDataVars || (LNavDataVars = {}));
+
 new Map([
     ['lnavdata_dtk_true', { name: LNavDataVars.DTKTrue, type: SimVarValueType.Degree }],
     ['lnavdata_dtk_mag', { name: LNavDataVars.DTKMagnetic, type: SimVarValueType.Degree }],
     ['lnavdata_xtk', { name: LNavDataVars.XTK, type: SimVarValueType.NM }],
     ['lnavdata_cdi_scale', { name: LNavDataVars.CDIScale, type: SimVarValueType.NM }],
+    ['lnavdata_cdi_scale_label', { name: BoeingLNavDataVars.CDIScaleLabel, type: SimVarValueType.Number }],
+    ['lnavdata_rnp', { name: BoeingLNavDataVars.RNP, type: SimVarValueType.Number }],
     ['lnavdata_waypoint_bearing_true', { name: LNavDataVars.WaypointBearingTrue, type: SimVarValueType.Degree }],
     ['lnavdata_waypoint_bearing_mag', { name: LNavDataVars.WaypointBearingMagnetic, type: SimVarValueType.Degree }],
     ['lnavdata_waypoint_distance', { name: LNavDataVars.WaypointDistance, type: SimVarValueType.NM }],
-    ['lnavdata_destination_distance', { name: LNavDataVars.DestinationDistance, type: SimVarValueType.NM }]
+    ['lnavdata_destination_distance', { name: LNavDataVars.DestinationDistance, type: SimVarValueType.NM }],
+    ['lnavdata_total_distance_direct', { name: BoeingLNavDataVars.TotalDistanceDirect, type: SimVarValueType.NM }],
+    ['lnavdata_nominal_leg_index', { name: BoeingLNavDataVars.NominalLegIndex, type: SimVarValueType.Number }],
+    ['lnavdata_tracked_leg_end_distance', { name: BoeingLNavDataVars.TrackedLegEndDistance, type: SimVarValueType.NM }],
+    ['lnavdata_destination_distance_direct', { name: BoeingLNavDataVars.DestinationDistanceDirect, type: SimVarValueType.NM }],
+    ['lnavdata_destination_runway_distance_direct', { name: BoeingLNavDataVars.DestinationRunwayDistanceDirect, type: SimVarValueType.NM }],
+    ['lnavdata_distance_to_faf', { name: BoeingLNavDataVars.FafDistance, type: SimVarValueType.NM }],
+    ['lnavdata_distance_to_map_direct', { name: BoeingLNavDataVars.MapDistanceDirect, type: SimVarValueType.NM }]
 ]);
 
 /** AP Mode Types */
@@ -11991,7 +12151,8 @@ var FSComponent;
         'rect': true,
         'stop': true,
         'svg': true,
-        'text': true
+        'text': true,
+        'tspan': true
     };
     /**
      * A fragment of existing elements with no specific root.
@@ -12038,6 +12199,20 @@ var FSComponent;
                                 }
                             }, true);
                         }
+                        else if (key === 'style' && typeof prop === 'object' && 'isSubscribableMap' in prop) {
+                            // Bind CSS styles to a subscribable map.
+                            prop.sub((map, eventType, modifiedKey, modifiedValue) => {
+                                switch (eventType) {
+                                    case SubscribableMapEventType.Added:
+                                    case SubscribableMapEventType.Changed:
+                                        element.style.setProperty(modifiedKey, modifiedValue);
+                                        break;
+                                    case SubscribableMapEventType.Deleted:
+                                        element.style.setProperty(modifiedKey, null);
+                                        break;
+                                }
+                            }, true);
+                        }
                         else if (typeof prop === 'object' && 'isSubscribable' in prop) {
                             if (key === 'style' && prop instanceof ObjectSubject) {
                                 // Bind CSS styles to an object subject.
@@ -12050,6 +12225,40 @@ var FSComponent;
                                 prop.sub((v) => {
                                     element.setAttribute(key, v);
                                 }, true);
+                            }
+                        }
+                        else if (key === 'class' && typeof prop === 'object') {
+                            // Bind CSS classes to an object of key value pairs where the values can be boolean | Subscribable<boolean>
+                            for (const className in prop) {
+                                if (className.trim().length === 0) {
+                                    continue;
+                                }
+                                const value = prop[className];
+                                if (typeof value === 'object' && 'isSubscribable' in value) {
+                                    value.sub((showClass) => {
+                                        element.classList.toggle(className, !!showClass);
+                                    }, true);
+                                }
+                                else {
+                                    element.classList.toggle(className, !!value);
+                                }
+                            }
+                        }
+                        else if (key === 'style' && typeof prop === 'object') {
+                            // Bind styles to an object of key value pairs
+                            for (const style in prop) {
+                                if (style.trim().length === 0) {
+                                    continue;
+                                }
+                                const value = prop[style];
+                                if (typeof value === 'object' && 'isSubscribable' in value) {
+                                    value.sub(newValue => {
+                                        element.style.setProperty(style, newValue !== null && newValue !== void 0 ? newValue : '');
+                                    }, true);
+                                }
+                                else {
+                                    element.style.setProperty(style, value !== null && value !== void 0 ? value : '');
+                                }
                             }
                         }
                         else {
@@ -12074,17 +12283,20 @@ var FSComponent;
             else if (props !== null) {
                 props.children = children;
             }
-            if (typeof type === 'function' && type.name === 'Fragment') {
-                let childNodes = type(props);
+            if (typeof type === 'function' && type.name === Fragment.name) {
+                let fragmentChildren = type(props);
                 //Handle the case where the single fragment children is an array of nodes passsed down from above
-                while (childNodes !== null && childNodes.length > 0 && Array.isArray(childNodes[0])) {
-                    childNodes = childNodes[0];
+                while (fragmentChildren && fragmentChildren.length === 1 && Array.isArray(fragmentChildren[0])) {
+                    fragmentChildren = fragmentChildren[0];
                 }
                 vnode = {
                     instance: null,
                     props,
-                    children: childNodes
+                    children: null
                 };
+                if (fragmentChildren) {
+                    vnode.children = createChildNodes(vnode, fragmentChildren);
+                }
             }
             else {
                 let instance;
@@ -12192,30 +12404,30 @@ var FSComponent;
      * @param position The RenderPosition to put the item in.
      */
     function render(node, element, position = RenderPosition.In) {
-        if (node.children && node.children.length > 0 && element !== null) {
+        if (node.instance instanceof HTMLElement || node.instance instanceof SVGElement) {
+            if (element !== null) {
+                insertNode(node, position, element);
+            }
+        }
+        else if (node.children && node.children.length > 0 && element !== null) {
             const componentInstance = node.instance;
             if (componentInstance !== null && componentInstance.onBeforeRender !== undefined) {
                 componentInstance.onBeforeRender();
             }
-            if (node.instance instanceof HTMLElement || node.instance instanceof SVGElement) {
-                insertNode(node, position, element);
+            if (position === RenderPosition.After) {
+                for (let i = node.children.length - 1; i >= 0; i--) {
+                    if (node.children[i] === undefined || node.children[i] === null) {
+                        continue;
+                    }
+                    insertNode(node.children[i], position, element);
+                }
             }
             else {
-                if (position === RenderPosition.After) {
-                    for (let i = node.children.length - 1; i >= 0; i--) {
-                        if (node.children[i] === undefined || node.children[i] === null) {
-                            continue;
-                        }
-                        insertNode(node.children[i], position, element);
+                for (let i = 0; i < node.children.length; i++) {
+                    if (node.children[i] === undefined || node.children[i] === null) {
+                        continue;
                     }
-                }
-                else {
-                    for (let i = 0; i < node.children.length; i++) {
-                        if (node.children[i] === undefined || node.children[i] === null) {
-                            continue;
-                        }
-                        insertNode(node.children[i], position, element);
-                    }
+                    insertNode(node.children[i], position, element);
                 }
             }
             const instance = node.instance;
@@ -12377,39 +12589,61 @@ var FSComponent;
      * @param node The node to visit.
      * @param visitor The visitor function to inspect VNodes with. Return true if the search should stop at the visited
      * node and not proceed any further down the node's children.
-     * @returns True if the visitation should break, or false otherwise.
      */
     function visitNodes(node, visitor) {
+        if (node === undefined || node === null) {
+            return;
+        }
         const stopVisitation = visitor(node);
-        if (node !== undefined && node !== null && !stopVisitation && node.children !== undefined && node.children !== null) {
+        if (!stopVisitation && node.children !== undefined && node.children !== null) {
             for (let i = 0; i < node.children.length; i++) {
-                visitNodes(node.children[i], visitor);
+                const child = node.children[i];
+                if (Array.isArray(child)) {
+                    for (let childIndex = 0; childIndex < child.length; childIndex++) {
+                        visitNodes(child[childIndex], visitor);
+                    }
+                }
+                else {
+                    visitNodes(child, visitor);
+                }
             }
         }
-        return true;
+        return;
     }
     FSComponent.visitNodes = visitNodes;
     /**
      * Parses a space-delimited CSS class string into an array of CSS classes.
      * @param classString A space-delimited CSS class string.
+     * @param filter A function which filters parsed classes. For each class, the function should return `true` if the
+     * class should be included in the output array and `false` otherwise.
      * @returns An array of CSS classes derived from the specified CSS class string.
      */
-    function parseCssClassesFromString(classString) {
-        return classString.split(' ').filter(str => str !== '');
+    function parseCssClassesFromString(classString, filter) {
+        return classString.split(' ').filter(str => str !== '' && (filter === undefined || filter(str)));
     }
     FSComponent.parseCssClassesFromString = parseCssClassesFromString;
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    function bindCssClassSet(setToBind, classesToSubscribe, reservedClasses) {
+        const reservedClassSet = new Set(reservedClasses);
+        if (classesToSubscribe.isSubscribableSet === true) {
+            return bindCssClassSetToSubscribableSet(setToBind, classesToSubscribe, reservedClassSet);
+        }
+        else {
+            return bindCssClassSetToRecord(setToBind, classesToSubscribe, reservedClassSet);
+        }
+    }
+    FSComponent.bindCssClassSet = bindCssClassSet;
     /**
      * Binds a {@link MutableSubscribableSet} to a subscribable set of CSS classes. CSS classes added to and removed from
      * the subscribed set will also be added to and removed from the bound set, with the exception of a set of reserved
      * classes. The presence or absence of any of the reserved classes in the bound set is not affected by the subscribed
-     * set; these reserved classes may be freely added to and removed from the bound set.
+     * set.
      * @param setToBind The set to bind.
      * @param classesToSubscribe A set of CSS classes to which to subscribe.
-     * @param reservedClasses An iterable of reserved classes.
+     * @param reservedClassSet A set of reserved classes.
      * @returns The newly created subscription to the subscribed CSS class set.
      */
-    function bindCssClassSet(setToBind, classesToSubscribe, reservedClasses) {
-        const reservedClassSet = new Set(reservedClasses);
+    function bindCssClassSetToSubscribableSet(setToBind, classesToSubscribe, reservedClassSet) {
         if (reservedClassSet.size === 0) {
             return classesToSubscribe.sub((set, type, key) => {
                 if (type === SubscribableSetEventType.Added) {
@@ -12434,7 +12668,187 @@ var FSComponent;
             }, true);
         }
     }
-    FSComponent.bindCssClassSet = bindCssClassSet;
+    /**
+     * Binds a {@link MutableSubscribableSet} to a record of CSS classes. CSS classes toggled in the record will also be
+     * added to and removed from the bound set, with the exception of a set of reserved classes. The presence or absence
+     * of any of the reserved classes in the bound set is not affected by the subscribed record.
+     * @param setToBind The set to bind.
+     * @param classesToSubscribe A record of CSS classes to which to subscribe.
+     * @param reservedClassSet A set of reserved classes.
+     * @returns The newly created subscriptions to the CSS class record.
+     */
+    function bindCssClassSetToRecord(setToBind, classesToSubscribe, reservedClassSet) {
+        const subs = [];
+        for (const cssClass in classesToSubscribe) {
+            if (reservedClassSet.has(cssClass)) {
+                continue;
+            }
+            const value = classesToSubscribe[cssClass];
+            if (typeof value === 'object') {
+                subs.push(value.sub(setToBind.toggle.bind(setToBind, cssClass), true));
+            }
+            else if (value === true) {
+                setToBind.add(cssClass);
+            }
+            else {
+                setToBind.delete(cssClass);
+            }
+        }
+        return subs;
+    }
+    /**
+     * Adds CSS classes to a {@link ToggleableClassNameRecord}.
+     * @param record The CSS class record to which to add the new classes. The record will be mutated as classes are
+     * added.
+     * @param classesToAdd The CSS classes to add to the record, as a space-delimited class string, an iterable of
+     * individual class names, or a {@link ToggleableClassNameRecord}.
+     * @param allowOverwrite Whether to allow the new classes to overwrite existing entries in the CSS class record.
+     * Defaults to `true`.
+     * @param filter A function which filters the classes to add. For each class, the function should return `true` if
+     * the class should be included in the record and `false` otherwise.
+     * @returns The mutated CSS class record, after the new classes have been added.
+     */
+    function addCssClassesToRecord(record, classesToAdd, allowOverwrite = true, filter) {
+        if (classesToAdd === '') {
+            return record;
+        }
+        if (typeof classesToAdd === 'string') {
+            classesToAdd = FSComponent.parseCssClassesFromString(classesToAdd, filter);
+            filter = undefined;
+        }
+        if (typeof classesToAdd[Symbol.iterator] === 'function') {
+            for (const cssClass of classesToAdd) {
+                if ((allowOverwrite || record[cssClass] === undefined) && (!filter || filter(cssClass))) {
+                    record[cssClass] = true;
+                }
+            }
+        }
+        else {
+            for (const cssClass in classesToAdd) {
+                if ((allowOverwrite || record[cssClass] === undefined) && (!filter || filter(cssClass))) {
+                    record[cssClass] = classesToAdd[cssClass];
+                }
+            }
+        }
+        return record;
+    }
+    FSComponent.addCssClassesToRecord = addCssClassesToRecord;
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    function bindStyleMap(mapToBind, stylesToSubscribe, reservedStyles) {
+        const reservedStyleSet = new Set(reservedStyles);
+        if (stylesToSubscribe.isSubscribableMap === true) {
+            return bindStyleMapToSubscribableMap(mapToBind, stylesToSubscribe, reservedStyleSet);
+        }
+        else if (stylesToSubscribe instanceof ObjectSubject) {
+            return bindStyleMapToObjectSubject(mapToBind, stylesToSubscribe, reservedStyleSet);
+        }
+        else {
+            return bindStyleMapToRecord(mapToBind, stylesToSubscribe, reservedStyleSet);
+        }
+    }
+    FSComponent.bindStyleMap = bindStyleMap;
+    /**
+     * Binds a {@link MutableSubscribableMap} to a subscribable map of CSS styles. Modifications to the CSS styles in the
+     * subscribed map will be reflected in the bound map, with the exception of a set of reserved styles. The values of
+     * any of the reserved styles in the bound map is not affected by the subscribed map.
+     * @param mapToBind The map to bind.
+     * @param stylesToSubscribe A key-value map of CSS styles to which to subscribe.
+     * @param reservedStyleSet A set of reserved styles.
+     * @returns The newly created subscription to the subscribed CSS style map.
+     */
+    function bindStyleMapToSubscribableMap(mapToBind, stylesToSubscribe, reservedStyleSet) {
+        if (reservedStyleSet.size === 0) {
+            return stylesToSubscribe.pipe(mapToBind);
+        }
+        else {
+            return stylesToSubscribe.sub((set, type, key, value) => {
+                if (reservedStyleSet.has(key)) {
+                    return;
+                }
+                switch (type) {
+                    case SubscribableMapEventType.Added:
+                    case SubscribableMapEventType.Changed:
+                        mapToBind.setValue(key, value);
+                        break;
+                    case SubscribableMapEventType.Deleted:
+                        mapToBind.delete(key);
+                        break;
+                }
+            }, true);
+        }
+    }
+    /**
+     * Binds a {@link MutableSubscribableMap} to an {@link ObjectSubject} of CSS styles. Modifications to the CSS styles
+     * in the subject will be reflected in the bound map, with the exception of a set of reserved styles. The values of
+     * any of the reserved styles in the bound map is not affected by the subscribed subject.
+     * @param mapToBind The map to bind.
+     * @param stylesToSubscribe An ObjectSubject of CSS styles to which to subscribe.
+     * @param reservedStyleSet A set of reserved styles.
+     * @returns The newly created subscription to the CSS style ObjectSubject.
+     */
+    function bindStyleMapToObjectSubject(mapToBind, stylesToSubscribe, reservedStyleSet) {
+        return stylesToSubscribe.sub((obj, style, value) => {
+            if (reservedStyleSet.has(style)) {
+                return;
+            }
+            if (value) {
+                mapToBind.setValue(style, value);
+            }
+            else {
+                mapToBind.delete(style);
+            }
+        }, true);
+    }
+    /**
+     * Binds a {@link MutableSubscribableMap} to a record of CSS styles. Modifications to the CSS styles in the record
+     * will be reflected in the bound map, with the exception of a set of reserved styles. The values of any of the
+     * reserved styles in the bound map is not affected by the subscribed record.
+     * @param mapToBind The map to bind.
+     * @param stylesToSubscribe A record of CSS styles to which to subscribe.
+     * @param reservedStyleSet A set of reserved styles.
+     * @returns The newly created subscriptions to the CSS style record.
+     */
+    function bindStyleMapToRecord(mapToBind, stylesToSubscribe, reservedStyleSet) {
+        const subs = [];
+        for (const style in stylesToSubscribe) {
+            if (reservedStyleSet.has(style)) {
+                continue;
+            }
+            const value = stylesToSubscribe[style];
+            if (typeof value === 'object') {
+                subs.push(value.sub(styleValue => {
+                    if (styleValue) {
+                        mapToBind.setValue(style, styleValue);
+                    }
+                    else {
+                        mapToBind.delete(style);
+                    }
+                }, true));
+            }
+            else if (value) {
+                mapToBind.setValue(style, value);
+            }
+            else {
+                mapToBind.delete(style);
+            }
+        }
+        return subs;
+    }
+    /**
+     * Traverses a VNode tree in depth-first order and destroys the first {@link DisplayComponent} encountered in each
+     * branch of the tree.
+     * @param root The root of the tree to traverse.
+     */
+    function shallowDestroy(root) {
+        FSComponent.visitNodes(root, node => {
+            if (node !== root && node.instance instanceof DisplayComponent) {
+                node.instance.destroy();
+                return true;
+            }
+            return false;
+        });
+    }
+    FSComponent.shallowDestroy = shallowDestroy;
     /**
      * An empty callback handler.
      */
@@ -12448,6 +12862,7 @@ FSComponent.Fragment;
  */
 class BingComponent extends DisplayComponent {
     constructor() {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         super(...arguments);
         this.modeFlags = this.props.mode === EBingMode.HORIZON ? 4 : 0;
         this.isListenerRegistered = false;
@@ -12456,45 +12871,54 @@ class BingComponent extends DisplayComponent {
         this._isBound = false;
         this._isAwake = true;
         this.isDestroyed = false;
-        this.pos = null;
-        this.radius = 0;
-        this.resolution = Vec2Subject.createFromVector(new Float64Array([BingComponent.DEFAULT_RESOLUTION, BingComponent.DEFAULT_RESOLUTION]));
-        this.earthColors = ArraySubject.create(BingComponent.createEarthColorsArray('#000000', [{ elev: 0, color: '#000000' }, { elev: 60000, color: '#000000' }]));
-        this.skyColor = Subject.create(BingComponent.hexaToRGBColor('#000000'));
-        this.reference = Subject.create(EBingReference.SEA);
-        this.wxrMode = Subject.create({ mode: EWeatherRadar.OFF, arcRadians: 0.5 }, (cur, prev) => cur.mode === prev.mode && cur.arcRadians === prev.arcRadians, (ref, val) => Object.assign(ref, val));
-        this.isoLines = Subject.create(false);
-        this.resolutionPropHandler = (resolution) => {
-            this.resolution.set(resolution);
-        };
-        this.earthColorsPropHandler = (index, type, item, array) => {
-            if (array.length !== 61) {
-                return;
-            }
-            this.earthColors.set(array);
-        };
-        this.skyColorPropHandler = (color) => {
-            this.skyColor.set(color);
-        };
-        this.referencePropHandler = (reference) => {
-            this.reference.set(reference);
-        };
-        this.wxrModePropHandler = (wxrMode) => {
-            this.wxrMode.set(wxrMode);
-        };
-        this.isoLinesPropHandler = (showIsolines) => {
-            this.isoLines.set(showIsolines);
-        };
+        this.pos = new LatLong(0, 0);
+        this.radius = 10;
+        this.resolution = (_a = this.props.resolution) !== null && _a !== void 0 ? _a : Vec2Subject.create(Vec2Math.create(BingComponent.DEFAULT_RESOLUTION, BingComponent.DEFAULT_RESOLUTION));
+        this.earthColors = (_b = this.props.earthColors) !== null && _b !== void 0 ? _b : ArraySubject.create(ArrayUtils.create(2, () => BingComponent.hexaToRGBColor('#000000')));
+        this.earthColorsElevationRange = (_c = this.props.earthColorsElevationRange) !== null && _c !== void 0 ? _c : Vec2Subject.create(Vec2Math.create(0, 30000));
+        this.skyColor = (_d = this.props.skyColor) !== null && _d !== void 0 ? _d : Subject.create(BingComponent.hexaToRGBColor('#000000'));
+        this.reference = (_e = this.props.reference) !== null && _e !== void 0 ? _e : Subject.create(EBingReference.SEA);
+        this.wxrMode = (_f = this.props.wxrMode) !== null && _f !== void 0 ? _f : Subject.create({ mode: EWeatherRadar.OFF, arcRadians: 0.5 });
+        this.wxrColors = (_g = this.props.wxrColors) !== null && _g !== void 0 ? _g : ArraySubject.create(Array.from(BingComponent.DEFAULT_WEATHER_COLORS));
+        this.isoLines = (_h = this.props.isoLines) !== null && _h !== void 0 ? _h : Subject.create(false);
+        this.wxrColorsArray = [];
+        this.wxrRateArray = [];
         this.resolutionHandler = (resolution) => {
             Coherent.call('SET_MAP_RESOLUTION', this.uid, resolution[0], resolution[1]);
-        };
-        this.earthColorsHandler = (index, type, item, array) => {
-            if (type !== SubscribableArrayEventType.Cleared) {
-                if (array.length !== 61) {
-                    throw new Error(`Incorrect number of colors provided: was ${array.length} but should be 61`);
-                }
-                Coherent.call('SET_MAP_HEIGHT_COLORS', this.uid, array);
+            // The sim ignores position/radius updates within a certain number of frames of sending a resolution change, so we
+            // will keep trying to send pending updates for a few frames after any resolution change.
+            this.positionRadiusInhibitFramesRemaining = BingComponent.POSITION_RADIUS_INHIBIT_FRAMES;
+            if (!this.positionRadiusInhibitTimer.isPending()) {
+                this.positionRadiusInhibitTimer.schedule(this.processPendingPositionRadius, 0);
             }
+        };
+        this.earthColorsHandler = () => {
+            const colors = this.earthColors.getArray();
+            if (colors.length < 2) {
+                return;
+            }
+            Coherent.call('SET_MAP_HEIGHT_COLORS', this.uid, colors);
+        };
+        this.earthColorsElevationRangeHandler = () => {
+            const colors = this.earthColors.getArray();
+            if (colors.length < 2) {
+                return;
+            }
+            // The way the map assigns colors to elevations is as follows:
+            // ----------------------------------------------------------------------------------
+            // - altitude range = MIN to MAX
+            // - colors = array of length N >= 2 (colors[0] is the water color)
+            // - STEP = (MAX - MIN) / N
+            // - colors[i] is assigned to elevations from MIN + STEP * i to MIN + STEP * (i + 1)
+            // - colors[1] is also assigned to all elevations < MIN + STEP
+            // - colors[N - 1] is also assigned to all elevations > MIN + STEP * N
+            // ----------------------------------------------------------------------------------
+            const range = this.earthColorsElevationRange.get();
+            const terrainColorCount = colors.length - 1;
+            const desiredElevationStep = (range[1] - range[0]) / Math.max(terrainColorCount - 1, 1);
+            const requiredMin = range[0] - desiredElevationStep;
+            const requiredMax = range[1] + desiredElevationStep;
+            Coherent.call('SET_MAP_ALTITUDE_RANGE', this.uid, requiredMin, requiredMax);
         };
         this.skyColorHandler = (color) => {
             Coherent.call('SET_MAP_CLEAR_COLOR', this.uid, color);
@@ -12506,8 +12930,36 @@ class BingComponent extends DisplayComponent {
         this.wxrModeHandler = (wxrMode) => {
             Coherent.call('SHOW_MAP_WEATHER', this.uid, wxrMode.mode, wxrMode.arcRadians);
         };
+        this.wxrColorsHandler = () => {
+            const array = this.wxrColors.getArray();
+            if (array.length === 0) {
+                return;
+            }
+            this.wxrColorsArray.length = array.length;
+            this.wxrRateArray.length = array.length;
+            for (let i = 0; i < array.length; i++) {
+                this.wxrColorsArray[i] = array[i][0];
+                this.wxrRateArray[i] = array[i][1];
+            }
+            Coherent.call('SET_MAP_WEATHER_RADAR_COLORS', this.uid, this.wxrColorsArray, this.wxrRateArray);
+        };
         this.isoLinesHandler = (showIsolines) => {
             Coherent.call('SHOW_MAP_ISOLINES', this.uid, showIsolines);
+        };
+        this.setCurrentMapParamsTimer = null;
+        this.positionRadiusInhibitFramesRemaining = 0;
+        this.isPositionRadiusPending = false;
+        this.positionRadiusInhibitTimer = new DebounceTimer();
+        this.processPendingPositionRadius = () => {
+            if (this.isPositionRadiusPending) {
+                Coherent.call('SET_MAP_PARAMS', this.uid, this.pos, this.radius);
+            }
+            if (--this.positionRadiusInhibitFramesRemaining > 0) {
+                this.positionRadiusInhibitTimer.schedule(this.processPendingPositionRadius, 0);
+            }
+            else {
+                this.isPositionRadiusPending = false;
+            }
         };
         /**
          * A callback called when the listener is fully bound.
@@ -12528,14 +12980,21 @@ class BingComponent extends DisplayComponent {
                 this._isBound = true;
                 Coherent.call('SHOW_MAP', uid, true);
                 const pause = !this._isAwake;
-                this.earthColorsSub = this.earthColors.sub(this.earthColorsHandler, true, pause);
+                this.earthColorsSub = this.earthColors.sub(() => {
+                    this.earthColorsHandler();
+                    this.earthColorsElevationRangeHandler();
+                }, true, pause);
+                this.earthColorsElevationRangeSub = this.earthColorsElevationRange.sub(this.earthColorsElevationRangeHandler, true, pause);
                 this.skyColorSub = this.skyColor.sub(this.skyColorHandler, true, pause);
                 this.referenceSub = this.reference.sub(this.referenceHandler, true, pause);
                 this.wxrModeSub = this.wxrMode.sub(this.wxrModeHandler, true, pause);
+                this.wxrColorsSub = this.wxrColors.sub(this.wxrColorsHandler, true, pause);
                 this.resolutionSub = this.resolution.sub(this.resolutionHandler, true, pause);
                 this.isoLinesSub = this.isoLines.sub(this.isoLinesHandler, true, pause);
-                if (this._isAwake && this.pos !== null) {
-                    Coherent.call('SET_MAP_PARAMS', this.uid, this.pos, this.radius, 1);
+                // Only when not SVT, send in initial map params (even if we are asleep), because a bing instance that doesn't
+                // have params initialized causes GPU perf issues.
+                if (this.modeFlags !== 4) {
+                    Coherent.call('SET_MAP_PARAMS', this.uid, this.pos, this.radius);
                 }
                 this.props.onBoundCallback && this.props.onBoundCallback(this);
             }
@@ -12551,6 +13010,12 @@ class BingComponent extends DisplayComponent {
                     this.imgRef.instance.src = imgSrc;
                 }
             }
+        };
+        /**
+         * Calls the position and radius set function to set map parameters.
+         */
+        this.setCurrentMapParams = () => {
+            this.setPositionRadius(this.pos, this.radius);
         };
     }
     /**
@@ -12569,17 +13034,10 @@ class BingComponent extends DisplayComponent {
     }
     /** @inheritdoc */
     onAfterRender() {
-        var _a, _b, _c, _d, _e, _f;
         if (window['IsDestroying']) {
             this.destroy();
             return;
         }
-        this.resolutionPropSub = (_a = this.props.resolution) === null || _a === void 0 ? void 0 : _a.sub(this.resolutionPropHandler, true);
-        this.earthColorsPropSub = (_b = this.props.earthColors) === null || _b === void 0 ? void 0 : _b.sub(this.earthColorsPropHandler, true);
-        this.skyColorPropSub = (_c = this.props.skyColor) === null || _c === void 0 ? void 0 : _c.sub(this.skyColorPropHandler, true);
-        this.referencePropSub = (_d = this.props.reference) === null || _d === void 0 ? void 0 : _d.sub(this.referencePropHandler, true);
-        this.wxrModePropSub = (_e = this.props.wxrMode) === null || _e === void 0 ? void 0 : _e.sub(this.wxrModePropHandler, true);
-        this.isoLinesPropSub = (_f = this.props.isoLines) === null || _f === void 0 ? void 0 : _f.sub(this.isoLinesPropHandler, true);
         const gameStateSubscribable = GameStateProvider.get();
         const gameState = gameStateSubscribable.get();
         if (gameState === GameState.briefing || gameState === GameState.ingame) {
@@ -12629,39 +13087,51 @@ class BingComponent extends DisplayComponent {
         this.mapListener.trigger('JS_BIND_BINGMAP', this.props.id, this.modeFlags);
     }
     /**
-     * Wakes this Bing component. Upon awakening, this component will synchronize its state from when it was put to sleep
-     * to the Bing instance to which it is bound.
+     * Wakes this Bing component. Upon awakening, this component will synchronize its state to the Bing instance to which
+     * it is bound.
      */
     wake() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         this._isAwake = true;
         if (!this._isBound) {
             return;
         }
-        Coherent.call('SET_MAP_PARAMS', this.uid, this.pos, this.radius, 1);
+        this.setCurrentMapParams();
+        // Only when not SVT, periodically send map params to Coherent in case another BingComponent binds to the same
+        // bing instance and sends in the initial params set and overrides our params.
+        if (this.modeFlags !== 4) {
+            this.setCurrentMapParamsTimer = setInterval(this.setCurrentMapParams, 200);
+        }
         (_a = this.earthColorsSub) === null || _a === void 0 ? void 0 : _a.resume(true);
-        (_b = this.skyColorSub) === null || _b === void 0 ? void 0 : _b.resume(true);
-        (_c = this.referenceSub) === null || _c === void 0 ? void 0 : _c.resume(true);
-        (_d = this.wxrModeSub) === null || _d === void 0 ? void 0 : _d.resume(true);
-        (_e = this.resolutionSub) === null || _e === void 0 ? void 0 : _e.resume(true);
-        (_f = this.isoLinesSub) === null || _f === void 0 ? void 0 : _f.resume(true);
+        (_b = this.earthColorsElevationRangeSub) === null || _b === void 0 ? void 0 : _b.resume(true);
+        (_c = this.skyColorSub) === null || _c === void 0 ? void 0 : _c.resume(true);
+        (_d = this.referenceSub) === null || _d === void 0 ? void 0 : _d.resume(true);
+        (_e = this.wxrModeSub) === null || _e === void 0 ? void 0 : _e.resume(true);
+        (_f = this.wxrColorsSub) === null || _f === void 0 ? void 0 : _f.resume(true);
+        (_g = this.resolutionSub) === null || _g === void 0 ? void 0 : _g.resume(true);
+        (_h = this.isoLinesSub) === null || _h === void 0 ? void 0 : _h.resume(true);
     }
     /**
      * Puts this Bing component to sleep. While asleep, this component cannot make changes to the Bing instance to which
      * it is bound.
      */
     sleep() {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         this._isAwake = false;
         if (!this._isBound) {
             return;
         }
+        if (this.setCurrentMapParamsTimer !== null) {
+            clearInterval(this.setCurrentMapParamsTimer);
+        }
         (_a = this.earthColorsSub) === null || _a === void 0 ? void 0 : _a.pause();
-        (_b = this.skyColorSub) === null || _b === void 0 ? void 0 : _b.pause();
-        (_c = this.referenceSub) === null || _c === void 0 ? void 0 : _c.pause();
-        (_d = this.wxrModeSub) === null || _d === void 0 ? void 0 : _d.pause();
-        (_e = this.resolutionSub) === null || _e === void 0 ? void 0 : _e.pause();
-        (_f = this.isoLinesSub) === null || _f === void 0 ? void 0 : _f.pause();
+        (_b = this.earthColorsElevationRangeSub) === null || _b === void 0 ? void 0 : _b.pause();
+        (_c = this.skyColorSub) === null || _c === void 0 ? void 0 : _c.pause();
+        (_d = this.referenceSub) === null || _d === void 0 ? void 0 : _d.pause();
+        (_e = this.wxrModeSub) === null || _e === void 0 ? void 0 : _e.pause();
+        (_f = this.wxrColorsSub) === null || _f === void 0 ? void 0 : _f.pause();
+        (_g = this.resolutionSub) === null || _g === void 0 ? void 0 : _g.pause();
+        (_h = this.isoLinesSub) === null || _h === void 0 ? void 0 : _h.pause();
     }
     /**
      * Sets the center position and radius.
@@ -12670,9 +13140,14 @@ class BingComponent extends DisplayComponent {
      */
     setPositionRadius(pos, radius) {
         this.pos = pos;
-        this.radius = radius;
+        this.radius = Math.max(radius, 10); // Not sure if bad things happen when radius is 0, so we just clamp it to 10 meters.
         if (this._isBound && this._isAwake) {
-            Coherent.call('SET_MAP_PARAMS', this.uid, pos, radius, 1);
+            if (this.positionRadiusInhibitFramesRemaining > 0) {
+                this.isPositionRadiusPending = true;
+            }
+            else {
+                Coherent.call('SET_MAP_PARAMS', this.uid, this.pos, this.radius);
+            }
         }
     }
     /** @inheritdoc */
@@ -12682,22 +13157,28 @@ class BingComponent extends DisplayComponent {
     }
     /** @inheritdoc */
     destroy() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         this.isDestroyed = true;
         this._isBound = false;
+        if (this.setCurrentMapParamsTimer !== null) {
+            clearInterval(this.setCurrentMapParamsTimer);
+        }
         (_a = this.gameStateSub) === null || _a === void 0 ? void 0 : _a.destroy();
-        (_b = this.resolutionPropSub) === null || _b === void 0 ? void 0 : _b.destroy();
-        (_c = this.earthColorsPropSub) === null || _c === void 0 ? void 0 : _c.destroy();
-        (_d = this.skyColorPropSub) === null || _d === void 0 ? void 0 : _d.destroy();
-        (_e = this.referencePropSub) === null || _e === void 0 ? void 0 : _e.destroy();
-        (_f = this.wxrModePropSub) === null || _f === void 0 ? void 0 : _f.destroy();
-        (_g = this.isoLinesPropSub) === null || _g === void 0 ? void 0 : _g.destroy();
-        (_h = this.mapListener) === null || _h === void 0 ? void 0 : _h.off('MapBinded', this.onListenerBound);
-        (_j = this.mapListener) === null || _j === void 0 ? void 0 : _j.off('MapUpdated', this.onMapUpdate);
-        (_k = this.mapListener) === null || _k === void 0 ? void 0 : _k.trigger('JS_UNBIND_BINGMAP', this.props.id);
+        (_b = this.earthColorsSub) === null || _b === void 0 ? void 0 : _b.destroy();
+        (_c = this.earthColorsElevationRangeSub) === null || _c === void 0 ? void 0 : _c.destroy();
+        (_d = this.skyColorSub) === null || _d === void 0 ? void 0 : _d.destroy();
+        (_e = this.referenceSub) === null || _e === void 0 ? void 0 : _e.destroy();
+        (_f = this.wxrModeSub) === null || _f === void 0 ? void 0 : _f.destroy();
+        (_g = this.wxrColorsSub) === null || _g === void 0 ? void 0 : _g.destroy();
+        (_h = this.resolutionSub) === null || _h === void 0 ? void 0 : _h.destroy();
+        (_j = this.isoLinesSub) === null || _j === void 0 ? void 0 : _j.destroy();
+        (_k = this.mapListener) === null || _k === void 0 ? void 0 : _k.off('MapBinded', this.onListenerBound);
+        (_l = this.mapListener) === null || _l === void 0 ? void 0 : _l.off('MapUpdated', this.onMapUpdate);
+        (_m = this.mapListener) === null || _m === void 0 ? void 0 : _m.trigger('JS_UNBIND_BINGMAP', this.props.id);
         this.isListenerRegistered = false;
         this.imgRef.instance.src = '';
-        (_l = this.imgRef.instance.parentNode) === null || _l === void 0 ? void 0 : _l.removeChild(this.imgRef.instance);
+        (_o = this.imgRef.instance.parentNode) === null || _o === void 0 ? void 0 : _o.removeChild(this.imgRef.instance);
+        super.destroy();
     }
     /**
      * Resets the img element's src attribute.
@@ -12711,9 +13192,9 @@ class BingComponent extends DisplayComponent {
         }
     }
     /**
-     * Converts an HTML hex color string to a numerical map RGB value.
+     * Converts an HTML hex color string to a numerical RGB value, as `R + G * 256 + B * 256^2`.
      * @param hexColor The hex color string to convert.
-     * @returns A numerical map RGB value.
+     * @returns The numerical RGB value equivalent of the specified hex color string, as `R + G * 256 + B * 256^2`.
      */
     static hexaToRGBColor(hexColor) {
         const hexStringColor = hexColor;
@@ -12724,19 +13205,71 @@ class BingComponent extends DisplayComponent {
         const r = parseInt(hexStringColor.substr(0 + offset, 2), 16);
         const g = parseInt(hexStringColor.substr(2 + offset, 2), 16);
         const b = parseInt(hexStringColor.substr(4 + offset, 2), 16);
-        const rgb = 256 * 256 * b + 256 * g + r;
-        return rgb;
+        return BingComponent.rgbColor(r, g, b);
     }
     /**
-     * Converts RGB color components to a numerical map RGB value.
+     * Converts a numerical RGB value to an HTML hex color string.
+     * @param rgb The numerical RGB value to convert, as `R + G * 256 + B * 256^2`.
+     * @param poundPrefix Whether to include the pound (`#`) prefix in the converted string. Defaults to `true`.
+     * @returns The HTML hex color string equivalent of the specified numerical RGB value.
+     */
+    static rgbToHexaColor(rgb, poundPrefix = true) {
+        const b = Math.floor((rgb % (256 * 256 * 256)) / (256 * 256));
+        const g = Math.floor((rgb % (256 * 256)) / 256);
+        const r = rgb % 256;
+        return `${poundPrefix ? '#' : ''}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    /**
+     * Converts RGB color components to a numerical RGB value, as `R + G * 256 + B * 256^2`.
      * @param r The red component, from 0 to 255.
      * @param g The green component, from 0 to 255.
      * @param b The blue component, from 0 to 255.
-     * @returns A numerical map RGB value.
+     * @returns The numerical RGB value of the specified components, as `R + G * 256 + B * 256^2`.
      */
     static rgbColor(r, g, b) {
-        const rgb = 256 * 256 * b + 256 * g + r;
-        return rgb;
+        return 256 * 256 * b + 256 * g + r;
+    }
+    /**
+     * Converts an HTML hex color string to a numerical RGBA value, as `R + G * 256 + B * 256^2 + A * 256^3`.
+     * @param hexColor The hex color string to convert.
+     * @returns The numerical RGBA value equivalent of the specified hex color string, as
+     * `R + G * 256 + B * 256^2 + A * 256^3`.
+     */
+    static hexaToRGBAColor(hexColor) {
+        const hexStringColor = hexColor;
+        let offset = 0;
+        if (hexStringColor[0] === '#') {
+            offset = 1;
+        }
+        const r = parseInt(hexStringColor.substr(0 + offset, 2), 16);
+        const g = parseInt(hexStringColor.substr(2 + offset, 2), 16);
+        const b = parseInt(hexStringColor.substr(4 + offset, 2), 16);
+        const a = parseInt(hexStringColor.substr(6 + offset, 2), 16);
+        return BingComponent.rgbaColor(r, g, b, a);
+    }
+    /**
+     * Converts a numerical RGBA value to an HTML hex color string.
+     * @param rgba The numerical RGBA value to convert, as `R + G * 256 + B * 256^2 + A * 256^3`.
+     * @param poundPrefix Whether to include the pound (`#`) prefix in the converted string. Defaults to `true`.
+     * @returns The HTML hex color string equivalent of the specified numerical RGBA value.
+     */
+    static rgbaToHexaColor(rgba, poundPrefix = true) {
+        const a = Math.floor((rgba % (256 * 256 * 256 * 256)) / (256 * 256 * 256));
+        const b = Math.floor((rgba % (256 * 256 * 256)) / (256 * 256));
+        const g = Math.floor((rgba % (256 * 256)) / 256);
+        const r = rgba % 256;
+        return `${poundPrefix ? '#' : ''}${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${a.toString(16).padStart(2, '0')}`;
+    }
+    /**
+     * Converts RGBA color components to a numerical RGBA value, as `R + G * 256 + B * 256^2 + A * 256^3`.
+     * @param r The red component, from 0 to 255.
+     * @param g The green component, from 0 to 255.
+     * @param b The blue component, from 0 to 255.
+     * @param a The alpha component, from 0 to 255.
+     * @returns The numerical RGBA value of the specified components, as `R + G * 256 + B * 256^2 + A * 256^3`.
+     */
+    static rgbaColor(r, g, b, a) {
+        return 256 * 256 * 256 * a + 256 * 256 * b + 256 * g + r;
     }
     /**
      * Creates a full Bing component earth colors array. The earth colors array will contain the specified water color
@@ -12744,24 +13277,36 @@ class BingComponent extends DisplayComponent {
      * @param waterColor The desired water color, as a hex string with the format `#hhhhhh`.
      * @param terrainColors An array of desired terrain colors at specific elevations. Elevations should be specified in
      * feet and colors as hex strings with the format `#hhhhhh`.
+     * @param minElevation The minimum elevation to which to assign a color, in feet. Defaults to 0.
+     * @param maxElevation The maximum elevation to which to assign a color, in feet. Defaults to 30000.
+     * @param stepCount The number of terrain color steps. Defaults to 61.
      * @returns a full Bing component earth colors array.
      */
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static createEarthColorsArray(waterColor, terrainColors) {
+    static createEarthColorsArray(waterColor, terrainColors, minElevation = 0, maxElevation = 30000, stepCount = 61) {
         const earthColors = [BingComponent.hexaToRGBColor(waterColor)];
         const curve = new Avionics.Curve();
         curve.interpolationFunction = Avionics.CurveTool.StringColorRGBInterpolation;
         for (let i = 0; i < terrainColors.length; i++) {
             curve.add(terrainColors[i].elev, terrainColors[i].color);
         }
-        for (let i = 0; i < 60; i++) {
-            const color = curve.evaluate(i * 30000 / 60);
+        const elevationStep = (maxElevation - minElevation) / Math.max(stepCount - 1, 1);
+        for (let i = 0; i < stepCount; i++) {
+            const color = curve.evaluate(minElevation + i * elevationStep);
             earthColors[i + 1] = BingComponent.hexaToRGBColor(color);
         }
         return earthColors;
     }
 }
+/** The default resolution of the Bing Map along both horizontal and vertical axes, in pixels. */
 BingComponent.DEFAULT_RESOLUTION = 1024;
+BingComponent.DEFAULT_WEATHER_COLORS = [
+    [BingComponent.hexaToRGBAColor('#00000000'), 0.5],
+    [BingComponent.hexaToRGBAColor('#004d00ff'), 2.75],
+    [BingComponent.hexaToRGBAColor('#cb7300ff'), 12.5],
+    [BingComponent.hexaToRGBAColor('#ff0000ff'), 12.5]
+];
+BingComponent.POSITION_RADIUS_INHIBIT_FRAMES = 10;
 
 var DurationDisplayFormat;
 (function (DurationDisplayFormat) {
@@ -12997,9 +13542,9 @@ var HorizonProjectionChangeType;
     HorizonProjectionChangeType[HorizonProjectionChangeType["ProjectedOffset"] = 1024] = "ProjectedOffset";
     HorizonProjectionChangeType[HorizonProjectionChangeType["OffsetCenterProjected"] = 2048] = "OffsetCenterProjected";
 })(HorizonProjectionChangeType || (HorizonProjectionChangeType = {}));
-[Vec2Math.create()];
-[Vec3Math.create()];
-[new GeoPoint(0, 0)];
+//[Vec2Math.create()];
+//[Vec3Math.create()];
+//[new GeoPoint(0, 0)];
 
 /**
  * A base component for map layers.
@@ -13094,8 +13639,6 @@ var MapProjectionChangeType;
     MapProjectionChangeType[MapProjectionChangeType["ProjectedSize"] = 128] = "ProjectedSize";
     MapProjectionChangeType[MapProjectionChangeType["ProjectedResolution"] = 256] = "ProjectedResolution";
 })(MapProjectionChangeType || (MapProjectionChangeType = {}));
-new GeoPoint(0, 0);
-new GeoPoint(0, 0);
 
 /**
  * A path stream which does nothing on any input.
@@ -13194,7 +13737,6 @@ class ClippedPathStream extends AbstractTransformingPathStream {
     constructor(consumer, bounds) {
         super(consumer);
         this.bounds = bounds;
-        this.boundsHandler = this.onBoundsChanged.bind(this);
         this.boundsLines = [
             new Float64Array(3),
             new Float64Array(3),
@@ -13205,7 +13747,7 @@ class ClippedPathStream extends AbstractTransformingPathStream {
         this.firstPoint = new Float64Array([NaN, NaN]);
         this.prevPoint = new Float64Array([NaN, NaN]);
         this.prevPointOutcode = 0;
-        bounds.sub(this.boundsHandler, true);
+        this.boundsSub = bounds.sub(this.onBoundsChanged.bind(this), true);
     }
     /** @inheritdoc */
     beginPath() {
@@ -13278,10 +13820,12 @@ class ClippedPathStream extends AbstractTransformingPathStream {
                 }
             }
             else {
+                // The connecting line crosses zones diagonally -> we need to check if the intersection of the line and each
+                // boundary falls outside the bounds of the orthogonal axis.
                 // find entry point
                 for (let i = 0; i < 4; i++) {
                     if (this.prevPointOutcode & (1 << i)) {
-                        const boundsAxisIndex = i % 2;
+                        const boundsAxisIndex = (i + 1) % 2;
                         const intersection = ClippedPathStream.findLineLineIntersection(line, this.boundsLines[i], ClippedPathStream.vec2Cache[0]);
                         if (intersection && intersection[boundsAxisIndex] >= bounds[boundsAxisIndex] && intersection[boundsAxisIndex] <= bounds[boundsAxisIndex + 2]) {
                             entryPoint = intersection;
@@ -13292,7 +13836,7 @@ class ClippedPathStream extends AbstractTransformingPathStream {
                 // find exit point
                 for (let i = 0; i < 4; i++) {
                     if (outcode & (1 << i)) {
-                        const boundsAxisIndex = i % 2;
+                        const boundsAxisIndex = (i + 1) % 2;
                         const intersection = ClippedPathStream.findLineLineIntersection(line, this.boundsLines[i], ClippedPathStream.vec2Cache[1]);
                         if (intersection && intersection[boundsAxisIndex] >= bounds[boundsAxisIndex] && intersection[boundsAxisIndex] <= bounds[boundsAxisIndex + 2]) {
                             exitPoint = intersection;
@@ -13371,8 +13915,9 @@ class ClippedPathStream extends AbstractTransformingPathStream {
             const angleDiff = ((counterClockwise ? startAngle - endAngle : endAngle - startAngle) % pi2 + pi2) % pi2;
             endAngle = startAngle + angleDiff * directionSign;
         }
-        // Clamp to 2pi because we don't need to draw anything past a full circle.
+        // Canvas context arc() clamps angular width to 2pi, so we will too.
         const angularWidth = Math.min(pi2, (endAngle - startAngle) * directionSign);
+        endAngle = startAngle + angularWidth * directionSign;
         const bounds = this.bounds.get();
         const radiusSq = radius * radius;
         const startPoint = Vec2Math.add(Vec2Math.set(x, y, ClippedPathStream.vec2Cache[2]), Vec2Math.setFromPolar(radius, startAngle, ClippedPathStream.vec2Cache[0]), ClippedPathStream.vec2Cache[2]);
@@ -13385,8 +13930,8 @@ class ClippedPathStream extends AbstractTransformingPathStream {
         else if (!Vec2Math.equals(this.prevPoint, startPoint)) {
             this.lineTo(startPoint[0], startPoint[1]);
         }
-        // find all intersections of the arc circle with the clipping bounds; there can be up to 8 (two for each boundary
-        // line)
+        // Find all intersections of the arc circle with the clipping bounds; there can be up to 8 (two for each boundary
+        // line).
         const intersections = ClippedPathStream.intersectionCache;
         let intersectionCount = 0;
         for (let i = 0; i < 4; i++) {
@@ -13396,6 +13941,7 @@ class ClippedPathStream extends AbstractTransformingPathStream {
             const centerCrossAxisCoord = i % 2 === 0 ? y : x;
             const deltaToBound = bounds[i] - centerAxisCoord;
             if (Math.abs(deltaToBound) < radius) {
+                const radialOffsetSign = axisCoordIndex === 0 ? 1 : -1;
                 const crossAxisBoundMin = bounds[crossAxisCoordIndex];
                 const crossAxisBoundMax = bounds[crossAxisCoordIndex + 2];
                 //const radialOffset = Math.acos(deltaToBound / radius);
@@ -13407,7 +13953,7 @@ class ClippedPathStream extends AbstractTransformingPathStream {
                         const intersection = intersections[intersectionCount];
                         intersection.point[axisCoordIndex] = bounds[i];
                         intersection.point[crossAxisCoordIndex] = intersectionCrossAxisCoord;
-                        const radial = axisCoordIndex * Math.PI / 2 + (intersectionRadialOffset !== null && intersectionRadialOffset !== void 0 ? intersectionRadialOffset : (intersectionRadialOffset = Math.acos(deltaToBound / radius))) * (axisCoordIndex === 0 ? 1 : -1);
+                        const radial = axisCoordIndex * Math.PI / 2 + (intersectionRadialOffset !== null && intersectionRadialOffset !== void 0 ? intersectionRadialOffset : (intersectionRadialOffset = Math.acos(MathUtils.clamp(deltaToBound / radius, -1, 1)))) * radialOffsetSign;
                         intersection.radial = (radial + pi2) % pi2; // [0, 2 * pi)
                         intersectionCount++;
                     }
@@ -13418,12 +13964,20 @@ class ClippedPathStream extends AbstractTransformingPathStream {
                         const intersection = intersections[intersectionCount];
                         intersection.point[axisCoordIndex] = bounds[i];
                         intersection.point[crossAxisCoordIndex] = intersectionCrossAxisCoord;
-                        const radial = axisCoordIndex * Math.PI / 2 - (intersectionRadialOffset !== null && intersectionRadialOffset !== void 0 ? intersectionRadialOffset : (intersectionRadialOffset = Math.acos(deltaToBound / radius))) * (axisCoordIndex === 0 ? 1 : -1);
+                        const radial = axisCoordIndex * Math.PI / 2 - (intersectionRadialOffset !== null && intersectionRadialOffset !== void 0 ? intersectionRadialOffset : (intersectionRadialOffset = Math.acos(MathUtils.clamp(deltaToBound / radius, -1, 1)))) * radialOffsetSign;
                         intersection.radial = (radial + pi2) % pi2; // [0, 2 * pi)
                         intersectionCount++;
                     }
                 }
             }
+        }
+        if (intersectionCount > 1) {
+            // Set all unused intersection radials to infinity so they are guaranteed to be sorted last.
+            for (let i = intersectionCount; i < intersections.length; i++) {
+                intersections[i].radial = Infinity;
+            }
+            // Sort the intersections such that they are in clockwise order.
+            intersections.sort(ClippedPathStream.compareCircleBoundsIntersections);
         }
         // Begin at the start radial, then in order (either clockwise or counterclockwise depending on the arc direction)
         // iterate through the intersection points. At each intersection, move to the point if we are currently out of
@@ -13431,44 +13985,48 @@ class ClippedPathStream extends AbstractTransformingPathStream {
         // intersection we go from out of bounds to in bounds and vice versa. Stop when the radial to the intersection
         // is past the end radial of the arc.
         let isOutside = startPointOutcode !== Outcode.Inside;
-        const startAngleNormalized = ((startAngle % pi2) + pi2) % pi2; // [0, 2 * pi)
-        let lastRadial = startAngleNormalized;
+        let prevRadial = startAngle;
         let intersectionStartIndex = -1;
         let minAngularDiff = Infinity;
         for (let i = 0; i < intersectionCount; i++) {
-            const angularDiff = ((intersections[i].radial - startAngleNormalized) * directionSign + pi2) % pi2;
+            const angularDiff = MathUtils.diffAngle(startAngle * directionSign, intersections[i].radial * directionSign);
             if (angularDiff < minAngularDiff) {
                 intersectionStartIndex = i;
                 minAngularDiff = angularDiff;
             }
         }
         if (intersectionStartIndex >= 0) {
+            let angularWidthRemaining = angularWidth;
             for (let i = 0; i < intersectionCount; i++) {
                 const index = (intersectionStartIndex + intersectionCount + i * directionSign) % intersectionCount;
                 const intersection = intersections[index];
-                if (((intersection.radial - startAngleNormalized) * directionSign + pi2) % pi2 >= angularWidth) {
+                const segmentAngularWidth = MathUtils.diffAngle(prevRadial * directionSign, intersection.radial * directionSign);
+                if (segmentAngularWidth >= angularWidthRemaining) {
+                    angularWidthRemaining = 0;
                     break;
                 }
+                const currentRadial = prevRadial + segmentAngularWidth * directionSign;
                 if (isOutside) {
                     this.consumer.moveTo(intersection.point[0], intersection.point[1]);
                 }
                 else {
-                    const segmentAngularWidth = ((intersection.radial - lastRadial) * directionSign + pi2) % pi2;
-                    this.consumer.arc(x, y, radius, lastRadial, lastRadial + segmentAngularWidth * directionSign, counterClockwise);
+                    this.consumer.arc(x, y, radius, prevRadial, currentRadial, counterClockwise);
                 }
                 isOutside = !isOutside;
-                lastRadial = intersection.radial;
+                prevRadial = currentRadial;
+                angularWidthRemaining = (endAngle - prevRadial) * directionSign;
             }
         }
-        const endAngleNormalized = (startAngleNormalized + angularWidth * directionSign + pi2) % pi2; // [0, 2 * pi)
         if (!isOutside) {
-            const segmentAngularWidth = ((endAngleNormalized - lastRadial) * directionSign + pi2) % pi2;
-            this.consumer.arc(x, y, radius, lastRadial, lastRadial + segmentAngularWidth * directionSign, counterClockwise);
-            if (Math.abs((endAngleNormalized - endAngle) % pi2) > 1e-14) {
-                // This can happen if we clamped the angular width to 2pi -> we need to move the current point to the actual
-                // end point to keep the state of the consumer stream consistent with ours.
-                this.consumer.moveTo(endPoint[0], endPoint[1]);
-            }
+            // If the last segment is not outside, then we will path an arc to the end radial.
+            this.consumer.arc(x, y, radius, prevRadial, endAngle, counterClockwise);
+        }
+        else if (endPointOutcode === Outcode.Inside) {
+            // If the last segment is outside but the endpoint is inside, then this means the endpoint is very close to the
+            // clipping bounds and floating point error caused the discrepancy. In this case, we will not bother to draw an
+            // arc because any such arc would be extremely short. Instead, we will move to the end point to ensure we leave
+            // the consumer stream in the correct state for the next path command.
+            this.consumer.moveTo(endPoint[0], endPoint[1]);
         }
         Vec2Math.copy(endPoint, this.prevPoint);
         this.prevPointOutcode = endPointOutcode;
@@ -13526,7 +14084,7 @@ class ClippedPathStream extends AbstractTransformingPathStream {
      * Destroys this stream.
      */
     destroy() {
-        this.bounds.unsub(this.boundsHandler);
+        this.boundsSub.destroy();
     }
     /**
      * Gets the line coordinate vector for a line passing through two points.
@@ -13558,11 +14116,22 @@ class ClippedPathStream extends AbstractTransformingPathStream {
         }
         return Vec2Math.set(cross[0] / w, cross[1] / w, out);
     }
+    /**
+     * Compares two circle-bounding box intersections and returns whether the first intersection's radial is less than,
+     * greater than, or equal to the second's radial.
+     * @param a The first intersection to compare.
+     * @param b The second intersection to compare.
+     * @returns A negative number if the first intersection's radial is less than the second, a positive number if the
+     * first intersection's radial is greater than the second, or zero if both intersections' radials are equal.
+     */
+    static compareCircleBoundsIntersections(a, b) {
+        return a.radial - b.radial;
+    }
 }
 ClippedPathStream.vec2Cache = [new Float64Array(2), new Float64Array(2), new Float64Array(2), new Float64Array(2)];
 ClippedPathStream.vec3Cache = [new Float64Array(3), new Float64Array(3)];
 ClippedPathStream.intersectionCache = Array.from({ length: 8 }, () => {
-    return { point: new Float64Array(2), radial: 0 };
+    return { point: new Float64Array(2), radial: Infinity };
 });
 
 /**
@@ -13896,7 +14465,7 @@ class AffineTransformPathStream extends AbstractTransformingPathStream {
     updateScaleRotation() {
         const params = this.transform.getParameters();
         this.scale = Math.sqrt(params[0] * params[0] + params[3] * params[3]);
-        this.rotation = Math.atan2(params[0], params[3]);
+        this.rotation = Math.atan2(params[3], params[0]);
     }
     /**
      * Applies this stream's transformation to a point.
@@ -14003,6 +14572,73 @@ class TransformingPathStreamStack extends AbstractTransformingPathStream {
         this.stack[this.stack.length - 1].closePath();
     }
 }
+
+/**
+ * Renders arcs along geo circles as curved lines.
+ */
+class GeoCircleLineRenderer {
+    constructor() {
+        this.pathRenderer = new GeoCirclePathRenderer();
+    }
+    /**
+     * Renders an arc along a geo circle to a canvas.
+     * @param circle The geo circle containing the arc to render.
+     * @param startLat The latitude of the start of the arc, in degrees.
+     * @param startLon The longitude of the start of the arc, in degrees.
+     * @param endLat The latitude of the end of the arc, in degrees.
+     * @param endLon The longitude of the end of the arc, in degrees.
+     * @param context The canvas 2D rendering context to which to render.
+     * @param streamStack The path stream stack to which to render.
+     * @param width The width of the rendered line.
+     * @param style The style of the rendered line.
+     * @param dash The dash array of the rendered line. Defaults to no dash.
+     * @param outlineWidth The width of the outline, in pixels. Defaults to 0 pixels.
+     * @param outlineStyle The style of the outline. Defaults to `'black'`.
+     * @param lineCap The line cap style to use. Defaults to `'butt'`.
+     */
+    render(circle, startLat, startLon, endLat, endLon, context, streamStack, width, style, dash, outlineWidth = 0, outlineStyle = 'black', lineCap = 'butt') {
+        this.pathRenderer.render(circle, startLat, startLon, endLat, endLon, streamStack);
+        if (outlineWidth > 0) {
+            context.lineWidth = width + (outlineWidth * 2);
+            context.strokeStyle = outlineStyle;
+            context.lineCap = lineCap;
+            context.setLineDash(dash !== null && dash !== void 0 ? dash : GeoCircleLineRenderer.EMPTY_DASH);
+            context.stroke();
+        }
+        context.lineWidth = width;
+        context.strokeStyle = style;
+        context.lineCap = lineCap;
+        context.setLineDash(dash !== null && dash !== void 0 ? dash : GeoCircleLineRenderer.EMPTY_DASH);
+        context.stroke();
+    }
+}
+GeoCircleLineRenderer.EMPTY_DASH = [];
+
+/**
+ * Renders flight path vectors as a curved line.
+ */
+class FlightPathVectorLineRenderer {
+    constructor() {
+        this.renderer = new GeoCircleLineRenderer();
+    }
+    /**
+     * Renders a flight path vector to a canvas.
+     * @param vector The flight path vector to render.
+     * @param context The canvas 2D rendering context to which to render.
+     * @param streamStack The path stream to which to render.
+     * @param width The width of the rendered line.
+     * @param style The style of the rendered line.
+     * @param dash The dash array of the rendered line. Defaults to no dash.
+     * @param outlineWidth The width of the outline, in pixels. Defaults to 0 pixels.
+     * @param outlineStyle The style of the outline. Defaults to `'black'`.
+     * @param lineCap The line cap style to use. Defaults to `'butt'`.
+     */
+    render(vector, context, streamStack, width, style, dash, outlineWidth, outlineStyle, lineCap = 'butt') {
+        const circle = FlightPathUtils.setGeoCircleFromVector(vector, FlightPathVectorLineRenderer.geoCircleCache[0]);
+        this.renderer.render(circle, vector.startLat, vector.startLon, vector.endLat, vector.endLon, context, streamStack, width, style, dash, outlineWidth, outlineStyle, lineCap);
+    }
+}
+FlightPathVectorLineRenderer.geoCircleCache = [new GeoCircle(new Float64Array(3), 0)];
 
 /**
  * A stack of {@link TransformingPathStream}s which transforms an input in spherical geographic coordinates to planar
@@ -14134,7 +14770,7 @@ class GeoProjectionPathStreamStack extends AbstractTransformingPathStream {
     }
 }
 
-[new GeoPoint(0, 0), new GeoPoint(0, 0)];
+//[new GeoPoint(0, 0), new GeoPoint(0, 0)];
 
 /**
  * Parts of a flight plan leg path to render.
@@ -14152,36 +14788,58 @@ var FlightPathLegRenderPart;
     /** The entire leg path. */
     FlightPathLegRenderPart[FlightPathLegRenderPart["All"] = 7] = "All";
 })(FlightPathLegRenderPart || (FlightPathLegRenderPart = {}));
-[new GeoPoint(0, 0), new GeoPoint(0, 0)];
-[new GeoCircle(new Float64Array(3), 0)];
+//??????????????????? why are these created, note or smt?
+//[new GeoPoint(0, 0), new GeoPoint(0, 0)];
+//[new GeoCircle(new Float64Array(3), 0)];
 
-[new GeoCircle(new Float64Array(3), 0), new GeoCircle(new Float64Array(3), 0)];
+//[new GeoCircle(new Float64Array(3), 0), new GeoCircle(new Float64Array(3), 0)];
 
-[new GeoCircle(new Float64Array(3), 0)];
+//[new GeoCircle(new Float64Array(3), 0)];
 
-[new GeoCircle(new Float64Array(3), 0)];
+//[new GeoCircle(new Float64Array(3), 0)];
 
-[new GeoPoint(0, 0)];
+//[new GeoPoint(0, 0)];
 
-[new GeoPoint(0, 0)];
-[new Transform2D(), new Transform2D()];
+//[new GeoPoint(0, 0)];
+//[new Transform2D(), new Transform2D()];
 
-/// <reference types="msfstypes/JS/common" />
+/// <reference types="@microsoft/msfs-types/js/common" />
+/// <reference types="@microsoft/msfs-types/js/types" />
+/// <reference types="@microsoft/msfs-types/js/netbingmap" />
 /**
  * A FSComponent that display the MSFS Bing Map, weather radar, and 3D terrain.
  */
 class MapBingLayer extends MapLayer {
     constructor() {
         super(...arguments);
-        this.wrapperRef = FSComponent.createRef();
         this.bingRef = FSComponent.createRef();
-        this.resolutionSub = Vec2Subject.createFromVector(new Float64Array([1024, 1024]));
+        this.wrapperStyle = ObjectSubject.create({
+            'position': 'absolute',
+            'left': '0px',
+            'top': '0px',
+            'width': '0px',
+            'height': '0px',
+            'display': '',
+            'transform': '',
+            'opacity': '',
+        });
+        this.resolution = Vec2Subject.create(Vec2Math.create(1024, 1024));
+        this.rotationTransform = CssTransformBuilder.rotate('rad');
+        /** The length of this layer's diagonal, in pixels. */
         this.size = 0;
         this.needUpdate = false;
     }
     /** @inheritdoc */
-    onAfterRender() {
+    onVisibilityChanged(isVisible) {
+        this.wrapperStyle.set('display', isVisible ? '' : 'none');
+    }
+    /** @inheritdoc */
+    onAttached() {
+        var _a;
         this.updateFromProjectedSize(this.props.mapProjection.getProjectedSize());
+        (_a = this.props.opacity) === null || _a === void 0 ? void 0 : _a.sub((v) => {
+            this.wrapperStyle.set('opacity', v.toString());
+        }, true);
         if (this.props.wxrMode !== undefined) {
             this.props.wxrMode.sub(() => {
                 this.updateFromProjectedSize(this.props.mapProjection.getProjectedSize());
@@ -14202,32 +14860,30 @@ class MapBingLayer extends MapLayer {
      * @param projectedSize The size of the projected map window.
      */
     updateFromProjectedSize(projectedSize) {
+        let offsetX, offsetY;
         if (this.props.wxrMode && this.props.wxrMode.get().mode === EWeatherRadar.HORIZONTAL) {
             const offsetSize = new Float64Array([projectedSize[0], projectedSize[1]]);
             const offset = this.props.mapProjection.getTargetProjectedOffset();
             offsetSize[0] += offset[0];
             offsetSize[1] += offset[1];
             this.size = this.getSize(offsetSize);
-            const offsetX = ((projectedSize[0] - this.size) / 2) + offset[0];
-            const offsetY = ((projectedSize[1] - this.size) / 2) + offset[1];
-            this.wrapperRef.instance.style.left = `${offsetX}px`;
-            this.wrapperRef.instance.style.top = `${offsetY}px`;
-            this.wrapperRef.instance.style.width = `${this.size}px`;
-            this.wrapperRef.instance.style.height = `${this.size}px`;
+            offsetX = ((projectedSize[0] - this.size) / 2) + offset[0];
+            offsetY = ((projectedSize[1] - this.size) / 2) + offset[1];
         }
         else {
             this.size = this.getSize(projectedSize);
-            const offsetX = (projectedSize[0] - this.size) / 2;
-            const offsetY = (projectedSize[1] - this.size) / 2;
-            this.wrapperRef.instance.style.left = `${offsetX}px`;
-            this.wrapperRef.instance.style.top = `${offsetY}px`;
-            this.wrapperRef.instance.style.width = `${this.size}px`;
-            this.wrapperRef.instance.style.height = `${this.size}px`;
+            offsetX = (projectedSize[0] - this.size) / 2;
+            offsetY = (projectedSize[1] - this.size) / 2;
         }
-        this.resolutionSub.set(this.size, this.size);
+        this.wrapperStyle.set('left', `${offsetX}px`);
+        this.wrapperStyle.set('top', `${offsetY}px`);
+        this.wrapperStyle.set('width', `${this.size}px`);
+        this.wrapperStyle.set('height', `${this.size}px`);
+        this.resolution.set(this.size, this.size);
     }
     /**
      * Gets an appropriate size, in pixels, for this Bing layer given specific map projection window dimensions.
+     * We get the length of the hypotenuse so that the map edges won't show when rotating.
      * @param projectedSize - the size of the projected map window.
      * @returns an appropriate size for this Bing layer.
      */
@@ -14236,7 +14892,7 @@ class MapBingLayer extends MapLayer {
     }
     /** @inheritdoc */
     onMapProjectionChanged(mapProjection, changeFlags) {
-        if (BitFlags.isAll(changeFlags, MapProjectionChangeType.ProjectedSize)) {
+        if (BitFlags.isAny(changeFlags, MapProjectionChangeType.ProjectedSize | MapProjectionChangeType.TargetProjected)) {
             this.updateFromProjectedSize(mapProjection.getProjectedSize());
         }
         if (this.bingRef.instance.isBound()) {
@@ -14258,10 +14914,6 @@ class MapBingLayer extends MapLayer {
         this.updatePositionRadius();
         this.needUpdate = false;
     }
-    /** @inheritdoc */
-    setVisible(val) {
-        this.wrapperRef.instance.style.display = val ? '' : 'none';
-    }
     /**
      * Resets the underlying Bing component's img src attribute.
      */
@@ -14276,11 +14928,12 @@ class MapBingLayer extends MapLayer {
         const radius = this.calculateDesiredRadius(this.props.mapProjection);
         this.bingRef.instance.setPositionRadius(new LatLong(center.lat, center.lon), radius);
         if (!this.props.wxrMode || (this.props.wxrMode && this.props.wxrMode.get().mode !== EWeatherRadar.HORIZONTAL)) {
-            this.wrapperRef.instance.style.transform = `rotate(${this.props.mapProjection.getRotation() * Avionics.Utils.RAD2DEG}deg)`;
+            this.rotationTransform.set(this.props.mapProjection.getRotation(), 1e-3);
         }
         else {
-            this.wrapperRef.instance.style.transform = '';
+            this.rotationTransform.set(0);
         }
+        this.wrapperStyle.set('transform', this.rotationTransform.resolve());
     }
     /**
      * Gets the desired Bing map radius in meters given a map projection model.
@@ -14296,12 +14949,37 @@ class MapBingLayer extends MapLayer {
     /** @inheritdoc */
     render() {
         var _a, _b;
-        return (FSComponent.buildComponent("div", { ref: this.wrapperRef, style: 'position: absolute;', class: (_a = this.props.class) !== null && _a !== void 0 ? _a : '' },
-            FSComponent.buildComponent(BingComponent, { ref: this.bingRef, id: this.props.bingId, onBoundCallback: this.onBingBound.bind(this), resolution: this.resolutionSub, mode: (_b = this.props.mode) !== null && _b !== void 0 ? _b : EBingMode.PLANE, earthColors: this.props.earthColors, reference: this.props.reference, wxrMode: this.props.wxrMode, isoLines: this.props.isoLines, delay: this.props.delay })));
+        return (FSComponent.buildComponent("div", { style: this.wrapperStyle, class: (_a = this.props.class) !== null && _a !== void 0 ? _a : '' },
+            FSComponent.buildComponent(BingComponent, { ref: this.bingRef, id: this.props.bingId, onBoundCallback: this.onBingBound.bind(this), resolution: this.resolution, mode: (_b = this.props.mode) !== null && _b !== void 0 ? _b : EBingMode.PLANE, earthColors: this.props.earthColors, earthColorsElevationRange: this.props.earthColorsElevationRange, reference: this.props.reference, wxrMode: this.props.wxrMode, wxrColors: this.props.wxrColors, isoLines: this.props.isoLines, delay: this.props.delay })));
     }
 }
-MapBingLayer.OVERDRAW_FACTOR = Math.SQRT2;
 
+/**
+ * An implementation of MapCanvasLayerCanvasInstance.
+ */
+class MapCanvasLayerCanvasInstanceClass {
+    /**
+     * Creates a new canvas instance.
+     * @param canvas The canvas element.
+     * @param context The canvas 2D rendering context.
+     * @param isDisplayed Whether the canvas is displayed.
+     */
+    constructor(canvas, context, isDisplayed) {
+        this.canvas = canvas;
+        this.context = context;
+        this.isDisplayed = isDisplayed;
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    clear() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    reset() {
+        const width = this.canvas.width;
+        this.canvas.width = 0;
+        this.canvas.width = width;
+    }
+}
 /**
  * An implementation of MapCanvasLayerCanvasInstance.
  */
@@ -14642,6 +15320,8 @@ class MapCachedCanvasLayerCanvasInstanceClass extends MapCanvasLayerCanvasInstan
         this._transform = new MapCachedCanvasLayerTransformClass();
         this._isInvalid = false;
         this._geoProjection = new MercatorProjection();
+        this.canvasTransform = CssTransformSubject.create(CssTransformBuilder.concat(CssTransformBuilder.scale(), CssTransformBuilder.translate('px'), CssTransformBuilder.rotate('rad')));
+        this.canvasTransform.sub(transform => { this.canvas.style.transform = transform; }, true);
     }
     /** @inheritdoc */
     get reference() {
@@ -14703,7 +15383,10 @@ class MapCachedCanvasLayerCanvasInstanceClass extends MapCanvasLayerCanvasInstan
         const transform = this.transform;
         const offsetX = transform.translation[0] / transform.scale;
         const offsetY = transform.translation[1] / transform.scale;
-        this.canvas.style.transform = `scale(${transform.scale.toFixed(3)}) translate(${offsetX.toFixed(1)}px, ${offsetY.toFixed(1)}px) rotate(${(transform.rotation * Avionics.Utils.RAD2DEG).toFixed(2)}deg)`;
+        this.canvasTransform.transform.getChild(0).set(transform.scale, transform.scale, 0.001);
+        this.canvasTransform.transform.getChild(1).set(offsetX, offsetY, 0.1);
+        this.canvasTransform.transform.getChild(2).set(transform.rotation, 1e-4);
+        this.canvasTransform.resolve();
     }
     /** @inheritdoc */
     invalidate() {
@@ -14804,109 +15487,207 @@ class MapCachedCanvasLayer extends MapCanvasLayer {
 class MapOwnAirplaneLayer extends MapLayer {
     constructor() {
         super(...arguments);
-        this.iconImgRef = FSComponent.createRef();
-        this.iconOffset = new Float64Array(2);
-        this.updateFlags = 0;
+        this.imageFilePath = SubscribableUtils.isSubscribable(this.props.imageFilePath)
+            ? this.props.imageFilePath.map(SubscribableMapFunctions.identity())
+            : this.props.imageFilePath;
+        this.style = ObjectSubject.create({
+            display: '',
+            position: 'absolute',
+            left: '0px',
+            top: '0px',
+            width: '0px',
+            height: '0px',
+            transform: 'translate3d(0, 0, 0) rotate(0deg)',
+            'transform-origin': '50% 50%'
+        });
+        this.ownAirplanePropsModule = this.props.model.getModule('ownAirplaneProps');
+        this.ownAirplaneIconModule = this.props.model.getModule('ownAirplaneIcon');
+        this.iconSize = SubscribableUtils.toSubscribable(this.props.iconSize, true);
+        this.iconAnchor = SubscribableUtils.toSubscribable(this.props.iconAnchor, true);
+        this.iconOffset = Vec2Math.create();
+        this.visibilityBounds = VecNMath.create(4);
+        this.iconTransform = CssTransformBuilder.concat(CssTransformBuilder.translate3d('px'), CssTransformBuilder.rotate('deg'));
+        this.isGsAboveTrackThreshold = this.ownAirplanePropsModule.groundSpeed.map(gs => gs.asUnit(UnitType.KNOT) >= 5).pause();
+        this.showIcon = true;
+        this.isInsideVisibilityBounds = true;
+        this.planeRotation = 0;
+        this.needUpdateVisibility = false;
+        this.needUpdatePositionRotation = false;
     }
-    // eslint-disable-next-line jsdoc/require-jsdoc, @typescript-eslint/no-unused-vars
+    /** @inheritdoc */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onVisibilityChanged(isVisible) {
-        this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_VISIBILITY);
+        this.needUpdateVisibility = true;
+        this.needUpdatePositionRotation = this.showIcon = isVisible && this.ownAirplaneIconModule.show.get();
     }
     /** @inheritdoc */
     onAttached() {
-        const ownAirplaneIconModule = this.props.model.getModule('ownAirplaneIcon');
-        ownAirplaneIconModule.show.sub(this.onIconShowChanged.bind(this));
-        const ownAirplanePropsModule = this.props.model.getModule('ownAirplaneProps');
-        ownAirplanePropsModule.position.sub(this.onAirplanePositionChanged.bind(this));
-        ownAirplanePropsModule.hdgTrue.sub(this.onAirplaneHeadingChanged.bind(this));
-        this.props.iconAnchor.sub(anchor => {
-            this.iconOffset.set(anchor);
-            Vec2Math.multScalar(this.iconOffset, -this.props.iconSize, this.iconOffset);
-            const img = this.iconImgRef.instance;
-            img.style.left = `${this.iconOffset[0]}px`;
-            img.style.top = `${this.iconOffset[1]}px`;
-            img.style.transformOrigin = `${anchor[0] * 100}% ${anchor[1] * 100}%`;
-            this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_VISIBILITY | MapOwnAirplaneLayer.UPDATE_TRANSFORM);
+        this.showSub = this.ownAirplaneIconModule.show.sub(show => {
+            this.needUpdateVisibility = true;
+            this.needUpdatePositionRotation = this.showIcon = show && this.isVisible();
+        });
+        this.positionSub = this.ownAirplanePropsModule.position.sub(() => {
+            this.needUpdatePositionRotation = this.showIcon;
+        });
+        this.headingSub = this.ownAirplanePropsModule.hdgTrue.sub(hdg => {
+            this.planeRotation = hdg;
+            this.needUpdatePositionRotation = this.showIcon;
+        }, false, true);
+        this.trackSub = this.ownAirplanePropsModule.trackTrue.sub(track => {
+            this.planeRotation = track;
+            this.needUpdatePositionRotation = this.showIcon;
+        }, false, true);
+        this.trackThresholdSub = this.isGsAboveTrackThreshold.sub(isAboveThreshold => {
+            if (isAboveThreshold) {
+                this.headingSub.pause();
+                this.trackSub.resume(true);
+            }
+            else {
+                this.trackSub.pause();
+                this.headingSub.resume(true);
+            }
+        }, false, true);
+        this.iconSizeSub = this.iconSize.sub(size => {
+            this.style.set('width', `${size}px`);
+            this.style.set('height', `${size}px`);
+            this.updateOffset();
         }, true);
-        this.props.imageFilePath.sub(path => {
-            this.iconImgRef.instance.src = path;
-            this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_VISIBILITY | MapOwnAirplaneLayer.UPDATE_TRANSFORM);
+        this.iconAnchorSub = this.iconAnchor.sub(() => {
+            this.updateOffset();
+        });
+        this.orientationSub = this.ownAirplaneIconModule.orientation.sub(orientation => {
+            switch (orientation) {
+                case MapOwnAirplaneIconOrientation.HeadingUp:
+                    this.isGsAboveTrackThreshold.pause();
+                    this.trackThresholdSub.pause();
+                    this.trackSub.pause();
+                    this.headingSub.resume(true);
+                    break;
+                case MapOwnAirplaneIconOrientation.TrackUp:
+                    this.headingSub.pause();
+                    this.trackSub.pause();
+                    this.isGsAboveTrackThreshold.resume();
+                    this.trackThresholdSub.resume(true);
+                    break;
+                default:
+                    this.needUpdatePositionRotation = this.showIcon;
+                    this.isGsAboveTrackThreshold.pause();
+                    this.trackThresholdSub.pause();
+                    this.headingSub.pause();
+                    this.trackSub.pause();
+                    this.planeRotation = 0;
+            }
         }, true);
-        this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_VISIBILITY | MapOwnAirplaneLayer.UPDATE_TRANSFORM);
-    }
-    // eslint-disable-next-line jsdoc/require-jsdoc, @typescript-eslint/no-unused-vars
-    onMapProjectionChanged(mapProjection, changeFlags) {
-        this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_TRANSFORM);
+        this.needUpdateVisibility = true;
+        this.needUpdatePositionRotation = true;
     }
     /**
-     * Schedules an update.
-     * @param updateFlags The types of updates to schedule.
+     * Updates the icon's offset from the projected position of the airplane.
      */
-    scheduleUpdate(updateFlags) {
-        this.updateFlags = BitFlags.union(this.updateFlags, updateFlags);
+    updateOffset() {
+        const anchor = this.iconAnchor.get();
+        this.iconOffset.set(anchor);
+        Vec2Math.multScalar(this.iconOffset, -this.iconSize.get(), this.iconOffset);
+        this.style.set('left', `${this.iconOffset[0]}px`);
+        this.style.set('top', `${this.iconOffset[1]}px`);
+        this.style.set('transform-origin', `${anchor[0] * 100}% ${anchor[1] * 100}%`);
+        this.updateVisibilityBounds();
     }
-    // eslint-disable-next-line jsdoc/require-jsdoc, @typescript-eslint/no-unused-vars
+    /**
+     * Updates the boundaries within the map's projected window that define a region such that if the airplane's
+     * projected position falls outside of it, the icon is not visible and therefore does not need to be updated.
+     */
+    updateVisibilityBounds() {
+        const size = this.iconSize.get();
+        // Find the maximum possible protrusion of the icon from its anchor point, defined as the distance from the
+        // anchor point to the farthest point within the bounds of the icon. This farthest point is always one of the
+        // four corners of the icon.
+        const maxProtrusion = Math.max(Math.hypot(this.iconOffset[0], this.iconOffset[1]), // top left corner
+        Math.hypot(this.iconOffset[0] + size, this.iconOffset[1]), // top right corner
+        Math.hypot(this.iconOffset[0] + size, this.iconOffset[1] + size), // bottom right corner
+        Math.hypot(this.iconOffset[0], this.iconOffset[1] + size));
+        const boundsOffset = maxProtrusion + 50; // Add some additional buffer
+        const projectedSize = this.props.mapProjection.getProjectedSize();
+        this.visibilityBounds[0] = -boundsOffset;
+        this.visibilityBounds[1] = -boundsOffset;
+        this.visibilityBounds[2] = projectedSize[0] + boundsOffset;
+        this.visibilityBounds[3] = projectedSize[1] + boundsOffset;
+        this.needUpdatePositionRotation = this.showIcon;
+    }
+    /** @inheritdoc */
+    onMapProjectionChanged(mapProjection, changeFlags) {
+        if (BitFlags.isAll(changeFlags, MapProjectionChangeType.ProjectedSize)) {
+            this.updateVisibilityBounds();
+        }
+        this.needUpdatePositionRotation = this.showIcon;
+    }
+    /** @inheritdoc */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onUpdated(time, elapsed) {
-        if (this.updateFlags === 0) {
-            return;
+        if (this.needUpdatePositionRotation) {
+            this.updateIconPositionRotation();
+            this.needUpdatePositionRotation = false;
+            this.needUpdateVisibility = false;
         }
-        if (BitFlags.isAll(this.updateFlags, MapOwnAirplaneLayer.UPDATE_VISIBILITY)) {
+        else if (this.needUpdateVisibility) {
             this.updateIconVisibility();
+            this.needUpdateVisibility = false;
         }
-        if (BitFlags.isAll(this.updateFlags, MapOwnAirplaneLayer.UPDATE_TRANSFORM)) {
-            this.updateIconTransform();
-        }
-        this.updateFlags = BitFlags.not(this.updateFlags, MapOwnAirplaneLayer.UPDATE_VISIBILITY | MapOwnAirplaneLayer.UPDATE_TRANSFORM);
     }
     /**
      * Updates the airplane icon's visibility.
      */
     updateIconVisibility() {
-        const show = this.isVisible() && this.props.model.getModule('ownAirplaneIcon').show.get();
-        this.iconImgRef.instance.style.display = show ? 'block' : 'none';
+        this.style.set('display', this.isInsideVisibilityBounds && this.showIcon ? '' : 'none');
     }
     /**
-     * Updates the airplane icon's display transformation.
+     * Updates the airplane icon's projected position and rotation.
      */
-    updateIconTransform() {
-        const ownAirplanePropsModule = this.props.model.getModule('ownAirplaneProps');
-        const projected = this.props.mapProjection.project(ownAirplanePropsModule.position.get(), MapOwnAirplaneLayer.tempVec2_1);
-        const rotation = ownAirplanePropsModule.hdgTrue.get() + this.props.mapProjection.getRotation() * Avionics.Utils.RAD2DEG;
-        this.iconImgRef.instance.style.transform = `translate(${projected[0].toFixed(1)}px, ${projected[1].toFixed(1)}px) rotate(${rotation.toFixed(1)}deg) rotateX(0deg)`;
-    }
-    /**
-     * A callback which is called when the show airplane icon property changes.
-     * @param show The new value of the show airplane icon property.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onIconShowChanged(show) {
-        this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_VISIBILITY);
-    }
-    /**
-     * A callback which is called when the airplane's position changes.
-     * @param pos The new position of the airplane.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onAirplanePositionChanged(pos) {
-        this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_TRANSFORM);
-    }
-    /**
-     * A callback which is called when the airplane's true heading changes.
-     * @param hdgTrue - the new true heading of the airplane.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onAirplaneHeadingChanged(hdgTrue) {
-        this.scheduleUpdate(MapOwnAirplaneLayer.UPDATE_TRANSFORM);
+    updateIconPositionRotation() {
+        const projected = this.props.mapProjection.project(this.ownAirplanePropsModule.position.get(), MapOwnAirplaneLayer.vec2Cache[0]);
+        this.isInsideVisibilityBounds = this.props.mapProjection.isInProjectedBounds(projected, this.visibilityBounds);
+        // If the projected position of the icon is far enough out of bounds that the icon is not visible, do not bother to
+        // update the icon.
+        if (this.isInsideVisibilityBounds) {
+            let rotation;
+            switch (this.ownAirplaneIconModule.orientation.get()) {
+                case MapOwnAirplaneIconOrientation.HeadingUp:
+                case MapOwnAirplaneIconOrientation.TrackUp:
+                    rotation = this.planeRotation + this.props.mapProjection.getRotation() * Avionics.Utils.RAD2DEG;
+                    break;
+                default:
+                    rotation = 0;
+            }
+            this.iconTransform.getChild(0).set(projected[0], projected[1], 0, 0.1);
+            this.iconTransform.getChild(1).set(rotation, 0.1);
+            this.style.set('transform', this.iconTransform.resolve());
+        }
+        this.updateIconVisibility();
     }
     /** @inheritdoc */
     render() {
         var _a;
-        return (FSComponent.buildComponent("img", { ref: this.iconImgRef, class: (_a = this.props.class) !== null && _a !== void 0 ? _a : '', src: this.props.imageFilePath, style: `position: absolute; width: ${this.props.iconSize}px; height: ${this.props.iconSize}px; transform: rotateX(0deg);` }));
+        return (FSComponent.buildComponent("img", { src: this.imageFilePath, class: (_a = this.props.class) !== null && _a !== void 0 ? _a : '', style: this.style }));
+    }
+    /** @inheritdoc */
+    destroy() {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        if (SubscribableUtils.isSubscribable(this.imageFilePath)) {
+            this.imageFilePath.destroy();
+        }
+        this.isGsAboveTrackThreshold.destroy();
+        (_a = this.showSub) === null || _a === void 0 ? void 0 : _a.destroy();
+        (_b = this.positionSub) === null || _b === void 0 ? void 0 : _b.destroy();
+        (_c = this.headingSub) === null || _c === void 0 ? void 0 : _c.destroy();
+        (_d = this.trackSub) === null || _d === void 0 ? void 0 : _d.destroy();
+        (_e = this.trackThresholdSub) === null || _e === void 0 ? void 0 : _e.destroy();
+        (_f = this.iconSizeSub) === null || _f === void 0 ? void 0 : _f.destroy();
+        (_g = this.iconAnchorSub) === null || _g === void 0 ? void 0 : _g.destroy();
+        (_h = this.orientationSub) === null || _h === void 0 ? void 0 : _h.destroy();
+        super.destroy();
     }
 }
-MapOwnAirplaneLayer.UPDATE_VISIBILITY = 1;
-MapOwnAirplaneLayer.UPDATE_TRANSFORM = 1 << 1;
-MapOwnAirplaneLayer.tempVec2_1 = new Float64Array(2);
+MapOwnAirplaneLayer.vec2Cache = [Vec2Math.create()];
 
 /**
  * A layer which draws airspaces.
@@ -15260,8 +16041,13 @@ class MapNearestWaypointsLayer extends MapLayer {
         this.facLoader = new FacilityLoader(FacilityRepository.getRepository(this.props.bus), this.onFacilityLoaderInitialized.bind(this));
         this.searchRadius = 0;
         this.searchMargin = 0;
-        this.icaosToShow = new Set();
+        this.userFacilityHasChanged = false;
+        /** A set of the ICAOs of all waypoints that should be rendered. */
+        this.icaosToRender = new Set();
+        /** A map of rendered waypoints from their ICAOs. */
+        this.cachedRenderedWaypoints = new Map();
         this.isInit = false;
+        this.facilityRepoSubs = [];
     }
     /**
      * A callback called when the facility loaded finishes initialization.
@@ -15295,6 +16081,22 @@ class MapNearestWaypointsLayer extends MapLayer {
             [FacilitySearchType.Intersection]: new MapNearestWaypointsLayerSearch(intSession, callback),
             [FacilitySearchType.User]: new MapNearestWaypointsLayerSearch(userSession, callback)
         };
+        const sub = this.props.bus.getSubscriber();
+        // Watch for changes to user facilities so that we can trigger search refreshes to ensure that the layer does not
+        // display outdated user waypoints.
+        this.facilityRepoSubs.push(sub.on('facility_added').handle(fac => {
+            if (ICAO.isFacility(fac.icao, FacilityType.USR)) {
+                this.userFacilityHasChanged = true;
+            }
+        }), sub.on('facility_changed').handle(fac => {
+            if (ICAO.isFacility(fac.icao, FacilityType.USR)) {
+                this.userFacilityHasChanged = true;
+            }
+        }), sub.on('facility_removed').handle(fac => {
+            if (ICAO.isFacility(fac.icao, FacilityType.USR)) {
+                this.userFacilityHasChanged = true;
+            }
+        }));
         this.props.onSessionsStarted && this.props.onSessionsStarted(airportSession, vorSession, ndbSession, intSession, userSession);
         if (this.isInit) {
             this._tryRefreshAllSearches(this.getSearchCenter(), this.searchRadius);
@@ -15328,9 +16130,18 @@ class MapNearestWaypointsLayer extends MapLayer {
     initWaypointRenderer() {
         this.props.initRenderer && this.props.initRenderer(this.props.waypointRenderer, this.canvasLayerRef.instance);
     }
+    /** Forces a refresh of all the waypoints. */
+    refreshWaypoints() {
+        this.tryRefreshAllSearches(undefined, undefined, true);
+        this.cachedRenderedWaypoints.forEach(w => {
+            this.props.deregisterWaypoint(w, this.props.waypointRenderer);
+        });
+        this.cachedRenderedWaypoints.forEach(w => {
+            this.props.registerWaypoint(w, this.props.waypointRenderer);
+        });
+    }
     /** @inheritdoc */
     onMapProjectionChanged(mapProjection, changeFlags) {
-        super.onMapProjectionChanged(mapProjection, changeFlags);
         this.canvasLayerRef.instance.onMapProjectionChanged(mapProjection, changeFlags);
         if (BitFlags.isAny(changeFlags, MapProjectionChangeType.Range | MapProjectionChangeType.RangeEndpoints | MapProjectionChangeType.ProjectedSize)) {
             this.updateSearchRadius();
@@ -15344,12 +16155,24 @@ class MapNearestWaypointsLayer extends MapLayer {
      * Updates the desired nearest facility search radius based on the current map projection.
      */
     updateSearchRadius() {
-        const mapHalfDiagRange = Vec2Math.abs(this.props.mapProjection.getProjectedSize()) * this.props.mapProjection.getProjectedResolution() / 2;
+        let mapHalfDiagRange = Vec2Math.abs(this.props.mapProjection.getProjectedSize()) * this.props.mapProjection.getProjectedResolution() / 2;
+        //Limit lower end of radius so that even at high zooms the surrounding area waypoints are captured.
+        mapHalfDiagRange = Math.max(mapHalfDiagRange, UnitType.NMILE.convertTo(5, UnitType.GA_RADIAN));
         this.searchRadius = mapHalfDiagRange * MapNearestWaypointsLayer.SEARCH_RADIUS_OVERDRAW_FACTOR;
         this.searchMargin = mapHalfDiagRange * (MapNearestWaypointsLayer.SEARCH_RADIUS_OVERDRAW_FACTOR - 1);
     }
     /** @inheritdoc */
     onUpdated(time, elapsed) {
+        var _a;
+        // If a user facility was added, changed, or removed, schedule a user waypoint search refresh so that we always
+        // have the latest user facility data.
+        if (this.userFacilityHasChanged) {
+            const search = (_a = this.facilitySearches) === null || _a === void 0 ? void 0 : _a[FacilitySearchType.User];
+            if (search !== undefined) {
+                this.userFacilityHasChanged = false;
+                this.scheduleSearchRefresh(FacilitySearchType.User, search, this.getSearchCenter(), this.searchRadius);
+            }
+        }
         this.updateSearches(elapsed);
     }
     /**
@@ -15373,11 +16196,12 @@ class MapNearestWaypointsLayer extends MapLayer {
      * @param center The center of the search area. Defaults to this layer's automatically calculated search center.
      * @param radius The radius of the search area, in great-arc radians. Defaults to this layer's automatically
      * calculated search radius.
+     * @param force Whether to force a refresh of all waypoints. Defaults to false.
      */
-    tryRefreshAllSearches(center, radius) {
+    tryRefreshAllSearches(center, radius, force) {
         center !== null && center !== void 0 ? center : (center = this.getSearchCenter());
         radius !== null && radius !== void 0 ? radius : (radius = this.searchRadius);
-        this._tryRefreshAllSearches(center, radius);
+        this._tryRefreshAllSearches(center, radius, force);
     }
     /**
      * Attempts to refresh a nearest search. The search will only be refreshed if the desired search radius is different
@@ -15387,23 +16211,25 @@ class MapNearestWaypointsLayer extends MapLayer {
      * @param center The center of the search area. Defaults to this layer's automatically calculated search center.
      * @param radius The radius of the search area, in great-arc radians. Defaults to this layer's automatically
      * calculated search radius.
+     * @param force Whether to force a refresh of all waypoints. Defaults to false.
      */
-    tryRefreshSearch(type, center, radius) {
+    tryRefreshSearch(type, center, radius, force) {
         center !== null && center !== void 0 ? center : (center = this.getSearchCenter());
         radius !== null && radius !== void 0 ? radius : (radius = this.searchRadius);
-        this._tryRefreshSearch(type, center, radius);
+        this._tryRefreshSearch(type, center, radius, force);
     }
     /**
      * Attempts to refresh all of the nearest facility searches.
      * @param center The center of the search area.
      * @param radius The radius of the search area, in great-arc radians.
+     * @param force Whether to force a refresh of all waypoints. Defaults to false.
      */
-    _tryRefreshAllSearches(center, radius) {
-        this._tryRefreshSearch(FacilitySearchType.Airport, center, radius);
-        this._tryRefreshSearch(FacilitySearchType.Vor, center, radius);
-        this._tryRefreshSearch(FacilitySearchType.Ndb, center, radius);
-        this._tryRefreshSearch(FacilitySearchType.Intersection, center, radius);
-        this._tryRefreshSearch(FacilitySearchType.User, center, radius);
+    _tryRefreshAllSearches(center, radius, force) {
+        this._tryRefreshSearch(FacilitySearchType.Airport, center, radius, force);
+        this._tryRefreshSearch(FacilitySearchType.Vor, center, radius, force);
+        this._tryRefreshSearch(FacilitySearchType.Ndb, center, radius, force);
+        this._tryRefreshSearch(FacilitySearchType.Intersection, center, radius, force);
+        this._tryRefreshSearch(FacilitySearchType.User, center, radius, force);
     }
     /**
      * Attempts to refresh a nearest search. The search will only be refreshed if `this.shouldRefreshSearch()` returns
@@ -15412,13 +16238,18 @@ class MapNearestWaypointsLayer extends MapLayer {
      * @param type The type of nearest search to refresh.
      * @param center The center of the search area.
      * @param radius The radius of the search area, in great-arc radians.
+     * @param force Whether to force a refresh of all waypoints. Defaults to false.
      */
-    _tryRefreshSearch(type, center, radius) {
+    _tryRefreshSearch(type, center, radius, force) {
         const search = this.facilitySearches && this.facilitySearches[type];
-        if (!search || !this.shouldRefreshSearch(type, center, radius)) {
+        if (!search || (!force && !this.shouldRefreshSearch(type, center, radius))) {
             return;
         }
-        if (search.lastRadius !== radius || search.lastCenter.distance(center) >= this.searchMargin) {
+        const radiusLimit = this.props.searchRadiusLimit ? this.props.searchRadiusLimit(type, center, radius) : undefined;
+        if (radiusLimit !== undefined && isFinite(radiusLimit)) {
+            radius = Math.min(radius, Math.max(0, radiusLimit));
+        }
+        if (force || search.lastRadius !== radius || search.lastCenter.distance(center) >= this.searchMargin) {
             this.scheduleSearchRefresh(type, search, center, radius);
         }
     }
@@ -15441,10 +16272,6 @@ class MapNearestWaypointsLayer extends MapLayer {
      */
     scheduleSearchRefresh(type, search, center, radius) {
         const itemLimit = this.props.searchItemLimit ? this.props.searchItemLimit(type, center, radius) : 100;
-        const radiusLimit = this.props.searchRadiusLimit ? this.props.searchRadiusLimit(type, center, radius) : undefined;
-        if (radiusLimit !== undefined && isFinite(radiusLimit)) {
-            radius = Math.min(radius, Math.max(0, radiusLimit));
-        }
         search.scheduleRefresh(center, radius, itemLimit, this.searchDebounceDelay);
     }
     /**
@@ -15478,14 +16305,18 @@ class MapNearestWaypointsLayer extends MapLayer {
      * layer using a waypoint renderer.
      * @param icao The ICAO string to register.
      */
-    registerIcao(icao) {
-        this.icaosToShow.add(icao);
-        this.facLoader.getFacility(ICAO.getFacilityType(icao), icao).then(facility => {
-            if (!this.icaosToShow.has(icao)) {
+    async registerIcao(icao) {
+        this.icaosToRender.add(icao);
+        try {
+            const facility = await this.facLoader.getFacility(ICAO.getFacilityType(icao), icao);
+            if (!this.icaosToRender.has(icao)) {
                 return;
             }
             this.registerWaypointWithRenderer(this.props.waypointRenderer, facility);
-        });
+        }
+        catch (_a) {
+            // noop
+        }
     }
     /**
      * Registers a facility with this layer's waypoint renderer.
@@ -15494,20 +16325,35 @@ class MapNearestWaypointsLayer extends MapLayer {
      */
     registerWaypointWithRenderer(renderer, facility) {
         const waypoint = this.props.waypointForFacility(facility);
+        this.cachedRenderedWaypoints.set(facility.icao, waypoint);
         this.props.registerWaypoint(waypoint, renderer);
     }
     /**
      * Deregisters an ICAO string from this layer.
      * @param icao The ICAO string to deregister.
      */
-    deregisterIcao(icao) {
-        this.icaosToShow.delete(icao);
-        this.facLoader.getFacility(ICAO.getFacilityType(icao), icao).then(facility => {
-            if (this.icaosToShow.has(icao)) {
+    async deregisterIcao(icao) {
+        this.icaosToRender.delete(icao);
+        try {
+            const facility = await this.facLoader.getFacility(ICAO.getFacilityType(icao), icao);
+            if (this.icaosToRender.has(icao)) {
                 return;
             }
             this.deregisterWaypointWithRenderer(this.props.waypointRenderer, facility);
-        });
+        }
+        catch (_a) {
+            if (this.icaosToRender.has(icao)) {
+                return;
+            }
+            // If we can't find the facility from the ICAO, it could be that the facility has been removed, in which case
+            // we grab the cached waypoint (the waypoint that was most recently registered with the renderer under the
+            // removed ICAO) and deregister it.
+            const cachedWaypoint = this.cachedRenderedWaypoints.get(icao);
+            if (cachedWaypoint !== undefined) {
+                this.cachedRenderedWaypoints.delete(icao);
+                this.props.deregisterWaypoint(cachedWaypoint, this.props.waypointRenderer);
+            }
+        }
     }
     /**
      * Deregisters a facility from this layer's waypoint renderer.
@@ -15516,11 +16362,25 @@ class MapNearestWaypointsLayer extends MapLayer {
      */
     deregisterWaypointWithRenderer(renderer, facility) {
         const waypoint = this.props.waypointForFacility(facility);
+        this.cachedRenderedWaypoints.delete(facility.icao);
         this.props.deregisterWaypoint(waypoint, renderer);
     }
     /** @inheritdoc */
+    setVisible(val) {
+        super.setVisible(val);
+        this.canvasLayerRef.instance.setVisible(val);
+    }
+    /** @inheritdoc */
     render() {
-        return (FSComponent.buildComponent(MapSyncedCanvasLayer, { ref: this.canvasLayerRef, model: this.props.model, mapProjection: this.props.mapProjection }));
+        var _a;
+        return (FSComponent.buildComponent(MapSyncedCanvasLayer, { ref: this.canvasLayerRef, model: this.props.model, mapProjection: this.props.mapProjection, class: (_a = this.props.class) !== null && _a !== void 0 ? _a : '' }));
+    }
+    /** @inheritdoc */
+    destroy() {
+        var _a;
+        (_a = this.canvasLayerRef.getOrDefault()) === null || _a === void 0 ? void 0 : _a.destroy();
+        this.facilityRepoSubs.forEach(sub => { sub.destroy(); });
+        super.destroy();
     }
 }
 MapNearestWaypointsLayer.SEARCH_RADIUS_OVERDRAW_FACTOR = Math.SQRT2;
@@ -15528,20 +16388,6 @@ MapNearestWaypointsLayer.SEARCH_RADIUS_OVERDRAW_FACTOR = Math.SQRT2;
  * A nearest facility search for MapAbstractNearestWaypointsLayer.
  */
 class MapNearestWaypointsLayerSearch {
-    /**
-     * Constructor.
-     * @param session The session used by this search.
-     * @param refreshCallback A callback which is called every time the search refreshes.
-     */
-    constructor(session, refreshCallback) {
-        this.session = session;
-        this.refreshCallback = refreshCallback;
-        this._lastCenter = new GeoPoint(0, 0);
-        this._lastRadius = 0;
-        this.maxItemCount = 0;
-        this.refreshDebounceTimer = 0;
-        this.isRefreshScheduled = false;
-    }
     // eslint-disable-next-line jsdoc/require-returns
     /**
      * The center of this search's last refresh.
@@ -15557,6 +16403,20 @@ class MapNearestWaypointsLayerSearch {
         return this._lastRadius;
     }
     /**
+     * Constructor.
+     * @param session The session used by this search.
+     * @param refreshCallback A callback which is called every time the search refreshes.
+     */
+    constructor(session, refreshCallback) {
+        this.session = session;
+        this.refreshCallback = refreshCallback;
+        this._lastCenter = new GeoPoint(0, 0);
+        this._lastRadius = 0;
+        this.maxItemCount = 0;
+        this.refreshDebounceTimer = 0;
+        this.isRefreshScheduled = false;
+    }
+    /**
      * Schedules a refresh of this search.  If a refresh was previously scheduled but not yet executed, this new
      * scheduled refresh will replace the old one.
      * @param center The center of the search area.
@@ -15568,8 +16428,10 @@ class MapNearestWaypointsLayerSearch {
         this._lastCenter.set(center);
         this._lastRadius = radius;
         this.maxItemCount = maxItemCount;
-        this.refreshDebounceTimer = delay;
-        this.isRefreshScheduled = true;
+        if (!this.isRefreshScheduled) {
+            this.refreshDebounceTimer = delay;
+            this.isRefreshScheduled = true;
+        }
     }
     /**
      * Updates this search. Executes any pending refreshes if their delay timers have expired.
@@ -15696,11 +16558,13 @@ MapSystemKeys.RangeControl = 'rangeControlModerator';
 MapSystemKeys.ClockUpdate = 'clockUpdate';
 MapSystemKeys.OwnAirplaneProps = 'ownAirplaneProps';
 MapSystemKeys.AutopilotProps = 'autopilotProps';
+MapSystemKeys.AltitudeArc = 'altitudeArc';
 MapSystemKeys.TerrainColors = 'terrainColors';
 MapSystemKeys.Weather = 'weather';
 MapSystemKeys.FollowAirplane = 'followAirplane';
 MapSystemKeys.Rotation = 'rotation';
 MapSystemKeys.OwnAirplaneIcon = 'ownAirplaneIcon';
+MapSystemKeys.OwnAirplaneIconOrientation = 'ownAirplaneIconOrientation';
 MapSystemKeys.TextLayer = 'text';
 MapSystemKeys.TextManager = 'textManager';
 MapSystemKeys.Bing = 'bing';
@@ -15715,19 +16579,23 @@ MapSystemKeys.Airspace = 'airspace';
 MapSystemKeys.AirspaceManager = 'airspaceRenderManager';
 MapSystemKeys.Traffic = 'traffic';
 MapSystemKeys.DataIntegrity = 'dataIntegrity';
+MapSystemKeys.PlanAirportsLayer = 'plan-airports';
+MapSystemKeys.WaypointDisplayController = 'WaypointDisplayController';
 
 /**
  * An enumeration of possible map rotation types.
  */
 var MapRotation;
 (function (MapRotation) {
-    /** Map rotation points towards north up. */
+    /** Map up position does not follow a defined pattern. */
+    MapRotation["Undefined"] = "Undefined";
+    /** Map up position points towards true north. */
     MapRotation["NorthUp"] = "NorthUp";
     /** Map up position points towards the current airplane track. */
     MapRotation["TrackUp"] = "TrackUp";
     /** Map up position points towards the current airplane heading. */
     MapRotation["HeadingUp"] = "HeadingUp";
-    /** Map up position points towards the current nav desired track. */
+    /** Map up position points towards the current desired track. */
     MapRotation["DtkUp"] = "DtkUp";
 })(MapRotation || (MapRotation = {}));
 
