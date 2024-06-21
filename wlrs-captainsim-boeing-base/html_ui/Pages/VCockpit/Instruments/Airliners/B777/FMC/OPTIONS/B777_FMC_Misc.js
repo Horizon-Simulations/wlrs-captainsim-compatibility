@@ -1,5 +1,7 @@
 class FMCSaltyOptions_Misc {
     static ShowPage(fmc) {
+        //Include.addScript("/JS/dataStorage.js"); //included
+
         fmc.clearDisplay();
 
         const onGreen = "{green}ON{end}/{small}OFF{end}";
@@ -13,7 +15,6 @@ class FMCSaltyOptions_Misc {
 
         const showEngineBlur =  WTDataStore.get("SHOW_ENGINE_BLUR", 0);
         const showEngineBlurDisplayOption = showEngineBlur >= 1 ? onGreen : offGreen;
-
         
         fmc.setTemplate([
             ["MISC OPTIONS"],
