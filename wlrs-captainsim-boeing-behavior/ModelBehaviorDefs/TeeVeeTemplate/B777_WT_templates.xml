@@ -1527,4 +1527,22 @@
 		</Parameters>
 	</Template>
 
+	<Template Name="teevee_B777_ADIRU_Switch_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<NODE_ID></NODE_ID>
+			<ANIM_NAME></ANIM_NAME>
+			<PART_ID>Window_Heat</PART_ID>
+		</Parameters>
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>B777_ADIRU_SWITCH_#ID#</IE_NAME>
+			<LVAR>ADIRU_sw:#ID#</LVAR>
+			<WWISE_EVENT_1>deice_windshield_switch_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>deice_windshield_switch_off</WWISE_EVENT_2>
+			<TOOLTIP_TITLE>@TT_Package.DEICE_SWITCH_WINDSHIELD_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.DEICE_SWITCH_WINDSHIELD_PILOT_TITLE</TT_DESCRIPTION_ID>
+			<SEQ2_EMISSIVE_CODE>(L:XMLVAR_DeiceWindshield:#ID#, Bool) !</SEQ2_EMISSIVE_CODE>
+		</UseTemplate>
+	</Template>
+
 </ModelBehaviors>
