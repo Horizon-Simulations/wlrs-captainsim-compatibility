@@ -125,6 +125,7 @@ class B777_MFD_MainPage extends NavSystemPage {
         }
     }
     onEvent(_event) {
+        const units = Simplane.getPressureSelectedUnits();
         switch (_event) {
             case "KNOB_AUTOPILOT_CTR":
                 if (this.mapMode != Jet_NDCompass_Display.PLAN) {
@@ -138,11 +139,11 @@ class B777_MFD_MainPage extends NavSystemPage {
                 break;
             case "BTN_WXR":
                 if (this.wxRadarOn) {
-                    Simplane.setBTNWXActive(false);
+                    SimVar.SetSimVarValue("L:BTN_WX_ACTIVE", "number", 0);
                 }
                 else {
-                    Simplane.setBTNWXActive(true);
-                    Simplane.setBTNTerrOnNdActive(false);
+                    SimVar.SetSimVarValue("L:BTN_WX_ACTIVE", "number", 1);
+                    SimVar.SetSimVarValue("L:BTN_TERRONND_ACTIVE", "number", 0);
                 }
                 break;
             case "BTN_STA":
@@ -157,10 +158,10 @@ class B777_MFD_MainPage extends NavSystemPage {
                 this.map.instrument.showAirports = !this.map.instrument.showAirports;
                 this._updateNDFiltersStatuses();
                 break;
-            //case "BTN_DATA":
-            //    this.map.instrument.showConstraints = !this.map.instrument.showConstraints;
-            //    this._updateNDFiltersStatuses();
-            //   break;
+            case "BTN_DATA":
+            //  this.map.instrument.showConstraints = !this.map.instrument.showConstraints;
+            //  this._updateNDFiltersStatuses();
+                break;
             case "BTN_POS":
                 this.map.instrument.showVORs = !this.map.instrument.showVORs;
                 this._updateNDFiltersStatuses();
@@ -171,13 +172,13 @@ class B777_MFD_MainPage extends NavSystemPage {
                 }
                 else {
                     SimVar.SetSimVarValue("L:BTN_TERRONND_ACTIVE", "number", 1);
-                    Simplane.setBTNWXActive(false);
+                    SimVar.SetSimVarValue("L:BTN_WX_ACTIVE", "number", 0);
                 }
                 break;
         }
     }
     _updateNDFiltersStatuses() {
-        //SimVar.SetSimVarValue("L:BTN_CSTR_FILTER_ACTIVE", "number", this.map.instrument.showConstraints ? 1 : 0);   //DATA btn
+        SimVar.SetSimVarValue("L:BTN_CSTR_FILTER_ACTIVE", "number", this.map.instrument.showConstraints ? 1 : 0);   //DATA btn
         SimVar.SetSimVarValue("L:BTN_VORD_FILTER_ACTIVE", "number", this.map.instrument.showVORs ? 1 : 0);
         SimVar.SetSimVarValue("L:BTN_WPT_FILTER_ACTIVE", "number", this.map.instrument.showIntersections ? 1 : 0);
         SimVar.SetSimVarValue("L:BTN_NDB_FILTER_ACTIVE", "number", this.map.instrument.showNDBs ? 1 : 0);
@@ -191,7 +192,7 @@ class B777_MFD_MainPage extends NavSystemPage {
                 this.modeChangeTimer = -1;
             }
         }
-        var wxRadarOn = Simplane.getBTNWXActive();
+        var wxRadarOn = SimVar.GetSimVarValue("L:BTN_WX_ACTIVE", "bool");
         var terrainOn = SimVar.GetSimVarValue("L:BTN_TERRONND_ACTIVE", "number");
         var mapMode = SimVar.GetSimVarValue("L:B777_MFD_NAV_MODE", "number");
         var mapRange = SimVar.GetSimVarValue("L:B777_MFD_RANGE", "number");
@@ -205,8 +206,9 @@ class B777_MFD_MainPage extends NavSystemPage {
                 this.mapConfigId = 1;
                 this.map.instrument.bingMap.setVisible(false);
             }
-            else if (this.wxRadarOn) {
+            else if (this.wxRadarOn && mapMode != 3) {
                 this.showWeather();
+                this.map.instrument.bingMap.setVisible(true);
             }
             else {
                 this.mapConfigId = 0;
