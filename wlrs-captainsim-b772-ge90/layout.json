@@ -1,6 +1,321 @@
 {
   "content": [
     {
+      "path": "effects/fx_((.fx",
+      "size": 1305,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/fx_flashlight.fx",
+      "size": 1406,
+      "date": 133168189623394605
+    },
+    {
+      "path": "effects/fx_LED((.fx",
+      "size": 1300,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_BeaconBelly.fx",
+      "size": 4689,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_BeaconTop.fx",
+      "size": 4703,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_BeaconTopdown.fx",
+      "size": 1264,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_LandingLarge\u002B.fx",
+      "size": 1288,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_LandingLarge.fx",
+      "size": 4881,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_LogoLightLarge.fx",
+      "size": 3698,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_NavigationGreen.fx",
+      "size": 3544,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_NavigationRed.fx",
+      "size": 3523,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_NavigationWhite.fx",
+      "size": 3903,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_StrobeSimple.fx",
+      "size": 3561,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_TaxiLarge.fx",
+      "size": 4870,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_WingLarge.FX",
+      "size": 3912,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/texture/BeaconDown.dds",
+      "size": 1048704,
+      "date": 133302996999509076
+    },
+    {
+      "path": "effects/texture/BeaconDown.DDS.json",
+      "size": 119,
+      "date": 133302996999489091
+    },
+    {
+      "path": "effects/texture/flare.dds",
+      "size": 1048704,
+      "date": 133302997000169071
+    },
+    {
+      "path": "effects/texture/FLARE.DDS.json",
+      "size": 119,
+      "date": 133302996999509076
+    },
+    {
+      "path": "effects/texture/FLASHLIGHT.dds",
+      "size": 1048704,
+      "date": 133302996999549074
+    },
+    {
+      "path": "effects/texture/FLASHLIGHT.DDS.json",
+      "size": 102,
+      "date": 133302996999509076
+    },
+    {
+      "path": "effects/texture/FLASHLIGHTMASK2.TIF.dds",
+      "size": 1048704,
+      "date": 133302996999589075
+    },
+    {
+      "path": "effects/texture/FLASHLIGHTMASK2.TIF.DDS.json",
+      "size": 102,
+      "date": 133302996999549074
+    },
+    {
+      "path": "effects/texture/fx_((.fx",
+      "size": 1305,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/texture/fx_LED((.fx",
+      "size": 1300,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/texture/LIGHT.dds",
+      "size": 1048704,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHT.DDS.json",
+      "size": 119,
+      "date": 133302996999589075
+    },
+    {
+      "path": "effects/texture/LIGHTLanding-belly.dds",
+      "size": 1048704,
+      "date": 133302996999799072
+    },
+    {
+      "path": "effects/texture/LIGHTLANDING-BELLY.DDS.json",
+      "size": 102,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLanding-L.dds",
+      "size": 1048704,
+      "date": 133302996999739071
+    },
+    {
+      "path": "effects/texture/LIGHTLANDING-L.DDS.json",
+      "size": 102,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLanding.dds",
+      "size": 1048704,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTLANDING.DDS.json",
+      "size": 102,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLED.dds",
+      "size": 1048704,
+      "date": 133302996999679072
+    },
+    {
+      "path": "effects/texture/LIGHTLED.DDS.json",
+      "size": 119,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLED2.dds",
+      "size": 65664,
+      "date": 133302996999689088
+    },
+    {
+      "path": "effects/texture/LIGHTLED2.DDS.json",
+      "size": 119,
+      "date": 133302996999689088
+    },
+    {
+      "path": "effects/texture/LIGHTold.dds",
+      "size": 1048704,
+      "date": 133302996999949081
+    },
+    {
+      "path": "effects/texture/LIGHTOLD.DDS.json",
+      "size": 119,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTtaxy-belly.dds",
+      "size": 1048704,
+      "date": 133302996999999098
+    },
+    {
+      "path": "effects/texture/LIGHTTAXY-BELLY.DDS.json",
+      "size": 102,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTtaxy-L.dds",
+      "size": 1048704,
+      "date": 133302996999969090
+    },
+    {
+      "path": "effects/texture/LIGHTTAXY-L.DDS.json",
+      "size": 102,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTtaxy.dds",
+      "size": 1048704,
+      "date": 133302997000029086
+    },
+    {
+      "path": "effects/texture/LIGHTTAXY.DDS.json",
+      "size": 102,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTWing.dds",
+      "size": 1048704,
+      "date": 133302996999889081
+    },
+    {
+      "path": "effects/texture/LIGHTWING.DDS.json",
+      "size": 119,
+      "date": 133302996999849112
+    },
+    {
+      "path": "effects/texture/TX-((.dds",
+      "size": 1048704,
+      "date": 133302997000059072
+    },
+    {
+      "path": "effects/texture/TX-((.DDS.json",
+      "size": 102,
+      "date": 133302997000029086
+    },
+    {
+      "path": "effects/texture/TX-ALLO-2.dds",
+      "size": 1048704,
+      "date": 133121131977880201
+    },
+    {
+      "path": "effects/texture/TX-ALLO-2.DDS.json",
+      "size": 119,
+      "date": 133029956663691984
+    },
+    {
+      "path": "effects/texture/TX-ALLO.dds",
+      "size": 1048704,
+      "date": 133302997000099088
+    },
+    {
+      "path": "effects/texture/TX-ALLO.DDS.json",
+      "size": 119,
+      "date": 133302997000059072
+    },
+    {
+      "path": "effects/texture/TX-FLASH.dds",
+      "size": 1048704,
+      "date": 133121132168304121
+    },
+    {
+      "path": "effects/texture/TX-FLASH.DDS.json",
+      "size": 119,
+      "date": 133029956662721098
+    },
+    {
+      "path": "effects/texture/TX-LIGHT.dds",
+      "size": 1048704,
+      "date": 133121132296410025
+    },
+    {
+      "path": "effects/texture/TX-LIGHT.DDS.json",
+      "size": 119,
+      "date": 133029956663892179
+    },
+    {
+      "path": "effects/texture/TX-LIGHT2.dds",
+      "size": 1048704,
+      "date": 133121132415028078
+    },
+    {
+      "path": "effects/texture/TX-LIGHT2.DDS.json",
+      "size": 119,
+      "date": 132622815780000000
+    },
+    {
+      "path": "effects/texture/TX-NAV.dds",
+      "size": 1048704,
+      "date": 133121131746178787
+    },
+    {
+      "path": "effects/texture/TX-NAV.DDS.json",
+      "size": 119,
+      "date": 133029956663691984
+    },
+    {
+      "path": "effects/texture/TX-STROBE.dds",
+      "size": 1048704,
+      "date": 133302997000129085
+    },
+    {
+      "path": "effects/texture/TX-STROBE.DDS.json",
+      "size": 119,
+      "date": 133302997000099088
+    },
+    {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/CS777-200ER_EICAS.css",
       "size": 1888,
       "date": 133590671870419909
