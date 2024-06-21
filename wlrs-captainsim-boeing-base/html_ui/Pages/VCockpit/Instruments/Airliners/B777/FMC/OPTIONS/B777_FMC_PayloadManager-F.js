@@ -305,7 +305,7 @@ class B777_FMC_PayloadManager {
 			B777_FMC_PayloadManager.requestedPayload = this.getTotalPayload(true);
 		}
 		if (!B777_FMC_PayloadManager.requestedCenterOfGravity) {
-			B777_FMC_PayloadManager.requestedCenterOfGravity = 23.2;
+			B777_FMC_PayloadManager.requestedCenterOfGravity = 28.8;
 		}
 		if (!B777_FMC_PayloadManager.requestedFuel) {
 			B777_FMC_PayloadManager.requestedFuel = this.getTotalFuel();
