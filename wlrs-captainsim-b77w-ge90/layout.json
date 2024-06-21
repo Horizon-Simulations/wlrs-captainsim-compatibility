@@ -1,9 +1,19 @@
 {
   "content": [
     {
+      "path": "effects/fx_((.fx",
+      "size": 1305,
+      "date": 133302996999479092
+    },
+    {
       "path": "effects/fx_flashlight.fx",
       "size": 1406,
       "date": 133168189623394605
+    },
+    {
+      "path": "effects/fx_LED((.fx",
+      "size": 1300,
+      "date": 133302996999479092
     },
     {
       "path": "effects/LIGHT_CSMASTB7_BeaconBelly.fx",
@@ -104,6 +114,16 @@
       "path": "effects/texture/FLASHLIGHTMASK2.TIF.DDS.json",
       "size": 102,
       "date": 133302996999549074
+    },
+    {
+      "path": "effects/texture/fx_((.fx",
+      "size": 1305,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/texture/fx_LED((.fx",
+      "size": 1300,
+      "date": 133302996999479092
     },
     {
       "path": "effects/texture/LIGHT.dds",
@@ -303,7 +323,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/CS777-300ER_EICAS.html",
       "size": 4537,
-      "date": 133626282128776580
+      "date": 133630634447355152
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.css",
@@ -347,18 +367,18 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/FMC/CS777-300ER_FMC_IdentPage.js",
-      "size": 1178,
-      "date": 133626114393956110
+      "size": 1179,
+      "date": 133631371094995249
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/ai.cfg",
-      "size": 901,
-      "date": 133590671870599908
+      "size": 902,
+      "date": 133630677591522148
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/approach.FLT",
-      "size": 4226,
-      "date": 133590671870599908
+      "size": 4522,
+      "date": 133630680856740705
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/apron.FLT",
@@ -367,13 +387,13 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/cameras.cfg",
-      "size": 30979,
-      "date": 133628871331355141
+      "size": 30977,
+      "date": 133631261174683424
     },
     {
-      "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/Climb.flt",
-      "size": 4232,
-      "date": 133590671870599908
+      "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/climb.FLT",
+      "size": 4528,
+      "date": 133630680974393768
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/cockpit.cfg",
@@ -382,8 +402,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/cruise.FLT",
-      "size": 4081,
-      "date": 133590671870609907
+      "size": 4377,
+      "date": 133630681058924969
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/engines.cfg",
@@ -392,13 +412,13 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/final.FLT",
-      "size": 4228,
-      "date": 133590671870609907
+      "size": 4411,
+      "date": 133630659087472767
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/flight_model.cfg",
-      "size": 35819,
-      "date": 133628649400655857
+      "size": 35878,
+      "date": 133633605298202196
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/gameplay.cfg",
@@ -412,8 +432,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/runway.FLT",
-      "size": 4485,
-      "date": 133629297464460935
+      "size": 4325,
+      "date": 133630659921380695
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/systems.cfg",
@@ -427,8 +447,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/taxi.FLT",
-      "size": 4157,
-      "date": 133590671870649907
+      "size": 4453,
+      "date": 133630681151112278
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/model/m773_305.xml",
@@ -437,8 +457,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/model/m773_305_interior.xml",
-      "size": 417686,
-      "date": 133628960438866092
+      "size": 419738,
+      "date": 133631323705726861
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/Captain_Sim.m773.sys.wasm",
@@ -452,8 +472,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/panel.xml",
-      "size": 50798,
-      "date": 133629286642583828
+      "size": 50804,
+      "date": 133630694948439909
     }
   ]
 }
