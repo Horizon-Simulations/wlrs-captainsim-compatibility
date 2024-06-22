@@ -310,7 +310,6 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
                 let cursors = document.createElementNS(Avionics.SVG.NS, "g");
                 this.attitude_bank_root.appendChild(cursors);
                 
-                
                 let centerRectBG = document.createElementNS(Avionics.SVG.NS, "rect");
                 centerRectBG.setAttribute("x", "-4");
                 centerRectBG.setAttribute("y", "-23");
@@ -409,6 +408,82 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
                 this.radioAltitudeGroup.appendChild(this.radioAltitude);
             }
         }
+
+        {
+            let timeContainer = document.createElement("div");
+            timeContainer.setAttribute("id", "Time Container");
+            timeContainer.style.top = "100%";
+            timeContainer.style.left = "0%";
+            timeContainer.style.width = "100%";
+            timeContainer.style.height = "100%";
+            timeContainer.style.position = "absolute";
+            this.appendChild(timeContainer);
+        
+            this.rightTimeSvg = document.createElementNS(Avionics.SVG.NS, "svg");
+            this.rightTimeSvg.setAttribute("width", "100%");
+            this.rightTimeSvg.setAttribute("height", "100%");
+            this.rightTimeSvg.setAttribute("viewBox", "0 0 600 100");
+            this.rightTimeSvg.setAttribute("overflow", "visible");
+            this.rightTimeSvg.setAttribute("style", "position:absolute; z-index: 0");
+            timeContainer.appendChild(this.rightTimeSvg);
+        
+            this.rightTimeG = document.createElementNS(Avionics.SVG.NS, "g");
+            this.rightTimeG.setAttribute("id", "UTC Time");
+            this.rightTimeSvg.appendChild(this.rightTimeG);
+        
+            this.zuluTimeText = document.createElementNS(Avionics.SVG.NS, "text");
+            this.zuluTimeText.textContent = "--:--:--";
+            this.zuluTimeText.setAttribute("x", "780");
+            this.zuluTimeText.setAttribute("y", "130");
+            this.zuluTimeText.setAttribute("text-anchor", "end");
+            this.zuluTimeText.setAttribute("font-size", "27");
+            this.zuluTimeText.setAttribute("font-family", "BoeingEFIS");
+            this.zuluTimeText.setAttribute("fill", "white");
+            this.rightTimeG.appendChild(this.zuluTimeText); 
+
+            this.UTCUnitText = document.createElementNS(Avionics.SVG.NS, "text");
+            this.UTCUnitText.textContent = "UTC";
+            this.UTCUnitText.setAttribute("x", "785");
+            this.UTCUnitText.setAttribute("y", "130");
+            this.UTCUnitText.setAttribute("text-anchor", "start");
+            this.UTCUnitText.setAttribute("font-size", "26");
+            this.UTCUnitText.setAttribute("font-family", "BoeingEFIS");
+            this.UTCUnitText.setAttribute("fill", "cyan");
+            this.rightTimeG.appendChild(this.UTCUnitText); 
+
+            this.leftTimeSvg = document.createElementNS(Avionics.SVG.NS, "svg");
+            this.leftTimeSvg.setAttribute("width", "100%");
+            this.leftTimeSvg.setAttribute("height", "100%");
+            this.leftTimeSvg.setAttribute("viewBox", "0 0 600 100");
+            this.leftTimeSvg.setAttribute("overflow", "visible");
+            this.leftTimeSvg.setAttribute("style", "position:absolute; z-index: 0");
+            timeContainer.appendChild(this.leftTimeSvg);
+        
+            this.leftTimeG = document.createElementNS(Avionics.SVG.NS, "g");
+            this.leftTimeG.setAttribute("id", "RadioAltitude");
+            this.leftTimeSvg.appendChild(this.leftTimeG);
+
+            this.ETText = document.createElementNS(Avionics.SVG.NS, "text");
+            this.ETText.textContent = "00:00";
+            this.ETText.setAttribute("x", "-80");
+            this.ETText.setAttribute("y", "130");
+            this.ETText.setAttribute("text-anchor", "start");
+            this.ETText.setAttribute("font-size", "27");
+            this.ETText.setAttribute("font-family", "BoeingEFIS");
+            this.ETText.setAttribute("fill", "white");
+            this.leftTimeG.appendChild(this.ETText); 
+
+            this.ETUnitText = document.createElementNS(Avionics.SVG.NS, "text");
+            this.ETUnitText.textContent = "ET";
+            this.ETUnitText.setAttribute("x", "-90");
+            this.ETUnitText.setAttribute("y", "130");
+            this.ETUnitText.setAttribute("text-anchor", "end");
+            this.ETUnitText.setAttribute("font-size", "26");
+            this.ETUnitText.setAttribute("font-family", "BoeingEFIS");
+            this.ETUnitText.setAttribute("fill", "cyan");
+            this.leftTimeG.appendChild(this.ETUnitText); 
+
+        }
     }
     construct_AS01B() {
     }
@@ -487,7 +562,26 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
         }
         this.updateRadioAltitude(_deltaTime);
         this.updatePLI();
+        this.updateTime(_deltaTime);
     }
+    updateTime(_deltaTime) {
+        const utcTime = SimVar.GetGlobalVarValue("ZULU TIME", "seconds");       //this thing run faster 3s
+        const seconds = Number.parseInt(utcTime);
+        const time = Utils.SecondsToDisplayTime(seconds, true, true, false);
+        this.zuluTimeText.textContent = time;
+
+        //make one for elapsed time using _dt
+        const elapsedSeconds = SimVar.GetSimVarValue("L:ELAPSED_TIME_ENGINE", "seconds");
+        this.ETText.textContent = this.getFormattedTime(elapsedSeconds);       
+        
+    }
+    getFormattedTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    }
+    
+    
     updateRadioAltitude(_dt) {
         let val = Math.floor(this.radioAltitudeValue);
         var xyz = Simplane.getOrientationAxis();
