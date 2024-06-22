@@ -1393,24 +1393,10 @@
           <TOOLTIPID>No Smoking: %((L:NO_SMOKING_KNOB))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
 				</UseTemplate>
 
-        <UseTemplate Name="Asobo_Interaction_Base_Template">
-          <NODE_ID>O11_003_KNB01</NODE_ID>
-          <USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
-					<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
-          <WWISE_EVENT_1>autopilot_push_button_on</WWISE_EVENT_1>
-          <WWISE_EVENT_2>autopilot_push_button_off</WWISE_EVENT_2>
-          <IE_NAME>Switch_Cabin_Chime</IE_NAME>
-          <INTERACTION_TYPE>Push</INTERACTION_TYPE>
-          <IS_MOMENTARY>True</IS_MOMENTARY>
-          <TOOLTIP_TITLE>@TT_Package.CABIN_CHIME_TITLE</TOOLTIP_TITLE>
-					<TT_DESCRIPTION_ID>@TT_Package.CABIN_CHIME_ACTION</TT_DESCRIPTION_ID>
-          <LOCALVAR_TO_WATCH>WT_CABIN_CHIME_TOGGLE</LOCALVAR_TO_WATCH>
-          <GET_STATE_EXTERNAL>(L:WT_CABIN_CHIME_TOGGLE) sp0</GET_STATE_EXTERNAL>
-          <SET_STATE_EXTERNAL>(L:WT_CABIN_CHIME_TOGGLE) ! (&gt;L:WT_CABIN_CHIME_TOGGLE)</SET_STATE_EXTERNAL>
-          <TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_NA)</TT_VALUE_ON>
-          <TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_NA)</TT_VALUE_OFF>
-        </UseTemplate>
 
+        <UseTemplate Name="teevee_cabin_chime_btn">
+				</UseTemplate>
+        
         </Component>
       <CameraTitle>Instruments07</CameraTitle>
     </Component>
@@ -6540,9 +6526,15 @@
         <FAILURE>(A:LIGHT GLARESHIELD ON:3, Bool)</FAILURE>
         <SIMVAR_POWER_SETTING>LIGHT GLARESHIELD POWER SETTING:3</SIMVAR_POWER_SETTING>
       </UseTemplate>
+    </Component>    
+      
+    <Component ID="ADIRU_SW">    
+        <UseTemplate Name="teevee_B777_ADIRU_Switch_Template">
+        </UseTemplate>
     </Component>
 
-    <Component ID="ADIRU_sw" Node="O01_002_BUT">    
+
+    <!--
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
         <ANIM_LENGTH>1</ANIM_LENGTH>
@@ -6568,7 +6560,7 @@
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O01_002_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
-    </Component>
+    </Component>-->
 
     <Component ID="RAT_button" Node="O07_001_BUT">
       <UseTemplate Name="ASOBO_GT_Anim">
