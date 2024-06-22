@@ -445,8 +445,7 @@ class B777RSNavModeSelector {
           this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
           break;
        }
-       //this.currentVerticalActiveState = VerticalNavModeState.PTCH;   //test - this will cause conflict with autoland and TOGA for now
-       this.currentAutoThrottleStatus = AutoThrottleModeState.NONE;
+       //this.currentVerticalActiveState = VerticalNavModeState.PTCH;
        if (this.isVNAVOn) {
          this.isVNAVOn = false;
          SimVar.SetSimVarValue("L:WT_CJ4_VNAV_ON", "number", 0);
@@ -884,7 +883,6 @@ class B777RSNavModeSelector {
     //SET THROTTLE INTO THR REF
     this.setAPSpeedHoldMode();
     SimVar.SetSimVarValue("L:FLARE_STATUS", "number", -1);
-    SimVar.SetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number", -1);
     this.currentLateralArmedState = LateralNavModeState.NONE;
     Coherent.call("GENERAL_ENG_THROTTLE_MANAGED_MODE_SET", ThrottleMode.TOGA);
     this.activateThrustRefMode();
