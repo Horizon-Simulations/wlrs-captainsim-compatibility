@@ -40,6 +40,8 @@ var B777_UpperEICAS;
 
             //this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#FUEL_TEMP_Value"), SimVar.GetSimVarValue("L:FUEL_TEMP", "number"), 0, Airliners.DynamicValueComponent.formatValueToPosNegTemperature));
             this.querySelector("#FUEL_TEMP_Value").textContent = SimVar.GetSimVarValue("L:FUEL_TEMP", "number");
+            this.querySelector("#RIGHT_DUCT_Value").textContent = "-";
+            this.querySelector("#LEFT_DUCT_Value").textContent = "-";
 
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#THROTTLE1_Value"), Simplane.getEngineThrottleMaxThrust.bind(this, 0), 1, Airliners.DynamicValueComponent.formatValueToThrottleDisplay));
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#THROTTLE2_Value"), Simplane.getEngineThrottleMaxThrust.bind(this, 1), 1, Airliners.DynamicValueComponent.formatValueToThrottleDisplay));
@@ -82,6 +84,9 @@ var B777_UpperEICAS;
             this.isInitialised = true;
         }
         update(_deltaTime) {
+            //debug section
+            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("A:ELECTRICAL BATTERY VOLTAGE:1", "volts").toFixed(1);
+
             const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
             switch (storedUnits) {
                 case "KG":
@@ -298,7 +303,7 @@ var B777_UpperEICAS;
             if ((_value != this.currentValue) || _force) {
                 this.currentValue = _value;
                 let hide = false;
-                if (this.hideIfN1IsZero && SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent") < 0.1) {
+                if (this.hideIfN1IsZero && SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent") < 0.3) {
                     this.currentValue = -1;
                     hide = true;
                 }
