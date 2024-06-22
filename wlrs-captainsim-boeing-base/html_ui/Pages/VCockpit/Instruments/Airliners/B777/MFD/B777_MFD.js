@@ -508,7 +508,6 @@ class B777_MFD_NDInfo extends NavSystemElement {
         this.windSeperator = this.ndInfo.querySelector("#Wind_Separator");
         this.wpData = this.ndInfo.querySelector("#WP_Data");
         this.zuluETA = document.querySelector("#WP_ZuluTime");
-        this.zuluClock = document.querySelector("#ZuluClock_Time");
         this.waypointDistance = document.querySelector("#WP_Distance_Value");
         this.ndInfo.aircraft = Aircraft.B747_8;
         this.ndInfo.gps = this.gps;
@@ -544,10 +543,7 @@ class B777_MFD_NDInfo extends NavSystemElement {
             const tenths = Math.floor((utcETA % 3600) / 600);
             this.zuluETA.textContent = `${hours.toString().padStart(2, "0")}${minutes.toString().padStart(2, "0")}.${tenths.toString().padStart(1, "0")}`;
         }
-        const seconds = Number.parseInt(utcTime);
-        const time = Utils.SecondsToDisplayTime(seconds, true, true, false);
 
-        this.zuluClock.textContent = time.toString();
         this.waypointDistance.textContent = "---"
 
         if (Simplane.getNextWaypointName()) {
