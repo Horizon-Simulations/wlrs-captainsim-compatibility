@@ -356,27 +356,6 @@
     </MouseRect>
   </PartInfo>
 
-  <Animation name="A02_014_BUY" guid="92C2FB8A-3495-42FA-9ED9-39F643AD06C6" length="100" type="Sim" typeParam2="A02_014_BUY" typeParam="AutoPlay"/>
-  <PartInfo>
-    <Name>A02_014_BUY</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:A02_014_BUY) 100 * 0 max 100 min
-        </Code>
-        <Lag>100</Lag>
-      </Parameter>
-    </Animation>
-    <MouseRect>
-      <TooltipText>Seat Arm Rest</TooltipText>
-      <Cursor>Hand</Cursor>
-      <CallbackCode>
-        (L:A02_014_BUY) ! (&gt;L:A02_014_BUY)
-      </CallbackCode>
-    </MouseRect>
-  </PartInfo>
-
   <Animation name="A01_006_AC1" guid="427B2BA9-7D73-4BC1-B03D-2F63F9708295" length="100" type="Sim" typeParam2="A01_006_AC1" typeParam="AutoPlay"/>
   <PartInfo>
     <Name>A01_006_AC1</Name>
@@ -451,7 +430,6 @@
 					0 (&gt;A:HYDRAULIC SWITCH:2, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:3, Bool)
 					0 (&gt;A:HYDRAULIC SWITCH:4, Bool)
-          0 (&gt;L:TEEVEE_APPROACH_CAT, Enum)  <!--inop-->
 
         </UPDATE_CODE>
       </UseTemplate>
@@ -1406,8 +1384,8 @@
 					<IE_NAME>Knob_NoSmoking</IE_NAME>
 					<NODE_ID>O08_001_GL3</NODE_ID>
 					<ANIM_NAME>O08_001_GL3</ANIM_NAME>
-          <LOCALVAR_TO_WATCH_0>L:O08_001_GL3</LOCALVAR_TO_WATCH_0>
-          <TOOLTIPID>No Smoking: %((L:O08_001_GL3))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
+          <LOCALVAR_TO_WATCH_0>L:NO_SMOKING_KNOB</LOCALVAR_TO_WATCH_0>
+          <TOOLTIPID>No Smoking: %((L:NO_SMOKING_KNOB))%{case}%{:0}OFF%{:1}AUTO%{:2}ON%{end}</TOOLTIPID>
 				</UseTemplate>
 
         <UseTemplate Name="Asobo_Interaction_Base_Template">
@@ -1538,7 +1516,7 @@
             <NODE_ID>O07_003_BUT</NODE_ID>
             <FAULT_LIGHT>O07_003_LT2</FAULT_LIGHT>
           </UseTemplate>
-          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2 switch-->
+          <UseTemplate Name="WT_B777_Hydraulics_Switch_Template"> <!--c2 switch-->  <!--it does pump resevior 4, but not shown, will work out later-->
             <ID>4</ID>
             <ANIM_NAME>O07_004_BUT</ANIM_NAME>
             <NODE_ID>O07_004_BUT</NODE_ID>
@@ -1882,7 +1860,7 @@
           <SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
           <ID>2</ID>
         </UseTemplate>s
-        <UseTemplate Name="teevee_APU_Starter_Knob_Template"> <!--TODo: GO TO BLENDER MODEL AND CHECK THE NAME OF THE FAULT LIGHT-->
+        <UseTemplate Name="teevee_APU_Starter_Knob_Template">
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_Push_Button_Airliner_Dummy">
           <!--777 INOP-->
@@ -2504,15 +2482,23 @@
           <AUTOPILOT_PUSH_BUTTON_ON>autopilot_largepush_button_on</AUTOPILOT_PUSH_BUTTON_ON>
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
         </UseTemplate>
+        <!--
         <UseTemplate Name="RobSim_AUTOPILOT_Push_Speed_Template">
           <NODE_ID>btn_autopilot_spd</NODE_ID>
           <ANIM_NAME>autopilot_push_spd</ANIM_NAME>
           <EMISSIVE_NODE_ID>btn_autopilot_spd</EMISSIVE_NODE_ID>
           <AUTOPILOT_PUSH_BUTTON_ON>autopilot_largepush_button_on</AUTOPILOT_PUSH_BUTTON_ON>
           <AUTOPILOT_PUSH_BUTTON_OFF>autopilot_largepush_button_off</AUTOPILOT_PUSH_BUTTON_OFF>
-          <TOOLTIPID>%((L:AP_SPD_ACTIVE))%{if}TT:COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_SPD_ON%{else}TT:COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_SPD_OFF%{end}</TOOLTIPID>
           <TYPE>B777</TYPE>
         </UseTemplate>
+        -->
+        <UseTemplate Name="WT_AUTOPILOT_Push_Speed_Template">
+					<TYPE>AS01B</TYPE>
+          <NODE_ID>btn_autopilot_spd</NODE_ID>
+          <ANIM_NAME>autopilot_push_spd</ANIM_NAME>
+          <EMISSIVE_NODE_ID>btn_autopilot_spd</EMISSIVE_NODE_ID>
+				</UseTemplate>
+
         <UseTemplate Name="ASOBO_AUTOPILOT_Push_Thrust_Template">
           <NODE_ID>btn_autopilot_thr</NODE_ID>
           <ANIM_NAME>autopilot_push_thr</ANIM_NAME>
@@ -2568,13 +2554,6 @@
           <ANIM_NAME_PUSH>knob_autopilot_speed_push</ANIM_NAME_PUSH>
           <TYPE>B777</TYPE>
         </UseTemplate>
-        <!--
-        <UseTemplate Name="RobSim_AUTOPILOT_Push_AutoThrottle_Template">
-          <NODE_ID>switch_autopilot_at_arm</NODE_ID>
-          <ANIM_NAME>autopilot_switch_at_arm</ANIM_NAME>
-          <TYPE>B777</TYPE>
-        </UseTemplate>
-        -->
         <UseTemplate Name="teevee_AUTOPILOT_AutoThrottle_Arm_Template">
 					<ID>1</ID>
 				</UseTemplate>
@@ -2676,6 +2655,14 @@
           <PANEL_NAME>B777_EICAS_2</PANEL_NAME>
         </UseTemplate>
       </Component>
+      <UseTemplate Name="ASOBO_AIRLINER_Push_Clock_Template">
+				<PLANE_PREFIX>AS01B_PFD</PLANE_PREFIX>
+				<NODE_ID>G01_001_SW2</NODE_ID>
+			</UseTemplate>
+      <UseTemplate Name="ASOBO_AIRLINER_Push_Clock_Template">
+				<PLANE_PREFIX>AS01B_PFD</PLANE_PREFIX>
+				<NODE_ID>G08_001_SW2</NODE_ID>
+			</UseTemplate>
     </Component>
 
     <Component ID="Center_Panel">
@@ -6504,7 +6491,7 @@
       </UseTemplate>
     </Component>
 
-  <Component ID="Pilot_seats">
+  <Component ID="Pilot_seats">      
       <Component ID="Pilot_seat_l" Node="A02_001_BUX">
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <TOOLTIPID>PILOT SEAT %((L:teevee_777_Pilot_seat_l))%{case}%{:0}(Click to pull out)%{:1}(Click to push in)%{end}</TOOLTIPID>
@@ -6512,6 +6499,16 @@
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
             (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_l, bool) ! (&gt;L:teevee_777_Pilot_seat_l, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+      <Component ID="Pilot_seat_l_arm_rest" Node="A02_005_BUY">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>ARM REST %((L:teevee_777_Pilot_seat_l_arm_rest))%{case}%{:0}(Click to extend)%{:1}(Click to stow)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_l_arm_rest, bool) ! (&gt;L:teevee_777_Pilot_seat_l_arm_rest, bool) }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -6526,6 +6523,27 @@
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
+      <Component ID="Pilot_seat_r_arm_rest" Node="A02_004_BUY">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>ARM REST %((L:teevee_777_Pilot_seat_r_arm_rest))%{case}%{:0}(Click to extend)%{:1}(Click to stow)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_r_arm_rest, bool) ! (&gt;L:teevee_777_Pilot_seat_r_arm_rest, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
+
+      <Component ID="Pilot_seat_jump_arm_rest" Node="A02_014_BUY">
+        <UseTemplate Name="ASOBO_GT_MouseRect">
+          <TOOLTIPID>ARM REST %((L:teevee_777_Pilot_seat_jump_arm_rest))%{case}%{:0}(Click to extend)%{:1}(Click to stow)%{end}</TOOLTIPID>
+          <CURSOR>Hand</CURSOR>
+          <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
+          <CALLBACKCODE>
+            (M:Event) 'LeftSingle' scmi 0 == if{ (L:teevee_777_Pilot_seat_jump_arm_rest, bool) ! (&gt;L:teevee_777_Pilot_seat_jump_arm_rest, bool) }
+          </CALLBACKCODE>
+        </UseTemplate>
+      </Component>
 
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_NAME>A02_006_BUG</ANIM_NAME>
@@ -6533,13 +6551,31 @@
         <ANIM_LENGTH>60</ANIM_LENGTH>
         <ANIM_CODE>(L:teevee_777_Pilot_seat_l, bool) 60 *</ANIM_CODE>
       </UseTemplate>
-
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_005_BUY</ANIM_NAME>
+        <ANIM_LAG>100</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_l_arm_rest, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_NAME>A02_008_BUG</ANIM_NAME>
         <ANIM_LAG>20</ANIM_LAG>
         <ANIM_LENGTH>60</ANIM_LENGTH>
         <ANIM_CODE>(L:teevee_777_Pilot_seat_r, bool) 60 *</ANIM_CODE>
       </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_004_BUY</ANIM_NAME>
+        <ANIM_LAG>100</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_r_arm_rest, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_GT_Anim">
+        <ANIM_NAME>A02_014_BUY</ANIM_NAME>
+        <ANIM_LAG>100</ANIM_LAG>
+        <ANIM_LENGTH>60</ANIM_LENGTH>
+        <ANIM_CODE>(L:teevee_777_Pilot_seat_jump_arm_rest, bool) 60 *</ANIM_CODE>
+      </UseTemplate>
+
     </Component>
 
 
@@ -8524,14 +8560,14 @@
       <Component ID="Door_1L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
       <Component ID="Door_2L">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
+          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
         </UseTemplate>
       </Component>
 
