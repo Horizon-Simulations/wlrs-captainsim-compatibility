@@ -14,6 +14,8 @@ class B777_EICAS extends Airliners.BaseEICAS {
         //for fuel simulations
         this.delta_t = 1000;
 
+        this.elapsedTime = 0;
+
         //format: RPM - EGT - OILPRESS - OIL TEMP - OIL QTY, all will be doubled occurs for consistancy
         this.apuStart = [
             [0,this.ambientTemp,0,54,5.9], [0,this.ambientTemp,0,54,5.9],
@@ -211,6 +213,15 @@ class B777_EICAS extends Airliners.BaseEICAS {
         this.updateAnnunciations();
         this.updateEngines(_deltaTime);
         //this.updateFuelTemperature();
+        this.updateElapsedTime(_deltaTime);
+    }
+
+    updateElapsedTime(_deltaTime) {
+        if (SimVar.GetSimVarValue("A:GENERAL ENG RPM:1", "rpm") > 2|| SimVar.GetSimVarValue("A:ENG N1 RPM:1", "percent") > 2) {
+            this.elapsedTime += _deltaTime/1000;
+        
+        }
+        SimVar.SetSimVarValue("L:ELAPSED_TIME_ENGINE", "seconds", this.elapsedTime);
     }
 
     updateFuelTemperature() {
