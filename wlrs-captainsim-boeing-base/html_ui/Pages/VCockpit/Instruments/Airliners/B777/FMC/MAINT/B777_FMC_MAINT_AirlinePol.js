@@ -1,13 +1,21 @@
 class FMC_MAINT_AirlinePol {
     static ShowPage(fmc) {
+        //note: since WT datastore uses type comparison, I'll have to parseInt to use WTDataStore. Suggest writing a class without type check, but it won't error redundancy
         fmc.clearDisplay();
-        let costIndexPolicy = SaltyDataStore.get("COST_INDEX_POL", 35);
-        let eoAccelHt = SaltyDataStore.get("TO_EO_ACCEL_HT", 1000);
-        let accelHt = SaltyDataStore.get("TO_ACCEL_HT", 1000);
-        let clbAt = SaltyDataStore.get("TO_CLB_AT", 3000);
-        let qClb = SaltyDataStore.get("TO_Q_CLB_AT", 1000);
-        let thrRed = SaltyDataStore.get("TO_THR_REDUCTION", 3000);
-        let clbBy = SaltyDataStore.get("TO_CLB_BY", 3000);
+        const onGreen = "{green}ON{end}/{small}OFF{end}";
+        const offGreen = "{small}ON{end}/{green}OFF{end}";
+
+        const costIndexPolicy = WTDataStore.get("COST_INDEX_POL", 50);
+        const eoAccelHt = WTDataStore.get("TO_EO_ACCEL_HT", 1000);
+        const accelHt = WTDataStore.get("TO_ACCEL_HT", 1000);
+        const clbAt = WTDataStore.get("TO_CLB_AT", 3000);
+        const qClb = WTDataStore.get("TO_Q_CLB_AT", 1000);
+        const thrRed = WTDataStore.get("TO_THR_REDUCTION", 3000);
+        const clbBy = WTDataStore.get("TO_CLB_BY", 3000);
+        
+        const aoaIndicator = WTDataStore.get("aoaIndicator", true);
+        const pauseAtTdDisplayOption = (aoaIndicator === true) ? offGreen : onGreen;
+
         
         const updateView = () => {
             fmc.setTemplate([
@@ -20,8 +28,8 @@ class FMC_MAINT_AirlinePol {
                 [`[${qClb}] FT`, `[${clbAt}] FT`],
                 ["THR REDUCTION", "CLIMB BY"],
                 [`[${thrRed}] FT`, `[${clbBy}] FT`],
-                ["", ""],
-                ["", ""],
+                ["AOA INDICATOR", ""],
+                [` [${pauseAtTdDisplayOption}]`, ""],
                 ["", "", "__FMCSEPARATOR"],
                 ["<INDEX", ""]
             ]);
@@ -32,7 +40,7 @@ class FMC_MAINT_AirlinePol {
         fmc.onLeftInput[0] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("COST_INDEX_POL", value);
+            WTDataStore.set("COST_INDEX_POL", parseInt(value));
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
@@ -40,7 +48,7 @@ class FMC_MAINT_AirlinePol {
         fmc.onLeftInput[1] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("TO_EO_ACCEL_HT", value);
+            WTDataStore.set("TO_EO_ACCEL_HT", parseInt(value));
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
@@ -48,7 +56,7 @@ class FMC_MAINT_AirlinePol {
         fmc.onRightInput[1] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("TO_ACCEL_HT", value);
+            WTDataStore.set("TO_ACCEL_HT", parseInt(value));
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
@@ -56,31 +64,37 @@ class FMC_MAINT_AirlinePol {
         fmc.onLeftInput[2] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("TO_Q_CLB_AT", value);
+            WTDataStore.set("TO_Q_CLB_AT", parseInt(value));
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
         /* RSK3 */
-        fmc.onLeftInput[2] = () => {
+        fmc.onRightInput[2] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("TO_CLB_AT", value);
+            WTDataStore.set("TO_CLB_AT", parseInt(value));
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
         /* LSK4 */
-        fmc.onLeftInput[2] = () => {
+        fmc.onLeftInput[3] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("TO_THR_REDUCTION", value);
+            WTDataStore.set("TO_THR_REDUCTION", parseInt(value));
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
         /* RSK4 */
-        fmc.onLeftInput[2] = () => {
+        fmc.onRightInput[3] = () => {
             let value = fmc.inOut;
             fmc.clearUserInput();
-            SaltyDataStore.set("TO_CLB_BY", value);
+            WTDataStore.set("TO_CLB_BY", parseInt(value));
+            FMC_MAINT_AirlinePol.ShowPage(fmc);
+        }
+
+        /* LSK5 */
+        fmc.onLeftInput[4] = () => {
+            WTDataStore.set("aoaIndicator", (aoaIndicator === true) ? false : true);
             FMC_MAINT_AirlinePol.ShowPage(fmc);
         }
         
