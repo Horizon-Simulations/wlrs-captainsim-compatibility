@@ -18,7 +18,7 @@ var B777_LowerEICAS_Stat;
             this.apuEGTCool = []; //will be added later
             this.date = document.querySelector("#date");
             this.utcTime = document.querySelector("#utctime");
-            this.elapsedTime = document.querySelector("#time");
+            this.elapsedTime = document.querySelector("#elapsedtime");
             this.apuRPM = document.querySelector('#RPM');
             this.apuEGT = document.querySelector('#EGT');
             this.apuPress = document.querySelector('#apuOilPress');
@@ -41,15 +41,13 @@ var B777_LowerEICAS_Stat;
             this.apuPress.textContent = "";
             this.apuTemp.textContent = "";
             this.apuQty.textContent = "";
-            // Call updateClock every second
-            setInterval(this.updateClock.bind(this), 1000);
             this.isInitialised = true;
         }
 
         update(_deltaTime) {
             this.updateHydraulic();
             this.updateAPUData();
-
+            this.updateClock(_deltaTime);
         }
 
         updateHydraulic() {
@@ -62,7 +60,7 @@ var B777_LowerEICAS_Stat;
             this.hydQtyR.textContent = ((SimVar.GetSimVarValue("HYDRAULIC RESERVOIR PERCENT:2", "percent"))/100).toFixed(2);
         }
 
-        updateClock() {
+        updateClock(_deltaTime) {
             var utc = new Date();
             var utcHours = utc.getUTCHours() <= 9 ? "0" + utc.getUTCHours() : utc.getUTCHours();
             var utcMinutes = utc.getUTCMinutes() <= 9 ? "0" + utc.getUTCMinutes() : utc.getUTCMinutes();
@@ -71,7 +69,18 @@ var B777_LowerEICAS_Stat;
             var combinedDate = utc.getUTCDate() + " " + this.months[utc.getUTCMonth()] + " " + (utc.getUTCFullYear()%1000);
             this.utcTime.textContent = combinedUTC;
             this.date.textContent = combinedDate;
+
+            
+            const elapsedSeconds = SimVar.GetSimVarValue("L:ELAPSED_TIME_ENGINE", "seconds");
+            this.elapsedTime.textContent = this.getFormattedTime(elapsedSeconds);
+
         }
+
+        getFormattedTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        }        
 
         updateAPUData() {
             if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 7)
