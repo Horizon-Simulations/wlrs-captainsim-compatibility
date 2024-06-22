@@ -218,7 +218,7 @@
 				</And>
 			</Condition>
 		</Annunciation>
-
+		
 		<Annunciation>
 			<Type>Warning</Type>
 			<Text>OVERSPEED</Text>
@@ -297,11 +297,11 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>55</Constant>
+						<Constant>75</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>55</Constant>
+						<Constant>75</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -321,11 +321,11 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>80</Constant>
+						<Constant>75</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>80</Constant>
+						<Constant>75</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -341,21 +341,21 @@
 				<Or>
 					<GreaterEqual>
 						<Simvar name="ELEVATOR TRIM PCT" unit="Percent"/>
-						<Constant>40</Constant>
+						<Constant>29</Constant>
 					</GreaterEqual>
 					<LowerEqual>
 						<Simvar name="ELEVATOR TRIM PCT" unit="Percent"/>
-						<Constant>-60</Constant>
+						<Constant>-64</Constant>
 					</LowerEqual>
 				</Or>
 				<Or>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:1" unit="Percent"/>
-						<Constant>80</Constant>
+						<Constant>75</Constant>
 					</GreaterEqual>
 					<GreaterEqual>
 						<Simvar name="TURB ENG N1:2" unit="Percent"/>
-						<Constant>80</Constant>
+						<Constant>75</Constant>
 					</GreaterEqual>
 				</Or>
 			</And>
@@ -385,6 +385,7 @@
 			</And>
 			</Condition>
 		</Annunciation>
+
 		<!--		SINCE CS777 DON'T HAVE THURST ASYM COMP YET, I'LL JUST LEAVE THIS ON FOR SITUAIONAL SUPPORT
 		<Annunciation>
 		  <Type>Caution</Type>
@@ -409,6 +410,7 @@
 		  </Condition>
 		</Annunciation>
 		-->
+
 		<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>ENG SHUTDOWN</Text>
@@ -580,10 +582,32 @@
 
 		<Annunciation>
 		  <Type>Advisory</Type>
+		  <Text>| CG LIMIT AFT</Text>
+		  <Condition>
+			<Greater>
+				<Simvar name="CG PERCENT" unit="Percent"/>
+			  	<Constant>44</Constant>
+			</Greater>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>| CG LIMIT FOW</Text>
+		  <Condition>
+			<Lower>
+				<Simvar name="CG PERCENT" unit="Percent"/>
+			  	<Constant>14</Constant>
+			</Lower>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
 		  <Text>DOOR ENTRY 1L</Text>
 		  <Condition>
 			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:0" unit="percent"/>
+			  <Simvar name="INTERACTIVE POINT OPEN:10" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
@@ -591,21 +615,10 @@
 		
 		<Annunciation>
 		  <Type>Advisory</Type>
-		  <Text>DOOR ENTRY 1R</Text>
+		  <Text>DOOR MAIN CARGO</Text>
 		  <Condition>
 			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:4" unit="percent"/>
-			  <Constant>40</Constant>
-			</Greater>
-		  </Condition>
-		</Annunciation>
-
-		<Annunciation>
-		  <Type>Advisory</Type>
-		  <Text>DOOR ENTRY 4R</Text>
-		  <Condition>
-			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:7" unit="percent"/>
+			  <Simvar name="INTERACTIVE POINT OPEN:1" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
@@ -617,17 +630,6 @@
 		  <Condition>
 			<Greater>
 			  <Simvar name="INTERACTIVE POINT OPEN:12" unit="percent"/>
-			  <Constant>40</Constant>
-			</Greater>
-		  </Condition>
-		</Annunciation>
-
-		<Annunciation>
-		  <Type>Caution</Type>
-		  <Text>DOOR AFT CARGO</Text>
-		  <Condition>
-			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:13" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
@@ -705,7 +707,7 @@
 		  </Condition>
 		</Annunciation>
 
-		<Annunciation>
+<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>ICING WING</Text>
 		  <Condition>
@@ -855,6 +857,153 @@
 		</Annunciation>
 
 		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS C</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L+C</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L+R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS C+R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<GreaterEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</GreaterEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Caution</Type>
+		  <Text>HYD PRESS L+C+R</Text>
+		  <Condition>
+			<And>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:2" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:1" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+				<LowerEqual>
+					<Simvar name="HYDRAULIC PRESSURE:3" unit="psi"/>
+					<Constant>2600</Constant>
+				</LowerEqual>
+			</And>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
 		  <Type>Memo</Type>
 		  <Text>SPEEDBRAKE ARMED</Text>
 		  <Condition>
@@ -910,7 +1059,7 @@
 			</GreaterEqual>
 		  </Condition>
 		</Annunciation>
-		
+
 		<Annunciation>
 			<Type>Memo</Type>
 			<Text>APU COOLDOWN</Text>
@@ -931,43 +1080,12 @@
 						<Constant>3</Constant>
 					</GreaterEqual>
 					<Equal>
-						<Simvar name="APU SWITCH" unit="Bool"/>
+						<Simvar name="L:XMLVAR_APU_StarterKnob_Pos" unit="Bool"/>
 						<Constant>0</Constant>
 					</Equal>
 				</And>
-
-
-			<!--
-				<StateMachine>
-					<State id="Off" value="0">
-						<Transition to="On">
-							<Lower>
-								<Simvar name="APU PCT RPM" unit="percent"/>
-								<Constant>99</Constant>
-							</Lower>
-						</Transition>
-					</State>
-					<State id="On" value="0">
-						<Transition to="Alerting">
-							<Greater>
-								<Simvar name="APU PCT RPM" unit="percent"/>
-								<Constant>99</Constant>
-							</Greater>
-						</Transition>
-					</State>
-					<State id="Alerting" value="1">
-						<Transition to="On">
-							<LowerEqual>
-								<Simvar name="APU PCT RPM" unit="percent"/>
-								<Constant>2</Constant>
-							</LowerEqual>
-						</Transition>
-					</State>
-				</StateMachine>
-			-->
 			</Condition>
 		</Annunciation>
-
 
 		<Annunciation>
 		  <Type>Memo</Type>
@@ -1044,7 +1162,6 @@
 			</Or>
 		  </Condition>
 		</Annunciation>
-
 		<!--
 		<Annunciation>
 		  <Type>Advisory</Type>
@@ -1061,22 +1178,10 @@
 		  <Type>Memo</Type>
 		  <Text>PASS SIGNS ON</Text>
 		  <Condition>
-				<Or>
-					<And>
-						<Equal>
-							<Simvar name="L:WT_SEAT_BELTS_MODE" unit="Number"/>
-							<Constant>1</Constant> 
-						</Equal>
-						<LowerEqual>
-							<Simvar name="INDICATED ALTITUDE" unit="feet"/>
-							<Constant>10000</Constant>
-						</LowerEqual>
-					</And>
-					<Equal>
-						<Simvar name="L:WT_SEAT_BELTS_MODE" unit="Number"/>
-						<Constant>2</Constant>  
-					</Equal>
-				</Or>
+				<Equal>
+					<Simvar name="L:XMLVAR_SEAT_BELTS_ON" unit="Bool"/>
+					<Constant>1</Constant> 
+				</Equal>
 			</Condition>
 		</Annunciation>
 
@@ -1088,7 +1193,7 @@
 				<Or>
 					<And>
 						<Equal>
-							<Simvar name="L:O08_001_GL3" unit="Number"/>
+							<Simvar name="L:NO_SMOKING_KNOB" unit="Number"/>
 							<Constant>1</Constant> 
 						</Equal>
 						<LowerEqual>
@@ -1097,13 +1202,12 @@
 						</LowerEqual>
 					</And>
 					<Equal>
-						<Simvar name="L:O08_001_GL3" unit="Number"/>
+						<Simvar name="L:NO_SMOKING_KNOB" unit="Number"/>
 						<Constant>2</Constant>  
 					</Equal>
 				</Or>
 			</Condition>
 		</Annunciation>
-
 		
 		<Annunciation>
 		  <Type>Memo</Type>
