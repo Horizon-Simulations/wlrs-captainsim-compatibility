@@ -1,8 +1,7 @@
 class FMC_MAINT_IrsMonitor {
     static ShowPage(fmc) {
         fmc.clearDisplay();
-        let simbriefId = SaltyDataStore.get("OPTIONS_SIMBRIEF_ID", "");
-        
+                
         const updateView = () => {
             fmc.setTemplate([
                 ["IRS MONITOR"],
