@@ -64,11 +64,6 @@ class B777_PFD_MainPage extends NavSystemPage {
     onUpdate(_deltaTime) {
         const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
 
-        //const seconds = Number.parseInt(utcTime);
-        //const time = Utils.SecondsToDisplayTime(seconds, true, true, false);
-
-        //this.zuluClock.textContent = time.toString();
-
         if (IRSState == 0) {
             this.attBox.setAttribute("style", "");
             this.attBoxText.style.display = "";
@@ -88,6 +83,7 @@ class B777_PFD_MainPage extends NavSystemPage {
             this.vSpeedIndicator.setAttribute("style", "display:none")
             this.compassElement.setAttribute("style", "display:none")
             this.ilsBox.setAttribute("style", "display:none")
+
         }
         if (IRSState == 2) {
             this.attBox.setAttribute("style", "display:none");
