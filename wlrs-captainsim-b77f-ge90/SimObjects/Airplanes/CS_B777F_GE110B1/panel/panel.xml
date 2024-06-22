@@ -3,21 +3,21 @@
   <Instrument>
     <Name>B777_PFD</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_MFD</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:23" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
   
   <Instrument>
     <Name>B777_EICAS_1</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:25" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
   
@@ -31,7 +31,7 @@
   <Instrument>
     <Name>B777_FMC</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:27" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
 	<AlwaysUpdate>True</AlwaysUpdate>
   </Instrument>
@@ -39,28 +39,28 @@
   <Instrument>
     <Name>B777_Com_1</Name>
     <Electric>
-      <Simvar name="CIRCUIT ON:16" unit="Boolean"/>
+      <Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_Com_2</Name>
     <Electric>
-      <Simvar name="CIRCUIT ON:18" unit="Boolean"/>
+      <Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_Com_3</Name>
     <Electric>
-      <Simvar name="CIRCUIT ON:20" unit="Boolean"/>
+      <Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
   
   <Instrument>
     <Name>B777_IAS</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
 	<AlwaysUpdate>True</AlwaysUpdate>
   </Instrument>
@@ -68,14 +68,14 @@
   <Instrument>
     <Name>B777_HDG</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
   
   <Instrument>
     <Name>B777_VSpeed</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
 	<AlwaysUpdate>True</AlwaysUpdate>
   </Instrument>
@@ -83,28 +83,28 @@
   <Instrument>
     <Name>B777_ALT</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_SAI</Name>
     <Electric>
-      <Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+      <Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_ATC</Name>
     <Electric>
-      <Simvar name="CIRCUIT ON:7" unit="Boolean"/>
+      <Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_RUDDER</Name>
     <Electric>
-      <Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+      <Simvar name="CIRCUIT ON:26" unit="Boolean"/>
     </Electric>
   </Instrument>
 
@@ -472,14 +472,6 @@
 		</Annunciation>
 
 		<Annunciation>
-			<Type>Warning</Type>
-			<Text></Text>
-			<Condition>
-				<Simvar name="STALL WARNING" unit="Boolean"/>
-			</Condition>
-		</Annunciation>
-
-		<Annunciation>
 		  <Type>Caution</Type>
 		  <Text>FUEL QTY LOW</Text>
 		  <Condition>
@@ -590,6 +582,28 @@
 			  <Simvar name="FUELSYSTEM VALVE SWITCH:8" unit="Bool"/>
 			  <Constant>1</Constant>
 			</Equal>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>| CG LIMIT AFT</Text>
+		  <Condition>
+			<Greater>
+				<Simvar name="CG PERCENT" unit="Percent"/>
+			  	<Constant>44</Constant>
+			</Greater>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>| CG LIMIT FOW</Text>
+		  <Condition>
+			<Lower>
+				<Simvar name="CG PERCENT" unit="Percent"/>
+			  	<Constant>14</Constant>
+			</Lower>
 		  </Condition>
 		</Annunciation>
 
@@ -1153,7 +1167,18 @@
 			</Or>
 		  </Condition>
 		</Annunciation>
-
+		<!--
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>ELEC BATTERY OFF</Text>
+		  <Condition>
+			<Equal>
+				<Simvar name="ELECTRICAL MASTER BATTERY" unit="Bool"/>
+				<Constant>1</Constant>
+			</Equal>
+		  </Condition>
+		</Annunciation>
+		-->
 		<Annunciation>
 		  <Type>Memo</Type>
 		  <Text>PASS SIGNS ON</Text>
