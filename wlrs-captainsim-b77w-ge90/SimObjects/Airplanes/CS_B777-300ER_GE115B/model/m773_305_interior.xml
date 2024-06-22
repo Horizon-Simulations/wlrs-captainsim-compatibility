@@ -426,14 +426,14 @@
         <UPDATE_ONCE>True</UPDATE_ONCE>
         <UPDATE_CODE>
           1 (&gt;L:XMLVAR_Mins_Selector_Baro, Bool)
-          0 (&gt;A:HYDRAULIC SWITCH:1, Bool) <!--unable to set for some reason-->
+          <!--1 1 (&gt;K:1:HYDRAULIC_SWITCH_TOGGLE)-->
 					0 (&gt;A:HYDRAULIC SWITCH:2, Bool)
           0 (&gt;A:HYDRAULIC SWITCH:3, Bool)
 					0 (&gt;A:HYDRAULIC SWITCH:4, Bool)
 
         </UPDATE_CODE>
       </UseTemplate>
-            <!--
+      <!--
       <UseInputEvent ID="PROCEDURE">
 				<PROCEDURE_ID>AUTOSTART</PROCEDURE_ID>
 				<ON_AUTOSTART>
