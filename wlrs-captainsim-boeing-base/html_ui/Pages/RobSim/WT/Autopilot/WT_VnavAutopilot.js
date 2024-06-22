@@ -228,11 +228,8 @@ class WT_VerticalAutopilot {
     }
 
     get navMode() {
-        //const navSource = 3;
-        //return navSource;
-        const navMode = this._navModeSelector.lNavModeState;
-		const navSource = navMode == LNavModeState.NAV2 ? 2 : navMode == LNavModeState.NAV1 ? 1 : 0;
-		return navSource;
+        const navSource = 3;
+        return navSource;
     }
 
     get modeSelectorPathStatus() {
@@ -260,7 +257,7 @@ class WT_VerticalAutopilot {
     }
 
     get glideslopeFpa() {
-        return SimVar.GetSimVarValue('NAV RAW GLIDE SLOPE:' + this.navMode, 'Degree');      //return SimVar.GetSimVarValue("NAV RAW GLIDE SLOPE:3", "Degree");
+        return SimVar.GetSimVarValue("NAV RAW GLIDE SLOPE:3", "Degree");
     }
 
     get approachMode() {
