@@ -587,6 +587,28 @@
 
 		<Annunciation>
 		  <Type>Advisory</Type>
+		  <Text>| CG LIMIT AFT</Text>
+		  <Condition>
+			<Greater>
+				<Simvar name="CG PERCENT" unit="Percent"/>
+			  	<Constant>44</Constant>
+			</Greater>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
+		  <Text>| CG LIMIT FOW</Text>
+		  <Condition>
+			<Lower>
+				<Simvar name="CG PERCENT" unit="Percent"/>
+			  	<Constant>14</Constant>
+			</Lower>
+		  </Condition>
+		</Annunciation>
+
+		<Annunciation>
+		  <Type>Advisory</Type>
 		  <Text>DOOR ENTRY 1L</Text>
 		  <Condition>
 			<Greater>
@@ -1093,7 +1115,6 @@
 			</Condition>
 		</Annunciation>
 
-
 		<Annunciation>
 		  <Type>Memo</Type>
 		  <Text>AUTOBRAKES</Text>
@@ -1169,7 +1190,6 @@
 			</Or>
 		  </Condition>
 		</Annunciation>
-
 		<!--
 		<Annunciation>
 		  <Type>Advisory</Type>
