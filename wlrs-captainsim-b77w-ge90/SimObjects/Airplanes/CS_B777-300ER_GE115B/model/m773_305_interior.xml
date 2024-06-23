@@ -6959,7 +6959,12 @@
       </UseTemplate>
     </Component>
 
-    <Component ID="ADIRU_sw" Node="O01_002_BUT">    
+		<Component ID="ADIRU_SW">    
+        <UseTemplate Name="teevee_B777_ADIRU_Switch_Template">
+        </UseTemplate>
+    </Component>
+
+    <!--<Component ID="ADIRU_sw" Node="O01_002_BUT">    
       <UseTemplate Name="ASOBO_GT_Anim">
         <ANIM_LAG>6</ANIM_LAG>
         <ANIM_LENGTH>1</ANIM_LENGTH>
@@ -6985,7 +6990,7 @@
       <UseTemplate Name="ASOBO_GT_Visibility">
         <VISIBILITY_CODE>(L:O01_002_LT2, Bool)</VISIBILITY_CODE>
       </UseTemplate>
-    </Component>
+    </Component>-->
 
     <Component ID="RAT_button" Node="O07_001_BUT">
       <UseTemplate Name="ASOBO_GT_Anim">
