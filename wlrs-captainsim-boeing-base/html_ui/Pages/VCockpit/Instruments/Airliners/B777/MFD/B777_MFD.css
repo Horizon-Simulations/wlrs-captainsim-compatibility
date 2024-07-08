@@ -38,7 +38,7 @@ html {
 @font-face {
   font-family: "BoeingEFIS";
   src: url("/Fonts/BoeingEFIS.ttf") format("truetype");
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal; }
 
 #Mainframe {
@@ -167,9 +167,12 @@ b777-mfd-element {
       b777-mfd-element #Mainframe #TopBox text.Value {
         font-size: 42px;
         fill: white; }
+      b777-mfd-element #Mainframe #TopBox text.ValueBig {
+        font-size: 56px;
+        fill: white; }
       b777-mfd-element #Mainframe #TopBox text.ValueVor {
         font-size: 42px;
-        fill: cyan; }
+        fill: #00b7ff; }
       b777-mfd-element #Mainframe #TopBox text.ValueIls {
         font-size: 42px;
         fill: #D570FF; }
@@ -181,7 +184,7 @@ b777-mfd-element {
         fill: white; }
       b777-mfd-element #Mainframe #TopBox text.Units {
         font-size: 32px;
-        fill: cyan; }
+        fill: #00b7ff; }
   b777-mfd-element #Mainframe #VORDMENavaids {
     font-family: "BoeingEFIS"; }
     b777-mfd-element #Mainframe #VORDMENavaids div {
@@ -205,17 +208,17 @@ b777-mfd-element {
     b777-mfd-element #Mainframe #VORDMENavaids #VORDMENavaid_Right #Distance {
       text-anchor: end; }
     b777-mfd-element #Mainframe #VORDMENavaids #State {
-      font-size: 48px; }
+      font-size: 44px; }
     b777-mfd-element #Mainframe #VORDMENavaids #ID {
-      font-size: 48px; }
+      font-size: 44px; }
     b777-mfd-element #Mainframe #VORDMENavaids #Mode {
-      font-size: calc( 3 * 1vh * var(--bodyHeightScale));
+      font-size: calc( 2.6 * 1vh * var(--bodyHeightScale));
       fill: none; }
     b777-mfd-element #Mainframe #VORDMENavaids #Distance {
-      font-size: 48px;
+      font-size: 44px;
       fill: lime; }
     b777-mfd-element #Mainframe #VORDMENavaids #Unit {
-      font-size: calc( 2.75 * 1vh * var(--bodyHeightScale));
+      font-size: calc( 2.35 * 1vh * var(--bodyHeightScale));
       fill: lime; }
     b777-mfd-element #Mainframe #VORDMENavaids #ArrowVor {
       fill: none;
@@ -223,7 +226,7 @@ b777-mfd-element {
       stroke-width: 4px; }
     b777-mdf-element #Mainframe #VORDMENavaids #ArrowAdf {
       fill: none;
-      stroke: cyan;
+      stroke: #00b7ff;
       stroke-width: 4px; }
     b777-mfd-element #Mainframe #Symbols {
       top: 65%;
@@ -239,11 +242,11 @@ b777-mfd-element {
         height: 100%;
         font-family: "BoeingEFIS"; }
       b777-mfd-element #Mainframe #Symbols text.Small {
-        font-size: 36px;
-        fill: cyan; }
+        font-size: 32px;
+        fill: #00b7ff; }
       b777-mfd-element #Mainframe #Symbols text.Large {
-        font-size: 48px;
-        fill: cyan; }
+        font-size: 42px;
+        fill: #00b7ff; }
   b777-mfd-element[mapstyle=rose] #Mainframe #Compass {
     top: 4.5%; }
   b777-mfd-element[mapstyle=rose] #Mainframe #Map {

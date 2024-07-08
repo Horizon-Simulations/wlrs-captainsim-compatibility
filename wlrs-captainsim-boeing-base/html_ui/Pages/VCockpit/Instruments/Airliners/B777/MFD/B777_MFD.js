@@ -499,7 +499,8 @@ class B777_MFD_NDInfo extends NavSystemElement {
     }
     init(root) {
         this.ndInfo = this.gps.getChildById("NDInfo");
-        this.gs = this.ndInfo.querySelector("#GS_Value");
+        this.gsSmall = this.ndInfo.querySelector("#GS_ValueSmall");
+        this.gsBig = this.ndInfo.querySelector("#GS_ValueBig");
         this.tasText = this.ndInfo.querySelector("#TAS_Text");
         this.tasVal = this.ndInfo.querySelector("#TAS_Value");
         this.windDirection = this.ndInfo.querySelector("#Wind_Direction");
@@ -509,6 +510,7 @@ class B777_MFD_NDInfo extends NavSystemElement {
         this.wpData = this.ndInfo.querySelector("#WP_Data");
         this.zuluETA = document.querySelector("#WP_ZuluTime");
         this.waypointDistance = document.querySelector("#WP_Distance_Value");
+        this.transponderMode = this.ndInfo.querySelector("#TRANSMODE");
         this.ndInfo.aircraft = Aircraft.B747_8;
         this.ndInfo.gps = this.gps;
         this.allSymbols.push(this.ndInfo.querySelector("#ARPT"));
@@ -569,11 +571,24 @@ class B777_MFD_NDInfo extends NavSystemElement {
         this.windArrow.setAttribute("visibility", showData ? "visible" : "hidden");
 
         if (IRSState != 2) {
-            this.gs.textContent = "---";
+            this.gsBig.textContent = "---";
+            this.gsSmall.textContent = "---";
+            this.gsSmall.setAttribute("visibility", "hidden");
             this.wpData.setAttribute("visibility", "hidden");
         }
         else {
-            this.gs.textContent = groundSpeed.toString().padStart(3); 
+            this.gsSmall.textContent = groundSpeed.toString();
+            this.gsBig.textContent = groundSpeed.toString();
+            
+            if (groundSpeed < 30) {
+                this.gsSmall.setAttribute("visibility", "hidden");
+                this.gsBig.setAttribute("visibility", "visible");
+            }
+            else
+            {
+                this.gsBig.setAttribute("visibility", "hidden");
+                this.gsSmall.setAttribute("visibility", "visible");
+            }
             this.wpData.setAttribute("visibility", "visible"); 
         }
     }

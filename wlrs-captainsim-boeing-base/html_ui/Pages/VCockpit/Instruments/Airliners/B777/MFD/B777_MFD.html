@@ -33,7 +33,10 @@
                     <div id="Speed">
                         <svg>
                             <text id="GS_Text" class="Small" x="0%" y="20%" alignment-baseline="baseline">GS</text>
-                            <text id="GS_Value" class="Value" x="23%" y="20%" alignment-baseline="baseline" text-anchor="end">---</text>
+                            
+                            <text id="GS_ValueSmall" class="Value" x="23%" y="20%" alignment-baseline="baseline" text-anchor="end">---</text>    <!--work around-->
+                            <text id="GS_ValueBig" class="ValueBig" x="23%" y="21%" alignment-baseline="baseline" text-anchor="end">---</text>
+                            
                             <text id="TAS_Text" class="Small" x="25%" y="20%" alignment-baseline="baseline">TAS</text>
                             <text id="TAS_Value" class="Value" x="37%" y="20%" alignment-baseline="baseline">---</text>
                             <text id="Wind_Direction" class="Value" x="0%" y="38%" alignment-baseline="baseline">--</text>
@@ -69,35 +72,37 @@
                 <div id="VORDMENavaids">
                     <div id="VORDMENavaid_Left" style="display:none">
                         <svg>
-                            <text id="State" x="0%" y="16%" alignment-baseline="middle"></text>
-                            <text id="ID" x="0%" y="42%" alignment-baseline="middle"></text>
-                            <text id="Mode" x="0%" y="42%" alignment-baseline="middle"></text>
-                            <text id="Distance" x="48%" y="68%" alignment-baseline="middle">--</text>
-                            <text id="Unit" x="0%" y="71%" alignment-baseline="middle">DME</text>
+                            <text id="State" x="1%" y="34%" alignment-baseline="middle"></text>
+                            <text id="ID" x="0%" y="58%" alignment-baseline="middle"></text>
+                            <text id="Mode" x="0%" y="59%" alignment-baseline="middle"></text>
+                            <text id="Distance" x="48%" y="76%" alignment-baseline="middle">--</text>
+                            <text id="Unit" x="0%" y="80%" alignment-baseline="middle">DME</text>
                         </svg>
                     </div>
 
                     <div id="VORDMENavaid_Right" style="display:none">
                         <svg>
-                            <text id="State" x="46%" y="16%" alignment-baseline="middle"></text>
-                            <text id="ID" x="46%" y="42%" alignment-baseline="middle"></text>
-                            <text id="Mode" x="46%" y="42%" alignment-baseline="middle"></text>
-                            <text id="Distance" x="95%" y="68%" alignment-baseline="middle">--</text>
-                            <text id="Unit" x="46%" y="71%" alignment-baseline="middle">DME</text>
+                            <text id="State" x="47%" y="34%" alignment-baseline="middle"></text>
+                            <text id="ID" x="46%" y="58%" alignment-baseline="middle"></text>
+                            <text id="Mode" x="46%" y="59%" alignment-baseline="middle"></text>
+                            <text id="Distance" x="95%" y="76%" alignment-baseline="middle">--</text>
+                            <text id="Unit" x="46%" y="80%" alignment-baseline="middle">DME</text>
                         </svg>
                     </div>
                 </div>
 
                 <div id="Symbols">
                     <svg>
-                        <text id="DATA" class="Small" x="0%" y="3%" alignment-baseline="baseline">DATA</text>
-                        <text id="ARPT" class="Small" x="0%" y="8%" alignment-baseline="baseline">ARPT</text>
-                        <text id="WPT" class="Small" x="0%" y="13%" alignment-baseline="baseline">WPT</text>
-                        <text id="STA" class="Small" x="0%" y="18%" alignment-baseline="baseline">STA</text>
-                        <text id="TERR" class="Large" x="0%" y="28%" alignment-baseline="baseline">TERR</text>
-                        <text id="WXR" class="Large" x="0%" y="28%" alignment-baseline="baseline">WX+T</text>       <!--yes the weather radar do have turbulence, showing in magenta-->
-                        <text id="WXRInfo" class="Large" x="0%" y="35%" alignment-baseline="baseline">-2A</text>
+                        <!--<text id="DATA" class="Small" x="0%" y="3%" alignment-baseline="baseline">DATA</text>-->
+                        <text id="ARPT" class="Small" x="0%" y="3%" alignment-baseline="baseline">ARPT</text>
+                        <text id="WPT" class="Small" x="0%" y="8%" alignment-baseline="baseline">WPT</text>
+                        <text id="STA" class="Small" x="0%" y="13%" alignment-baseline="baseline">STA</text>
+                        <text id="TERR" class="Large" x="0%" y="19%" alignment-baseline="baseline">TERR</text>
+                        <text id="WXR" class="Large" x="0%" y="19%" alignment-baseline="baseline">WX+T</text>       <!--yes the weather radar do have turbulence, showing in magenta-->
+                        <text id="WXRInfo" class="Large" x="0%" y="25%" alignment-baseline="baseline">-2A</text>
+
                         <text id="TFC" class="Small" x="0%" y="41%" alignment-baseline="baseline">TFC</text>
+                        <text id="TRANSMODE" class="Small" x="0%" y="46%" alignment-baseline="baseline">TA ONLY</text> <!---->
                     </svg>
                 </div>
             </jet-mfd-nd-info>
