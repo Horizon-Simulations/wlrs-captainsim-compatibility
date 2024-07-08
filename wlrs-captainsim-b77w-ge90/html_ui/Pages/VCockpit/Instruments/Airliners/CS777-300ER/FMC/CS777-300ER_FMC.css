@@ -42,7 +42,7 @@ fmc-b777-main-display {
   background-color: #0e0d08;
   color: white;
   font-family: "BoeingCDU";
-  font-size: 6.46vw;
+  font-size: 7.12vw;
   color: white; }
 
 .white {
@@ -94,7 +94,7 @@ fmc-b777-main-display::before {
   right: 5%; }
 
 .s-text {
-  font-size: 4.8vw;
+  font-size: 5.0vw;
   letter-spacing: 0.9vw; }
 
 .label {
