@@ -70,7 +70,7 @@ var B777_UpperEICAS;
             this.infoPanelsManager.init(this.infoPanel);
             this.gearDisplay = new Boeing.GearDisplay(this.querySelector("#GearInfo"));
             this.flapsDisplay = new Boeing.FlapsDisplay(this.querySelector("#FlapsInfo"), this.querySelector("#FlapsLine"), this.querySelector("#FlapsValue"), this.querySelector("#FlapsBar"), this.querySelector("#FlapsGauge"));
-            this.stabDisplay = new Boeing.StabDisplay(this.querySelector("#StabInfo"), 15, 1);
+            //this.stabDisplay = new Boeing.StabDisplay(this.querySelector("#StabInfo"), 15, 1);
             this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI_LEFT"), 1));
             this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI_RIGHT"), 2));
             this.allAntiIceStatus.push(new EngineAntiIceStatus(this.querySelector("#EAI_LEFT"), 1));
@@ -123,9 +123,9 @@ var B777_UpperEICAS;
             if (this.flapsDisplay != null) {
                 this.flapsDisplay.update(_deltaTime);
             }
-            if (this.stabDisplay != null) {
-                this.stabDisplay.update(_deltaTime);
-            }
+            //if (this.stabDisplay != null) {
+            //    this.stabDisplay.update(_deltaTime);
+            //}
             if (this.allAntiIceStatus != null) {
                 for (var i = 0; i < this.allAntiIceStatus.length; ++i) {
                     if (this.allAntiIceStatus[i] != null) {
@@ -315,9 +315,9 @@ var B777_UpperEICAS;
                         this.valueText.textContent = this.currentValue.toFixed(1);
                     }
                 }
-                var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.009) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
-                var angleo = Math.max((this.getN1LimitValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
-                var anglet = Math.max((this.getN1CommandedValue() * 0.009) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                var angleo = Math.max((this.getN1LimitValue() * 0.0095) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);      //0.01 = 100% of the max angle (210)
+                var anglet = Math.max((this.getN1CommandedValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 
                 if (this.whiteMarker != null) {
                     this.whiteMarker.setAttribute("transform", this.defaultMarkerTransform + " rotate(" + angle + ")");
@@ -353,6 +353,7 @@ var B777_UpperEICAS;
     B777_EICAS_CircleGauge.MAX_ANGLE = 210;
     B777_EICAS_CircleGauge.WARNING_ANGLE = 202;
     B777_EICAS_CircleGauge.DEG_TO_RAD = (Math.PI / 180);
+
     class B777_EICAS_Gauge_TPR extends B777_EICAS_CircleGauge {
         getCurrentValue() {
             return Utils.Clamp(SimVar.GetSimVarValue("ENG PRESSURE RATIO:" + this.engineIndex, "ratio") * (100 / 1.7), 0, 100);
@@ -361,6 +362,7 @@ var B777_UpperEICAS;
             return _value;
         }
     }
+
     class B777_EICAS_Gauge_N1 extends B777_EICAS_CircleGauge {
         getCurrentValue() {
             return SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent");
@@ -375,6 +377,7 @@ var B777_UpperEICAS;
             return Math.abs(Simplane.getEngineThrottleCommandedN1(this.engineIndex - 1));
         }
     }
+    
     class B777_EICAS_Gauge_EGT extends B777_EICAS_CircleGauge {
         getCurrentValue() {
             return SimVar.GetSimVarValue("ENG EXHAUST GAS TEMPERATURE:" + this.engineIndex, "celsius");
