@@ -301,8 +301,18 @@ class B777_EICAS extends Airliners.BaseEICAS {
     updateAnnunciations() {
         let infoPanelManager = this.upperTopScreen.getInfoPanelManager();
         if (infoPanelManager) {
-            infoPanelManager.clearScreen(Airliners.EICAS_INFO_PANEL_ID.PRIMARY);
+            
+            /* FOR CANCEL/RECALL (FOR NOW)
+            if () {
+                infoPanelManager.clearScreen(Airliners.EICAS_INFO_PANEL_ID.PRIMARY);
+                return;
+            }
+            */
 
+            let masterWarningActive = false;
+            let masterCautionActive = false;
+
+            infoPanelManager.clearScreen(Airliners.EICAS_INFO_PANEL_ID.PRIMARY);
             if (this.warnings) {
                 let text = this.warnings.getCurrentWarningText();
                 if (text) {
@@ -323,7 +333,7 @@ class B777_EICAS extends Airliners.BaseEICAS {
                     }
                 }
             }
-
+            
             if (this.annunciations) {
                 // arrow function declared to DRY this section
                 let displayListAnnunc = (_annuncList, _infoMsgStyle) => {
@@ -334,8 +344,15 @@ class B777_EICAS extends Airliners.BaseEICAS {
                                 _annuncList[i].Text,
                                 _infoMsgStyle
                             );
+                            if (_infoMsgStyle === Airliners.EICAS_INFO_PANEL_MESSAGE_STYLE.WARNING) {
+                                masterWarningActive = true;
+                            }
+                            if (_infoMsgStyle === Airliners.EICAS_INFO_PANEL_MESSAGE_STYLE.CAUTION) {
+                                masterCautionActive = true;
+                            } 
                     }
                 };
+                
 
                 // display WARNING, CAUTION, ADVISORY, and MEMO annunciations
                 displayListAnnunc(this.annunciations.displayWarning, Airliners.EICAS_INFO_PANEL_MESSAGE_STYLE.WARNING);
@@ -343,7 +360,23 @@ class B777_EICAS extends Airliners.BaseEICAS {
                 displayListAnnunc(this.annunciations.displayAdvisory, Airliners.EICAS_INFO_PANEL_MESSAGE_STYLE.ADVISORY);
                 displayListAnnunc(this.annunciations.displayMemo, Airliners.EICAS_INFO_PANEL_MESSAGE_STYLE.MEMO);
 
+                SimVar.SetSimVarValue("MASTER WARNING ACTIVE", "bool", masterWarningActive);
+                SimVar.SetSimVarValue("MASTER CAUTION ACTIVE", "bool", masterCautionActive);
+
+                if (!masterWarningActive) {
+                    SimVar.SetSimVarValue("MASTER WARNING ACKNOWLEDGED", "bool", false);
+                }
+                if (!masterCautionActive) {
+                    SimVar.SetSimVarValue("MASTER CAUTION ACKNOWLEDGED", "bool", false);
+                }
             }
+            
+
+            //will be work on later
+            document.addEventListener("B777_MFD_CANCRCL", function(event) {
+                let infoPanelsManager = new InfoPanelsManager();
+                infoPanelsManager.updateAnnunciations();
+            });
         }
     }
 

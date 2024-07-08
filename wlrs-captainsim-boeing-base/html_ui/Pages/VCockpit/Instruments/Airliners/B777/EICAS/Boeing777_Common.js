@@ -507,9 +507,11 @@ var Boeing;
         }
     }
     Boeing.FakeFuelLine = FakeFuelLine;
+
     class InfoPanelsManager extends Airliners.EICASInfoPanelManager {
         init(_panel) {
             this.mainPanel = _panel;
+            this.ecamMessagesVisible = true;
             Coherent.on("AddUpperECAMMessage", this.onInfoPanelEvent.bind(this, Airliners.EICAS_INFO_PANEL_EVENT_TYPE.ADD_MESSAGE));
             Coherent.on("RemoveUpperECAMMessage", this.onInfoPanelEvent.bind(this, Airliners.EICAS_INFO_PANEL_EVENT_TYPE.REMOVE_MESSAGE));
             Coherent.on("ModifyUpperECAMMessage", this.onInfoPanelEvent.bind(this, Airliners.EICAS_INFO_PANEL_EVENT_TYPE.MODIFY_MESSAGE));
@@ -600,6 +602,7 @@ var Boeing;
         }
     }
     Boeing.InfoPanelsManager = InfoPanelsManager;
+    
     class InfoPanel {
         constructor(_parent, _divID) {
             this.allDivs = [];
@@ -635,6 +638,7 @@ var Boeing;
             }
             return div;
         }
+        //multi memo is already implemented, just need the recall to work
         getNextAvailableDiv(_style) {
             if(_style == Airliners.EICAS_INFO_PANEL_MESSAGE_STYLE.MEMO) {
                 for (var i = 10; i > 0; --i) {
