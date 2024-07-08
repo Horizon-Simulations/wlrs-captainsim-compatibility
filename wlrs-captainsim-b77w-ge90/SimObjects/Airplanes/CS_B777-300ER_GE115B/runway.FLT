@@ -202,12 +202,11 @@ GPSdrivesNAV1=True
 IsUsedForLesson=False
 ForceDisplayUI=False
 
-
 [Controls.0]
 SpoilersHandle=000.00
-FlapsHandle=050.00
-LeftFlap=050.00
-RightFlap=050.00
+FlapsHandle=033.33
+LeftFlap=016.67
+RightFlap=016.67
 GearsHandle=100.00
 Gear1=100.00
 Gear2=100.00
@@ -223,4 +222,4 @@ AileronTrimPct=0
 AileronTrimDisabled=False
 ElevatorTrimDisabled=False
 RudderTrimDisabled=False
-SpoilersArmed=True
+SpoilersArmed=False

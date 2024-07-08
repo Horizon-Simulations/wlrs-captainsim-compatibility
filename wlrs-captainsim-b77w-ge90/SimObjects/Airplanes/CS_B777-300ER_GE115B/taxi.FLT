@@ -224,4 +224,4 @@ AileronTrimPct=0
 AileronTrimDisabled=False
 ElevatorTrimDisabled=False
 RudderTrimDisabled=False
-SpoilersArmed=True
+SpoilersArmed=False
