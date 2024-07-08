@@ -3,21 +3,21 @@
    <Instrument>
     <Name>B777_PFD</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:21" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/> <!--21-->
     </Electric>
   </Instrument>
 
   <Instrument>
     <Name>B777_MFD</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:23" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/> <!--23-->
     </Electric>
   </Instrument>
   
   <Instrument>
     <Name>B777_EICAS_1</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:25" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/> <!--25-->
     </Electric>
   </Instrument>
   
@@ -31,7 +31,7 @@
   <Instrument>
     <Name>B777_FMC</Name>
     <Electric>
-		<Simvar name="CIRCUIT ON:27" unit="Boolean"/>
+		<Simvar name="CIRCUIT ON:26" unit="Boolean"/> <!--27-->
     </Electric>
 	<AlwaysUpdate>True</AlwaysUpdate>
   </Instrument>
@@ -118,6 +118,7 @@
 	<!-- Annunciations -->
 
 	<Annunciations>
+
 		<Annunciation>
 			<Type>Warning</Type>
 			<Text>AUTOPILOT DISC</Text>
