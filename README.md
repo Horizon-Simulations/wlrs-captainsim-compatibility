@@ -43,7 +43,7 @@ The project itself is mainly based on [Salty Simulations 747](https://github.com
  ```
  Model       B777-300ER
  ICAO        B77W
- Engine      GE90-115B (115540 lbs)
+ Engine      GE90-115B1 (115540 lbs)
  MTW         777000 lbs (352441 kgs)
  BEW         370000 lbs (167829 kgs)
  ```
