@@ -299,7 +299,7 @@ class B777_SAI_HSIndicator extends HTMLElement {
                 text.setAttribute('font-size', "20");
             }
             
-            const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
+            const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
 
             // Compass visible / not visible depending on IRS
             if (IRSState <= 1) {
@@ -898,7 +898,7 @@ class B777_SAI_Attitude extends NavSystemElement {
 
         const isISFDOn = SimVar.GetSimVarValue("L:B777_SAI_State", "Bool");
         const isInitDone = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool");
-        const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
+        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
 
         /* _deltaTime provides the wrong value if the screen refresh rate is set to low or medium in the settings - 
         therefore, this method of getting the deltatime is being used here. In the future, this could be moved to Salty Core or Utils.*/ 
@@ -1266,4 +1266,3 @@ class B777_SAI_AttitudeIndicator extends HTMLElement {
 }
 customElements.define('b777-sai-attitude-indicator', B777_SAI_AttitudeIndicator);
 registerInstrument("b777-sai", B777_SAI);
-//# sourceMappingURL=B747_8_SAI.js.map
