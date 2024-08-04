@@ -12,4 +12,3 @@ class B777_CLOCK {
 }
 
 registerInstrument("b777-clock", B777_CLOCK);
-//# sourceMappingURL=B747_8_RUDDER.js.map

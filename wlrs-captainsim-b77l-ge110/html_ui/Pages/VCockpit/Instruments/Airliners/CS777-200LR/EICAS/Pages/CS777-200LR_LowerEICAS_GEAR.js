@@ -34,4 +34,3 @@ var B777_LowerEICAS_GEAR;
     B777_LowerEICAS_GEAR.Display = Display;
 })(B777_LowerEICAS_GEAR || (B777_LowerEICAS_GEAR = {}));
 customElements.define("b777-lower-eicas-gear", B777_LowerEICAS_GEAR.Display);
-//# sourceMappingURL=B747_8_LowerEICAS_GEAR.js.map

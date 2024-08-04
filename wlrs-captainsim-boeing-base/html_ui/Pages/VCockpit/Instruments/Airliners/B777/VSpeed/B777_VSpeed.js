@@ -6,4 +6,3 @@ class B777_VSpeed extends Boeing_FCU.VSpeed {
     }
 }
 registerInstrument("b777-vspeed-element", B777_VSpeed);
-//# sourceMappingURL=B747_8_VSpeed.js.map

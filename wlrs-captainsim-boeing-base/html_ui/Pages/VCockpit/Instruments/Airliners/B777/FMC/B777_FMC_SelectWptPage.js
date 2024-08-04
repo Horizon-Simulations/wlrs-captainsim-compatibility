@@ -70,4 +70,3 @@ class B777_FMC_SelectWptPage {
         return Avionics.Utils.computeGreatCircleDistance(planeLla, wpt.infos.coordinates);
     }
 }
-//# sourceMappingURL=B747_8_FMC_SelectWptPage.js.map

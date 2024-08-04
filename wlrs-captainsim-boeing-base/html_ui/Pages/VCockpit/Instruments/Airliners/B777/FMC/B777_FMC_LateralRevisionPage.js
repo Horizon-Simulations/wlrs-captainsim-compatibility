@@ -51,4 +51,3 @@ class B777_FMC_LateralRevisionPage {
         fmc.onLeftInput[5] = () => { B777_FMC_LegsPage.ShowPage1(fmc); };
     }
 }
-//# sourceMappingURL=B747_8_FMC_LateralRevisionPage.js.map

@@ -19,4 +19,3 @@ class FMCNavDataPage {
         fmc.onLeftInput[5] = () => { B777_FMC_InitRefIndexPage.ShowPage1(fmc); };
     }
 }
-//# sourceMappingURL=B747_8_FMC_NavDataPage.js.map

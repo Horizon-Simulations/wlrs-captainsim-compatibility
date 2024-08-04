@@ -91,4 +91,3 @@ class FMCDeparturesPage {
         }
     }
 }
-//# sourceMappingURL=B747_8_FMC_DeparturesPage.js.map

@@ -12,4 +12,3 @@ class B777_ATC extends Airliners.BaseATC {
     }
 }
 registerInstrument("b777-atc", B777_ATC);
-//# sourceMappingURL=B747_8_ATC.js.map

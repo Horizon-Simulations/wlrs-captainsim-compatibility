@@ -124,7 +124,7 @@ class B777_FMC_VNAVPage {
 
         /* LSK 3L  - Speed Transition */
         let spdTransCell = "---";
-        let flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:SALTY_VREF30", "knots") + 80;
+        let flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:B777_VREF30", "knots") + 80;
         let transSpeed = Math.max(flapsUPmanueverSpeed + 20, 250);
         let spdRestr = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION", "knots");
         let spdRestrAlt = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION_ALT", "feet");
@@ -575,4 +575,3 @@ class B777_FMC_VNAVPage {
         fmc.onPrevPage = () => { B777_FMC_VNAVPage.ShowPage2(fmc); };
     }
 }
-//# sourceMappingURL=B747_8_FMC_VNAVPage.js.map

@@ -252,4 +252,3 @@ class B777_Com extends BaseAirliners {
     }
 }
 registerInstrument("b777-com-element", B777_Com);
-//# sourceMappingURL=B747_8_Com.js.map

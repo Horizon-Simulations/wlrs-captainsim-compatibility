@@ -235,4 +235,3 @@ class FMCTakeOffPage {
     }
 }
 FMCTakeOffPage._timer = 0;
-//# sourceMappingURL=B747_8_FMC_TakeOffPage.js.map

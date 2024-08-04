@@ -55,4 +55,3 @@ class B777_FMC_InitRefIndexPage {
         };
     }
 }
-//# sourceMappingURL=B747_8_FMC_InitRefIndexPage.js.map
