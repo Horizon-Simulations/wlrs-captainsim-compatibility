@@ -106,8 +106,8 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
         this.stripOffsetX = 0;
         if (this.aircraft == Aircraft.CJ4)
             this.construct_CJ4();
-        else if (this.aircraft == Aircraft.B747_8)
-            this.construct_B747_8();
+        else if (this.aircraft == Aircraft.B777)
+            this.construct_B777();
         else if (this.aircraft == Aircraft.AS01B)
             this.construct_AS01B();
         else
@@ -115,7 +115,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
     }
     construct_CJ4() {
     }
-    construct_B747_8() {
+    construct_B777() {
         this.rootSVG = document.createElementNS(Avionics.SVG.NS, "svg");
         this.rootSVG.setAttribute("id", "ViewBox");
         this.rootSVG.setAttribute("viewBox", "0 0 250 800");
@@ -568,7 +568,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
         let stallProtectionMin = Math.round(stallSpeed1G * Math.sqrt(1.3));
 
         /* Provides Low Airspeed Warning for PFD and EICAS */
-        SimVar.SetSimVarValue("L:74S_FMC_MIN_MANUEVER_SPEED", "knots", stallProtectionMin);
+        SimVar.SetSimVarValue("L:B777_FMC_MIN_MANUEVER_SPEED", "knots", stallProtectionMin);
         if (indicatedSpeed <= stallProtectionMin && !Simplane.getIsGrounded()) {
             this.cursorSVGShape.setAttribute("stroke", "orange");
             this.cursorSVGShape.setAttribute("stroke-width", "6");
@@ -698,7 +698,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
                 return AutopilotMode.SELECTED;
             return AutopilotMode.MANAGED;
         }
-        else if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B) {
+        else if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B) {
             if (Simplane.getAutoPilotAirspeedHoldActive())
                 return AutopilotMode.HOLD;
             else {
@@ -715,7 +715,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
             this.machSpeed = Utils.SmoothSin(this.machSpeed, trueMach, 0.25, dTime / 1000);
             if (this.machSpeed > 0.998)
                 this.machSpeed = 0.998;
-            if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B) {
+            if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B) {
                 if ((!this.machVisible && this.machSpeed >= 0.4) || (this.machVisible && this.machSpeed >= 0.4)) {
                     var fixedMach = this.machSpeed.toFixed(3);
                     var radixPos = fixedMach.indexOf('.');
@@ -803,7 +803,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
                             else
                                 this.graduations[i].SVGText1.textContent = "";
                         }
-                        else if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B) {
+                        else if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B) {
                             if (currentVal < this.graduationMinValue)
                                 this.graduations[i].SVGText1.textContent = "";
                             else
@@ -840,7 +840,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
         }
     }
     updateCursorScrolling(_speed) {
-        if (_speed < this.graduationMinValue && this.aircraft != Aircraft.B747_8 && this.aircraft != Aircraft.AS01B) {
+        if (_speed < this.graduationMinValue && this.aircraft != Aircraft.B777 && this.aircraft != Aircraft.AS01B) {
             if (this.cursorIntegrals) {
                 for (let i = 0; i < this.cursorIntegrals.length; i++) {
                     this.cursorIntegrals[i].clear("-");
@@ -1195,7 +1195,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
         }
         if (v1Speed > 0 && Simplane.getIsGrounded()) {
             var posY = this.valueToSvg(currentAirspeed, v1Speed);
-            if (posY < 25 && (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B)) {
+            if (posY < 25 && (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B)) {
                 posY = 25;
                 _marker.setOffscreen(true, Math.round(v1Speed));
             }
@@ -1256,7 +1256,7 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
         let vRefSpeed = SimVar.GetSimVarValue("L:AIRLINER_VREF_SPEED", "Knots");
         if (vRefSpeed > 0) {
             var posY = this.valueToSvg(currentAirspeed, vRefSpeed);
-            if (posY > this.refHeight - 25 && (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B)) {
+            if (posY > this.refHeight - 25 && (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B)) {
                 posY = this.refHeight - 45;
                 _marker.setOffscreen(true, Math.round(vRefSpeed));
             }
@@ -1325,8 +1325,8 @@ class Jet_PFD_AirspeedIndicator extends HTMLElement {
                 }
                 _marker.setText(degrees.toFixed(0));
             }
-            let vRef25 = Math.round(SimVar.GetSimVarValue("L:SALTY_VREF25", "knots"));
-            let vRef30 = Math.round(SimVar.GetSimVarValue("L:SALTY_VREF30", "knots"));
+            let vRef25 = Math.round(SimVar.GetSimVarValue("L:B777_VREF25", "knots"));
+            let vRef30 = Math.round(SimVar.GetSimVarValue("L:B777_VREF30", "knots"));
             let flapMarkerSpeed = 0;
             switch (markerHandleIndex) {
                 case 0:

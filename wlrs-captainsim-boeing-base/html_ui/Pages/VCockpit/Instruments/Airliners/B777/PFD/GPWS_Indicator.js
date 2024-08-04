@@ -35,12 +35,12 @@ class Jet_PFD_GPWSIndicator extends HTMLElement {
     construct() {
         Utils.RemoveAllChildren(this);
         this.warningText = null;
-        if (this.aircraft == Aircraft.B747_8) {
-            this.construct_B747_8();
+        if (this.aircraft == Aircraft.B777) {
+            this.construct_B777();
         }
         this.showWarning(this.infoVisible);
     }
-    construct_B747_8() {
+    construct_B777() {
         var posX = 0;
         var posY = 0;
         var width = 500;

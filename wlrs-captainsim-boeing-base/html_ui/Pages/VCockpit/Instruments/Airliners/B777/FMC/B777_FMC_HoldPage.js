@@ -280,7 +280,7 @@ class B777_FMC_HoldsPage {
       const efcTimeString = holdDetails.efcTime.toFixed(0);
       efcTime = `${efcTimeString.substr(0, 2)}${efcTimeString.substr(2, 2)}Z`;
     }
-    const flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:SALTY_VREF30", "knots") + 80;
+    const flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:B777_VREF30", "knots") + 80;
 
     const rows = [
       [`${actMod} RTE 1 HOLD`, this._state.pageNumber, numPages],

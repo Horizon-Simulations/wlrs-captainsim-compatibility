@@ -271,7 +271,7 @@ const normalChecklists = [
                     {
                         simvar: "TRAILING EDGE FLAPS LEFT ANGLE",
                         simvarType: "degrees",
-                        specialCondition: "L:SALTY_TAKEOFF_FLAP_VALUE",
+                        specialCondition: "L:B777_TAKEOFF_FLAP_VALUE",
                         specialSimvarType: "number",
                     }
                 ],
@@ -583,24 +583,14 @@ const normalChecklists = [
         checklistPriority: 0,
         items: [
             {
-                name: "IRS........................................OFF",
+                name: "ADIRU........................................OFF",
                 conditionType: "closed",
                 conditions: [
                     {
-                        simvar: "L:747_IRS_KNOB_1",
+                        simvar: "L:B777_ADIRU_BUTTON_STATE",
                         simvarType: "enum",
                         simvarTrueCondition: 0
-                    },
-                    {
-                        simvar: "L:747_IRS_KNOB_2",
-                        simvarType: "enum",
-                        simvarTrueCondition: 0
-                    },
-                    {
-                        simvar: "L:747_IRS_KNOB_3",
-                        simvarType: "enum",
-                        simvarTrueCondition: 0
-                    },
+                    }
                 ],
                 y: "130"
             },

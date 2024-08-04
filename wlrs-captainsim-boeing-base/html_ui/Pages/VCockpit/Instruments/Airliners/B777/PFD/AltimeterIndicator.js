@@ -66,11 +66,11 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
         this.cursorSVGAltitudeLevelShape = null;
         this.cursorIntegrals = null;
         this.cursorDecimals = null;
-        if (this.aircraft == Aircraft.B747_8) {
-            this.construct_B747_8();
+        if (this.aircraft == Aircraft.B777) {
+            this.construct_B777();
         }
     }
-    construct_B747_8() {
+    construct_B777() {
         this.rootSVG = document.createElementNS(Avionics.SVG.NS, "svg");
         this.rootSVG.setAttribute("id", "ViewBox");
         this.rootSVG.setAttribute("viewBox", "0 0 250 800");
@@ -475,7 +475,7 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
         let groundReference = indicatedAltitude - Simplane.getAltitudeAboveGround(true);
         let baroMode = Simplane.getPressureSelectedMode(this.aircraft);
         let selectedAltitude;
-        if (this.aircraft === Aircraft.AS01B || this.aircraft === Aircraft.B747_8) {
+        if (this.aircraft === Aircraft.AS01B || this.aircraft === Aircraft.B777) {
             selectedAltitude = Math.max(0, Simplane.getAutoPilotDisplayedAltitudeLockValue());
         }
         else {
@@ -577,7 +577,7 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
                         if (mod != 0)
                             roundedVal = mod;
                     }
-                    else if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B) {
+                    else if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B) {
                         roundedVal = Math.floor(Math.abs(currentVal));
                         divider = 1000;
                     }
@@ -590,11 +590,11 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
                     else {
                         var integral = Math.floor(roundedVal / divider);
                         var modulo = Math.floor(roundedVal - (integral * divider));
-                        if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B)
+                        if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B)
                             this.graduations[i].SVGText1.textContent = (integral > 0) ? integral.toString() : "";
                         else
                             this.graduations[i].SVGText1.textContent = integral.toString();
-                        if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B)
+                        if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B)
                             this.graduations[i].SVGText2.textContent = Utils.leadingZeros(modulo, 3);
                         else
                             this.graduations[i].SVGText2.textContent = Utils.leadingZeros(modulo, 2);
@@ -676,14 +676,14 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
         if (this.targetAltitudeIndicatorSVG) {
             var APMode = this.getAutopilotMode();
             var stdMode = (baroMode == "STD") ? true : false;
-            if (this.aircraft == Aircraft.CJ4 || this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B) {
+            if (this.aircraft == Aircraft.CJ4 || this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B) {
                 if (APMode != AutopilotMode.MANAGED) {
                     let deltaAltitude = targetAltitude - currentAltitude;
                     let divider = 100;
                     let refDelta = 275;
                     let textAlwaysVisible = false;
                     let leadingZeros = 2;
-                    if (this.aircraft == Aircraft.B747_8 || this.aircraft == Aircraft.AS01B) {
+                    if (this.aircraft == Aircraft.B777 || this.aircraft == Aircraft.AS01B) {
                         divider = 1000;
                         refDelta = 410;
                         textAlwaysVisible = true;

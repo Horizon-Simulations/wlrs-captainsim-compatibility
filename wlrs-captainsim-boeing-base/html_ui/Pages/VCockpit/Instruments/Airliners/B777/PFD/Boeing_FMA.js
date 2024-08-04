@@ -5,7 +5,7 @@ var Boeing;
             super();
             this.isInitialised = false;
             this.allAnnunciations = new Array();
-            this._aircraft = Aircraft.B747_8;
+            this._aircraft = Aircraft.B777;
         }
         get templateID() { return "BoeingFMATemplate"; }
         get aircraft() {
@@ -248,7 +248,6 @@ var Boeing_FMA;
             }
             else if (ApproachStatus.isRolloutActive) {
                 SimVar.SetSimVarValue("L:ROLLOUT_ACTIVE", "bool", true); 
-                //SimVar.SetSimVarValue("K:AUTO_THROTTLE_ARM", "bool", false);
                 if (SimVar.GetSimVarValue("L:TEEVEE_AUTOLAND_CAT", "number") !=  1)
                     {
                         return 7;

@@ -46,11 +46,11 @@ class Jet_PFD_VerticalSpeedIndicator extends HTMLElement {
     }
     construct() {
         this.destroyLayout();
-    if (this.aircraft == Aircraft.B747_8) {
-            this.construct_B747_8();
+    if (this.aircraft == Aircraft.B777) {
+            this.construct_B777();
         }
     }
-    construct_B747_8() {
+    construct_B777() {
         this.rootSVG = document.createElementNS(Avionics.SVG.NS, "svg");
         this.rootSVG.setAttribute("id", "ViewBox");
         this.rootSVG.setAttribute("viewBox", "0 0 250 600");

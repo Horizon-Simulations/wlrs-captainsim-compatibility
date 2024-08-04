@@ -126,7 +126,8 @@ var B777_LowerEICAS_Fuel;
             }
         }
         update(_deltaTime) {
-            const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+            this.querySelector('#FuelTemp').textContent = SimVar.GetSimVarValue("L:FUEL_TEMP", "Celcius").toFixed(0);
+            const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
             switch (storedUnits) {
                 case "KG":
                     this.units = true;
@@ -170,11 +171,11 @@ var B777_LowerEICAS_Fuel;
                 this.querySelector("#FuelBalanceStatus").textContent = "FUEL BALANCED";
             }
 
-            if ( SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_R", "Enum") > 0 ) {
+            if ( SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_R", "Enum") > 0 ) {
                 this.querySelector("#JettisonLines").setAttribute("style", "opacity: 100;");
                 this.querySelector("#JettisonFlowLines").setAttribute("style", "opacity: 100;");
 
-                if (SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_L", "Enum") > 0)
+                if (SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_L", "Enum") > 0)
                     this.querySelector('#JettNozzleL').setAttribute("style", "opacity: 100;");
                 else
                     this.querySelector('#JettNozzleL').setAttribute("style", "opacity: 0;");
@@ -184,7 +185,7 @@ var B777_LowerEICAS_Fuel;
                     this.querySelector('#JettTimeValue').textContent = Math.ceil(SimVar.GetSimVarValue("L:SALTY_JETTISON_MIN_REMAINING", "TYPE_FLOAT64")).toFixed(0) + " MIN";
                     this.querySelector('#JettTimeValue').setAttribute("style", "opacity: 100;");
 
-                if (SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_R", "Enum") > 0)
+                if (SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_R", "Enum") > 0)
                     this.querySelector('#JettNozzleR').setAttribute("style", "opacity: 100;");
                 else
                     this.querySelector('#JettNozzleR').setAttribute("style", "opacity: 0;");
@@ -235,4 +236,3 @@ var B777_LowerEICAS_Fuel;
     B777_LowerEICAS_Fuel.Display = Display;
 })(B777_LowerEICAS_Fuel || (B777_LowerEICAS_Fuel = {}));
 customElements.define("b777-lower-eicas-fuel", B777_LowerEICAS_Fuel.Display);
-//# sourceMappingURL=B747_8_LowerEICAS_Fuel.js.map

@@ -40,11 +40,11 @@ class Jet_PFD_HSIndicator extends HTMLElement {
     }
     construct() {
         Utils.RemoveAllChildren(this);
-        if (this.aircraft == Aircraft.B747_8) {
-            this.construct_B747_8();
+        if (this.aircraft == Aircraft.B777) {
+            this.construct_B777();
         }
     }
-    construct_B747_8() {
+    construct_B777() {
         const width = 1300;
         const height = 1300;
 

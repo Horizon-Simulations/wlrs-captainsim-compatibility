@@ -76,8 +76,8 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
         this.destroyLayout();
         if (this.aircraft == Aircraft.CJ4)
             this.construct_CJ4();
-        else if (this.aircraft == Aircraft.B747_8)
-            this.construct_B747_8();
+        else if (this.aircraft == Aircraft.B777)
+            this.construct_B777();
         else if (this.aircraft == Aircraft.AS01B)
             this.construct_AS01B();
         else
@@ -85,8 +85,7 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
     }
     construct_A320_Neo() {
     }
-    construct_B747_8() {
-        SimVar.SetSimVarValue("L:SALTY_FD_TAKEOFF_PHASE", "Enum", 0);
+    construct_B777() {
         let pitchFactor = -6.5;
         this.pitchAngleFactor = pitchFactor;
         this.horizonAngleFactor = pitchFactor * 1.2;
@@ -615,9 +614,9 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
         }
     }
     updatePLI() {
-        const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
+        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
         if (IRSState == 2) {
-            if ((SimVar.GetSimVarValue("TRAILING EDGE FLAPS LEFT ANGLE", "percent over 100") > 0) || Simplane.getIndicatedSpeed() < SimVar.GetSimVarValue("L:SALTY_VREF30", "knots") + 60) {
+            if ((SimVar.GetSimVarValue("TRAILING EDGE FLAPS LEFT ANGLE", "percent over 100") > 0) || Simplane.getIndicatedSpeed() < SimVar.GetSimVarValue("L:B777_VREF30", "knots") + 60) {
                 let alpha = SimVar.GetSimVarValue("INCIDENCE ALPHA", "degrees");
                 if(Simplane.getGroundSpeed() < 5) {
                     alpha = 0;

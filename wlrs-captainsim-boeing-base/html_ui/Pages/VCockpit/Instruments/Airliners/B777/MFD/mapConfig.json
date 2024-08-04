@@ -6,7 +6,7 @@
     "outlineWidth": "4"
   },
 
-  "waypointLabelFontSize": 18,
+  "waypointLabelFontSize": 19,
   "waypointLabelFontFamily": "BoeingEFIS",
   "waypointLabelColor": "white",
   "waypointLabelStrokeColor": "#3f3f3f",
@@ -41,8 +41,8 @@
   "cityIconSize": 90,
 
   "airplaneIconSize": 30,
-  "airplaneIcon1": "ICON_MAP_PLANE_B747",
-  "airplaneIcon2": "ICON_MAP_PLANE_B747",
+  "airplaneIcon1": "ICON_MAP_PLANE_B777",
+  "airplaneIcon2": "ICON_MAP_PLANE_B777",
 
   "imagesDir": "/Pages/VCockpit/Instruments/Airliners/B777/MFD/Images/",
 

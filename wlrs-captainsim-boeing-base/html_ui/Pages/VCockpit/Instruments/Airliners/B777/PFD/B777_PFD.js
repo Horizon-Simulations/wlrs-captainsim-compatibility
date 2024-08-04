@@ -62,7 +62,7 @@ class B777_PFD_MainPage extends NavSystemPage {
         this.ilsBox = document.querySelector("jet-pfd-ils-indicator");  
     }
     onUpdate(_deltaTime) {
-        const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
+        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
 
         if (IRSState == 0) {
             this.attBox.setAttribute("style", "");
@@ -101,7 +101,7 @@ class B777_PFD_MainPage extends NavSystemPage {
 class B777_PFD_VSpeed extends NavSystemElement {
     init(root) {
         this.vsi = this.gps.getChildById("VSpeed");
-        this.vsi.aircraft = Aircraft.B747_8;
+        this.vsi.aircraft = Aircraft.B777;
         this.vsi.gps = this.gps;
     }
     onEnter() {
@@ -129,7 +129,7 @@ class B777_PFD_Airspeed extends NavSystemElement {
     }
     init(root) {
         this.airspeed = this.gps.getChildById("Airspeed");
-        this.airspeed.aircraft = Aircraft.B747_8;
+        this.airspeed.aircraft = Aircraft.B777;
         this.airspeed.gps = this.gps;
     }
     onEnter() {
@@ -150,7 +150,7 @@ class B777_PFD_Altimeter extends NavSystemElement {
     }
     init(root) {
         this.altimeter = this.gps.getChildById("Altimeter");
-        this.altimeter.aircraft = Aircraft.B747_8;
+        this.altimeter.aircraft = Aircraft.B777;
         this.altimeter.gps = this.gps;
     }
     onEnter() {
@@ -222,7 +222,7 @@ class B777_PFD_Attitude extends NavSystemElement {
     }
     init(root) {
         this.hsi = this.gps.getChildById("Horizon");
-        this.hsi.aircraft = Aircraft.B747_8;
+        this.hsi.aircraft = Aircraft.B777;
         this.hsi.gps = this.gps;
     }
     onEnter() {
@@ -254,7 +254,7 @@ class B777_PFD_Attitude extends NavSystemElement {
 class B777_PFD_Compass extends NavSystemElement {
     init(root) {
         this.svg = this.gps.getChildById("Compass");
-        this.svg.aircraft = Aircraft.B747_8;
+        this.svg.aircraft = Aircraft.B777;
         this.svg.gps = this.gps;
         this.minimumReference = 200;
     }
@@ -290,7 +290,7 @@ class B777_PFD_Compass extends NavSystemElement {
 class B777_PFD_FMA extends NavSystemElement {
     init(root) {
         this.fma = this.gps.querySelector("boeing-fma");
-        this.fma.aircraft = Aircraft.B747_8;
+        this.fma.aircraft = Aircraft.B777;
         this.fma.gps = this.gps;
         this.isInitialized = true;
     }
@@ -313,7 +313,7 @@ class B777_PFD_ILS extends NavSystemElement {
     }
     init(root) {
         this.ils = this.gps.getChildById("ILS");
-        this.ils.aircraft = Aircraft.B747_8;
+        this.ils.aircraft = Aircraft.B777;
         this.ils.gps = this.gps;
         this.ils.showNavInfo(true);
     }
@@ -342,4 +342,3 @@ class B777_PFD_ILS extends NavSystemElement {
     }
 }
 registerInstrument("b777-pfd-element", B777_PFD);
-//# sourceMappingURL=B747_8_PFD.js.map

@@ -15,21 +15,21 @@ class FMCApproachPage {
             flaps20Cell = "20°";
             flaps25Cell = "25°";
             flaps30Cell = "30°";
-            let flaps20Speed = Math.round(SimVar.GetSimVarValue("L:SALTY_VREF20", "knots"));
+            let flaps20Speed = Math.round(SimVar.GetSimVarValue("L:B777_VREF20", "knots"));
             if (isFinite(flaps20Speed)) {
                 flaps20VRefCell = flaps20Speed.toFixed(0) + "KT";
                 fmc.onRightInput[0] = () => {
                     fmc.inOut = "20/" + flaps20Speed.toFixed(0);
                 };
             }
-            let flaps25Speed = Math.round(SimVar.GetSimVarValue("L:SALTY_VREF25", "knots"));
+            let flaps25Speed = Math.round(SimVar.GetSimVarValue("L:B777_VREF25", "knots"));
             if (isFinite(flaps25Speed)) {
                 flaps25VRefCell = flaps25Speed.toFixed(0) + "KT";
                 fmc.onRightInput[1] = () => {
                     fmc.inOut = "25/" + flaps25Speed.toFixed(0);
                 };
             }
-            let flaps30Speed = Math.round(SimVar.GetSimVarValue("L:SALTY_VREF30", "knots"));
+            let flaps30Speed = Math.round(SimVar.GetSimVarValue("L:B777_VREF30", "knots"));
             if (isFinite(flaps30Speed)) {
                 flaps30VRefCell = flaps30Speed.toFixed(0) + "KT";
                 fmc.onRightInput[2] = () => {
@@ -87,4 +87,3 @@ class FMCApproachPage {
         fmc.onRightInput[5] = () => { FMCThrustLimPage.ShowPage1(fmc); };
     }
 }
-//# sourceMappingURL=B747_8_FMC_ApproachPage.js.map
