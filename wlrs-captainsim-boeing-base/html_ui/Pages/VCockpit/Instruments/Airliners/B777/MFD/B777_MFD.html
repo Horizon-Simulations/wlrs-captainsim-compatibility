@@ -7,12 +7,12 @@
             <div id="Map">
                 <map-instrument style="display:none" id="MapInstrument" map-mode="plan" bing-id="MFD" show-overlay="false" show-roads="false" config-path="/Pages/VCockpit/Instruments/Airliners/B777/MFD/"></map-instrument>
             </div>
-            <div id="map-box" style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none;">
+            <!--<div id="map-box" style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none;">
                 <svg viewBox="0 0 600 600">
                     <rect fill="transparent" x="283" y="317" width="35px" height="20px" stroke="#db8e00" stroke-width="3" id="map-rect"></rect>
                     <text x="300" y="334" style="text-anchor:middle;fill:#db8e00;font-size:17px;">MAP</text>     
                 </svg>
-            </div>
+            </div>-->
             <jet-mfd-nd-compass id="Compass"></jet-mfd-nd-compass>
             <div id="trk-box" style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none;">
                 <svg viewBox="0 0 600 600">
@@ -34,8 +34,8 @@
                         <svg>
                             <text id="GS_Text" class="Small" x="0%" y="20%" alignment-baseline="baseline">GS</text>
                             
-                            <text id="GS_ValueSmall" class="Value" x="23%" y="20%" alignment-baseline="baseline" text-anchor="end">---</text>    <!--work around-->
-                            <text id="GS_ValueBig" class="ValueBig" x="23%" y="21%" alignment-baseline="baseline" text-anchor="end">---</text>
+                            <text id="GS_ValueSmall" class="Value" x="23%" y="20%" alignment-baseline="baseline" text-anchor="end">--</text>    <!--work around-->
+                            <text id="GS_ValueBig" class="ValueBig" x="23%" y="21%" alignment-baseline="baseline" text-anchor="end">--</text>
                             
                             <text id="TAS_Text" class="Small" x="25%" y="20%" alignment-baseline="baseline">TAS</text>
                             <text id="TAS_Value" class="Value" x="37%" y="20%" alignment-baseline="baseline">---</text>
@@ -101,8 +101,11 @@
                         <text id="WXR" class="Large" x="0%" y="19%" alignment-baseline="baseline">WX+T</text>       <!--yes the weather radar do have turbulence, showing in magenta-->
                         <text id="WXRInfo" class="Large" x="0%" y="25%" alignment-baseline="baseline">-2A</text>
 
-                        <text id="TFC" class="Small" x="0%" y="41%" alignment-baseline="baseline">TFC</text>
-                        <text id="TRANSMODE" class="Small" x="0%" y="46%" alignment-baseline="baseline">TA ONLY</text> <!---->
+                        <text id="TFC" class="Small" x="0%" y="40%" alignment-baseline="baseline">TFC</text>
+                        <!--<text id="TRANSMODE_TA_ONLY" class="Small" x="0%" y="46%" alignment-baseline="baseline">TA ONLY</text>-->
+                        <!--<text id="TRANSMODE_TCAS_OFF_UPPER" class="Yellow" x="0%" y="41%" alignment-baseline="baseline">TCAS</text>--> <!--if this is showing, TFC will be hidden/inop-->
+                        <!--<text id="TRANSMODE_TCAS_OFF_LOWER" class="Yellow" x="0%" y="46%" alignment-baseline="baseline">OFF</text>--> <!--or FAIL-->
+
                     </svg>
                 </div>
             </jet-mfd-nd-info>
@@ -119,18 +122,17 @@
 
             <div id="irs-times" style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none;">
                 <svg viewBox="0 0 600 600">
-                    <text x="77" y="73" style="text-anchor:middle;fill:#ffffff;font-size:17px;">TIME TO ALIGN</text>
-                    <text x="23" y="89" style="fill:#ffffff;font-size:17px;">L</text>   
-                    <text x="23" y="106" style="fill:#ffffff;font-size:17px;">C</text>   
-                    <text x="23" y="123" style="fill:#ffffff;font-size:17px;">R</text>
-                    <text x="47" y="89" style="text-anchor:middle;fill:#ffffff;font-size:17px;" id="l-irs-value">0</text>   
-                    <text x="47" y="106" style="text-anchor:middle;fill:#ffffff;font-size:17px;" id="c-irs-value">0</text>   
-                    <text x="47" y="123" style="text-anchor:middle;fill:#ffffff;font-size:17px;" id="r-irs-value">0</text>
-                    <text x="60" y="89" style="fill:#ffffff;font-size:17px;">MIN</text>   
-                    <text x="60" y="106" style="fill:#ffffff;font-size:17px;">MIN</text>   
-                    <text x="60" y="123" style="fill:#ffffff;font-size:17px;">MIN</text>
+                    <text x="86" y="73" style="text-anchor:middle;fill:#ffffff;font-size:20px;">TIME TO ALIGN</text>
+                    <text x="35" y="92" style="text-anchor:start;fill:#ffffff;font-size:22px;" id="irs-value">0</text>   
                 </svg>
             </div>
+
+            <div id="fake-Plane-For-ADIRU" style="position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; border: none;">
+                <svg viewBox="0 0 600 600">
+                    <polygon points="300,503 285,546 315,546" style="fill:none;stroke:white;stroke-width:3"></polygon>
+                </svg>
+            </div>
+            
         </div>
     </div>
     <div id="DUborder">
@@ -142,14 +144,14 @@
 </script>
 
 <script type="text/html" import-script="/JS/SimPlane.js"></script>
-<script type="text/html" import-script="/Pages/RobSim/WT/WT_SimPlaneMod.js"></script> <!-- WT -->
-<script type="text/html" import-script="/Pages/RobSim/WT/DataStore.js"></script> <!-- WT -->
-<script type="text/html" import-script="/Pages/RobSim/WT/WT_ConvertUnit.js"></script> <!-- WT -->
-<script type="text/html" import-script="/Pages/RobSim/WT/WT_GCMath.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/WT/WT_SimPlaneMod.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/WT/DataStore.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/WT/WT_ConvertUnit.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/WT/WT_GCMath.js"></script> <!-- WT -->
 
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/Utils/RadioNav.js"></script>
-<script type="text/html" import-script="/Pages/RobSim/WT/Autopilot/AutopilotMath.js"></script> <!-- WT -->
-<script type="text/html" import-script="/Pages/RobSim/WT/Autopilot/HoldsDirector.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/WT/Autopilot/AutopilotMath.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/WT/Autopilot/HoldsDirector.js"></script> <!-- WT -->
 
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/Templates/Highlight/Highlight.js"></script>
 
@@ -158,16 +160,15 @@
 
 <script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/MFD/MapInstrument.html"></script> <!-- WT -->
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/RobSim_NavSystem.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/HorizonSim_NavSystem.js"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/Shared/BaseAirliners.js"></script>
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/MFD/RS_BaseNDCompass.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/Shared/HorizonSim_BaseAirliners.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/MFD/Base_NDCompass.js"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/MFD/Salty_NDCompass.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/MFD/MFD_NDCompass.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/MFD/NDInfo.js"></script> <!-- Modified -->
 
-<script type="text/html" import-script="/Pages/RobSim/WT/DataStore.js"></script> <!-- WT -->
-<script type="text/html" import-script="/Pages/RobSim/fpm/LzUtf8.js"></script> <!-- WT -->
-<script type="text/html" import-script="/Pages/RobSim/fpm/wtsdk.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/fpm/LzUtf8.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/HorizonSim/fpm/wtsdk.js"></script> <!-- WT -->
 
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/MFD/B777_MFD.js"></script>
