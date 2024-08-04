@@ -341,8 +341,17 @@ class MapInstrument extends ISvgMapRootElement {
         } else if (lowercaseName === "show-traffic") {
             this.showTraffic = false;
             if (newValue === "true") {
-                this.npcAirplaneManager.update(true);
-                this.showTraffic = true;
+                if ((SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 2) || (SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 3))
+                {
+
+                }
+                else if ((SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 1) || (SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 0)) {
+                    
+                }
+                else {
+                    this.npcAirplaneManager.update(true);
+                    this.showTraffic = true;
+                }
             }
         } else if (lowercaseName === "show-constraints") {
             this.showConstraints = false;
@@ -536,35 +545,36 @@ class MapInstrument extends ISvgMapRootElement {
             if (this.showTraffic) {
                 this.npcAirplaneManager.update();
             }
-            // if (this.showRoads && (this.getDisplayRange() <= Math.max(this.roadHighwayMaxRange, this.roadTrunkMaxRange, this.roadPrimaryMaxRange))) {
-            //     let t0 = performance.now();
-            //     while (this.roadsBuffer.length > 0 && (performance.now() - t0 < 1)) {
-            //         let road = this.roadsBuffer.pop();
-            //         if (road) {
-            //             if (road.path.length > 100) {
-            //                 let truncRoad = {
-            //                     id: 0,
-            //                     path: road.path.splice(90),
-            //                     type: road.type,
-            //                     lod: road.lod
-            //                 };
-            //                 this.roadsBuffer.push(truncRoad);
-            //             }
-            //             this.roadNetwork.addRoad(road.path, road.type, road.lod);
-            //         }
-            //     }
-            //     if (this.roadsBuffer.length < 100) {
-            //         Coherent.call("GET_ROADS_BAG_SIZE").then((size) => {
-            //             let iterator = this.smartIterator.getIteration(size - 1);
-            //             if (isFinite(iterator)) {
-            //                 Coherent.call("GET_ROADS_BAG", iterator).then((roadBag) => {
-            //                     this.roadsBuffer.push(...roadBag);
-            //                 });
-            //             }
-            //         });
-            //     }
-            // }
-
+            /*
+            if (this.showRoads && (this.getDisplayRange() <= Math.max(this.roadHighwayMaxRange, this.roadTrunkMaxRange, this.roadPrimaryMaxRange))) {
+                let t0 = performance.now();
+                while (this.roadsBuffer.length > 0 && (performance.now() - t0 < 1)) {
+                    let road = this.roadsBuffer.pop();
+                    if (road) {
+                        if (road.path.length > 100) {
+                            let truncRoad = {
+                                id: 0,
+                                path: road.path.splice(90),
+                                type: road.type,
+                                lod: road.lod
+                            };
+                            this.roadsBuffer.push(truncRoad);
+                       }
+                       this.roadNetwork.addRoad(road.path, road.type, road.lod);
+                    }
+                }
+                if (this.roadsBuffer.length < 100) {
+                    Coherent.call("GET_ROADS_BAG_SIZE").then((size) => {
+                        let iterator = this.smartIterator.getIteration(size - 1);
+                        if (isFinite(iterator)) {
+                            Coherent.call("GET_ROADS_BAG", iterator).then((roadBag) => {
+                                this.roadsBuffer.push(...roadBag);
+                            });
+                        }
+                    });
+                }
+            }
+            */
             this.flightPlanManager.updateWaypointIndex();
             //this.updateFlightPlanVisibility();
             this.flightPlanManager.updateFlightPlan();
