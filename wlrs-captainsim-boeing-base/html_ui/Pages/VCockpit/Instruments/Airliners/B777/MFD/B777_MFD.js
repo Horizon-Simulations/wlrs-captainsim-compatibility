@@ -83,12 +83,10 @@ class B777_MFD_MainPage extends NavSystemPage {
         SimVar.SetSimVarValue("L:B777_MFD_NAV_MODE", "number", 2);
 
         this.trkBox = document.querySelector("#trk-box");
-        this.mapBox = document.querySelector("#map-box");
         this.mapInstrument = document.querySelector("map-instrument");
+        this.fakePlaneForADIRU = document.querySelector("#fake-Plane-For-ADIRU");    //just need to hide for pln mode
         this.irsTimes = document.querySelector("#irs-times");
-        this.leftIRSValue = document.querySelector("#l-irs-value");
-        this.centerIRSValue = document.querySelector("#c-irs-value");
-        this.rightIRSValue = document.querySelector("#r-irs-value");
+        this.IRSValue = document.querySelector("#irs-value");
         this.deviationItems = document.querySelector("#PathDeviationScale");
         this.deviationPointer = document.querySelector("#pathDevPointer");
         this.deviationTextTop = document.querySelector("#pathTopText");
@@ -100,11 +98,16 @@ class B777_MFD_MainPage extends NavSystemPage {
         this.updateNDInfo(_deltaTime);
         this.updateDeviationScale(_deltaTime);
 
-        const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
-        const IRSMinutesLeft = Math.floor(SimVar.GetSimVarValue("L:SALTY_IRS_TIME_LEFT", "Enum") / 60) + 1;
+        if (SimVar.GetSimVarValue("L:B777_MFD_NAV_MODE", "Number") === 3) {
+            this.fakePlaneForADIRU.style.display = "none";
+        } else {
+            this.fakePlaneForADIRU.style.display = "";
+        }
+
+        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
+        const IRSMinutesLeft = Math.floor(SimVar.GetSimVarValue("L:B777_IRS_TIME_LEFT", "Enum"));
 
         if (IRSState == 0) {
-            this.mapBox.style.display = "";
             this.trkBox.style.display = "";
             this.irsTimes.style.display = "none";
             this.mapInstrument.style.display = "none";
@@ -113,12 +116,9 @@ class B777_MFD_MainPage extends NavSystemPage {
             this.trkBox.style.display = "none";
             this.mapInstrument.style.display = "none";
             this.irsTimes.style.display = "";
-            this.leftIRSValue.textContent = IRSMinutesLeft;
-            this.centerIRSValue.textContent = IRSMinutesLeft;
-            this.rightIRSValue.textContent = IRSMinutesLeft;
+            this.IRSValue.textContent = this._formatIRSTime(IRSMinutesLeft);
         }
         if (IRSState == 2) {
-            this.mapBox.style.display = "none";
             this.trkBox.style.display = "none";
             this.mapInstrument.style.display = "";
             this.irsTimes.style.display = "none";
@@ -135,7 +135,15 @@ class B777_MFD_MainPage extends NavSystemPage {
                 }
                 break;
             case "KNOB_RANGE_TFC":
-                this.map.instrument.showTraffic = !this.map.instrument.showTraffic;
+                if ((SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 2) || (SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 3))
+                {
+                    this.map.instrument.showTraffic = !this.map.instrument.showTraffic;
+                }
+                else 
+                {
+                    //this.transponderModeTALower.textContent = "OFF";     //test
+                    //this.map.instrument.showTraffic = false;    //inop?
+                }
                 break;
             case "BTN_WXR":
                 if (this.wxRadarOn) {
@@ -176,6 +184,13 @@ class B777_MFD_MainPage extends NavSystemPage {
                 }
                 break;
         }
+    }
+    _formatIRSTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        const formattedMinutes = minutes < 10 ? minutes.toString() : minutes.toString().padStart(2, '0');
+        const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
+        return `${formattedMinutes}:${formattedSeconds}`;
     }
     _updateNDFiltersStatuses() {
         SimVar.SetSimVarValue("L:BTN_CSTR_FILTER_ACTIVE", "number", this.map.instrument.showConstraints ? 1 : 0);   //DATA btn
@@ -365,7 +380,7 @@ class B777_MFD_MainPage extends NavSystemPage {
 class B777_MFD_Compass extends NavSystemElement {
     init(root) {
         this.svg = this.gps.getChildById("Compass");
-        this.svg.aircraft = Aircraft.B747_8;
+        this.svg.aircraft = Aircraft.B777;
         this.svg.gps = this.gps;
     }
     onEnter() {
@@ -510,8 +525,10 @@ class B777_MFD_NDInfo extends NavSystemElement {
         this.wpData = this.ndInfo.querySelector("#WP_Data");
         this.zuluETA = document.querySelector("#WP_ZuluTime");
         this.waypointDistance = document.querySelector("#WP_Distance_Value");
-        this.transponderMode = this.ndInfo.querySelector("#TRANSMODE");
-        this.ndInfo.aircraft = Aircraft.B747_8;
+        //this.transponderModeTAOnly = this.ndInfo.querySelector("#TRANSMODE_TA_ONLY");
+        //this.transponderModeUpper = this.ndInfo.querySelector("#TRANSMODE_TCAS_OFF_UPPER");
+        //this.transponderModeTALower = this.ndInfo.querySelector("#TRANSMODE_TCAS_OFF_LOWER");
+        this.ndInfo.aircraft = Aircraft.B777;
         this.ndInfo.gps = this.gps;
         this.allSymbols.push(this.ndInfo.querySelector("#ARPT"));
         this.allSymbols.push(this.ndInfo.querySelector("#WPT"));
@@ -530,8 +547,28 @@ class B777_MFD_NDInfo extends NavSystemElement {
         if (this.ndInfo != null) {
             this.ndInfo.update(_deltaTime);
         }
+        //work on this later
+        /*
+        if ((SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 2 || SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 3) && Simplane.getAltitudeAboveGround <= 900)
+        {
+            this.transponderModeTAOnly.setAttribute("visibility", "visible");
+            this.transponderModeUpper.setAttribute("visibility", "hidden");
+            this.transponderModeTALower.setAttribute("visibility", "hidden");
+        }
+        else if (SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 3)
+        {
+            this.transponderModeTAOnly.setAttribute("visibility", "hidden");
+            this.transponderModeUpper.setAttribute("visibility", "hidden");
+            this.transponderModeTALower.setAttribute("visibility", "hidden");
+        }
+        else if (SimVar.GetSimVarValue("L:XMLVAR_Transponder_Mode", "Number") == 3 && WTDataStore.get("B777 Current Runway", null)) {
+            this.transponderModeTAOnly.setAttribute("visibility", "visible");
+            this.transponderModeUpper.setAttribute("visibility", "visible");
+            this.transponderModeTALower.setAttribute("visibility", "visible");
+        }
+        */
 
-        const IRSState = SimVar.GetSimVarValue("L:SALTY_IRS_STATE", "Enum");
+        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
         const groundSpeed = Math.round(Simplane.getGroundSpeed());
         const utcTime = SimVar.GetGlobalVarValue("ZULU TIME", "seconds");
         let showData;
@@ -571,8 +608,8 @@ class B777_MFD_NDInfo extends NavSystemElement {
         this.windArrow.setAttribute("visibility", showData ? "visible" : "hidden");
 
         if (IRSState != 2) {
-            this.gsBig.textContent = "---";
-            this.gsSmall.textContent = "---";
+            this.gsBig.textContent = "--";
+            this.gsSmall.textContent = "--";
             this.gsSmall.setAttribute("visibility", "hidden");
             this.wpData.setAttribute("visibility", "hidden");
         }
@@ -608,4 +645,3 @@ class B777_MFD_NDInfo extends NavSystemElement {
     }
 }
 registerInstrument("b777-mfd-element", B777_MFD);
-//# sourceMappingURL=B747_8_MFD.js.map
