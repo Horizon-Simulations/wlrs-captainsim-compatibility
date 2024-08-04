@@ -247,6 +247,9 @@ b777-mfd-element {
       b777-mfd-element #Mainframe #Symbols text.Large {
         font-size: 42px;
         fill: #00b7ff; }
+      b777-mfd-element #Mainframe #Symbols text.Yellow {
+        font-size: 38px;
+        fill: rgb(255, 208, 0); }
   b777-mfd-element[mapstyle=rose] #Mainframe #Compass {
     top: 4.5%; }
   b777-mfd-element[mapstyle=rose] #Mainframe #Map {
