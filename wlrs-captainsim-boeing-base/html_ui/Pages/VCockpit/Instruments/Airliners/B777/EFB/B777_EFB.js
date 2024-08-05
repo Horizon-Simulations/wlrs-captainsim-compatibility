@@ -36167,7 +36167,7 @@ BoeingAPSimVarPublisher.simvars = new Map([
     ['ap_boeing_mcp_speed_is_mach', { name: 'L:XMLVAR_AirSpeedIsInMach', type: SimVarValueType.Bool }],
     ['ap_boeing_track_mode_active', { name: 'L:XMLVAR_TRK_MODE_ACTIVE', type: SimVarValueType.Bool }],
     ['ap_boeing_approach_mode_armed', { name: 'L:AP_APR_ARMED', type: SimVarValueType.Bool }],
-    ['ap_boeing_autothrottle_armed', { name: 'L:AS01B_AUTO_THROTTLE_ARM_STATE', type: SimVarValueType.Bool }],
+    ['ap_boeing_autothrottle_armed', { name: 'L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE', type: SimVarValueType.Bool }],
 ]);
 
 var DirectToState;
