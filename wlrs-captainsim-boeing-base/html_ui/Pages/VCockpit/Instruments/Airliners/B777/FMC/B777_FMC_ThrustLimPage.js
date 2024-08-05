@@ -16,17 +16,14 @@ class FMCThrustLimPage {
         let thrustClimbMode = fmc.getThrustCLBMode();
         fmc.onLeftInput[1] = () => {
             fmc.setThrustTakeOffMode(0);
-            fmc.setThrustCLBMode(0);
             FMCThrustLimPage.ShowPage1(fmc);
         };
         fmc.onLeftInput[2] = () => {
             fmc.setThrustTakeOffMode(1);
-            fmc.setThrustCLBMode(1);
             FMCThrustLimPage.ShowPage1(fmc);
         };
         fmc.onLeftInput[3] = () => {
             fmc.setThrustTakeOffMode(2);
-            fmc.setThrustCLBMode(2);
             FMCThrustLimPage.ShowPage1(fmc);
         };
         fmc.onRightInput[1] = () => {
@@ -41,6 +38,10 @@ class FMCThrustLimPage {
             fmc.setThrustCLBMode(2);
             FMCThrustLimPage.ShowPage1(fmc);
         };
+
+        if (fmc.simbrief.perfUplinkReady) {
+
+        }
         fmc.setTemplate([
             ["THRUST LIM"],
             ["SEL", "TO N1", "OAT"],
@@ -60,4 +61,3 @@ class FMCThrustLimPage {
         fmc.onRightInput[5] = () => { FMCTakeOffPage.ShowPage1(fmc); };
     }
 }
-//# sourceMappingURL=B747_8_FMC_ThrustLimPage.js.map
