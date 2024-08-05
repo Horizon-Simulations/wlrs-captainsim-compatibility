@@ -87,7 +87,7 @@ var Boeing;
     GearDisplay.TIMEOUT_LENGTH = 10000;
     Boeing.GearDisplay = GearDisplay;
     class FlapsDisplay {
-        constructor(_rootElement, _marker, _valueText, _bar, _gauge) {
+        constructor(_rootElement, _marker, _valueText, _bar, _gauge, _loadRelief) {
             this.barHeight = 0;
             this.barTop = 0;
             this.flapsAngles = [];
@@ -97,6 +97,7 @@ var Boeing;
             this.valueText = _valueText;
             this.bar = _bar;
             this.gauge = _gauge;
+            this.loadRelief = _loadRelief;
             if (this.bar) {
                 this.barTop = this.bar.y.baseVal.value;
                 this.barHeight = this.bar.height.baseVal.value;
@@ -109,14 +110,19 @@ var Boeing;
                 this.flapsHandlePercents[i] = i / flapsNbHandles;
             }
             this.cockpitSettings = SimVar.GetGameVarValue("", "GlassCockpitSettings");
-            // Fix for flaps 15 not displaying
             this.cockpitSettings.FlapsLevels.flapsAngle = [ 0, 1, 5, 15, 20, 25, 30 ];
             this.cockpitSettings.FlapsLevels.slatsAngle = [ 0, 1, 5, 15, 20, 25, 30 ];
-            // End of fix
+            // [angles], [speed ranges start], [speed ranges end]
+            this.autoFlapsData = [[30, 25, 20, 15], [170, 185, 195, 215], [999, 999, 999, 999]];
+            //this.autoFlapsData = [[30, 170, 185], [25, 185, 195], [20, 195, 215], [15, 215, 999]];
             this.refreshValue(0, true);
         }
         update(_deltaTime) {
-            this.refreshValue(Simplane.getFlapsAngle());
+            let forced = false;
+            if (Simplane.getFlapsHandleAngle(Simplane.getFlapsHandleIndex()) > 5) {
+                forced = true;
+            }
+            this.refreshValue(Simplane.getFlapsAngle(), forced);
             if ((this.realFlapsAngle <= 0) && (this.timeout > 0)) {
                 this.timeout -= _deltaTime;
                 if (this.timeout <= 0) {
@@ -173,6 +179,16 @@ var Boeing;
                 if (currentAngle <= 0) {
                     this.timeout = Boeing.FlapsDisplay.TIMEOUT_LENGTH;
                 }
+            }
+            //load relief display
+            const targetAngle = this.cockpitSettings.FlapsLevels.flapsAngle[Simplane.getFlapsHandleIndex()];
+            const index = this.autoFlapsData[0].indexOf(targetAngle);
+            const indicatedAirspeed = SimVar.GetSimVarValue("AIRSPEED INDICATED", "kts");
+            if (index >= 0 &&indicatedAirspeed > this.autoFlapsData[1][index] && indicatedAirspeed < this.autoFlapsData[2][index]) {
+                diffAndSetAttribute(this.loadRelief, "visibility", "visible");
+            }
+            else {
+                diffAndSetAttribute(this.loadRelief, "visibility", "hidden");
             }
         }
     }
@@ -345,7 +361,7 @@ var Boeing;
             this.refresh(false, false, true);
         }
         update(_deltaTime) {
-            this.refresh(SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:" + this.index, "Bool"), SimVar.GetSimVarValue("FUELSYSTEM PUMP ACTIVE:" + this.index, "Bool"), (SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_R", "Enum") > 0));
+            this.refresh(SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:" + this.index, "Bool"), SimVar.GetSimVarValue("FUELSYSTEM PUMP ACTIVE:" + this.index, "Bool"), (SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_R", "Enum") > 0));
         }
         refresh(_isSwitched, _isActive, _jettisonActive, _force = false) {
             if (_force || (this.isSwitched != _isSwitched) || (this.isActive != _isActive) || (this.jettisonActive != _jettisonActive)) {
@@ -779,7 +795,7 @@ var Boeing;
             this.refresh(false, false, true);
         }
         update(_deltaTime) {
-            this.refresh(SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:" + this.index, "Bool"), SimVar.GetSimVarValue("FUELSYSTEM PUMP ACTIVE:" + this.index, "Bool"), (SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:SALTY_FUEL_JETTISON_ACTIVE_R", "Enum") > 0));
+            this.refresh(SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:" + this.index, "Bool"), SimVar.GetSimVarValue("FUELSYSTEM PUMP ACTIVE:" + this.index, "Bool"), (SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_L", "Enum") > 0 || SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_R", "Enum") > 0));
         }
         refresh(_isSwitched, _isActive, _jettisonActive, _force = false) {
             if (_force || (this.isSwitched != _isSwitched) || (this.isActive != _isActive) || (this.jettisonActive != _jettisonActive)) {
