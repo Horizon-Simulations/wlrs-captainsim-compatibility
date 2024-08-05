@@ -17,7 +17,7 @@ class FMCMainDisplayPages {
             ["\<CMC"]
         ]);
         fmc.onLeftInput[0] = () => { FMCIdentPage.ShowPage1(fmc); };
-        fmc.onLeftInput[3] = () => { FMCSaltyOptions.ShowPage1(fmc); };
+        fmc.onLeftInput[3] = () => { FMC_Utils.ShowPage1(fmc); };
     }
     static PerfInitPage(fmc) {
     }
@@ -58,4 +58,3 @@ class FMCMainDisplayPages {
         ]);
     }
 }
-//# sourceMappingURL=B747_8_FMC_MainDisplayPages.js.map 

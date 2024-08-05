@@ -59,12 +59,12 @@ class FMC_Menu {
         };*/
 
         fmc.onRightInput[4] = () => {
-            fmc.activeSystem = "SALTY";
+            fmc.activeSystem = "UTILS";
             store.act = "<REQ>";
             updateView();
             setTimeout(
                 function() {
-                    FMCSaltyOptions.ShowPage1(fmc);
+                    FMC_Utils.ShowPage1(fmc);
                 }, 500
             );
         };
