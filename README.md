@@ -1,10 +1,10 @@
-<img src="./worldlinerrs/banner/logo/WorldlinerRS.png" width=30% height=30%>
+![HS-Logo](./branding/Horizon_Simulations.png)
 
-# WorldlinerRS Compatibility Mod for Captain Sim B777 and B767 Packages
+# Horizon Simulations Compatibility Mod for Captain Sim B777 and B767 Packages
 
-The WorldlinerRS Project is an open source project to improve Captain Sim based B777 and B767 in Microsoft Flight Simulator to a enjoyable and flyable level.
+The Horizon Simulations Compatibility Mod Project is an open source project to improve Captain Sim based B777 and B767 in Microsoft Flight Simulator to a enjoyable and flyable level.
 
-The project itself is mainly based on [Salty Simulations 747](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH).
+The project itself is mainly based on [Salty Simulations 747](https://github.com/saltysimulations/salty-747), [FlyByWire A32NX Project](https://github.com/flybywiresim/a32nx) and [B78XH (B787-10 Heavy) by Heavy Division](https://github.com/Heavy-Division/B78XH). Originally created by: TJC-Aviation and masterrob94, currently being improved and modify by teevee. All credit for the repository and the original files goes to them.
 
 ## Aircraft Variants
 
@@ -63,7 +63,7 @@ If you would like to contribute to the project, see [Contributing.md](./Contribu
 
 ## Known issues and limitations
 
-The project is build-up on top of a payware product from [Captain Sim](https://captainsim.net/). This leads to limitation in key/button assigment in order interact with cockpit elements e.g. ADIRU button. Many of these are unclickable at all. Many features in the aircraft are still based on default B747-8i by Asobo which may displays some missing items.  
+The project is build-up on top of a payware product from [Captain Sim](https://captainsim.net/). This leads to limitation in key/button assigment in order interact with cockpit elements. Many of these are unclickable at all. Many features in the aircraft are still based on default B747-8i by Asobo which may displays some missing items.  
 
 ## FAQ
 

@@ -1,7 +1,7 @@
 {
-  "name": "wlrs-captainsim-compatibility",
-  "version": "3.0.0",
-  "description": "WorldlinerRS Compatibility Mod for Captain Sim B777 and B767 Packages",
+  "name": "horizonsim-captainsim-compatibility",
+  "version": "0.7.0",
+  "description": "Horizon Simulations and teevee compatibility Mod for Captain Sim B777 and B767 Packages",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -14,7 +14,7 @@
     "build:pfd": "npx rollup -c src/instruments/src/PFD/rollup.config.js",
     "dev-pfd": "rollup -wc src/instruments/src/PFD/rollup.config.js"
   },
-  "author": "WorldlinerRS",
+  "author": "Horizon Simulations",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@babel/core": "^7.19.3",

@@ -41,8 +41,8 @@ function* readdir(d) {
 }
 
 const MS_FILETIME_EPOCH = 116444736000000000n;
-const b77f = path.resolve(__dirname, '..', 'wlrs-captainsim-b77f-ge90');
-const b77f_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-b77f-ge90');
+const b77f = path.resolve(__dirname, '..', 'horizonsim-captainsim-b77f-ge90');
+const b77f_dest = path.resolve(__dirname, '..', 'build' ,'horizonsim-captainsim-b77f-ge90');
 
 const contentEntries = [];
 let totalPackageSize = 0;

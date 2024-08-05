@@ -41,8 +41,8 @@ function* readdir(d) {
 }
 
 const MS_FILETIME_EPOCH = 116444736000000000n;
-const behavior = path.resolve(__dirname, '..', 'wlrs-captainsim-boeing-behavior');
-const behavior_dest = path.resolve(__dirname, '..', 'build' ,'wlrs-captainsim-boeing-behavior');
+const behavior = path.resolve(__dirname, '..', 'horizonsim-captainsim-boeing-behavior');
+const behavior_dest = path.resolve(__dirname, '..', 'build' ,'horizonsim-captainsim-boeing-behavior');
 
 const contentEntries = [];
 let totalPackageSize = 0;
