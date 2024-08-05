@@ -102,7 +102,7 @@ var B777_LowerEICAS_Engine;
             }
             
             //for FF
-            if (SimVar.GetSimVarValue("L:SALTY_UNIT_IS_METRIC", "bool")) {
+            if (WTDataStore.get("OPTIONS_UNITS", "KG") == "KG") {
                 document.querySelector("#FFValue1").textContent = (SimVar.GetSimVarValue("ENG FUEL FLOW GPH:1", "gallons per hour") * SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilogram") / 100).toFixed(1);
                 document.querySelector("#FFValue2").textContent = (SimVar.GetSimVarValue("ENG FUEL FLOW GPH:2", "gallons per hour") * SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilogram") / 100).toFixed(1);
             }
@@ -258,4 +258,3 @@ var B777_LowerEICAS_Engine;
 
 })(B777_LowerEICAS_Engine || (B777_LowerEICAS_Engine = {}));
 customElements.define("b777-lower-eicas-engine", B777_LowerEICAS_Engine.Display);
-//# sourceMappingURL=B747_8_LowerEICAS_Engine.js.map
