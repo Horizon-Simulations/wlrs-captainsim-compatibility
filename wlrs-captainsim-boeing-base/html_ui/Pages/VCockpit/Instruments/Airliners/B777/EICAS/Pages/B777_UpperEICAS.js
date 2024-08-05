@@ -29,6 +29,7 @@ var B777_UpperEICAS;
             this.eicas = _eicas;
             this.refThrust = [];
             this.refThrustDecimal = [];
+            this.engThrStatus = [];
             this.engRevStatus = [];
             this.refThrust[1] = this.querySelector("#THROTTLE1_Value");
             this.refThrust[2] = this.querySelector("#THROTTLE2_Value");
@@ -38,16 +39,12 @@ var B777_UpperEICAS;
             this.tmaDisplay = new Boeing.ThrustModeDisplay(this.querySelector("#TMA_Value"));
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#TAT_Value"), Simplane.getTotalAirTemperature, 0, Airliners.DynamicValueComponent.formatValueToPosNegTemperature));
 
-            //this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#FUEL_TEMP_Value"), SimVar.GetSimVarValue("L:FUEL_TEMP", "number"), 0, Airliners.DynamicValueComponent.formatValueToPosNegTemperature));
             this.querySelector("#FUEL_TEMP_Value").textContent = SimVar.GetSimVarValue("L:FUEL_TEMP", "number");
             this.querySelector("#RIGHT_DUCT_Value").textContent = "-";
             this.querySelector("#LEFT_DUCT_Value").textContent = "-";
 
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#THROTTLE1_Value"), Simplane.getEngineThrottleMaxThrust.bind(this, 0), 1, Airliners.DynamicValueComponent.formatValueToThrottleDisplay));
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#THROTTLE2_Value"), Simplane.getEngineThrottleMaxThrust.bind(this, 1), 1, Airliners.DynamicValueComponent.formatValueToThrottleDisplay));
-            this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#CAB_ALT_Value"), Simplane.getPressurisationCabinAltitude));
-            this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#RATE_Value"), Simplane.getPressurisationCabinAltitudeRate));
-            this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#DELTAP_Value"), Simplane.getPressurisationDifferential, 1, Airliners.DynamicValueComponent.formatValueToString));
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#TOTAL_FUEL_Value"), this.getTotalFuelInMegagrams.bind(this), 1));
             var gaugeTemplate = this.querySelector("#GaugeTemplate1");
             if (gaugeTemplate != null) {
@@ -69,7 +66,8 @@ var B777_UpperEICAS;
             this.infoPanelsManager = new Boeing.InfoPanelsManager();
             this.infoPanelsManager.init(this.infoPanel);
             this.gearDisplay = new Boeing.GearDisplay(this.querySelector("#GearInfo"));
-            this.flapsDisplay = new Boeing.FlapsDisplay(this.querySelector("#FlapsInfo"), this.querySelector("#FlapsLine"), this.querySelector("#FlapsValue"), this.querySelector("#FlapsBar"), this.querySelector("#FlapsGauge"));
+            this.flapsDisplay = new Boeing.FlapsDisplay(this.querySelector("#FlapsInfo"), this.querySelector("#FlapsLine"), this.querySelector("#FlapsValue"), this.querySelector("#FlapsBar"), this.querySelector("#FlapsGauge"), this.querySelector("#FlapsLoadRelief"));
+            this.pressureInfo = this.querySelector("#PressureInfo");
             //this.stabDisplay = new Boeing.StabDisplay(this.querySelector("#StabInfo"), 15, 1);
             this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI_LEFT"), 1));
             this.allAntiIceStatus.push(new WingAntiIceStatus(this.querySelector("#WAI_RIGHT"), 2));
@@ -85,9 +83,10 @@ var B777_UpperEICAS;
         }
         update(_deltaTime) {
             //debug section
-            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("A:ELECTRICAL BATTERY VOLTAGE:1", "volts").toFixed(1);
+            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("AUTOPILOT THROTTLE ARM", "Bool");
 
-            const storedUnits = SaltyDataStore.get("OPTIONS_UNITS", "KG");
+            const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
+
             switch (storedUnits) {
                 case "KG":
                     this.units = true;
@@ -102,6 +101,7 @@ var B777_UpperEICAS;
                 return;
             }
             this.updateReferenceThrust();
+            this.updatePressurisationValues();
             if (this.tmaDisplay) {
                 this.tmaDisplay.update();
             }
@@ -142,43 +142,71 @@ var B777_UpperEICAS;
                 else
                     this.unitTextSVG.textContent = "LBS X";
             }
-            
-            //both fuel master off
-            if (SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") && SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool")) {     // 
-                this.fuelTankDisplay.style.display = "none";
-            }
-            //both fuel master on
-            if (!(SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool")) && !(SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool"))) {     //
-                let factor = this.gallonToMegapounds;
-                if (this.units)
-                    factor = this.gallonToMegagrams;
-                this.fuelTankDisplay.style.display = "block";
-                this.fuelTankLeft.textContent = (SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallons") * factor).toFixed(1);
-                this.fuelTankCenter.textContent = (SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallons") * factor).toFixed(1);
-                this.fuelTankRight.textContent = (SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallons") * factor).toFixed(1);
-            }
+
             if (this.units) {
                 this.querySelector("#FUEL_TEMP_Value").textContent = SimVar.GetSimVarValue("L:FUEL_TEMP", "Celcius").toFixed(1) + "C";
             }
             else {
                 this.querySelector("#FUEL_TEMP_Value").textContent = ((SimVar.GetSimVarValue("L:FUEL_TEMP", "Celcius")*(9/5)) + 32).toFixed(1) + "F";
             }
+            
+            const centerFuelQty = SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallons");
+            const leftMainFuelQty = SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallons");
+            const rightMainFuelQty = SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallons");
+
+            const anyXFeedValveActive = (SimVar.GetSimVarValue("FUELSYSTEM VALVE OPEN:1", "Bool") || SimVar.GetSimVarValue("FUELSYSTEM VALVE OPEN:2", "Bool"));
+            //fuel indications fault not yet simulated
+            const anyFuelPumpActive = (SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:3", "Bool") || SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:4", "Bool")
+                                    || SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:5", "Bool") || SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:6", "Bool"));
+            const anyCenterPumpActive = (SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:1", "Bool") || SimVar.GetSimVarValue("FUELSYSTEM PUMP SWITCH:2", "Bool"));
+            const fuelInCenterEICASWarning = (centerFuelQty > 120 && anyFuelPumpActive && !anyCenterPumpActive);
+
+            const fuelQtyLowEICASWarning = (leftMainFuelQty <= 559 || rightMainFuelQty <= 559);
+
+            const fuelImbalanceEICASWarning = (Math.abs(leftMainFuelQty - rightMainFuelQty) > 274)
+            
+            const planeOnGroundAndEngineOff = (SimVar.GetSimVarValue("SIM ON GROUND", "bool") && (!SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:3", "Bool") || !SimVar.GetSimVarValue("FUELSYSTEM VALVE SWITCH:4", "Bool")));
+            //fuel flow eng not yet simlulated
+
+            //add amber fuel inidcator
+            if (anyXFeedValveActive || fuelInCenterEICASWarning || fuelQtyLowEICASWarning || fuelImbalanceEICASWarning || planeOnGroundAndEngineOff) {
+                this.fuelTankDisplay.style.visibility = "visible";
+                let factor = this.gallonToMegapounds;
+                if (this.units)
+                    factor = this.gallonToMegagrams;
+                this.fuelTankLeft.textContent = (SimVar.GetSimVarValue("FUEL TANK LEFT MAIN QUANTITY", "gallons") * factor).toFixed(1);
+                this.fuelTankCenter.textContent = (SimVar.GetSimVarValue("FUEL TANK CENTER QUANTITY", "gallons") * factor).toFixed(1);
+                this.fuelTankRight.textContent = (SimVar.GetSimVarValue("FUEL TANK RIGHT MAIN QUANTITY", "gallons") * factor).toFixed(1);
+            }
+            else {
+                this.fuelTankDisplay.style.visibility = "hidden";
+            }            
         }
+
         updateReferenceThrust() {
-            const MAX_POSSIBLE_THRUST_DISP = 1060;
+            const MAX_POSSIBLE_THRUST_DISP = 1150;
             for (var i = 1; i < 3; ++i) {
-                this.engRevStatus[i] = SimVar.GetSimVarValue("TURB ENG REVERSE NOZZLE PERCENT:" + i, "percent");
-                if (this.engRevStatus[i] > 1) {
+                this.engThrStatus[i] = SimVar.GetSimVarValue("TURB ENG REVERSE NOZZLE PERCENT:" + i, "Percent");
+                this.engRevStatus[i] = SimVar.GetSimVarValue("L:B777_ENGINE_REVERSER:" + i, "Percent");
+        
+                // Check for reverser deployment or retraction in transition
+                if ((this.engThrStatus[i] > 0.5 && this.engThrStatus[i] < 50) || (this.engRevStatus[i] > 1 && this.engRevStatus[i] < 100)) {
+                    this.refThrust[i].style.fill = "gold";
                     this.refThrust[i].textContent = "REV";
                     this.refThrustDecimal[i].style.visibility = "hidden";
-                }
-                else {
+                } else if (this.engRevStatus[i] > 100 && this.engRevStatus[i] > 1) {
+                    this.refThrust[i].style.fill = "lime";
+                    this.refThrust[i].textContent = "REV";
+                    this.refThrustDecimal[i].style.visibility = "hidden";
+                } else {
+                    this.refThrust[i].style.fill = "lime";
                     this.refThrust[i].textContent = Math.min((Simplane.getEngineThrottleMaxThrust(i - 1) * 10), MAX_POSSIBLE_THRUST_DISP).toFixed(0);
                     this.refThrustDecimal[i].style.visibility = "visible";
                 }
             }
             return;
-        }
+        }        
+        
         updatePressurisationValues() {
             if (SimVar.GetSimVarValue("L:XMLVAR_EICAS_CURRENT_PAGE", "Enum") !== 3) {
                 this.pressureInfo.style.visibility = "hidden";
@@ -187,14 +215,31 @@ var B777_UpperEICAS;
             else {
                 this.pressureInfo.style.visibility = "visible";
             }
-            this.cabinAlt.textContent = this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#CAB_ALT_Value"), Simplane.getPressurisationCabinAltitude));
-            this.cabinRate.textContent = this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#RATE_Value"), Simplane.getPressurisationCabinAltitudeRate));
-            let deltaPValue = Math.abs(Simplane.getPressurisationDifferential() * 10);
-            if (Math.round(deltaPValue) < 10) {
-                this.deltaP.textContent = "0" + deltaPValue.toFixed(0);
+            
+            this.querySelector("#CAB_ALT_Value").textContent = SimVar.GetSimVarValue("PRESSURIZATION CABIN ALTITUDE", "Feet").toFixed(0);
+            if (SimVar.GetSimVarValue("PRESSURIZATION CABIN ALTITUDE", "Feet") >= 8000) {
+                this.querySelector("#CAB_ALT_Value").style.fill = "yellow";
+            }
+            else if (SimVar.GetSimVarValue("PRESSURIZATION CABIN ALTITUDE", "Feet") >= 10000) {
+                this.querySelector("#CAB_ALT_Value").style.fill = "red";
             }
             else {
-                this.deltaP.textContent = deltaPValue.toFixed(0);
+                this.querySelector("#CAB_ALT_Value").style.fill = "white";
+            }
+            this.querySelector("#RATE_Value").textContent = SimVar.GetSimVarValue("PRESSURIZATION CABIN ALTITUDE RATE", "Feet").toFixed(0);
+
+            let deltaPValue = Math.abs(SimVar.GetSimVarValue("PRESSURIZATION PRESSURE DIFFERENTIAL", "psi"));
+
+            this.querySelector("#DELTAP_Value").textContent = deltaPValue.toFixed(1);
+        
+            if (deltaPValue > 9.0) {
+                this.querySelector("#DELTAP_Value").style.fill = "yellow";
+            }
+            if (deltaPValue > 9.5){
+                this.querySelector("#DELTAP_Value").style.fill = "red";
+            }
+            else {
+                this.querySelector("#DELTAP_Value").style.fill = "white";
             }
             return;
         }
@@ -303,7 +348,7 @@ var B777_UpperEICAS;
             if ((_value != this.currentValue) || _force) {
                 this.currentValue = _value;
                 let hide = false;
-                if (this.hideIfN1IsZero && SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent") < 0.3) {
+                if (this.hideIfN1IsZero && SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent") < 0.2) {
                     this.currentValue = -1;
                     hide = true;
                 }
@@ -397,7 +442,7 @@ var B777_UpperEICAS;
             return SimVar.GetSimVarValue("ENG N2 RPM:" + this.engineIndex, "percent");
         }
         valueToPercentage(_value) {
-            return Utils.Clamp(_value, 0, 100);
+            return Utils.Clamp(_value, 0, 120);
         }
     }
     
@@ -425,7 +470,7 @@ var B777_UpperEICAS;
     }
     class EngineAntiIceStatus extends AntiIceStatus {
         getCurrentActiveState() {
-            let ambientTemp = Simplane.getAmbientTemperature();
+            let totalAirTemp = SimVar.GetSimVarValue("TOTAL AIR TEMPERATURE", "Celcius");
             let strucIcePercent = SimVar.GetSimVarValue("STRUCTURAL ICE PCT", "percent");
             let knobPos = SimVar.GetSimVarValue("L:B777_Engine_AntiIce_Knob_State:" + this.index, "Number");
             
@@ -438,7 +483,7 @@ var B777_UpperEICAS;
                     return true;
                 }
                 else {
-                    if (ambientTemp <= 10 && strucIcePercent >= 10) {
+                    if (totalAirTemp <= 10 && strucIcePercent >= 10) {
                         return true
                     }
                 }
@@ -448,27 +493,37 @@ var B777_UpperEICAS;
     }
     class WingAntiIceStatus extends AntiIceStatus {
         getCurrentActiveState() {
-            let ambientTemp = Simplane.getAmbientTemperature();
             let strucIcePercent = SimVar.GetSimVarValue("STRUCTURAL ICE PCT", "percent");
             let knobPos = SimVar.GetSimVarValue("L:B777_Wing_AntiIce_Knob_State", "Number");
-            
+            let fuelTemp = SimVar.GetSimVarValue("L:FUEL_TEMP", "Celcius");
+            let totalAirTemp = SimVar.GetSimVarValue("TOTAL AIR TEMPERATURE", "Celcius");
+            let planeOnGround = SimVar.GetSimVarValue("SIM ON GROUND", "bool");
+            let elapsedMinute = SimVar.GetSimVarValue("L:ELAPSED_TIME_ENGINE", "seconds")/60;
+            let flightPhase = Simplane.getCurrentFlightPhase();
+
             if (knobPos == 0)
                 {
                     return false;
                 }
             else {
                 if (knobPos == 2) {
-                    return true;
+                    if (!planeOnGround && (elapsedMinute > 5) && totalAirTemp < 10) {
+                        SimVar.SetSimVarValue("L:WING_ANTI_ICE_ON", "Bool", true);
+                        return true;
+                    }
                 }
-                else {
-                    if (ambientTemp <= 10 && strucIcePercent >= 10) {
+                else {  //auto, find a better way to use CLB thrust instead of flightphase
+                    if (((totalAirTemp <= 10 && strucIcePercent >= 10) || fuelTemp < 10) && !planeOnGround && (elapsedMinute > 10) && flightPhase > 2) {
+                        SimVar.SetSimVarValue("L:WING_ANTI_ICE_ON", "Bool", true);
                         return true
                     }
                 }
             }
+            SimVar.SetSimVarValue("L:WING_ANTI_ICE_ON", "Bool", false);
             return false;
         }
+
+
     }
 })(B777_UpperEICAS || (B777_UpperEICAS = {}));
 customElements.define("b777-upper-eicas", B777_UpperEICAS.Display);
-//# sourceMappingURL=B747_8_UpperEICAS.js.map
