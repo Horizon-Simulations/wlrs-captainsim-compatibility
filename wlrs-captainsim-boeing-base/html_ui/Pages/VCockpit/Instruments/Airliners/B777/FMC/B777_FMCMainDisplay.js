@@ -681,29 +681,29 @@ class FMCMainDisplay extends BaseAirliners {
         this.flightPlanManager.removeDeparture();
         return true;
     }
-    setApproachIndex(approachIndex, callback = EmptyCallback.Boolean) {	
-        this.ensureCurrentFlightPlanIsTemporary(() => {	
-            this.flightPlanManager.setApproachIndex(approachIndex, () => {	
-                let frequency = this.flightPlanManager.getApproachNavFrequency();	
-                if (isFinite(frequency)) {	
-                    let freq = Math.round(frequency * 100) / 100;	
-                    let approach = this.flightPlanManager.getApproach();	
+    setApproachIndex(approachIndex, callback = EmptyCallback.Boolean) {
+        this.ensureCurrentFlightPlanIsTemporary(() => {
+            this.flightPlanManager.setApproachIndex(approachIndex, () => {
+                let frequency = this.flightPlanManager.getApproachNavFrequency();
+                if (isFinite(frequency)) {
+                    let freq = Math.round(frequency * 100) / 100;
+                    let approach = this.flightPlanManager.getApproach();
                     if (approach && approach.name && approach.isLocalizer()) {
-                        if (this.connectIlsFrequency(freq)) {	
-                            SimVar.SetSimVarValue("L:FLIGHTPLAN_APPROACH_ILS", "number", freq);	
-                            let runway = this.flightPlanManager.getApproachRunway();	
-                            if (runway) {	
-                                SimVar.SetSimVarValue("L:FLIGHTPLAN_APPROACH_COURSE", "number", runway.direction);	
-                            }	
-                        }	
-                    }	
-                    else {	
-                        this.vor1Frequency = freq;	
-                    }	
-                }	
-                callback(true);	
-            });	
-        });	
+                        if (this.connectIlsFrequency(freq)) {
+                            SimVar.SetSimVarValue("L:FLIGHTPLAN_APPROACH_ILS", "number", freq);
+                            let runway = this.flightPlanManager.getApproachRunway();
+                            if (runway) {
+                                SimVar.SetSimVarValue("L:FLIGHTPLAN_APPROACH_COURSE", "number", runway.direction);
+                            }
+                        }
+                    }
+                    else {
+                        this.vor1Frequency = freq;
+                    }
+                }
+                callback(true);
+            });
+        });
     }
     updateFlightNo(flightNo, callback = EmptyCallback.Boolean) {
         if (flightNo.length > 7) {
@@ -1344,6 +1344,15 @@ class FMCMainDisplay extends BaseAirliners {
         return false;
     }
     updateTakeOffTrim() {
+        /*
+        let d = (this.zeroFuelWeightMassCenter - 13) / (33 - 13);
+        d = Math.min(Math.max(d, -0.5), 1);
+        let dW = (this.getWeight(true) - 400) / (800 - 400);
+        dW = Math.min(Math.max(dW, 0), 1);
+        let minTrim = 3.5 * dW + 1.5 * (1 - dW);
+        let maxTrim = 8.6 * dW + 4.3 * (1 - dW);
+        this.takeOffTrim = minTrim * d + maxTrim * (1 - d);
+        */
         let grossWeightTrim = [340, 400, 450, 500, 550, 600, 650, 700, 750, 780];
         let cgTrim = [14.0, 19.0, 24.0, 29.0, 34.0, 39.0, 44.0];
         let flaps5TrimTable = [
@@ -1420,7 +1429,7 @@ class FMCMainDisplay extends BaseAirliners {
         let value = Number.parseInt(s);
         if (isFinite(value)) {
             if (value === 5  || value === 15 || value === 20) {
-                SimVar.SetSimVarValue("L:SALTY_TAKEOFF_FLAP_VALUE", "number", value);
+                SimVar.SetSimVarValue("L:B777_TAKEOFF_FLAP_VALUE", "number", value);
                 this._takeOffFlap = value;
                 SimVar.SetSimVarValue("H:B777_EICAS_2_UPDATE_ECL", "bool", 1);
                 return true;
@@ -1533,12 +1542,8 @@ class FMCMainDisplay extends BaseAirliners {
     }
     getCurrentWeight(useLbs = false) {
         return new Promise(resolve => {
-            Coherent.call("TOTAL_WEIGHT_GET").then(v => {
-                if (!useLbs) {
-                    v /= 2.204623;
-                }
-                resolve(v);
-            });
+            const weight = SimVar.GetSimVarValue("TOTAL WEIGHT", useLbs ? "lbs" : "kg");
+            resolve(weight);
         });
     }
     setWeight(a, callback = EmptyCallback.Boolean, useLbs = false) {
@@ -1836,22 +1841,22 @@ class FMCMainDisplay extends BaseAirliners {
     }
     onFlightPhaseChanged() {
     }
-    connectVorFrequency(_index, _freq) {	
-        if (_freq >= 108 && _freq <= 117.95 && RadioNav.isHz50Compliant(_freq)) {	
-            if (_index == 1) {	
-                SimVar.SetSimVarValue("L:FMC_VOR_FREQUENCY:1", "Hz", _freq * 1000000);	
-                if (!this.isRadioNavActive()) {	
-                    this.radioNav.setVORActiveFrequency(1, _freq);	
-                }	
-            }	
-            else if (_index == 2) {	
-                SimVar.SetSimVarValue("L:FMC_VOR_FREQUENCY:2", "Hz", _freq * 1000000);	
-                if (!this.isRadioNavActive()) {	
-                    this.radioNav.setVORActiveFrequency(2, _freq);	
-                }	
-            }	
-        }	
-        return false;	
+    connectVorFrequency(_index, _freq) {
+        if (_freq >= 108 && _freq <= 117.95 && RadioNav.isHz50Compliant(_freq)) {
+            if (_index == 1) {
+                SimVar.SetSimVarValue("L:FMC_VOR_FREQUENCY:1", "Hz", _freq * 1000000);
+                if (!this.isRadioNavActive()) {
+                    this.radioNav.setVORActiveFrequency(1, _freq);
+                }
+            }
+            else if (_index == 2) {
+                SimVar.SetSimVarValue("L:FMC_VOR_FREQUENCY:2", "Hz", _freq * 1000000);
+                if (!this.isRadioNavActive()) {
+                    this.radioNav.setVORActiveFrequency(2, _freq);
+                }
+            }
+        }
+        return false;
     }
     connectIlsFrequency(_freq) {
         if (_freq >= 108 && _freq <= 111.95 && RadioNav.isHz50Compliant(_freq)) {
@@ -2074,19 +2079,19 @@ class FMCMainDisplay extends BaseAirliners {
     isRadioNavActive() {
         return this.radioNav.getRADIONAVActive((this.isPrimary) ? 1 : 2);
     }
-    get vhf1Frequency() { return this._vhf1Frequency; }	
-    get vhf2Frequency() { return this._vhf2Frequency; }	
-    get vor1FrequencyIdent() { return this._vor1FrequencyIdent; }	
-    get vor1Frequency() { return this._vor1Frequency; }	
-    get vor1Course() { return this._vor1Course; }	
-    get vor2FrequencyIdent() { return this._vor2FrequencyIdent; }	
-    get vor2Frequency() { return this._vor2Frequency; }	
-    get vor2Course() { return this._vor2Course; }	
-    get ilsFrequencyIdent() { return this._ilsFrequencyIdent; }	
-    get ilsFrequency() { return this._ilsFrequency; }	
-    get ilsCourse() { return this._ilsCourse; }	
-    get adf1Frequency() { return this._adf1Frequency; }	
-    get adf2Frequency() { return this._adf2Frequency; }	
+    get vhf1Frequency() { return this._vhf1Frequency; }
+    get vhf2Frequency() { return this._vhf2Frequency; }
+    get vor1FrequencyIdent() { return this._vor1FrequencyIdent; }
+    get vor1Frequency() { return this._vor1Frequency; }
+    get vor1Course() { return this._vor1Course; }
+    get vor2FrequencyIdent() { return this._vor2FrequencyIdent; }
+    get vor2Frequency() { return this._vor2Frequency; }
+    get vor2Course() { return this._vor2Course; }
+    get ilsFrequencyIdent() { return this._ilsFrequencyIdent; }
+    get ilsFrequency() { return this._ilsFrequency; }
+    get ilsCourse() { return this._ilsCourse; }
+    get adf1Frequency() { return this._adf1Frequency; }
+    get adf2Frequency() { return this._adf2Frequency; }
     get rcl1Frequency() { return this._rcl1Frequency; }	
     get pre2Frequency() { return this._pre2Frequency; }	
     get atc1Frequency() { return this._atc1Frequency; }	
@@ -2300,8 +2305,8 @@ class FMCMainDisplay extends BaseAirliners {
     recalculateTHRRedAccTransAlt() {
         let origin = this.flightPlanManager.getOrigin();
         if (origin) {
-            if (isFinite(origin.altitudeinFP)) {
-                let altitude = Math.round(origin.altitudeinFP / 10) * 10;
+            if (isFinite(origin.infos.oneWayRunways[0].elevation)) {
+                let altitude = Math.round(origin.infos.oneWayRunways[0].elevation * 3.28 / 10) * 10;
                 this.thrustReductionAltitude = altitude + 1500;
                 this.accelerationAltitude = altitude + 3000;
                 if (origin.infos instanceof AirportInfo) {
@@ -2309,21 +2314,29 @@ class FMCMainDisplay extends BaseAirliners {
                 }
                 SimVar.SetSimVarValue("L:AIRLINER_THR_RED_ALT", "Number", this.thrustReductionAltitude);
                 SimVar.SetSimVarValue("L:AIRLINER_ACC_ALT", "Number", this.accelerationAltitude);
+                SimVar.SetSimVarValue("L:777_FMC_ORIGIN_ELEVATION", "Number", altitude);
             }
         }
         else {
             let altitude = Simplane.getAltitude();
             SimVar.SetSimVarValue("L:AIRLINER_THR_RED_ALT", "Number", altitude + 1500);
             SimVar.SetSimVarValue("L:AIRLINER_ACC_ALT", "Number", altitude + 3000);
+            SimVar.SetSimVarValue("L:777_FMC_ORIGIN_ELEVATION", "Number", -1);
         }
         let destination = this.flightPlanManager.getDestination();
         if (destination) {
             if (destination.infos instanceof AirportInfo) {
                 this.perfApprTransAlt = destination.infos.transitionAltitude;
+                if (isFinite(origin.infos.oneWayRunways[0].elevation)) {
+                    SimVar.SetSimVarValue("L:777_FMC_DEST_ELEVATION", "Number", Math.round(destination.infos.oneWayRunways[0].elevation * 3.28 / 10) * 10);
+                }
             }
         }
+        else {
+            SimVar.SetSimVarValue("L:777_FMC_DEST_ELEVATION", "Number", -1);
+        }
     }
-    onPowerOn() {
+    onPowerOn() {           //work on this later
         super.onPowerOn();
         this.updateFuelVars();
         let gpsDriven = SimVar.GetSimVarValue("GPS DRIVES NAV1", "Bool");
@@ -2332,7 +2345,7 @@ class FMCMainDisplay extends BaseAirliners {
         this._canSwitchToNav = false;
         this.initRadioNav(true);
     }
-    onShutDown() {
+    onShutDown() {      //work on this later
         super.onShutDown();
         this.clearVSpeeds();
     }
