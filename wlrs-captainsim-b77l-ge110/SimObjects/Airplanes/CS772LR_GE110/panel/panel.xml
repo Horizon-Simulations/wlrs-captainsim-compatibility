@@ -727,7 +727,7 @@
 		  <Text>ADIRU ALIGN MODE</Text>
 		  <Condition>
 		  	<Equal>
-				<Simvar name="L:SALTY_IRS_STATE" unit="Enum"/>
+				<Simvar name="L:B777_IRS_STATE" unit="Enum"/>
 				<Constant>1</Constant>
 			</Equal>
 		  </Condition>
@@ -850,12 +850,18 @@
 		
 		<Annunciation>
 		  <Type>Advisory</Type>
-		  <Text>TCAS OFF</Text>
 		  <Condition>
-			<Equal>
-				<Simvar name="TRANSPONDER STATE:1" unit="Enum"/>
-				<Constant>1</Constant>
-			</Equal>
+			<!--change here-->		<!--this will not show on EICAS when spawn cold and dark, only when the value changes, the variable been created, it would be record and change-->
+			<Or>
+				<Equal>
+					<Simvar name="L:XMLVAR_Transponder_Mode" unit="Enum"/>
+					<Constant>3</Constant>
+				</Equal>
+				<Equal>
+					<Simvar name="L:XMLVAR_Transponder_Mode" unit="Enum"/>
+					<Constant>2</Constant>
+				</Equal>
+			</Or>
 		  </Condition>
 		</Annunciation>
 

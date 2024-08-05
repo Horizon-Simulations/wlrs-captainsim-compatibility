@@ -5429,6 +5429,12 @@
           <TOOLTIP_TITLE>@TT_Package.LIGHTING_KNOB_MAP_TITLE</TOOLTIP_TITLE>
           <EMISSIVE_KNOB>False</EMISSIVE_KNOB>
         </UseTemplate>
+        <UseTemplate Name="ASOBO_ENGINE_Push_TOGA_Template">
+          <NODE_ID>G01_003_SW2</NODE_ID>
+          <ANIM_NAME></ANIM_NAME>
+          <ON_PUSH_TO_GA>(&gt;H:B777_FMC_1_THROTTLE_TO_GA)</ON_PUSH_TO_GA>
+          <ID>3</ID>
+        </UseTemplate>
         <!-- Right Map Floodlight -->
         <UseTemplate Name="ASOBO_LIGHTING_Knob_Glareshield_Template">
           <SIMVAR_INDEX>3</SIMVAR_INDEX>

@@ -570,7 +570,7 @@
       <Parameter>
         <Lag>20</Lag>
         <Code>
-          (A:APU PCT RPM, percent) 1.0 &gt; if{ 100 } els{ 0 }
+          (L:cs777_anim_ctrl_apu_intake, bool) 100 *
         </Code>
       </Parameter>
     </Animation>
