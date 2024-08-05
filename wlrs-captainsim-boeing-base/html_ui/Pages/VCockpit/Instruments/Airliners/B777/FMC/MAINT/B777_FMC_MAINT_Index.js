@@ -2,7 +2,6 @@ class FMC_MAINT_Index {
     static ShowPage(fmc) {
         fmc.activeSystem = "MAINT";
         fmc.clearDisplay();
-        let simbriefId = SaltyDataStore.get("OPTIONS_SIMBRIEF_ID", "");
         
         const updateView = () => {
             fmc.setTemplate([
@@ -12,7 +11,7 @@ class FMC_MAINT_Index {
                 ["", ""],
                 ["<AIRLINE POL", "DISCRETES>[color]inop"],
                 ["", ""],
-                ["<IRS MONITOR[color]inop", ""],
+                ["<IRS MONITOR", ""],
                 ["", ""],
                 ["", ""],
                 ["", ""],
@@ -36,6 +35,11 @@ class FMC_MAINT_Index {
         /* LSK2 */
         fmc.onLeftInput[1] = () => {
             FMC_MAINT_AirlinePol.ShowPage(fmc);
+        }
+
+        /* LSK3 */
+        fmc.onLeftInput[2] = () => {
+            FMC_MAINT_IrsMonitor.ShowPage(fmc);
         }
         
         /* LSK6 */
