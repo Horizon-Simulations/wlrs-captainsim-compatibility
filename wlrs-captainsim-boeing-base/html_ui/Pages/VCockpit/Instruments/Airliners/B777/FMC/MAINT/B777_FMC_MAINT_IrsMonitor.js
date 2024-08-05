@@ -1,16 +1,23 @@
 class FMC_MAINT_IrsMonitor {
     static ShowPage(fmc) {
         fmc.clearDisplay();
+
+        SimVar.SetSimVarValue("L:FMC_UPDATE_CURRENT_PAGE", "number", 1);
+
+        var IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
+        if (IRSState == 0) { IRSState = "NOT ALIGNED[color]red"; }
+        if (IRSState == 1) { IRSState = "ALIGNING[color]yellow"; }
+        if (IRSState == 2) { IRSState = "ALIGNED[color]green"; }
                 
         const updateView = () => {
             fmc.setTemplate([
                 ["IRS MONITOR"],
-                ["\xa0IRS 1", ""],
-                [`OK`, ""],
-                ["\xa0IRS2", ""],
-                ["OK", ""],
-                ["\xa0IRS 3", ""],
-                [`OK`, ""],
+                [],
+                ["IRS STATUS", IRSState],
+                ["", ""],
+                ["<UPDATE IRS STATUS", ""],
+                ["", ""],
+                ["<IRS INSTANT ALIGN", ""],
                 ["", ""],
                 ["", ""],
                 ["", ""],
@@ -20,7 +27,23 @@ class FMC_MAINT_IrsMonitor {
             ]);
         }
         updateView();
-        
+
+        fmc.onLeftInput[2] = () => {
+            if (IRSState == 1) {
+                SimVar.SetSimVarValue("L:B777_IRS_STATE", "Enum", 2);
+            }
+            
+            if (IRSState == 0) {
+                fmc.showErrorMessage("ADIRU BUTTON OFF");
+            }
+
+            FMC_MAINT_IrsMonitor.ShowPage(fmc);
+        };
+
+        fmc.onLeftInput[1] = () => {
+            FMC_MAINT_IrsMonitor.ShowPage(fmc);
+        }
+                  
         fmc.onLeftInput[5] = () => {
             FMC_MAINT_Index.ShowPage(fmc);
         }
