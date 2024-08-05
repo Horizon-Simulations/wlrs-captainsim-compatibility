@@ -83,19 +83,20 @@ var B777_LowerEICAS_Stat;
         }        
 
         updateAPUData() {
-            if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 7)
+            if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 3)
                 {
                     this.apuEGTUnit.textContent = "C";
-                    this.apuEGT.textContent = SimVar.GetSimVarValue("L:APU_EGT", "number");       //heat factor = 1.8; random upper limit = 1.1
+                    this.apuEGT.textContent = SimVar.GetSimVarValue("L:APU_EGT", "number");
                     this.apuRPM.textContent = SimVar.GetSimVarValue("L:APU_RPM", "number").toFixed(1);
                     this.apuPress.textContent = SimVar.GetSimVarValue("L:APU_OIL_PRESS", "number");
-                    this.apuTemp.textContent = SimVar.GetSimVarValue("L:APU_OIL_TEMP", "number"); //heat factor = 1.2; random upper limit = 1.1
+                    this.apuTemp.textContent = SimVar.GetSimVarValue("L:APU_OIL_TEMP", "number");
                     this.apuQty.textContent = SimVar.GetSimVarValue("L:APU_OIL_QTY", "number").toFixed(1);
                 }
             else
             {
-                this.apuEGT.textContent = "";
                 this.apuEGTUnit.textContent = "";
+                this.apuEGT.textContent = "";
+                this.apuRPM.textContent = "";
                 this.apuOilTempUnit.textContent = "";
                 this.apuOilPressUnit.textContent = "";
                 this.apuPress.textContent = "";
@@ -108,4 +109,3 @@ var B777_LowerEICAS_Stat;
     B777_LowerEICAS_Stat.Display = Display;
 })(B777_LowerEICAS_Stat || (B777_LowerEICAS_Stat = {}));
 customElements.define("b777-lower-eicas-stat", B777_LowerEICAS_Stat.Display);
-//# sourceMappingURL=B747_8_LowerEICAS_Stat.js.map
