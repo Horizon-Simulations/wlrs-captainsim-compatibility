@@ -129,7 +129,7 @@ var B777_EICAS_Common;
         createRect(_x, _y, _width, _height, _class) {
             var rect = document.createElementNS(Avionics.SVG.NS, "rect");
 
-            SaltyUtils.setAttributes(rect,
+            HorizonSimUtils.setAttributes(rect,
                 {
                     'x': _x,
                     'y': _y,
@@ -148,7 +148,7 @@ var B777_EICAS_Common;
             var yStr = y + "%";
             var line = document.createElementNS(Avionics.SVG.NS, "line");
 
-            SaltyUtils.setAttributes(line,
+            HorizonSimUtils.setAttributes(line,
                 {
                     'x1': x1 + '%',
                     'x2': x2 + '%',
@@ -359,4 +359,3 @@ var B777_EICAS_Common;
 })(B777_EICAS_Common || (B777_EICAS_Common = {}));
 customElements.define('b777-eicas-gauge', B777_EICAS_Common.Gauge);
 customElements.define('b777-eicas-gauge-dual', B777_EICAS_Common.GaugeDual);
-//# sourceMappingURL=B747_8_EICASGauge.js.map
