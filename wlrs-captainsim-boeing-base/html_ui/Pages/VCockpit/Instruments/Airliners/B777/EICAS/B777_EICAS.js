@@ -12,7 +12,7 @@ class B777_EICAS extends Airliners.BaseEICAS {
         this.currentPage = "B777_EICAS_fuel";
 
         //for fuel simulations
-        this.delta_t = 1000;
+        this.delta_t = 3000;
 
         this.elapsedTime = 0;
 
@@ -139,7 +139,13 @@ class B777_EICAS extends Airliners.BaseEICAS {
             [100.0,374,72,63,5.0], [100.0,374,72,63,5.0]
         ];
         this.currentAPUIndex = 0;
-        setInterval(this.updateAPUData.bind(this), 110);
+        SimVar.SetSimVarValue("L:APU_EGT", "number", 0);
+        SimVar.SetSimVarValue("L:APU_RPM", "number", 0);
+        SimVar.SetSimVarValue("L:APU_OIL_PRESS", "number", 0);
+        SimVar.SetSimVarValue("L:APU_OIL_TEMP", "number", 0);
+        SimVar.SetSimVarValue("L:APU_OIL_QTY", "number", 0);
+
+        setInterval(this.updateAPUData.bind(this), 152);
         setInterval(this.updateFuelTemperature.bind(this), this.delta_t);
     }
 
@@ -212,12 +218,17 @@ class B777_EICAS extends Airliners.BaseEICAS {
         super.onUpdate(_deltaTime);
         this.updateAnnunciations();
         this.updateEngines(_deltaTime);
-        //this.updateFuelTemperature();
         this.updateElapsedTime(_deltaTime);
+        
+        //WTDataStore.getStoreKey("OPTIONS_UNITS", "LBS");    //broke\
+
     }
 
     updateElapsedTime(_deltaTime) {
-        if (SimVar.GetSimVarValue("A:GENERAL ENG RPM:1", "rpm") > 2|| SimVar.GetSimVarValue("A:ENG N1 RPM:1", "percent") > 2) {
+        //off ground - start
+        //touch ground - pause
+        //power off - reset ()
+        if (!SimVar.GetSimVarValue("SIM ON GROUND", "bool")) {
             this.elapsedTime += _deltaTime/1000;
         
         }
@@ -226,11 +237,13 @@ class B777_EICAS extends Airliners.BaseEICAS {
 
     updateFuelTemperature() {
         // idea from chatGPT and https://aviation.stackexchange.com/questions/97174/how-can-i-determine-the-fuel-temperature-in-the-tanks-of-an-airbus-a320-during-c
-        const T_initial = 20;  // Initial fuel temperature in °C
-        const h = 100;  // Convective heat transfer coefficient in W/(m²·K)
-        const c_f = 2200;  // Specific heat capacity of kerosene in J/(kg·K)
-        const A = 0.7 * 440;  // Effective surface area (70% of wing area) in m²
-        //const delta_t = 1;  // Time step in seconds
+        const T_initial = SimVar.GetSimVarValue("L:FUEL_TEMP", "Celsius");  // Initial fuel temperature in °C
+        const h = 84;  // Convective heat transfer coefficient in W/(m²·K)
+        const c_f = 2100;  // Specific heat capacity of kerosene in J/(kg·K)
+        const A = 0.7 * 410;  // Effective surface area (70% of wing area) in m²
+        const T_engineFuelReturn = 120;  // Temperature in °C, assume a fixed temperature for the returning fuel from the engines (simplification)
+        let P_antiIce  = 800000;  // Heating power in watts (W) (unreal)
+        let aimedTemp = 15; //change later
 
         // Get the mass of the fuel in kg
         const m_f_per_gallon = SimVar.GetSimVarValue("FUEL WEIGHT PER GALLON", "kilogram");
@@ -239,64 +252,65 @@ class B777_EICAS extends Airliners.BaseEICAS {
 
         // Get the ambient temperature in °C
         const T_ambient = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "Celsius");
-
+    
         // Get the fuel flow rates for both engines in kg/s
         const engine1FuelFlow = SimVar.GetSimVarValue("ENG FUEL FLOW GPH:1", "gallons per hour") * m_f_per_gallon / 3600;
         const engine2FuelFlow = SimVar.GetSimVarValue("ENG FUEL FLOW GPH:2", "gallons per hour") * m_f_per_gallon / 3600;
         const totalFuelFlow = engine1FuelFlow + engine2FuelFlow;
-
-        // Assume a fixed temperature for the returning fuel from the engines (simplification)
-        const T_engineFuelReturn = 80;  // Temperature in °C
 
         // Initialize or get the current fuel temperature
         if (typeof this.T_f === 'undefined') {
             this.T_f = T_initial;
         }
 
-        // Calculate b and new temperature using the improved formula
+        // Calculate b
         const b = (h * A) / (m_f * c_f);
+        // Calculate heat exchange with ambient air
         const heatExchangeAmbient = (T_ambient - this.T_f) * Math.exp(-b * (this.delta_t/1000));
+        // Calculate heat exchange due to fuel flow
         const heatExchangeFuelFlow = (totalFuelFlow / m_f) * (T_engineFuelReturn - this.T_f) * ((this.delta_t/1000) / 3600);  // Convert delta_t to hours
 
+        // Calculate the effect of the anti-ice heating system
+        let heatFromAntiIce = 0;
+        if (SimVar.GetSimVarValue("L:WING_ANTI_ICE_ON", "Bool"))
+        {
+            heatFromAntiIce = (P_antiIce / (m_f * c_f)) * (this.delta_t/1000);  // Heat from the anti-ice system in °C
+        }
+
         // Update fuel temperature
-        this.T_f = T_ambient + (this.T_f - T_ambient) * Math.exp(-b * (this.delta_t/1000)) + heatExchangeFuelFlow;
+        this.T_f = T_ambient + (this.T_f - T_ambient) * Math.exp(-b * (this.delta_t/1000)) + heatExchangeFuelFlow + heatFromAntiIce;
+        if (this.T_f == aimedTemp) {
+            P_antiIce = 5000;
+        }
 
         // Set the simulated fuel temperature
         SimVar.SetSimVarValue("L:FUEL_TEMP", "Celsius", this.T_f);
     }
     
     updateAPUData() {
-        this.ambientTemp = (SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "Celcius")).toFixed(0);
-        if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 7)
-            {
-                let apuStarted = SimVar.GetSimVarValue("APU SWITCH", "Bool");
-                if (apuStarted) {
-                    SimVar.SetSimVarValue("L:APU_EGT", "number", Math.round((Math.floor(Math.random() * 1) + 1)*(this.apuStart[this.currentAPUIndex][1]) + this.ambientTemp*1.8));       //Math.round((Math.floor(Math.random() * 1) + 1)*(this.apuStart[this.currentAPUIndex][1]) + this.ambientTemp*1.8) //heat factor = 1.8; random upper limit = 1.1
-                    SimVar.SetSimVarValue("L:APU_RPM", "number", (this.apuStart[this.currentAPUIndex][0]));
-                    SimVar.SetSimVarValue("L:APU_OIL_PRESS", "number", this.apuStart[this.currentAPUIndex][2]);
-                    SimVar.SetSimVarValue("L:APU_OIL_TEMP", "number", Math.round((Math.floor(Math.random() * 1) + 1)*(this.apuStart[this.currentAPUIndex][3]) + this.ambientTemp*1.2)); //heat factor = 1.2; random upper limit = 1.1
-                    SimVar.SetSimVarValue("L:APU_OIL_QTY", "number", this.apuStart[this.currentAPUIndex][4]);
-                    this.currentAPUIndex++;
-                    if (this.currentAPUIndex >= this.apuStart.length) {
-                        this.currentAPUIndex = this.apuStart.length - 1;
-                    }
-                } 
-                else 
-                {
-                   
+        this.ambientTemp = (SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "Celsius")).toFixed(0);
+        const apuStarted = SimVar.GetSimVarValue("APU SWITCH", "Bool");
+        
+        if (SimVar.GetSimVarValue("APU PCT RPM", "percent") > 7) {
+            if (apuStarted) {                
+                this.currentAPUIndex++;
+                if (this.currentAPUIndex >= this.apuStart.length) {
+                    this.currentAPUIndex = this.apuStart.length - 1;
+                }
+            } else {
+                this.currentAPUIndex--;
+                if (this.currentAPUIndex < 0) {
+                    this.currentAPUIndex = 0;
                 }
             }
-        else
-        {
-            //this.apuEGT.textContent = "";
-            //this.apuEGTUnit.textContent = "";
-            //this.apuOilTempUnit.textContent = "";
-            //this.apuOilPressUnit.textContent = "";
-            //this.apuPress.textContent = "";
-            //this.apuTemp.textContent = "";
-            //this.apuQty.textContent = ""
+
+            SimVar.SetSimVarValue("L:APU_EGT", "number", Math.round((Math.floor(Math.random() * 1) + 1) * this.apuStart[this.currentAPUIndex][1] + this.ambientTemp * 1.8));
+            SimVar.SetSimVarValue("L:APU_RPM", "number", this.apuStart[this.currentAPUIndex][0]);
+            SimVar.SetSimVarValue("L:APU_OIL_PRESS", "number", this.apuStart[this.currentAPUIndex][2]);
+            SimVar.SetSimVarValue("L:APU_OIL_TEMP", "number", Math.round((Math.floor(Math.random() * 1) + 1) * this.apuStart[this.currentAPUIndex][3] + this.ambientTemp * 1.2));
+            SimVar.SetSimVarValue("L:APU_OIL_QTY", "number", this.apuStart[this.currentAPUIndex][4]);
         }
-    }
+    }    
 
     updateAnnunciations() {
         let infoPanelManager = this.upperTopScreen.getInfoPanelManager();
@@ -463,4 +477,3 @@ class B777_Engine {
     }
 }
 registerInstrument("b777-eicas-element", B777_EICAS);
-//# sourceMappingURL=B747_8_EICAS.js.map
