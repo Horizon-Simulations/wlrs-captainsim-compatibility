@@ -24,7 +24,6 @@ class SimBriefApi {
                 if (!response.ok) {
                     throw (response);
                 }
-
                 return response.json();
             });
     }
