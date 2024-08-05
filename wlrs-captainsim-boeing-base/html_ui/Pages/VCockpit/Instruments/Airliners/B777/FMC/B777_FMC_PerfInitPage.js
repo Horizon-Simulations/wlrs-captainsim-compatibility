@@ -73,9 +73,9 @@ class FMCPerfInitPage {
                 }
             };
 
-            let minFuelTempCell = SaltyDataStore.get("PERF_MIN_FUEL_TEMP", -37);
+            let minFuelTempCell = WTDataStore.get("PERF_MIN_FUEL_TEMP", -37);
             let crzCg = "20.50%";
-            let stepSize =  SaltyDataStore.get("PERF_STEP_SIZE", "RVSM");
+            let stepSize =  WTDataStore.get("PERF_STEP_SIZE", "RVSM");
             let stepSizeCell;
             if (fmc.simbrief.perfUplinkReady) {
                 store.dataLink = "";
@@ -121,7 +121,7 @@ class FMCPerfInitPage {
                 let value = fmc.inOut;
                 if (value >= -99 && value <= -1) {
                     fmc.clearUserInput();
-                    SaltyDataStore.set("PERF_MIN_FUEL_TEMP", value);
+                    WTDataStore.set("PERF_MIN_FUEL_TEMP", value);
                 } else {
                     fmc.showErrorMessage(fmc.defaultInputErrorMessage);
                 }
@@ -166,25 +166,28 @@ class FMCPerfInitPage {
                     let value = fmc.inOut;
                     if (value == "RVSM" || value == "ICAO") {
                         fmc.clearUserInput();
-                        SaltyDataStore.set("PERF_STEP_SIZE", value);
+                        WTDataStore.set("PERF_STEP_SIZE", value);
                     } else if (value == "R") {
                         fmc.clearUserInput();
-                        SaltyDataStore.set("PERF_STEP_SIZE", "RVSM");
+                        WTDataStore.set("PERF_STEP_SIZE", "RVSM");
                     } else if (value == "I") {
                         fmc.clearUserInput();
-                        SaltyDataStore.set("PERF_STEP_SIZE", "ICAO");
+                        WTDataStore.set("PERF_STEP_SIZE", "ICAO");
                     } else if (parseInt(value) <= 9900 && parseInt(value) >= 100) {
                         fmc.clearUserInput();
                         value = parseInt(value);
                         value = (value / 100).toFixed(0);
                         value = value * 100;
-                        SaltyDataStore.set("PERF_STEP_SIZE", value.toString());
+                        WTDataStore.set("PERF_STEP_SIZE", value.toString());
                     }
                     else {
                         fmc.showErrorMessage(fmc.defaultInputErrorMessage);
                     }
                 } else {
                     fmc.simbrief.perfUplinkReady = false;
+
+                    FMCPerfInitPage.setTOFlexTemp(fmc);     //set TO select temp on THRUST LIM page
+                    
                     const insertInfo = async () => {
                         insertPerfUplink(fmc, updateView);
                     };
@@ -204,6 +207,19 @@ class FMCPerfInitPage {
             fmc.onRightInput[5] = () => { FMCThrustLimPage.ShowPage1(fmc); };
         });
     }
+
+    static setTOFlexTemp(fmc) {
+        fmc.setThrustTakeOffTemp(fmc.simbrief.takeOffPlanRunway.flex_temperature);
+        
+        if (fmc.indexOf(fmc.simbrief.takeOffPlanRunway.thrust_setting, "1") != -1) {
+            fmc.setThrustTakeOffMode(1);
+        }
+        else if (fmc.indexOf(fmc.simbrief.takeOffPlanRunway.thrust_setting, "2") != -1) {
+            fmc.setThrustTakeOffMode(2);
+        }
+        else {
+            fmc.setThrustTakeOffMode(0);
+        }
+    }
 }
 FMCPerfInitPage._timer = 0;
-//# sourceMappingURL=B747_8_FMC_PerfInitPage.js.map
