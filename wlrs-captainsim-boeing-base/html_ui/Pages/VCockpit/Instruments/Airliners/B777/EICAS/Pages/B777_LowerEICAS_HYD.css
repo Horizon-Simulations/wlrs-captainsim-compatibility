@@ -96,3 +96,9 @@ b777-lower-eicas-hyd #Active #pumps rect{
 b777-lower-eicas-hyd #Active #triangleDirections polygon{
   fill: limegreen;
 }
+
+b777-lower-eicas-hyd text.VLabel {
+  fill: var(--eicasBlu);
+  font-size: 15px;
+  glyph-orientation-vertical: 0;
+  writing-mode: vertical-lr; }
