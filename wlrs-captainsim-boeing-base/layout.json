@@ -31,9 +31,14 @@
       "date": 133590671870869908
     },
     {
+      "path": "html_ui/Pages/Api/HorizonSimApi.js",
+      "size": 2909,
+      "date": 133673608526495872
+    },
+    {
       "path": "html_ui/Pages/Api/NXApi.js",
       "size": 1683,
-      "date": 133626114393966107
+      "date": 133673607354182144
     },
     {
       "path": "html_ui/Pages/Api/SimbriefApi.js",
@@ -47,8 +52,8 @@
     },
     {
       "path": "html_ui/Pages/HorizonSim/HorizonSimConnection.js",
-      "size": 19087,
-      "date": 133664766812331061
+      "size": 19057,
+      "date": 133673331546120945
     },
     {
       "path": "html_ui/Pages/HorizonSim/HorizonSimFuelling.js",
@@ -97,8 +102,8 @@
     },
     {
       "path": "html_ui/Pages/HorizonSim/WT/FileHandler.js",
-      "size": 4951,
-      "date": 133590671870909913
+      "size": 4947,
+      "date": 133673328784984235
     },
     {
       "path": "html_ui/Pages/HorizonSim/WT/Waypoint.js",
@@ -233,7 +238,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EFB/B777_EFB.css",
       "size": 50297,
-      "date": 133622048451610835
+      "date": 133674258349861104
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EFB/B777_EFB.html",
@@ -242,8 +247,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EFB/B777_EFB.js",
-      "size": 2751640,
-      "date": 133667776728771837
+      "size": 2751642,
+      "date": 133674728884594038
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EICAS/B777_EICAS.js",
@@ -497,8 +502,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMC_PerfInitPage.js",
-      "size": 9581,
-      "date": 133671076416401723
+      "size": 9597,
+      "date": 133674241167255294
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMC_PosInitPage.js",
@@ -762,8 +767,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B772/B772_FMC_Payload.js",
-      "size": 9605,
-      "date": 133666726772671556
+      "size": 11742,
+      "date": 133675156113809354
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77F/B77F_Boarding.js",
@@ -777,8 +782,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77F/B77F_FMC_Payload.js",
-      "size": 9556,
-      "date": 133666726772791770
+      "size": 19575,
+      "date": 133675153069984222
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77L/B77L_Boarding.js",
@@ -797,8 +802,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77W/B77W_Boarding.js",
-      "size": 11389,
-      "date": 133665093262806195
+      "size": 11387,
+      "date": 133674257977855311
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77W/B77W_FMC_Fuel.js",
@@ -807,8 +812,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77W/B77W_FMC_Payload.js",
-      "size": 9616,
-      "date": 133666726773046884
+      "size": 11742,
+      "date": 133675155622594347
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/SAT/B777_FMC_SAT_Directory.js",
@@ -868,7 +873,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/UTILS/B777_FMC_Utils.js",
       "size": 1681,
-      "date": 133667422416738186
+      "date": 133673331709002100
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/HDG/B777_HDG.html",
@@ -1352,8 +1357,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/Shared/HorizonSim_BaseAirliners.js",
-      "size": 71372,
-      "date": 133672740263761266
+      "size": 71329,
+      "date": 133673339903544666
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/B77RS/PFD/instrument.js",
