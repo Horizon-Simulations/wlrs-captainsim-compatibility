@@ -164,7 +164,7 @@ class FMCPerfInitPage {
             fmc.onRightInput[4] = () => {
                 if (!fmc.simbrief.perfUplinkReady) {
                     let value = fmc.inOut;
-                    if (value == "RVSM" || value == "ICAO") {
+                    if (value == "RVSM" || value == "ICAO" || value == "0") {
                         fmc.clearUserInput();
                         WTDataStore.set("PERF_STEP_SIZE", value);
                     } else if (value == "R") {
