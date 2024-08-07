@@ -52,7 +52,7 @@ class PayloadConstructor {
         this.cargoStations = {
             fwdBag: {
                 name: 'Foward baggage',
-                weight: 22225,  //update this
+                weight: 22225,  //update this, don't even matter
                 load: 0,
                 stationIndex: 7 + 1,
                 position: 45.083,
@@ -85,9 +85,9 @@ const payloadConstruct = new PayloadConstructor();
 const paxStations = payloadConstruct.paxStations;
 const cargoStations = payloadConstruct.cargoStations;
 
-const MAX_SEAT_AVAILABLE = 312;
-const PAX_WEIGHT = 84;  //kg
-const BAG_WEIGHT = 22;  //kg
+const MAX_SEAT_AVAILABLE = 402;
+const PAX_WEIGHT = WTDataStore.get("PAYLOAD PAX WEIGHT", 84);  //kg
+const BAG_WEIGHT = WTDataStore.get("PAYLOAD BAG WEIGHT", 22);  //kg
 
 /**
  * Calculate %MAC ZWFCG of all stations
