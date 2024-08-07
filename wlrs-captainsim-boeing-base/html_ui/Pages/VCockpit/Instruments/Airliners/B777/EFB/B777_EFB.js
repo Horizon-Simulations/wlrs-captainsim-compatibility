@@ -6,6 +6,7 @@
 -replace all --boeing-color with BoeingColor class
 */
 /** Keep this in sync with WTB748_Common.css & WTB78x_Common.css */
+
 class BoeingColors {
 }
 BoeingColors.black = 'black';
