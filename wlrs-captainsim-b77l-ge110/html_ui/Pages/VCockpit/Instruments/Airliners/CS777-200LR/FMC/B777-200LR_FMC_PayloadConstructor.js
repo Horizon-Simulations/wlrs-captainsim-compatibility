@@ -86,8 +86,8 @@ const paxStations = payloadConstruct.paxStations;
 const cargoStations = payloadConstruct.cargoStations;
 
 const MAX_SEAT_AVAILABLE = 312;
-const PAX_WEIGHT = 84;  //kg
-const BAG_WEIGHT = 22;  //kg
+const PAX_WEIGHT = WTDataStore.get("PAYLOAD PAX WEIGHT", 84);  //kg
+const BAG_WEIGHT = WTDataStore.get("PAYLOAD BAG WEIGHT", 22);  //kg
 
 /**
  * Calculate %MAC ZWFCG of all stations
