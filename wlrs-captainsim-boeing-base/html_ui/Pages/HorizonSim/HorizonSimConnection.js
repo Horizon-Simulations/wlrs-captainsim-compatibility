@@ -351,9 +351,7 @@ const getFplnFromSimBrief = async (fmc) => {
 
     const updateRoute = () => {
         console.log("UPDATE ROUTE");
-        let idx = 0; // TODO starting from 1 to skip departure trans for now
-
-        console.log(routeArr);
+        let idx = 0;
 
         const addWaypoint = async () => {
             if (idx >= routeArr.length - 1) {
@@ -378,7 +376,6 @@ const getFplnFromSimBrief = async (fmc) => {
             idx++;
 
             const wptIndex = fmc.flightPlanManager.getWaypointsCount() - 1;
-            console.log("MOD INDEX " + wptIndex);
 
             if (icao === "DCT") {
                 icao = convertWaypointIdentCoords(routeArr[idx]);
@@ -490,3 +487,8 @@ const insertPerfUplink = (fmc) => {
     fmc.setFuelReserves(resFuel, units);
     fmc.setCruiseFlightLevelAndTemperature(crz);
 };
+
+const HoppieConnector = (fmc) => {
+    const flightNumber = ""; 
+    //const FansMode = FansMode.None;
+}
