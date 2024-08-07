@@ -257,9 +257,7 @@ class HorizonSimBoarding {
     }
 }
 
-
 //teevee replacement
-
 function userToKg(userInput) {
     const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
     if (storedUnits == "LBS") {
