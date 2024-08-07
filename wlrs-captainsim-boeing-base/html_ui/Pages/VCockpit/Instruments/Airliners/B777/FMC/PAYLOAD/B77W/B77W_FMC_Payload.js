@@ -36,7 +36,7 @@ class FMC_Payload {
        
         //all weight are stored in tons, convert to lbs on display only
         const maxCargo = 43900  //kgs calibrate later
-        SimVar.SetSimVarValue("L:B777_MAX_CARGO", "Number", maxCargo);  //use no where?
+        SimVar.SetSimVarValue("L:B777_MAX_CARGO", "Number", maxCargo);
 
         const requestCargo = SimVar.GetSimVarValue("L:B777_CARGO_REQUEST", "KG");
         const requestCargoText = requestCargo === 0 ? "□□□□□□" : `${(kgToUser(requestCargo)).toFixed(0)}{small}${storedUnits}`;
@@ -73,11 +73,12 @@ class FMC_Payload {
             if (value) {
                 value = parseFloat(value);
 
-                if (userToKg(value) < 44) {
+                /*if (userToKg(value) < 44) {
                     value = Math.round(value * 1000);
-                }
-                if (value >= 0 && userToKg(value) <= maxCargo) {   //calibrate later
-                    HorizonSimBoarding.setTargetCargo(userToKg(value));     //stored in KGs
+                }*/
+
+                if (value >= 0 && userToKg(value) <= maxCargo) {
+                    HorizonSimBoarding.setTargetCargo(userToKg(value));
                     fmc.clearUserInput();
                 } else fmc.showErrorMessage("NOT ALLOWED");
             }
@@ -159,7 +160,7 @@ class FMC_Payload {
         const currentPax = this.getCurrentPax();
 
         fmc.setTemplate([
-            ["PAX DETAILS", "1", "2"],
+            ["PAX DETAILS", "1", "3"],
             [`\xa0${paxStations.businessClass.name}`, ""],
             [this.buildStationValue(paxStations.businessClass), ""],
             [`\xa0${paxStations.premiumEconomy.name}`, ""],
@@ -205,7 +206,7 @@ class FMC_Payload {
         const requestCargoText = requestCargo === 0 ? "□□□□□□" : `${(kgToUser(requestCargo)).toFixed(0)}{small}${storedUnits}`;
         
         fmc.setTemplate([
-            ["CARGO DETAILS", "2", "2"],
+            ["CARGO DETAILS", "2", "3"],
             [`\xa0${cargoStations.fwdBag.name}`, ""],
             [`${this.buildStationValue(cargoStations.fwdBag)}{small}${storedUnits}`, ""],
             [`\xa0${cargoStations.aftBag.name}`, ""],
@@ -226,6 +227,80 @@ class FMC_Payload {
 
         fmc.onPrevPage = () => {
             FMC_Payload.ShowDetailsPage1(fmc);
+        }
+
+        fmc.onNextPage = () => {
+            FMC_Payload.ShowDetailsPage3(fmc);
+        }
+    }
+
+    static ShowDetailsPage3(fmc) {
+    
+        fmc.clearDisplay();
+
+        const updateView = () => {
+            FMC_Payload.ShowDetailsPage3(fmc);
+        };
+
+        fmc.refreshPageCallback = () => {
+            updateView();
+        };
+
+        SimVar.SetSimVarValue("L:FMC_UPDATE_CURRENT_PAGE", "number", 1);
+
+        const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
+        const PAX_WEIGHT = kgToUser(WTDataStore.get("PAYLOAD PAX WEIGHT", 84));  //kg
+        const BAG_WEIGHT = kgToUser(WTDataStore.get("PAYLOAD BAG WEIGHT", 22));  //kg
+        
+        fmc.setTemplate([
+            ["WEIGHT CUSTOMIZATION", "3", "3"],
+            ["PAX WEIGHT", ""],
+            [`${PAX_WEIGHT}{small}${storedUnits}`, ""],
+            ["LUGGAGE WEIGHT", ""],
+            [`${BAG_WEIGHT}{small}${storedUnits}`, ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["\xa0RETURN TO"],
+            ["<PAYLOAD"],
+        ]);
+
+        fmc.onLeftInput[0] = () => {
+            let value = fmc.inOut;
+            if (value) {
+                value = parseInt(value);
+
+                if (userToKg(value) < 60) {
+                    value = 60;
+                }
+                if (value >= 60 && userToKg(value) <= 100) {
+                    WTDataStore.set("PAYLOAD PAX WEIGHT", value);
+                    fmc.clearUserInput();
+                } else fmc.showErrorMessage("NOT ALLOWED");
+            }
+        };
+
+        fmc.onLeftInput[1] = () => {
+            let value = fmc.inOut;
+            if (value) {
+                value = parseInt(value);
+
+                if (value >= 0 && userToKg(value) <= 28) {
+                    WTDataStore.set("PAYLOAD BAG WEIGHT", value);
+                    fmc.clearUserInput();
+                } else fmc.showErrorMessage("NOT ALLOWED");
+            }
+        };
+
+        fmc.onLeftInput[5] = () => {
+            FMC_Payload.ShowPage(fmc);
+        };
+
+        fmc.onPrevPage = () => {
+            FMC_Payload.ShowDetailsPage2(fmc);
         }
     }
     
