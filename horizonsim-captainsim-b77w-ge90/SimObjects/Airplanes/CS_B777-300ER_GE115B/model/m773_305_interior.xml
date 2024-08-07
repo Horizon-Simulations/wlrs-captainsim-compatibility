@@ -7708,7 +7708,7 @@
     <Component ID="EFB2">   <!--from now testing WT EFB template-->
 
       <UseTemplate Name="WT_B777_EFB_Template">
-				<SCREEN_NODE_ID>Screen_ETB_2</SCREEN_NODE_ID>
+				<SCREEN_NODE_ID>Glass_iPad_Left</SCREEN_NODE_ID>  <!--not really sure-->
 				<BUTTON_NODE_PREFIX>coplt</BUTTON_NODE_PREFIX>
 			</UseTemplate>
 
