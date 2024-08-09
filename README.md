@@ -63,10 +63,10 @@ If you would like to contribute to the project, see [Contributing.md](./Contribu
 
 ## Known issues and limitations
 
-The project is build-up on top of a payware product from [Captain Sim](https://captainsim.net/). This leads to limitation in key/button assigment in order interact with cockpit elements. Many of these are unclickable at all. Many features in the aircraft are still based on default B747-8i by Asobo which may displays some missing items.  
+The project is build-up on top of a payware product from [Captain Sim](https://captainsim.net/). This leads to limitation in key/button assigment in order interact with cockpit elements. For example, lower center display is not a "touch-screen", which makes the checklist INOP, some of the overhead panel are not clickable. Many features in the aircraft are based on default B747-8i Asobo, B787-9 by Horizon Simulations, Salty B747-8i by Salty Simulations. 
 
 ## FAQ
-
+Contact Horizon Simlations Discord for help.
 ...
 
 ## License
