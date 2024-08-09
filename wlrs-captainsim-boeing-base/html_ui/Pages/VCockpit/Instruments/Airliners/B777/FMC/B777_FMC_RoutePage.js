@@ -80,7 +80,7 @@ class FMCRoutePage {
         this._fmc.registerPeriodicPageRefresh(() => {
             this.update();
             return true;
-        }, 1000, false);
+        }, 200, false);
     }
 
     invalidate() {
