@@ -15,342 +15,81 @@ var B777_LowerEICAS_ELEC;
 		init() {
 			this.isInitialised = true;
 
+			
+
 		}
 		update(_deltaTime) {
 			if (!this.isInitialised) {
 				return;
 			}
 
-			//APU CONNECTION LOGIC
-			if ((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:1", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:1", "bool"))) {
-				this.querySelector("#apu1-greenpath").style.visibility = "visible";
-			} else {
+			this.updateBattInfo();
+			this.updateGen();
+			this.updateDrive();
 
-				this.querySelector("#apu1-greenpath").style.visibility = "hidden";
+		}
+
+		updateBattInfo() {
+			const maxMainBattCapacity = 28; //modify with system.cfg
+			const maxAPUBattCapacity = 24; //modify with system.cfg
+			this.querySelector("#mainBattVolts").textContent = SimVar.GetSimVarValue("ELECTRICAL BATTERY VOLTAGE:1", "Volts").toFixed(0);
+			let mainBattAmps = SimVar.GetSimVarValue("ELECTRICAL BATTERY ESTIMATED CAPACITY PCT:1", "Percent over 100")*maxMainBattCapacity;
+			this.querySelector("#mainBattAmps").textContent = Math.abs(mainBattAmps).toFixed(0);
+			let mainBattCharge = (SimVar.GetSimVarValue("ELECTRICAL BATTERY LOAD:1", "Amperes") <= 0) ? "CHG" : "DISCH";
+			this.querySelector("#mainBattCharge").textContent = mainBattCharge;
+
+			this.querySelector("#apuBattVolts").textContent = SimVar.GetSimVarValue("ELECTRICAL BATTERY VOLTAGE:2", "Volts").toFixed(0);
+			let apuBattAmps = SimVar.GetSimVarValue("ELECTRICAL BATTERY ESTIMATED CAPACITY PCT:2", "Percent over 100")*maxAPUBattCapacity;
+			this.querySelector("#apuBattAmps").textContent = Math.abs(apuBattAmps).toFixed(0);
+			let apuBattCharge = (SimVar.GetSimVarValue("ELECTRICAL BATTERY LOAD:2", "Amperes") <= 0) ? "CHG" : "DISCH";
+			this.querySelector("#apuBattCharge").textContent = apuBattCharge;
+		}
+
+		updateGen() {
+			if (SimVar.GetSimVarValue("APU PCT RPM", "Percent") > 90) {
+				this.querySelector("#apuGen").style.stroke = "lime";
 			}
-			if ((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:2", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:2", "bool"))) {
-				this.querySelector("#apu2-greenpath").style.visibility = "visible";
-			} else {
-
-				this.querySelector("#apu2-greenpath").style.visibility = "hidden";
-			}
-
-			//EXTERNAL POWER CONNECTION LOGIC
-			if ((SimVar.GetSimVarValue("EXTERNAL POWER ON:1", "bool")) && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:1", "bool"))) {
-				this.querySelector("#ext1-greenpath").style.visibility = "visible";
-			} else {
-
-				this.querySelector("#ext1-greenpath").style.visibility = "hidden";
-			}
-			if ((SimVar.GetSimVarValue("EXTERNAL POWER ON:2", "bool")) && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:2", "bool"))) {
-				this.querySelector("#ext2-greenpath").style.visibility = "visible";
-			} else {
-
-				this.querySelector("#ext2-greenpath").style.visibility = "hidden";
-			}
-
-			//SSB LOGIC - SSB OPENS WHEN MORE THAN ONE EXT OR APU IS ACTIVE & CONNECTED TO SYNC BUS
-			if (((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:1", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:1", "bool"))) && (((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:2", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:2", "bool"))) || ((SimVar.GetSimVarValue("EXTERNAL POWER ON:2", "bool") && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:2", "bool")))))) {
-				this.querySelector("#ssboff-rect").style.visibility = "visible";
-				this.querySelector("#ssbon-rect").style.visibility = "hidden";
-				this.querySelector("#ssb-greenpath").style.visibility = "hidden";
-			} else if (((SimVar.GetSimVarValue("EXTERNAL POWER ON:1", "bool")) && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:1", "bool"))) && (((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:2", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:2", "bool"))) || ((SimVar.GetSimVarValue("EXTERNAL POWER ON:2", "bool") && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:2", "bool")))))) {
-				this.querySelector("#ssboff-rect").style.visibility = "visible";
-				this.querySelector("#ssbon-rect").style.visibility = "hidden";
-				this.querySelector("#ssb-greenpath").style.visibility = "hidden";
-			} else if (((SimVar.GetSimVarValue("EXTERNAL POWER ON:2", "bool")) && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:2", "bool"))) && (((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:1", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:1", "bool"))) || ((SimVar.GetSimVarValue("EXTERNAL POWER ON:1", "bool") && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:1", "bool")))))) {
-				this.querySelector("#ssboff-rect").style.visibility = "visible";
-				this.querySelector("#ssbon-rect").style.visibility = "hidden";
-				this.querySelector("#ssb-greenpath").style.visibility = "hidden";
-			} else if (((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:2", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:2", "bool"))) && (((SimVar.GetSimVarValue("APU GENERATOR ACTIVE:1", "bool")) && (SimVar.GetSimVarValue("APU GENERATOR SWITCH:1", "bool"))) || ((SimVar.GetSimVarValue("EXTERNAL POWER ON:1", "bool") && (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:1", "bool")))))) {
-				this.querySelector("#ssboff-rect").style.visibility = "visible";
-				this.querySelector("#ssbon-rect").style.visibility = "hidden";
-				this.querySelector("#ssb-greenpath").style.visibility = "hidden";
-			} else {
-				this.querySelector("#ssboff-rect").style.visibility = "hidden";
-				this.querySelector("#ssbon-rect").style.visibility = "visible";
-				this.querySelector("#ssb-greenpath").style.visibility = "visible";
+			else {
+				this.querySelector("#apuGen").style.stroke = "white";
 			}
 
-			//BUS TIE BREAKER LOGIC - CHECK IF EACH BUS TIE BREAKER IS CLOSED
-			if (SimVar.GetSimVarValue("BUS CONNECTION ON:2", "bool")) {
-				this.querySelector("#bustie1-rect").style.stroke = "white";
-				this.querySelector("#bustie1outline-left").style.visibility = "visible";
-				this.querySelector("#bustie1outline-right").style.visibility = "visible";
-				this.querySelector("#bustie1-greenpath").style.visibility = "visible";
-				this.querySelector("#bus1tobustie-greenpath").style.visibility = "visible";
-				this.querySelector("#bus1iso-text").style.visibility = "hidden";
-				this.querySelector("#blank5-rect").style.visibility = "visible";
-			} else {
-
-				this.querySelector("#bustie1-rect").style.stroke = "#db7200";
-				this.querySelector("#bustie1outline-left").style.visibility = "hidden";
-				this.querySelector("#bustie1outline-right").style.visibility = "hidden";
-				this.querySelector("#bustie1-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus1tobustie-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus1iso-text").style.visibility = "visible";
-				this.querySelector("#blank5-rect").style.visibility = "hidden";
+			if (SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:1", "Bool")) {
+				this.querySelector("#leftGen").style.stroke = "lime";
+			}
+			else {
+				this.querySelector("#leftGen").style.stroke = "white";
 			}
 
-			if (SimVar.GetSimVarValue("BUS CONNECTION ON:3", "bool")) {
-				this.querySelector("#bustie2-rect").style.stroke = "white";
-				this.querySelector("#bustie2outline-left").style.visibility = "visible";
-				this.querySelector("#bustie2outline-right").style.visibility = "visible";
-				this.querySelector("#bustie2-greenpath").style.visibility = "visible";
-				this.querySelector("#bus2tobustie-greenpath").style.visibility = "visible";
-				this.querySelector("#bus2iso-text").style.visibility = "hidden";
-				this.querySelector("#blank6-rect").style.visibility = "visible";
-			} else {
+			if (SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:2", "Bool")) {
+				this.querySelector("#rightGen").style.stroke = "lime";
+			}
+			else {
+				this.querySelector("#rightGen").style.stroke = "white";
+			}
+		}
 
-				this.querySelector("#bustie2-rect").style.stroke = "#db7200";
-				this.querySelector("#bustie2outline-left").style.visibility = "hidden";
-				this.querySelector("#bustie2outline-right").style.visibility = "hidden";
-				this.querySelector("#bustie2-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus2tobustie-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus2iso-text").style.visibility = "visible";
-				this.querySelector("#blank6-rect").style.visibility = "hidden";
+		updateDrive() {
+			//Drive btn is inop, so just watch the engine RPM to determine. Follows the panel.cfg
+			if (SimVar.GetSimVarValue("TURB ENG N2:1", "Percent") < 70) {
+				this.querySelector("#leftDriveFault").style.visibility = "visible";
+				this.querySelector("#leftDrive").style.stroke = "white";
+			}
+			else {
+				this.querySelector("#leftDriveFault").style.visibility = "hidden";
+				this.querySelector("#leftDrive").style.stroke = "lime";
 			}
 
-			if (SimVar.GetSimVarValue("BUS CONNECTION ON:4", "bool")) {
-				this.querySelector("#bustie3-rect").style.stroke = "white";
-				this.querySelector("#bustie3outline-left").style.visibility = "visible";
-				this.querySelector("#bustie3outline-right").style.visibility = "visible";
-				this.querySelector("#bustie3-greenpath").style.visibility = "visible";
-				this.querySelector("#bus3tobustie-greenpath").style.visibility = "visible";
-				this.querySelector("#bus3iso-text").style.visibility = "hidden";
-				this.querySelector("#blank7-rect").style.visibility = "visible";
-			} else {
-
-				this.querySelector("#bustie3-rect").style.stroke = "#db7200";
-				this.querySelector("#bustie3outline-left").style.visibility = "hidden";
-				this.querySelector("#bustie3outline-right").style.visibility = "hidden";
-				this.querySelector("#bustie3-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus3tobustie-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus3iso-text").style.visibility = "visible";
-				this.querySelector("#blank7-rect").style.visibility = "hidden";
+			if (SimVar.GetSimVarValue("TURB ENG N2:2", "Percent") < 70) {
+				this.querySelector("#rightDriveFault").style.visibility = "visible";
+				this.querySelector("#rightDrive").style.stroke = "white";
 			}
-
-			if (SimVar.GetSimVarValue("BUS CONNECTION ON:5", "bool")) {
-				this.querySelector("#bustie4-rect").style.stroke = "white";
-				this.querySelector("#bustie4outline-left").style.visibility = "visible";
-				this.querySelector("#bustie4outline-right").style.visibility = "visible";
-				this.querySelector("#bustie4-greenpath").style.visibility = "visible";
-				this.querySelector("#bus4tobustie-greenpath").style.visibility = "visible";
-				this.querySelector("#bus4iso-text").style.visibility = "hidden";
-				this.querySelector("#blank8-rect").style.visibility = "visible";
-			} else {
-
-				this.querySelector("#bustie4-rect").style.stroke = "#db7200";
-				this.querySelector("#bustie4outline-left").style.visibility = "hidden";
-				this.querySelector("#bustie4outline-right").style.visibility = "hidden";
-				this.querySelector("#bustie4-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus4tobustie-greenpath").style.visibility = "hidden";
-				this.querySelector("#bus4iso-text").style.visibility = "visible";
-				this.querySelector("#blank8-rect").style.visibility = "hidden";
+			else {
+				this.querySelector("#rightDriveFault").style.visibility = "hidden";
+				this.querySelector("#rightDrive").style.stroke = "lime";
 			}
-
-			//BUS DISPLAY LOGIC - EACH BUS IS SHOWN AS POWERED IF ASSOCIATED GEN IS ON OR BUS TIE IS CLOSED AND SYNC BUS IS POWERED
-			if (((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:1", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:1", "percent") >= 50)) || ((SimVar.GetSimVarValue("ELECTRICAL MAIN BUS VOLTAGE:1", "volts") > 0) && (SimVar.GetSimVarValue("BUS CONNECTION ON:2", "bool")))) {
-				this.querySelector("#bus1label-rect").style.stroke = "lime";
-				this.querySelector("#bus1off-text").style.fill = "lime";
-				this.querySelector("#utilityline1a").style.stroke = "lime";
-				this.querySelector("#utilityline1b").style.stroke = "lime";
-				this.querySelector("#utility1-text").style.fill = "lime";
-				this.querySelector("#galleyline1a").style.stroke = "lime";
-				this.querySelector("#galleyline1b").style.stroke = "lime";
-				this.querySelector("#galley1-text").style.fill = "lime";
-			} else {
-				this.querySelector("#bus1label-rect").style.stroke = "#db7200";
-				this.querySelector("#bus1off-text").style.fill = "#db7200";
-				this.querySelector("#utilityline1a").style.stroke = "#db7200";
-				this.querySelector("#utilityline1b").style.stroke = "#db7200";
-				this.querySelector("#utility1-text").style.fill = "#db7200";
-				this.querySelector("#galleyline1a").style.stroke = "#db7200";
-				this.querySelector("#galleyline1b").style.stroke = "#db7200";
-				this.querySelector("#galley1-text").style.fill = "#db7200";
-			}
-
-			if (((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:2", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:2", "percent") >= 50)) || ((SimVar.GetSimVarValue("ELECTRICAL MAIN BUS VOLTAGE:1", "volts") > 0) && (SimVar.GetSimVarValue("BUS CONNECTION ON:3", "bool")))) {
-				this.querySelector("#bus2label-rect").style.stroke = "lime";
-				this.querySelector("#bus2off-text").style.fill = "lime";
-				this.querySelector("#utilityline2a").style.stroke = "lime";
-				this.querySelector("#utilityline2b").style.stroke = "lime";
-				this.querySelector("#utility2-text").style.fill = "lime";
-				this.querySelector("#galleyline2a").style.stroke = "lime";
-				this.querySelector("#galleyline2b").style.stroke = "lime";
-				this.querySelector("#galley2-text").style.fill = "lime";
-			} else {
-				this.querySelector("#bus2label-rect").style.stroke = "#db7200";
-				this.querySelector("#bus2off-text").style.fill = "#db7200";
-				this.querySelector("#utilityline2a").style.stroke = "#db7200";
-				this.querySelector("#utilityline2b").style.stroke = "#db7200";
-				this.querySelector("#utility2-text").style.fill = "#db7200";
-				this.querySelector("#galleyline2a").style.stroke = "#db7200";
-				this.querySelector("#galleyline2b").style.stroke = "#db7200";
-				this.querySelector("#galley2-text").style.fill = "#db7200";
-			}
-
-			if (((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:3", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:3", "percent") >= 50)) || ((SimVar.GetSimVarValue("ELECTRICAL MAIN BUS VOLTAGE:1", "volts") > 0) && (SimVar.GetSimVarValue("BUS CONNECTION ON:4", "bool")))) {
-				this.querySelector("#bus3label-rect").style.stroke = "lime";
-				this.querySelector("#bus3off-text").style.fill = "lime";
-				this.querySelector("#utilityline3a").style.stroke = "lime";
-				this.querySelector("#utilityline3b").style.stroke = "lime";
-				this.querySelector("#utility3-text").style.fill = "lime";
-				this.querySelector("#galleyline3a").style.stroke = "lime";
-				this.querySelector("#galleyline3b").style.stroke = "lime";
-				this.querySelector("#galley3-text").style.fill = "lime";
-			} else {
-				this.querySelector("#bus3label-rect").style.stroke = "#db7200";
-				this.querySelector("#bus3off-text").style.fill = "#db7200";
-				this.querySelector("#utilityline3a").style.stroke = "#db7200";
-				this.querySelector("#utilityline3b").style.stroke = "#db7200";
-				this.querySelector("#utility3-text").style.fill = "#db7200";
-				this.querySelector("#galleyline3a").style.stroke = "#db7200";
-				this.querySelector("#galleyline3b").style.stroke = "#db7200";
-				this.querySelector("#galley3-text").style.fill = "#db7200";
-			}
-
-			if (((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:4", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:4", "percent") >= 50)) || ((SimVar.GetSimVarValue("ELECTRICAL MAIN BUS VOLTAGE:1", "volts") > 0) && (SimVar.GetSimVarValue("BUS CONNECTION ON:5", "bool")))) {
-				this.querySelector("#bus4label-rect").style.stroke = "lime";
-				this.querySelector("#bus4off-text").style.fill = "lime";
-				this.querySelector("#utilityline4a").style.stroke = "lime";
-				this.querySelector("#utilityline4b").style.stroke = "lime";
-				this.querySelector("#utility4-text").style.fill = "lime";
-				this.querySelector("#galleyline4a").style.stroke = "lime";
-				this.querySelector("#galleyline4b").style.stroke = "lime";
-				this.querySelector("#galley4-text").style.fill = "lime";
-			} else {
-				this.querySelector("#bus4label-rect").style.stroke = "#db7200";
-				this.querySelector("#bus4off-text").style.fill = "#db7200";
-				this.querySelector("#utilityline4a").style.stroke = "#db7200";
-				this.querySelector("#utilityline4b").style.stroke = "#db7200";
-				this.querySelector("#utility4-text").style.fill = "#db7200";
-				this.querySelector("#galleyline4a").style.stroke = "#db7200";
-				this.querySelector("#galleyline4b").style.stroke = "#db7200";
-				this.querySelector("#galley4-text").style.fill = "#db7200";
-			}
-
-			//GEN DISPLAY LOGIC - CHECK EACH GEN IS ON AND N2 RPM ABOVE 50%
-			if ((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:1", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:1", "percent") >= 50)) {
-				this.querySelector("#gen1-rect").style.stroke = "white";
-				this.querySelector("#gen1outline-left").style.visibility = "visible";
-				this.querySelector("#gen1outline-right").style.visibility = "visible";
-				this.querySelector("#gen1-greenpath").style.visibility = "visible";
-				this.querySelector("#gen1tobus-greenpath").style.visibility = "visible";
-				this.querySelector("#blank1-rect").style.visibility = "visible";
-				this.querySelector("#gen1off-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#gen1-rect").style.stroke = "#db7200";
-				this.querySelector("#gen1outline-left").style.visibility = "hidden";
-				this.querySelector("#gen1outline-right").style.visibility = "hidden";
-				this.querySelector("#gen1-greenpath").style.visibility = "hidden";
-				this.querySelector("#gen1tobus-greenpath").style.visibility = "hidden";
-				this.querySelector("#blank1-rect").style.visibility = "hidden";
-				this.querySelector("#gen1off-text").style.visibility = "visible";
-			}
-
-			if ((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:2", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:2", "percent") >= 50)) {
-				this.querySelector("#gen2-rect").style.stroke = "white";
-				this.querySelector("#gen2outline-left").style.visibility = "visible";
-				this.querySelector("#gen2outline-right").style.visibility = "visible";
-				this.querySelector("#gen2-greenpath").style.visibility = "visible";
-				this.querySelector("#gen2tobus-greenpath").style.visibility = "visible";
-				this.querySelector("#blank2-rect").style.visibility = "visible";
-				this.querySelector("#gen2off-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#gen2-rect").style.stroke = "#db7200";
-				this.querySelector("#gen2outline-left").style.visibility = "hidden";
-				this.querySelector("#gen2outline-right").style.visibility = "hidden";
-				this.querySelector("#gen2-greenpath").style.visibility = "hidden";
-				this.querySelector("#gen2tobus-greenpath").style.visibility = "hidden";
-				this.querySelector("#blank2-rect").style.visibility = "hidden";
-				this.querySelector("#gen2off-text").style.visibility = "visible";
-			}
-
-			if ((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:3", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:3", "percent") >= 50)) {
-				this.querySelector("#gen3-rect").style.stroke = "white";
-				this.querySelector("#gen3outline-left").style.visibility = "visible";
-				this.querySelector("#gen3outline-right").style.visibility = "visible";
-				this.querySelector("#gen3-greenpath").style.visibility = "visible";
-				this.querySelector("#gen3tobus-greenpath").style.visibility = "visible";
-				this.querySelector("#blank3-rect").style.visibility = "visible";
-				this.querySelector("#gen3off-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#gen3-rect").style.stroke = "#db7200";
-				this.querySelector("#gen3outline-left").style.visibility = "hidden";
-				this.querySelector("#gen3outline-right").style.visibility = "hidden";
-				this.querySelector("#gen3-greenpath").style.visibility = "hidden";
-				this.querySelector("#gen3tobus-greenpath").style.visibility = "hidden";
-				this.querySelector("#blank3-rect").style.visibility = "hidden";
-				this.querySelector("#gen3off-text").style.visibility = "visible";
-			}
-			if ((SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:4", "bool")) && (SimVar.GetSimVarValue("TURB ENG N2:4", "percent") >= 50)) {
-				this.querySelector("#gen4-rect").style.stroke = "white";
-				this.querySelector("#gen4outline-left").style.visibility = "visible";
-				this.querySelector("#gen4outline-right").style.visibility = "visible";
-				this.querySelector("#gen4-greenpath").style.visibility = "visible";
-				this.querySelector("#gen4tobus-greenpath").style.visibility = "visible";
-				this.querySelector("#blank4-rect").style.visibility = "visible";
-				this.querySelector("#gen4off-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#gen4-rect").style.stroke = "#db7200";
-				this.querySelector("#gen4outline-left").style.visibility = "hidden";
-				this.querySelector("#gen4outline-right").style.visibility = "hidden";
-				this.querySelector("#gen4-greenpath").style.visibility = "hidden";
-				this.querySelector("#gen4tobus-greenpath").style.visibility = "hidden";
-				this.querySelector("#blank4-rect").style.visibility = "hidden";
-				this.querySelector("#gen4off-text").style.visibility = "visible";
-			}
-
-			//GEN DRIVE LOGIC - CHECK EACH ENG N2 RPM ABOVE 50%
-			if (SimVar.GetSimVarValue("TURB ENG N2:1", "percent") >= 50) {
-				this.querySelector("#drive1-rect").style.stroke = "lime";
-				this.querySelector("#drive1offupper-text").style.visibility = "hidden";
-				this.querySelector("#drive1offmiddle-text").style.visibility = "hidden";
-				this.querySelector("#drive1offlower-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#drive1-rect").style.stroke = "#db7200";
-				this.querySelector("#drive1offupper-text").style.visibility = "visible";
-				this.querySelector("#drive1offmiddle-text").style.visibility = "visible";
-				this.querySelector("#drive1offlower-text").style.visibility = "visible";
-			}
-
-			if (SimVar.GetSimVarValue("TURB ENG N2:2", "percent") >= 50) {
-				this.querySelector("#drive2-rect").style.stroke = "lime";
-				this.querySelector("#drive2offupper-text").style.visibility = "hidden";
-				this.querySelector("#drive2offmiddle-text").style.visibility = "hidden";
-				this.querySelector("#drive2offlower-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#drive2-rect").style.stroke = "#db7200";
-				this.querySelector("#drive2offupper-text").style.visibility = "visible";
-				this.querySelector("#drive2offmiddle-text").style.visibility = "visible";
-				this.querySelector("#drive2offlower-text").style.visibility = "visible";
-			}
-			if (SimVar.GetSimVarValue("TURB ENG N2:3", "percent") >= 50) {
-				this.querySelector("#drive3-rect").style.stroke = "lime";
-				this.querySelector("#drive3offupper-text").style.visibility = "hidden";
-				this.querySelector("#drive3offmiddle-text").style.visibility = "hidden";
-				this.querySelector("#drive3offlower-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#drive3-rect").style.stroke = "#db7200";
-				this.querySelector("#drive3offupper-text").style.visibility = "visible";
-				this.querySelector("#drive3offmiddle-text").style.visibility = "visible";
-				this.querySelector("#drive3offlower-text").style.visibility = "visible";
-			}
-			if (SimVar.GetSimVarValue("TURB ENG N2:4", "percent") >= 50) {
-				this.querySelector("#drive4-rect").style.stroke = "lime";
-				this.querySelector("#drive4offupper-text").style.visibility = "hidden";
-				this.querySelector("#drive4offmiddle-text").style.visibility = "hidden";
-				this.querySelector("#drive4offlower-text").style.visibility = "hidden";
-			} else {
-				this.querySelector("#drive4-rect").style.stroke = "#db7200";
-				this.querySelector("#drive4offupper-text").style.visibility = "visible";
-				this.querySelector("#drive4offmiddle-text").style.visibility = "visible";
-				this.querySelector("#drive4offlower-text").style.visibility = "visible";
-			}
-
 		}
 	}
 	B777_LowerEICAS_ELEC.Display = Display;
-})(B777_LowerEICAS_ELEC || (B777_LowerEICAS_ELEC = {}));
+})
+(B777_LowerEICAS_ELEC || (B777_LowerEICAS_ELEC = {}));
 customElements.define("b777-lower-eicas-elec", B777_LowerEICAS_ELEC.Display);
