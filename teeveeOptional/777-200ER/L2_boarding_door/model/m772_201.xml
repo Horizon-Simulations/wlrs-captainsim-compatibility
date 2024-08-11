@@ -286,128 +286,6 @@
     </Animation>
   </PartInfo>
 
-  <!--
-  <PartInfo>
-    <Name>N1_0_still</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng1_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:1, percent) 3.0 &lt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_0_slow</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng1_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:1, percent) 3.0 &gt;
-          if{
-          (A:ENG N1 RPM:1, percent) 6.0 &lt; if{ 1 } els{ 0 }
-          } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_0_blurred</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng1_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:1, percent) 6.0 &gt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_1_still</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng2_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:2, percent) 3.0 &lt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_1_slow</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng2_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:2, percent) 3.0 &gt;
-          if{
-          (A:ENG N1 RPM:2, percent) 6.0 &lt; if{ 1 } els{ 0 }
-          } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_1_blurred</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng2_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:2, percent) 6.0 &gt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  -->
-
   <PartInfo>
     <Name>thrust_rev</Name>
     <AnimLength>100</AnimLength>
@@ -569,7 +447,7 @@
       <Parameter>
         <Lag>20</Lag>
         <Code>
-          (A:APU PCT RPM, percent) 1.0 &gt; if{ 100 } els{ 0 }
+          (L:cs777_anim_ctrl_apu_intake, bool) 100 *
         </Code>
       </Parameter>
     </Animation>
@@ -717,46 +595,54 @@
     <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
 
    	<Component ID="ENGINE">
+      <OverrideTemplateParameters>
+        <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
+        <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
+        <MAGIC>2465</MAGIC>
+      </OverrideTemplateParameters>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>1</ENG_ID>
 				<ANIM_NODE>N1_1_anim</ANIM_NODE>
-        <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
-        <MAGIC>1900</MAGIC>
 			</UseTemplate>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>2</ENG_ID>
 				<ANIM_NODE>N1_2_anim</ANIM_NODE>
-        <MIN_RPM_FOR_SLOW>19000</MIN_RPM_FOR_SLOW>
-        <MIN_RPM_FOR_BLUR>32000</MIN_RPM_FOR_BLUR>
-        <MAGIC>1900</MAGIC>
 			</UseTemplate>
 		</Component>
     
     
     <Component ID="INTERACTIVE_POINTS">
+    <!--current ver-->
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>12</ID>
+        <ID>2</ID>
         <ANIM_NAME>door_cargo</ANIM_NAME>
       </UseTemplate>
       <!--<UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>10</ID>
+        <ID>0</ID>
         <ANIM_NAME>door_passenger</ANIM_NAME>
       </UseTemplate>-->
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
         <ID>1</ID>
         <ANIM_NAME>door_rear</ANIM_NAME>
       </UseTemplate>
-      <!--
+    <!--full ver
+      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+        <ID>8</ID>
+        <ANIM_NAME>door_cargo</ANIM_NAME>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+        <ID>0</ID>
+        <ANIM_NAME>door_passenger</ANIM_NAME>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+        <ID>7</ID>
+        <ANIM_NAME>door_rear</ANIM_NAME>
+      </UseTemplate>
+    -->
       <UseTemplate Name="ASOBO_FuelHose_InteractivePoint_Template">
-        <ID>14</ID>
+        <ID>12</ID>
         <NODE_ID>GROUND_FUELPIPE</NODE_ID>
       </UseTemplate>
-      <UseTemplate Name="ASOBO_FuelHose_InteractivePoint_Template">
-        <ID>15</ID>
-        <NODE_ID>GROUND_GPUPIPE</NODE_ID>
-      </UseTemplate>
-      -->
     </Component>
     
     <Component ID="FX_CONTRAIL_QUAD">
