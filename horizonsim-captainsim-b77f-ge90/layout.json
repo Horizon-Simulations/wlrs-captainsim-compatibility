@@ -287,8 +287,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/CS777F_EICAS.html",
-      "size": 4443,
-      "date": 133665916692512703
+      "size": 4424,
+      "date": 133676824020949684
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_DRS.css",
@@ -322,8 +322,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/B777-F_FMC_PayloadConstructor.js",
-      "size": 15230,
-      "date": 133657933166907917
+      "size": 15308,
+      "date": 133674731995753610
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/B777_FMC_Doors.js",
@@ -349,11 +349,6 @@
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/ai.cfg",
       "size": 902,
       "date": 133630677660198013
-    },
-    {
-      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/aircraft.cfg",
-      "size": 5939,
-      "date": 133666658114451933
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/approach.FLT",
@@ -428,7 +423,7 @@
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/systems.cfg",
       "size": 26158,
-      "date": 133672785703021719
+      "date": 133676827474612107
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/taxi.FLT",
@@ -442,8 +437,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/model/m774_404_interior.xml",
-      "size": 306864,
-      "date": 133672722835558925
+      "size": 307686,
+      "date": 133676008228290886
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/panel/Captain_Sim.m774.sys.wasm",
