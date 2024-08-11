@@ -282,18 +282,18 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_ELEC.css",
-      "size": 1855,
-      "date": 133666591708094111
+      "size": 1277,
+      "date": 133676127497411521
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_ELEC.html",
-      "size": 14066,
-      "date": 133590671870979908
+      "size": 4000,
+      "date": 133676129828415835
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_ELEC.js",
-      "size": 22219,
-      "date": 133671081791056203
+      "size": 3490,
+      "date": 133676007756476823
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_Engine.css",
@@ -522,8 +522,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMC_RoutePage.js",
-      "size": 30862,
-      "date": 133662467524388117
+      "size": 30861,
+      "date": 133676027909152346
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMC_SelectWptPage.js",
