@@ -598,6 +598,7 @@
       <OverrideTemplateParameters>  <!--test-->
         <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
         <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
+        <MAGIC>2465</MAGIC>
       </OverrideTemplateParameters>
 			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
 				<ENG_ID>1</ENG_ID>
