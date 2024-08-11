@@ -1,0 +1,509 @@
+{
+  "content": [
+    {
+      "path": "effects/fx_((.fx",
+      "size": 1305,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/fx_LED((.fx",
+      "size": 1300,
+      "date": 133302996999479092
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_BeaconBelly.fx",
+      "size": 4689,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_BeaconTop.fx",
+      "size": 4703,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_BeaconTopdown.fx",
+      "size": 1264,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_LandingLarge+.fx",
+      "size": 1288,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_LandingLarge.fx",
+      "size": 4881,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_LogoLightLarge.fx",
+      "size": 3698,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_NavigationGreen.fx",
+      "size": 3544,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_NavigationRed.fx",
+      "size": 3523,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_NavigationWhite.fx",
+      "size": 3903,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_StrobeSimple.fx",
+      "size": 3561,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_TaxiLarge.fx",
+      "size": 4870,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/LIGHT_CSMASTB7_WingLarge.FX",
+      "size": 3912,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/texture/BeaconDown.dds",
+      "size": 1048704,
+      "date": 133302996999509076
+    },
+    {
+      "path": "effects/texture/BeaconDown.DDS.json",
+      "size": 119,
+      "date": 133302996999489091
+    },
+    {
+      "path": "effects/texture/flare.dds",
+      "size": 1048704,
+      "date": 133302997000169071
+    },
+    {
+      "path": "effects/texture/FLARE.DDS.json",
+      "size": 119,
+      "date": 133302996999509076
+    },
+    {
+      "path": "effects/texture/LIGHT.dds",
+      "size": 1048704,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHT.DDS.json",
+      "size": 119,
+      "date": 133302996999589075
+    },
+    {
+      "path": "effects/texture/LIGHTLanding-belly.dds",
+      "size": 1048704,
+      "date": 133302996999799072
+    },
+    {
+      "path": "effects/texture/LIGHTLANDING-BELLY.DDS.json",
+      "size": 102,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLanding-L.dds",
+      "size": 1048704,
+      "date": 133302996999739071
+    },
+    {
+      "path": "effects/texture/LIGHTLANDING-L.DDS.json",
+      "size": 102,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLanding.dds",
+      "size": 1048704,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTLANDING.DDS.json",
+      "size": 102,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLED.dds",
+      "size": 1048704,
+      "date": 133302996999679072
+    },
+    {
+      "path": "effects/texture/LIGHTLED.DDS.json",
+      "size": 119,
+      "date": 133302996999639075
+    },
+    {
+      "path": "effects/texture/LIGHTLED2.dds",
+      "size": 65664,
+      "date": 133302996999689088
+    },
+    {
+      "path": "effects/texture/LIGHTLED2.DDS.json",
+      "size": 119,
+      "date": 133302996999689088
+    },
+    {
+      "path": "effects/texture/LIGHTold.dds",
+      "size": 1048704,
+      "date": 133302996999949081
+    },
+    {
+      "path": "effects/texture/LIGHTOLD.DDS.json",
+      "size": 119,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTtaxy-belly.dds",
+      "size": 1048704,
+      "date": 133302996999999098
+    },
+    {
+      "path": "effects/texture/LIGHTTAXY-BELLY.DDS.json",
+      "size": 102,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTtaxy-L.dds",
+      "size": 1048704,
+      "date": 133302996999969090
+    },
+    {
+      "path": "effects/texture/LIGHTTAXY-L.DDS.json",
+      "size": 102,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTtaxy.dds",
+      "size": 1048704,
+      "date": 133302997000029086
+    },
+    {
+      "path": "effects/texture/LIGHTTAXY.DDS.json",
+      "size": 102,
+      "date": 133302996999839084
+    },
+    {
+      "path": "effects/texture/LIGHTWing.dds",
+      "size": 1048704,
+      "date": 133302996999889081
+    },
+    {
+      "path": "effects/texture/LIGHTWING.DDS.json",
+      "size": 119,
+      "date": 133302996999849112
+    },
+    {
+      "path": "effects/texture/TX-((.dds",
+      "size": 1048704,
+      "date": 133302997000059072
+    },
+    {
+      "path": "effects/texture/TX-((.DDS.json",
+      "size": 102,
+      "date": 133302997000029086
+    },
+    {
+      "path": "effects/texture/TX-ALLO-2.dds",
+      "size": 1048704,
+      "date": 133121131977880201
+    },
+    {
+      "path": "effects/texture/TX-ALLO-2.DDS.json",
+      "size": 119,
+      "date": 133029956663691984
+    },
+    {
+      "path": "effects/texture/TX-ALLO.dds",
+      "size": 1048704,
+      "date": 133302997000099088
+    },
+    {
+      "path": "effects/texture/TX-ALLO.DDS.json",
+      "size": 119,
+      "date": 133302997000059072
+    },
+    {
+      "path": "effects/texture/TX-FLASH.dds",
+      "size": 1048704,
+      "date": 133121132168304121
+    },
+    {
+      "path": "effects/texture/TX-FLASH.DDS.json",
+      "size": 119,
+      "date": 133029956662721098
+    },
+    {
+      "path": "effects/texture/TX-LIGHT.dds",
+      "size": 1048704,
+      "date": 133121132296410025
+    },
+    {
+      "path": "effects/texture/TX-LIGHT.DDS.json",
+      "size": 119,
+      "date": 133029956663892179
+    },
+    {
+      "path": "effects/texture/TX-LIGHT2.dds",
+      "size": 1048704,
+      "date": 133121132415028078
+    },
+    {
+      "path": "effects/texture/TX-LIGHT2.DDS.json",
+      "size": 119,
+      "date": 132622815780000000
+    },
+    {
+      "path": "effects/texture/TX-NAV.dds",
+      "size": 1048704,
+      "date": 133121131746178787
+    },
+    {
+      "path": "effects/texture/TX-NAV.DDS.json",
+      "size": 119,
+      "date": 133029956663691984
+    },
+    {
+      "path": "effects/texture/TX-STROBE.dds",
+      "size": 1048704,
+      "date": 133302997000129085
+    },
+    {
+      "path": "effects/texture/TX-STROBE.DDS.json",
+      "size": 119,
+      "date": 133302997000099088
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/CS777F_EICAS.css",
+      "size": 1888,
+      "date": 133590671870499907
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/CS777F_EICAS.html",
+      "size": 4424,
+      "date": 133676824020949684
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_DRS.css",
+      "size": 1125,
+      "date": 133630479090293014
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_DRS.html",
+      "size": 2595,
+      "date": 133666646843566851
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_DRS.js",
+      "size": 2063,
+      "date": 133672733315217488
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_GEAR.css",
+      "size": 1390,
+      "date": 133630479413629930
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_GEAR.html",
+      "size": 4596,
+      "date": 133590671870499907
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/EICAS/Pages/CS777F_LowerEICAS_GEAR.js",
+      "size": 1531,
+      "date": 133672733287288569
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/B777-F_FMC_PayloadConstructor.js",
+      "size": 15308,
+      "date": 133674731995753610
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/B777_FMC_Doors.js",
+      "size": 2476,
+      "date": 133666726098338895
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/CS777F_FMC.css",
+      "size": 2512,
+      "date": 133646724631024690
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/CS777F_FMC.html",
+      "size": 14101,
+      "date": 133666671903379631
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777F/FMC/CS777F_FMC_IdentPage.js",
+      "size": 1113,
+      "date": 133672733250882333
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/B777_Autopilot.xml",
+      "size": 45149,
+      "date": 133670160699540995
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/B777_EICASButton.xml",
+      "size": 3590,
+      "date": 133590671871394974
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/B777_FCUPanel.xml",
+      "size": 2033,
+      "date": 133590671871394974
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/B777_FMC.xml",
+      "size": 5158,
+      "date": 133590671871394974
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/B777_NDPanel.xml",
+      "size": 12382,
+      "date": 133671079449076427
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/index.xml",
+      "size": 328,
+      "date": 133669451440973118
+    },
+    {
+      "path": "ModelBehaviorDefs/RobSim/Salty_Boeing.xml",
+      "size": 38267,
+      "date": 133671078357477770
+    },
+    {
+      "path": "ModelBehaviorDefs/TeeVeeTemplate/B777_HorizonSim_Engines.xml",
+      "size": 2087,
+      "date": 133661424944388501
+    },
+    {
+      "path": "ModelBehaviorDefs/TeeVeeTemplate/B777_WT_templates.xml",
+      "size": 64554,
+      "date": 133674727343634156
+    },
+    {
+      "path": "ModelBehaviorDefs/TeeVeeTemplate/index.xml",
+      "size": 149,
+      "date": 133618327109003864
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/ai.cfg",
+      "size": 902,
+      "date": 133630677660198013
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/approach.FLT",
+      "size": 4189,
+      "date": 133671856109802188
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/apron.FLT",
+      "size": 3538,
+      "date": 133671863480197677
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/cameras.cfg",
+      "size": 30980,
+      "date": 133630680532489158
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/Climb.flt",
+      "size": 4469,
+      "date": 133671863841522913
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/cockpit.cfg",
+      "size": 2802,
+      "date": 133656517323512099
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/cruise.FLT",
+      "size": 4318,
+      "date": 133671863801374170
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/engines.cfg",
+      "size": 4995,
+      "date": 133658071878783341
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/final.FLT",
+      "size": 4348,
+      "date": 133671863743121953
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/flight_model - CS version.cfg",
+      "size": 33235,
+      "date": 133657953171441140
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/flight_model - new process - current.cfg",
+      "size": 33235,
+      "date": 133657953171441140
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/flight_model.cfg",
+      "size": 33015,
+      "date": 133672785622028352
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/gameplay.cfg",
+      "size": 1144,
+      "date": 133590671870449907
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/hangar.flt",
+      "size": 3640,
+      "date": 133670370602872631
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/runway.FLT",
+      "size": 4304,
+      "date": 133671863622544137
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/systems.cfg",
+      "size": 26158,
+      "date": 133676827474612107
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/taxi.FLT",
+      "size": 4394,
+      "date": 133671863573359098
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/model/m774_404.xml",
+      "size": 27737,
+      "date": 133666650136698333
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/model/m774_404_interior.xml",
+      "size": 307686,
+      "date": 133676008228290886
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/panel/Captain_Sim.m774.sys.wasm",
+      "size": 1199141,
+      "date": 133590671870479906
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/panel/panel.cfg",
+      "size": 2614,
+      "date": 133630692429285149
+    },
+    {
+      "path": "SimObjects/Airplanes/CS_B777F_GE110B1/panel/panel.xml",
+      "size": 53269,
+      "date": 133672719454581588
+    }
+  ]
+}

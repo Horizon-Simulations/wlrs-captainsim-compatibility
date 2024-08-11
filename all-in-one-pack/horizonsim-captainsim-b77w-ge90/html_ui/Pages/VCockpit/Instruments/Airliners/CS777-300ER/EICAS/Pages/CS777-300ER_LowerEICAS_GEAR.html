@@ -1,0 +1,148 @@
+<link rel="stylesheet" href="./CS777-300ER_LowerEICAS_GEAR.css" />
+
+<script type="text/html" id="B777LowerEICASGEARTemplate">
+  <svg
+    viewBox="0 0 600 600"
+    xmlns="http://www.w3.org/2000/svg"
+    style="background:black;"
+  >
+  <g id="fixed-elements">
+    <rect rx="20" height="69" width="40" y="60" x="250"/>  <!--nose wheel left-->
+    <rect rx="20" height="69" width="40" y="60" x="310"/>  <!--nose wheel right-->
+    <line y2="95" x2="290" y1="95" x1="310" />              <!--connect-->
+
+    <rect rx="20" height="69" width="40" y="211" x="147"/>
+    <rect rx="20" height="69" width="40" y="290" x="147"/>
+	  <rect rx="20" height="69" width="40" y="369" x="147"/>
+    <rect rx="20" height="69" width="40" y="211" x="196"/>
+    <rect rx="20" height="69" width="40" y="290" x="196"/>
+    <rect rx="20" height="69" width="40" y="369" x="196"/>
+
+
+    <line y2="246" x2="188" y1="246" x1="196"/>
+	  <line y2="326" x2="188" y1="326" x1="196"/>
+	  <line y2="406" x2="188" y1="406" x1="196"/>
+    <line y2="246" x2="191.5" y1="406" x1="191.5"/>
+
+    <rect rx="20" height="69" width="40" y="211" x="354"/>
+    <rect rx="20" height="69" width="40" y="290" x="354"/>
+	  <rect rx="20" height="69" width="40" y="369" x="354"/>
+    <rect rx="20" height="69" width="40" y="211" x="403"/>
+    <rect rx="20" height="69" width="40" y="290" x="403"/>
+	  <rect rx="20" height="69" width="40" y="369" x="403"/>
+
+	  <line y2="246" x2="395" y1="246" x1="403"/>
+	  <line y2="326" x2="395" y1="326" x1="403"/>
+	  <line y2="406" x2="395" y1="406" x1="403"/>
+    <line y2="246" x2="398.5" y1="406" x1="398.5"/>
+
+    <!--this is for the open label, just here for easy positioning-->
+    <line x1="151" y1="454" x2="148" y2="457.5"/>
+    <line x1="159" y1="454" x2="148" y2="466"/>
+    <line x1="167" y1="454" x2="148" y2="475"/>
+    <line x1="175" y1="454" x2="148" y2="482"/>
+    <line x1="183" y1="454" x2="148" y2="487"/>
+
+    <line x1="191" y1="454" x2="156" y2="487"/>
+    <line x1="199" y1="454" x2="164" y2="487"/>
+    <line x1="207" y1="454" x2="172" y2="487"/>
+    <line x1="215" y1="454" x2="180" y2="487"/>
+    <line x1="223" y1="454" x2="188" y2="487"/>
+    <line x1="231" y1="454" x2="196" y2="487"/>
+    <line x1="239" y1="454" x2="204" y2="487"/>
+
+    <line x1="247" y1="454" x2="148" y2="553.5"/>
+    <line x1="255" y1="454" x2="148" y2="561.5"/>
+    <line x1="263" y1="454" x2="148" y2="569.5"/>
+
+
+  </g>
+
+	<g id="closed-elements">
+		<rect height="32" width="90" y="144" x="255"/> <!--box nose gears-->
+		<rect height="32" width="90" y="454" x="148"/> <!--box left gears-->
+		<rect height="32" width="90" y="454" x="353"/>
+	</g>
+    <g id="cyan-elements">
+		<text y="170" x="200">DOOR</text>
+		<text y="475" x="279">DOOR</text>
+    </g>
+  <g id="closed-labels">
+    <text y="167" x="272">CLOSED</text>
+    <text y="477" x="163">CLOSED</text>
+    <text y="477" x="368">CLOSED</text>
+  </g>
+  
+  <g id="open-labels">
+    <!--Front wheels strip line-->
+    <line x1="258" y1="144" x2="255" y2="147.5"/>
+    <line x1="265" y1="144" x2="255" y2="155"/>
+    <line x1="273" y1="144" x2="255" y2="163"/>
+    <line x1="281" y1="144" x2="255" y2="171"/>
+    <line x1="289" y1="144" x2="259" y2="176"/>
+
+    <line x1="297" y1="144" x2="267" y2="176"/>
+    <line x1="305" y1="144" x2="275" y2="176"/>
+    <line x1="313" y1="144" x2="283" y2="176"/>
+    <line x1="321" y1="144" x2="291" y2="176"/>
+    <line x1="329" y1="144" x2="299" y2="176"/>
+    <line x1="337" y1="144" x2="307" y2="176"/>
+    <line x1="345" y1="144" x2="315" y2="176"/>
+    
+    <line x1="345" y1="152" x2="323" y2="176"/>
+    <line x1="345" y1="160" x2="331" y2="176"/>
+    <line x1="345" y1="168" x2="339" y2="176"/>
+
+    <!--Left wheels strip line-->
+    
+    
+
+  </g>
+  <g id="braketemp-labels">   <!--scale from 0 to 9.9-->
+    <text y="253" x="110" textLength="20" id="braketemp1">1.0</text>
+    <text y="253" x="250" textLength="20" id="braketemp2">1.0</text>
+
+    <text y="253" x="320" textLength="20" id="braketemp3">1.0</text>
+    <text y="253" x="450" textLength="20" id="braketemp4">1.0</text>
+    <text y="332" x="110" textLength="20" id="braketemp5">1.0</text>
+    <text y="332" x="250" textLength="20" id="braketemp6">1.0</text>
+    <text y="332" x="320" textLength="20" id="braketemp7">1.0</text>
+    <text y="332" x="450" textLength="20" id="braketemp8">1.0</text>
+
+	  <text y="409" x="110" textLength="20" id="braketemp9">1.0</text>
+    <text y="409" x="250" textLength="20" id="braketemp10">1.0</text>
+    <text y="409" x="320" textLength="20" id="braketemp11">1.0</text>
+    <text y="409" x="450" textLength="20" id="braketemp12">1.0</text>
+  </g>
+  <g id="tirepress-labels">
+    <text y="101" x="256" id="tirepress1">160</text>  <!--nose wheel left-->
+    <text y="101" x="315" id="tirepress2">160</text>  <!--nose wheel right-->
+
+    <text y="253" x="154" id="tirepress3">220</text>
+    <text y="253" x="203" id="tirepress4">220</text>
+    <text y="253" x="362" id="tirepress5">220</text>
+    <text y="253" x="411" id="tirepress6">220</text>
+
+    <text y="332" x="154" id="tirepress7">220</text>
+    <text y="332" x="203" id="tirepress8">220</text>
+    <text y="332" x="362" id="tirepress9">220</text>
+    <text y="332" x="411" id="tirepress10">220</text>
+
+	<text y="409" x="154" id="tirepress11">220</text>
+    <text y="409" x="203" id="tirepress12">220</text>
+    <text y="409" x="362" id="tirepress13">220</text>
+    <text y="409" x="411" id="tirepress14">220</text>
+  </g>
+
+  <!--low temp 0.0 to 2.99-->
+
+  <!--normal temo 3.0 to 4.99-->
+
+  <!--high temp from 5.0-->
+  </svg>
+</script>
+
+<script
+  type="text/html"
+  import-script="/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_GEAR.js"
+></script>
