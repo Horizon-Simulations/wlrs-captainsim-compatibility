@@ -205,6 +205,9 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         this.onRte = () => {
             FMCRoutePage.ShowPage1(this);
         };
+        this.onAltn = () => {
+            FMCRoutePage.ShowPage2(this);
+        };
         this.onDepArr = () => {
             B777_FMC_DepArrIndexPage.ShowPage1(this);
         };
@@ -228,7 +231,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             B777_FMC_ProgPage.ShowPage1(this);
         };
         this.onAtc = () => { 
-            FMC_ATC_Index.ShowPage(this);
+            //FMC_ATC_Index.ShowPage(this);
         };
         this.onFmcComm = () => { 
             FMC_COMM_Index.ShowPage(this);
@@ -256,12 +259,9 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
     }
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
-        if (this.refreshPageCallback && this._lastActiveWP != this.currFlightPlanManager.getActiveWaypointIndex() || this._wasApproachActive != this.currFlightPlanManager.isActiveApproach()) {
-            this._lastActiveWP = this.currFlightPlanManager.getActiveWaypointIndex();
-            this._wasApproachActive = this.currFlightPlanManager.isActiveApproach();
-            //this.refreshPageCallback();
-        }
         this.updateAutopilot();
+        //this.updateAutoThrottle();        //will implement with the switch later
+        this.updateUnits();
         this.updateAltitudeAlerting();
         if (this.timer == 1000) {
             this.updateVREF20();
@@ -271,6 +271,21 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
         
         this.saltyModules.update(_deltaTime);
+        this.timer ++;
+
+		this.updatePaxSignal();
+        this.APStateManager();
+        this.flapsSlatsManager();
+
+        if (this.refreshPageCallback && this._lastActiveWP != this.currFlightPlanManager.getActiveWaypointIndex() || this._wasApproachActive != this.currFlightPlanManager.isActiveApproach()) {
+            this._lastActiveWP = this.currFlightPlanManager.getActiveWaypointIndex();
+            this._wasApproachActive = this.currFlightPlanManager.isActiveApproach();
+            //this.refreshPageCallback();
+        }
+        
+		this.HorizonSimBase.update(_deltaTime);
+    }
+    updateUnits() {
         if (WTDataStore.get("OPTIONS_UNITS", "KG") == "KG") {
             this.units = true;
             this.useLbs = false;
@@ -278,18 +293,36 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             this.units = false;
             this.useLbs = true;
         }
-        this.timer ++;
-		this.updatePaxSignal();
-        this.APStateManager();
-		
-		this.HorizonSimBase.update(_deltaTime);
+    }
+    flapsSlatsManager() {
+        //FLAPS LIMIT ARE IN FM.CFG
+        //AUTOFLAPS retract
+        if (SimVar.GetSimVarValue("INDICATED ALTITUDE", "feet") > 20000) {
+            SimVar.SetSimVarValue("LEADING EDGE FLAPS LEFT PERCENT", "Percent Over 100", 0);
+            SimVar.SetSimVarValue("TRAILING EDGE FLAPS LEFT PERCENT", "Percent Over 100", 0);
+            SimVar.SetSimVarValue("LEADING EDGE FLAPS RIGHT PERCENT", "Percent Over 100", 0);
+            SimVar.SetSimVarValue("TRAILING EDGE FLAPS RIGHT PERCENT", "Percent Over 100", 0);
+        }
+        //AUTOSLATS anti stall. Disabled due to imediate response
+        /*
+        if (SimVar.GetSimVarValue("AIRSPEED INDICATED", "Kts") < SimVar.GetSimVarValue("L:B777_FMC_MIN_MANUEVER_SPEED", "Kts")) {
+            SimVar.SetSimVarValue("LEADING EDGE FLAPS LEFT PERCENT", "Percent Over 100", 1);
+            SimVar.SetSimVarValue("LEADING EDGE FLAPS RIGHT PERCENT", "Percent Over 100", 1);
+        }
+        else {
+            let slatPosition = [0, 0.5, 0.5, 0.5, 0.5, 1, 1];
+            //set to handle. This will overrides the handle in fm and cockpit anw
+            let index = SimVar.GetSimVarValue("FLAPS HANDLE INDEX", "Number");
+            SimVar.SetSimVarValue("LEADING EDGE FLAPS LEFT PERCENT", "Percent Over 100", slatPosition[index]);
+            SimVar.SetSimVarValue("LEADING EDGE FLAPS RIGHT PERCENT", "Percent Over 100", slatPosition[index]);
+        }
+        */
     }
 	APStateManager() {
         let isOn = SimVar.GetSimVarValue("AUTOPILOT MASTER", "Bool");
         SimVar.SetSimVarValue("L:B777_Boeing_Autopilot_Disconnected", "Bool", isOn ? 0 : 1);
     }
     updatePaxSignal() {
-        SimVar.SetSimVarValue("L:test", "Number", 5);
         if ((SimVar.GetSimVarValue("L:WT_SEAT_BELTS_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:WT_SEAT_BELTS_MODE", "number") == 2) {
             SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", true);
         }

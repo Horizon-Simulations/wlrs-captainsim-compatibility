@@ -198,6 +198,13 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         this.HorizonSimBase = new HorizonSimBase();
         this.saltyModules = new SaltyModules();
         this.HorizonSimBase.init();
+        if (WTDataStore.get("OPTIONS_UNITS", "KG") == "KG") {
+            this.units = true;
+            this.useLbs = false;
+        } else if (WTDataStore.get("OPTIONS_UNITS", "KG") == "LBS") {
+            this.units = false;
+            this.useLbs = true;
+        }
         this.updateVREF30();
         this.onInit = () => {
             B777_FMC_InitRefIndexPage.ShowPage1(this);
@@ -264,6 +271,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         super.onUpdate(_deltaTime);        
         this.updateAutopilot();
         //this.updateAutoThrottle();        //will implement with the switch later
+        this.updateUnits();
         this.updateAltitudeAlerting();      //check this later
         if (this.timer == 1000) {
             this.updateVREF20();
@@ -271,7 +279,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             this.updateVREF30();
             this.timer = 0;
         }
-                this.saltyModules.update(_deltaTime);
+        this.saltyModules.update(_deltaTime);
         this.timer ++;
         
         this.updatePaxSignal();
@@ -285,6 +293,15 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
 
         this.HorizonSimBase.update(_deltaTime);
+    }
+    updateUnits() {
+        if (WTDataStore.get("OPTIONS_UNITS", "KG") == "KG") {
+            this.units = true;
+            this.useLbs = false;
+        } else if (WTDataStore.get("OPTIONS_UNITS", "KG") == "LBS") {
+            this.units = false;
+            this.useLbs = true;
+        }
     }
     flapsSlatsManager() {
         //FLAPS LIMIT ARE IN FM.CFG
