@@ -58,7 +58,7 @@ class teeveeAnimHanlder {
         }
 
         //spoiler control (auto spoiler)
-        if (reverserPercent1 > 50 || reverserPercent2 > 50) {
+        if ((reverserPercent1 > 50 || reverserPercent2 > 50) && SimVar.GetSimVarValue("AUTO BRAKE SWITCH CB", "Enum") != 1) {
             SimVar.SetSimVarValue("A:SPOILERS HANDLE POSITION", "percent over 100", 1);
         }
         if (SimVar.GetSimVarValue("GENERAL ENG THROTTLE LEVER POSITION:1", "percent") > 65 || SimVar.GetSimVarValue("GENERAL ENG THROTTLE LEVER POSITION:2", "percent") > 65) {
