@@ -34,13 +34,13 @@ class FMC_Options_Taf {
         /* LSK1 */
         fmc.onLeftInput[0] = () => {
             WTDataStore.set("OPTIONS_TAF_SRC", "IVAO");
-            FMC_Utils_Taf.ShowPage(fmc);
+            FMC_Options_Taf.ShowPage(fmc);
         }
 
         /* LSK2 */
         fmc.onLeftInput[1] = () => {
             WTDataStore.set("OPTIONS_TAF_SRC", "NOAA");
-             FMC_Utils_Taf.ShowPage(fmc);
+            FMC_Options_Taf.ShowPage(fmc);
         };
 
         /* LSK6 */
