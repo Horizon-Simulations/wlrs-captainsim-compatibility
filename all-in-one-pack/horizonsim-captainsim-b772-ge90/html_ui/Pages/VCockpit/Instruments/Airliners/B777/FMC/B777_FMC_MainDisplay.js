@@ -332,14 +332,14 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         SimVar.SetSimVarValue("L:B777_Boeing_Autopilot_Disconnected", "Bool", isOn ? 0 : 1);
     }
     updatePaxSignal() {
-        if ((SimVar.GetSimVarValue("L:WT_SEAT_BELTS_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:WT_SEAT_BELTS_MODE", "number") == 2) {
+        if ((SimVar.GetSimVarValue("L:SEAT_BELTS_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:SEAT_BELTS_MODE", "number") == 2) {
             SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", true);
         }
         else {
             SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", false);
         }
 
-        if ((SimVar.GetSimVarValue("L:NO_SMOKING_KNOB", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:NO_SMOKING_KNOB", "number") == 2) {
+        if ((SimVar.GetSimVarValue("L:NO_SMOKING_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:NO_SMOKING_MODE", "number") == 2) {
             SimVar.SetSimVarValue("L:XMLVAR_NO_SMOKING_ON", "Bool", true);
         }
         else {

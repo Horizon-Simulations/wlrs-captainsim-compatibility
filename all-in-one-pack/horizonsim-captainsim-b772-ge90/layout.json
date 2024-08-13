@@ -692,8 +692,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B767_FMC_MainDisplay.js",
-      "size": 61767,
-      "date": 133678557636688772
+      "size": 61761,
+      "date": 133680500237561120
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMCMainDisplay.js",
@@ -747,8 +747,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMC_MainDisplay.js",
-      "size": 64076,
-      "date": 133678557542051983
+      "size": 64070,
+      "date": 133680500238732022
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMC_MainDisplayDebug.js",
@@ -917,8 +917,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/COMM/B777_FMC_COMM_LinkStatus.js",
-      "size": 1129,
-      "date": 133620959568182235
+      "size": 1133,
+      "date": 133680246808676838
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/COMM/B777_FMC_COMM_Log.js",
@@ -1757,8 +1757,8 @@
     },
     {
       "path": "ModelBehaviorDefs/TeeVeeTemplate/B777_WT_templates.xml",
-      "size": 64554,
-      "date": 133674727343634156
+      "size": 64564,
+      "date": 133680528807780993
     },
     {
       "path": "ModelBehaviorDefs/TeeVeeTemplate/index.xml",
@@ -1787,8 +1787,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/Climb.flt",
-      "size": 4469,
-      "date": 133671863841522913
+      "size": 4466,
+      "date": 133680500255460630
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cockpit.cfg",
@@ -1797,8 +1797,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/cruise.FLT",
-      "size": 4318,
-      "date": 133671863801374170
+      "size": 4315,
+      "date": 133680500255571025
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/engines.cfg",
@@ -1807,8 +1807,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/final.FLT",
-      "size": 4348,
-      "date": 133671863743121953
+      "size": 4345,
+      "date": 133680500255687864
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/flight_model.cfg",
@@ -1827,8 +1827,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/runway.FLT",
-      "size": 4304,
-      "date": 133671863622544137
+      "size": 4301,
+      "date": 133680500256393819
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/systems.cfg",
@@ -1837,8 +1837,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/taxi.FLT",
-      "size": 4394,
-      "date": 133671863573359098
+      "size": 4391,
+      "date": 133680500256513936
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/[VERSION].txt",
@@ -1852,8 +1852,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201_interior.xml",
-      "size": 306611,
-      "date": 133676008126528191
+      "size": 306788,
+      "date": 133680529061735385
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/Captain_Sim.m777.sys.wasm",

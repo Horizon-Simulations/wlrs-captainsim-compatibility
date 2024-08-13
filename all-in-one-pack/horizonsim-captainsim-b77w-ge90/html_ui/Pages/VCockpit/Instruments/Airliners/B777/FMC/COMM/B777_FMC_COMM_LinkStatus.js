@@ -1,5 +1,5 @@
 class FMC_COMM_LinkStatus {
-    static ShowPage(fmc, store = {status: "OK"}) {
+    static ShowPage(fmc, store = {status: "INOP"}) {
         fmc.activeSystem = "DLNK";
         fmc.clearDisplay();
         
@@ -31,7 +31,7 @@ class FMC_COMM_LinkStatus {
             updateView();
             setTimeout(
                 function() {
-                    store.status = "OK";
+                    store.status = "INOP";
                     updateView();
                 }, 500
             );

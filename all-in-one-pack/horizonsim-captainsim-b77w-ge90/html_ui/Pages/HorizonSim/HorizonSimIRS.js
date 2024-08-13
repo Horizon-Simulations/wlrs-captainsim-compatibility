@@ -81,6 +81,11 @@ class HorizonSimIRS {
             }
         }
 
+        //fail state
+        if (IRSState == -1) {
+            
+        }
+
         SimVar.SetSimVarValue("L:B777_IRS_TIME_LEFT", "Enum", this.irsTimer);
 
     }

@@ -261,6 +261,23 @@
 		</Annunciation>
 
 		<Annunciation>
+			<Type>Caution</Type>
+			<Text>NAV AIR DATA SYS</Text>
+			<Condition>
+				<And>
+					<Equal>
+						<Simvar name="L:cs777_anim_ctrl_plugs" unit="Bool"/>
+						<Constant>1</Constant>
+					</Equal>
+					<Equal>
+						<Simvar name="L:B777_ADIRU_BUTTON_STATE" unit="Bool"/>
+						<Constant>1</Constant>
+					</Equal>
+				</And>
+			</Condition>
+		</Annunciation>
+
+		<Annunciation>
 			<Type>Warning</Type>
 			<Text>CONFIG RUDDER</Text>
 			<Condition>

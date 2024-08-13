@@ -58,7 +58,7 @@ class teeveeAnimHanlder {
         }
 
         //spoiler control (auto spoiler)
-        if (reverserPercent1 > 50 || reverserPercent2 > 50) {
+        if ((reverserPercent1 > 50 || reverserPercent2 > 50) && SimVar.GetSimVarValue("AUTO BRAKE SWITCH CB", "Enum") != 1) {
             SimVar.SetSimVarValue("A:SPOILERS HANDLE POSITION", "percent over 100", 1);
         }
         if (SimVar.GetSimVarValue("GENERAL ENG THROTTLE LEVER POSITION:1", "percent") > 65 || SimVar.GetSimVarValue("GENERAL ENG THROTTLE LEVER POSITION:2", "percent") > 65) {
@@ -105,8 +105,7 @@ class teeveeAnimHanlder {
 
 /*
 some note: 
-- if Pitot plugs are still on, EICAS display: NAV AIR DATA SYS 
+- if Pitot plugs are still on, EICAS display: NAV AIR DATA SYS (added). Add ADIRU state = -1 to fail
 - RAM air control anims are there, but AC control are ...:) auto would be wild to code, but okay cool
-- external power var: (A:EXTERNAL POWER AVAILABLE:#ID#, Bool)
 - removed the exterior control in m773 xml file
 */

@@ -105,8 +105,7 @@ class teeveeAnimHanlder {
 
 /*
 some note: 
-- if Pitot plugs are still on, EICAS display: NAV AIR DATA SYS 
+- if Pitot plugs are still on, EICAS display: NAV AIR DATA SYS (added). Add ADIRU state = -1 to fail
 - RAM air control anims are there, but AC control are ...:) auto would be wild to code, but okay cool
-- external power var: (A:EXTERNAL POWER AVAILABLE:#ID#, Bool)
 - removed the exterior control in m773 xml file
 */
