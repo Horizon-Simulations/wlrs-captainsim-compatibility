@@ -16,7 +16,7 @@ var B777_LowerEICAS_DRS;
             // Rectangles that appear when door is open
             this.entry1LRect = document.querySelector("#entry1-rect");
             this.fwdCargoRect = document.querySelector("#fwdcargo-rect");
-            this.entry5RRect = document.querySelector("#entry5-rect");
+            this.entry4RRect = document.querySelector("#entry4-rect");
         }
         update(_deltaTime) {
             if (!this.isInitialised) {
@@ -24,9 +24,9 @@ var B777_LowerEICAS_DRS;
             }
 
             // SimVars for checking if door is open, in percentage opened
-            var entry1LOpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:10", "percent");
-            var fwdCargoOpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:12", "percent");
-            var entry5ROpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:1", "percent");
+            var entry1LOpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:0", "percent");
+            var fwdCargoOpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:2", "percent");
+            var entry4ROpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:1", "percent");
 
             if (entry1LOpen >= 40) {
                 this.entry1LRect.style.visibility = "visible";
@@ -38,10 +38,10 @@ var B777_LowerEICAS_DRS;
             } else {
                 this.fwdCargoRect.style.visibility = "hidden";
             }
-            if (entry5ROpen >= 40) {
-                this.entry5RRect.style.visibility = "visible";
+            if (entry4ROpen >= 40) {
+                this.entry4RRect.style.visibility = "visible";
             } else {
-                this.entry5RRect.style.visibility = "hidden";
+                this.entry4RRect.style.visibility = "hidden";
             }
         }
     }
