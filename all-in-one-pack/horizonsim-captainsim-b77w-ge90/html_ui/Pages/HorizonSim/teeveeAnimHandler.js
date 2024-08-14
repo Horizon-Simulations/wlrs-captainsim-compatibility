@@ -77,12 +77,7 @@ class teeveeAnimHanlder {
         //lighting controls
         //SimVar.SetSimVarValue("LIGHT GLARESHIELD POWER SETTING:2", "");
 
-        
-
-        //for now just only handle 77W        
-        if (SimVar.GetSimVarValue("ATC MODEL", "String") != "TT:ATCCOM.AC_MODEL B77W.0.text") {
-            return;
-        }
+        //FOR B77W ONLY
         //External Power Hatch
         if ((SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:1", "Bool") &&  SimVar.GetSimVarValue("EXTERNAL POWER ON:1", "Bool"))
             || (SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE:2", "Bool") && SimVar.GetSimVarValue("EXTERNAL POWER ON:2", "Bool")))
@@ -92,6 +87,14 @@ class teeveeAnimHanlder {
         else {
             SimVar.SetSimVarValue("L:cs777_anim_ctrl_ep_hatch", "Bool", false);
         }
+        //WX radar
+        if (SimVar.GetSimVarValue("L:BTN_WX_ACTIVE", "Bool")) {
+            SimVar.SetSimVarValue("L:cs777_anim_ctrl_radar", "Bool", true);
+        }
+        else {
+            SimVar.SetSimVarValue("L:cs777_anim_ctrl_radar", "Bool", false);
+        }
+        
         
         //update with electricity
         let electricityIsAvail = SimVar.GetSimVarValue("CIRCUIT GENERAL PANEL ON", "Bool");
