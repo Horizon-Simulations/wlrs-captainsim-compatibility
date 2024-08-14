@@ -53,11 +53,11 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
     }
     showFPV(_active) {
         if (!this.isFPVon) {
-            SimVar.SetSimVarValue("L:SALTY_FPV_ON", "bool", true);
+            SimVar.SetSimVarValue("L:B777_FPV_ON", "bool", true);
             this.isFPVon = true;
         }
         else {
-            SimVar.SetSimVarValue("L:SALTY_FPV_ON", "bool", false);
+            SimVar.SetSimVarValue("L:B777_FPV_ON", "bool", false);
             this.isFPVon = false;
         }
     }
@@ -930,7 +930,7 @@ var Jet_PFD_FlightDirector;
         }
         refreshActiveModes() {
             var fdActive = (Simplane.getAutoPilotFlightDirectorActive(1));
-            var fpvActive = SimVar.GetSimVarValue("L:SALTY_FPV_ON", "bool");
+            var fpvActive = SimVar.GetSimVarValue("L:B777_FPV_ON", "bool");
             this.setModeActive(0, fdActive);
             this.setModeActive(1, fpvActive);
         }

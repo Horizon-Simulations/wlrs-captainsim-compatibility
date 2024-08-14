@@ -783,7 +783,7 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
         this.minimumReferenceCursor.setAttribute("transform", "translate(0, " + currentY.toFixed(1) + ")");
     }
     updateAltitudeAlerting() {
-        let alertState = SimVar.GetSimVarValue("L:SALTY_ALT_ALERT", "bool");
+        let alertState = SimVar.GetSimVarValue("L:B777_ALT_ALERT", "bool");
         if (alertState) {
             this.cursorSVGShape.setAttribute("stroke-width", this.strokeSize * 3);
             this.targetAltitudeAlertBox.setAttribute("stroke", "white");
