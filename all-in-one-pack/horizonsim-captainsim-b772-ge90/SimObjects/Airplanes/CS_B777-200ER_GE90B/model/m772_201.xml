@@ -287,46 +287,6 @@
   </PartInfo>
 
   <PartInfo>
-    <Name>thrust_rev</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Lag>70</Lag>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
-          <Scale>1</Scale>
-          <Units>percent</Units>
-          <Bias>0</Bias>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
-    <Name>thrust_rev_1</Name>
-    <Copy>thrust_rev</Copy>
-    <Animation>
-      <Parameter>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
-    <Name>thrust_rev_2</Name>
-    <Copy>thrust_rev</Copy>
-    <Animation>
-      <Parameter>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:2</Variable>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
     <Name>l_wing_flex</Name>
     <AnimLength>100</AnimLength>
     <Animation>
@@ -584,8 +544,6 @@
 <PartInfo><Name>A01_010_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x200 &amp;</Code></Parameter></Visibility></PartInfo>
 <PartInfo><Name>A01_011_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x400 &amp;</Code></Parameter></Visibility></PartInfo>
 
-  
-  
 
   <Behaviors>
     <Include ModelBehaviorFile="Asobo\Common.xml"/>
@@ -682,6 +640,7 @@
         </UseTemplate>
       </Component>
     </Component>
+
     <Component ID="FX_CONTRAIL_RIBBON">
       <OverrideTemplateParameters>
         <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
@@ -700,6 +659,7 @@
         </UseTemplate>
       </Component>
     </Component>
+
     <Component ID="LANDING_FX">
       <UseTemplate Name="ASOBO_WET_LG_GR_LANDING_FX">
         <FX_CONTACT_POINT_ID>0</FX_CONTACT_POINT_ID>
@@ -775,7 +735,6 @@
       </UseTemplate>
     </Component>
 
-
     <Component ID="RAT">
 
       <Component ID="RAT_extension">
@@ -805,8 +764,6 @@
       </Component>
 
     </Component>
-    
-    
     
   </Behaviors>
 

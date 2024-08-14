@@ -276,47 +276,6 @@
     </Animation>
   </PartInfo>
 
-  <!--<PartInfo>
-    <Name>thrust_rev</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
-          <Scale>1</Scale>
-          <Units>percent</Units>
-          <Bias>0</Bias>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
-    <Name>thrust_rev_1</Name>
-    <Copy>thrust_rev</Copy>
-    <Animation>
-      <Parameter>
-        <Lag>70</Lag>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
-    <Name>thrust_rev_2</Name>
-    <Copy>thrust_rev</Copy>
-    <Animation>
-      <Parameter>
-        <Lag>80</Lag>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:2</Variable>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>-->
-
   <PartInfo>
     <Name>l_wing_flex</Name>
     <AnimLength>100</AnimLength>

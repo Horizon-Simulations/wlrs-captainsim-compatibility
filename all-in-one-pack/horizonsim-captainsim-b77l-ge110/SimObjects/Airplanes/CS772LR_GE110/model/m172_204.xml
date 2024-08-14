@@ -115,8 +115,6 @@
     </Animation>
   </PartInfo>
 
-
-  
   <PartInfo>
     <Name>l_truck</Name>
     <AnimLength>200</AnimLength>
@@ -283,167 +281,6 @@
       <Parameter>
         <Sim>
           <Variable>RIGHT WHEEL ROTATION ANGLE</Variable>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <!--
-  <PartInfo>
-    <Name>N1_0_still</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng1_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:1, percent) 3.0 &lt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_0_slow</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng1_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:1, percent) 3.0 &gt;
-          if{
-          (A:ENG N1 RPM:1, percent) 6.0 &lt; if{ 1 } els{ 0 }
-          } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_0_blurred</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng1_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:1, percent) 6.0 &gt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_1_still</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng2_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:2, percent) 3.0 &lt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_1_slow</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng2_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:2, percent) 3.0 &gt;
-          if{
-          (A:ENG N1 RPM:2, percent) 6.0 &lt; if{ 1 } els{ 0 }
-          } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  
-  <PartInfo>
-    <Name>N1_1_blurred</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Code>
-          (L:ext777_eng2_n1_pos, position)
-        </Code>
-      </Parameter>
-    </Animation>
-    <Visibility>
-      <Parameter>
-        <Code>
-          (A:ENG N1 RPM:2, percent) 6.0 &gt; if{ 1 } els{ 0 }
-        </Code>
-      </Parameter>
-    </Visibility>
-  </PartInfo>
-  -->
-
-  <PartInfo>
-    <Name>thrust_rev</Name>
-    <AnimLength>100</AnimLength>
-    <Animation>
-      <Parameter>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
-          <Scale>1</Scale>
-          <Units>percent</Units>
-          <Bias>0</Bias>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
-    <Name>thrust_rev_1</Name>
-    <Copy>thrust_rev</Copy>
-    <Animation>
-      <Parameter>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:1</Variable>
-        </Sim>
-      </Parameter>
-    </Animation>
-  </PartInfo>
-
-  <PartInfo>
-    <Name>thrust_rev_2</Name>
-    <Copy>thrust_rev</Copy>
-    <Animation>
-      <Parameter>
-        <Sim>
-          <Variable>TURB ENG REVERSE NOZZLE PERCENT:2</Variable>
         </Sim>
       </Parameter>
     </Animation>
@@ -692,9 +529,8 @@
       </Parameter>
     </Visibility>
   </PartInfo>
-  
-  
-  
+
+
   <!-- antennas -->
 <PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
 <PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
@@ -708,67 +544,67 @@
 <PartInfo><Name>A01_010_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
 <PartInfo><Name>A01_011_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
 
-  
-  
 
   <Behaviors>
     <Include ModelBehaviorFile="Asobo\Common.xml"/>
     <Include ModelBehaviorFile="Asobo\Exterior.xml"/>
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
-    
-    
+    <Include ModelBehaviorFile="RobSim\index.xml"/>
+    <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
     
    	<Component ID="ENGINE">
-			<DefaultTemplateParameters>
-				<STILL_NODE_ID_COUNT>1</STILL_NODE_ID_COUNT>
-			</DefaultTemplateParameters>
-			<UseTemplate Name="ASOBO_ENGINE_Turbine_Template">
-				<ID>1</ID>
-				<ANIM_NODE_ID>N1_1_anim</ANIM_NODE_ID>
-				<ANIM_NAME>N1_1_anim</ANIM_NAME>
-				<STILL_NODE_ID>N1_1_still</STILL_NODE_ID>
-				<SLOW_NODE_ID>N1_1_slow</SLOW_NODE_ID>
-				<BLURRED_NODE_ID>N1_1_blurred</BLURRED_NODE_ID>
+      <OverrideTemplateParameters>  <!--test-->
+        <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
+        <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
+        <MAGIC>2465</MAGIC>
+      </OverrideTemplateParameters>
+			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
+				<ENG_ID>1</ENG_ID>
+				<ANIM_NODE>N1_1_anim</ANIM_NODE>
 			</UseTemplate>
-			<UseTemplate Name="ASOBO_ENGINE_Turbine_Template">
-				<ID>2</ID>
-				<ANIM_NODE_ID>N1_2_anim</ANIM_NODE_ID>
-				<ANIM_NAME>N1_2_anim</ANIM_NAME>
-				<STILL_NODE_ID>N1_2_still</STILL_NODE_ID>
-				<SLOW_NODE_ID>N1_2_slow</SLOW_NODE_ID>
-				<BLURRED_NODE_ID>N1_2_blurred</BLURRED_NODE_ID>
+			<UseTemplate Name="HorizonSim_CS777_ENGINE_Turbine_Template">
+				<ENG_ID>2</ENG_ID>
+				<ANIM_NODE>N1_2_anim</ANIM_NODE>
 			</UseTemplate>
 		</Component>
     
-    
     <Component ID="INTERACTIVE_POINTS">
+    <!--current ver-->
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>12</ID>
+        <ID>2</ID>
         <ANIM_NAME>door_cargo</ANIM_NAME>
       </UseTemplate>
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>10</ID>
+        <ID>0</ID>
         <ANIM_NAME>door_passenger</ANIM_NAME>
       </UseTemplate>
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
         <ID>1</ID>
         <ANIM_NAME>door_rear</ANIM_NAME>
       </UseTemplate>
-      <!--
+    <!--full ver
+      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+        <ID>8</ID>
+        <ANIM_NAME>door_cargo</ANIM_NAME>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+        <ID>0</ID>
+        <ANIM_NAME>door_passenger</ANIM_NAME>
+      </UseTemplate>
+      <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+        <ID>7</ID>
+        <ANIM_NAME>door_rear</ANIM_NAME>
+      </UseTemplate>
+    -->
       <UseTemplate Name="ASOBO_FuelHose_InteractivePoint_Template">
-        <ID>14</ID>
+        <ID>12</ID>
         <NODE_ID>GROUND_FUELPIPE</NODE_ID>
       </UseTemplate>
-      <UseTemplate Name="ASOBO_FuelHose_InteractivePoint_Template">
-        <ID>15</ID>
-        <NODE_ID>GROUND_GPUPIPE</NODE_ID>
-      </UseTemplate>
-      -->
     </Component>
-
 
     <Component ID="FX_CONTRAIL_QUAD">
       <OverrideTemplateParameters>
+        <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
         <FX_OFFSET_X>0</FX_OFFSET_X>
         <FX_OFFSET_Y>0</FX_OFFSET_Y>
         <FX_OFFSET_Z>0</FX_OFFSET_Z>
@@ -777,18 +613,17 @@
       </OverrideTemplateParameters>
       <Component ID="FX_CONTRAIL_QUAD_LEFT_IN" Node="L1_EngineFX">
         <UseTemplate Name="ASOBO_GT_FX">
-          <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt; (A:GENERAL ENG COMBUSTION:1, Bool) 0 &gt; and</FX_CODE>
         </UseTemplate>
       </Component>
       <Component ID="FX_CONTRAIL_QUAD_LEFT_OUT" Node="L2_EngineFX">
         <UseTemplate Name="ASOBO_GT_FX">
-          <FX_CODE>(A:CONTRAILS CONDITIONS MET:2, Keyframe) 0 &gt; (A:GENERAL ENG COMBUSTION:2, Bool) 0 &gt; and</FX_CODE>
         </UseTemplate>
       </Component>
     </Component>
 
     <Component ID="FX_CONTRAIL_RIBBON">
       <OverrideTemplateParameters>
+        <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
         <FX_OFFSET_X>0</FX_OFFSET_X>
         <FX_OFFSET_Y>0</FX_OFFSET_Y>
         <FX_OFFSET_Z>0</FX_OFFSET_Z>
@@ -797,12 +632,10 @@
       </OverrideTemplateParameters>
       <Component ID="FX_CONTRAIL_RIBBON_LEFT_OUT" Node="L1_EngineFX">
         <UseTemplate Name="ASOBO_GT_FX">
-          <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt; (A:GENERAL ENG COMBUSTION:1, Bool) 0 &gt; and</FX_CODE>
         </UseTemplate>
       </Component>
       <Component ID="FX_CONTRAIL_RIBBON_RIGHT_OUT" Node="L2_EngineFX">
         <UseTemplate Name="ASOBO_GT_FX">
-          <FX_CODE>(A:CONTRAILS CONDITIONS MET:2, Keyframe) 0 &gt; (A:GENERAL ENG COMBUSTION:2, Bool) 0 &gt; and</FX_CODE>
         </UseTemplate>
       </Component>
     </Component>
@@ -880,11 +713,7 @@
         <FX_CONTACT_POINT_ID>2</FX_CONTACT_POINT_ID>
         <FX_NODE>RightFrontBaseWheel</FX_NODE>
       </UseTemplate>
-    </Component>
-
-
-
-    
+    </Component>   
 
     <Component ID="RAT">
 
@@ -914,13 +743,7 @@
         </UseTemplate>
       </Component>
 
-    </Component>
-    
-    
-    
-    
-    
-    
+    </Component>    
     
   </Behaviors>
 
