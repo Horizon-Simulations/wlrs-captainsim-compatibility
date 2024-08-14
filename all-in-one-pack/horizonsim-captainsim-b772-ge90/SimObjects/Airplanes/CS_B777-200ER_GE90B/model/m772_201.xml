@@ -566,6 +566,17 @@
 				<ENG_ID>2</ENG_ID>
 				<ANIM_NODE>N1_2_anim</ANIM_NODE>
 			</UseTemplate>
+      <UseTemplate Name="ASOBO_GT_Anim">
+				<ANIM_NAME>thrust_rev_1</ANIM_NAME>
+				<!--<ANIM_CODE>(A:GENERAL ENG THROTTLE LEVER POSITION:1, Percent) 0 &lt; 100 *</ANIM_CODE>-->
+				<ANIM_CODE>(L:B777_ENGINE_REVERSER:1, Enum)</ANIM_CODE>
+				<ANIM_LAG>95</ANIM_LAG>
+			</UseTemplate>
+      <UseTemplate Name="ASOBO_GT_Anim">
+				<ANIM_NAME>thrust_rev_2</ANIM_NAME>
+				<ANIM_CODE>(L:B777_ENGINE_REVERSER:2, Enum)</ANIM_CODE>
+				<ANIM_LAG>100</ANIM_LAG>
+			</UseTemplate>
 		</Component>
     
     
