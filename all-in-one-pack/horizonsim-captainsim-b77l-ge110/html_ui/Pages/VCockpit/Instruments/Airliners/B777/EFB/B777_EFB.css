@@ -1,0 +1,2501 @@
+html {
+  /*
+   This is a repository for common style parameters. Use these whenever you can, so that we can make global adjustments at just this point.
+   Use as var(--b78x-x-y-z) to replace any value in conventional notation.
+   */
+   /* Color Styling */
+   /* Keep boeing colors in sync with BoeingColors.ts */
+   --boeing-colors-black: black;
+   --boeing-colors-black-translucent: rgba(0, 0, 0, 0.2);
+   --boeing-colors-black-translucent-border: rgba(0, 0, 0, 0.5);
+   --boeing-colors-white: white;
+   --boeing-colors-gray: #89869a;
+   --boeing-colors-dark-gray: #89869a;
+   --boeing-colors-darker-gray: #646474;
+   --boeing-colors-EFBCustom-gray: #2D2D2D;
+   --boeing-colors-blue: hsl(230, 100%, 51%);
+   --boeing-colors-cyan: hsl(192, 100%, 50%);
+   --boeing-colors-red: red;
+   --boeing-colors-amber: hsl(45, 100%, 50%);
+   --boeing-colors-green: #49e700;
+   --boeing-colors-dark-green: #007500;
+   --boeing-colors-magenta: #ff00ff;
+   --boeing-colors-off: #ff00ff00;
+   --button-text-color: var(--b78x-efb-border-blue);
+   --button-background-color: var(--b78x-efb-button-background1);
+ 
+   /* Keep B787 colors in sync with B787Colors.ts */
+   --b78x-colors-separator-gray: #777;
+ 
+   --boeing-pane-height: 1425px;
+   --boeing-pane-width-full: 1920px;
+   --boeing-pane-width-half: 954px;
+ }
+ 
+ @font-face {
+  font-family: "BoeingEFIS";
+  src: url("/Fonts/BoeingEFIS.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; 
+}
+ 
+ @keyframes screenFadeIn {
+   0% {
+     display: none;
+     opacity: 0;
+   }
+ 
+   1% {
+     display: block;
+     opacity: 0;
+   }
+ 
+   85% {
+     opacity: 0.15;
+   }
+ 
+   100% {
+     opacity: 1;
+   }
+ }
+ 
+ :not(.efb)>#Electricity {
+   animation: screenFadeIn 7s ease-out forwards;
+ }
+ 
+ #Electricity[state=off] {
+   display: none;
+   opacity: 0;
+ }
+ 
+ /** HINT: Don't show the white highlight since the instruments is in general not interactive */
+ #vignettage {
+   display: none;
+   visibility: hidden;
+ }
+ 
+ #highlight {
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   pointer-events: none;
+   z-index: 99999999;
+ }
+ 
+ .hidden {
+   display: none !important;
+ }
+ 
+ .visibility-hidden {
+   visibility: hidden !important;
+ }
+ 
+ .fullsize {
+   width: 100%;
+   height: 100%;
+ }
+ .efb-title-page {
+   width: 100%;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   font-size: 23px;
+   top: 15px;
+   position: absolute;
+   text-align: center;
+ }
+ 
+ .efb-middle-top-left-title {
+   font-size: 23px;
+   position: absolute;
+   width: 150px;
+   text-align: center;
+   background-color: black;
+   margin-top: -16px;
+   margin-left: 2px;
+   letter-spacing: -1px;
+ }
+.efb-middle-top-left2-title {
+  font-size: 23px;
+  position: absolute;
+  width: 70px;
+  text-align: center;
+  background-color: black;
+  
+  margin-top: 0px;
+  margin-left: 0px;
+  letter-spacing: -1px;
+}
+.efb-middle-top-left5-title {
+  font-size: 20px;
+  position: absolute;
+  width: 70px;
+  text-align: left;
+  background-color: black;
+  
+  margin-top: 0px;
+  margin-left: 0px;
+  letter-spacing: -1px;
+}
+.efb-middle-top-left3-title {
+  font-size: 23px;
+  position: absolute;
+  width: 240px;
+  text-align: left;
+  background-color: black;
+  margin-top: 8px;
+  margin-left: 2px;
+  letter-spacing: -1px;
+}
+.efb-middle-top-leftARPT-title {
+  font-size: 23px;
+  position: absolute;
+  width: 50px;
+  text-align: center;
+  background-color: black;
+  margin-top: -16px;
+  margin-left: 2px;
+  letter-spacing: -1px;
+}
+.efb-Right-Conversion-Box-title {
+  font-size: 20px;
+  position: absolute;
+  width: 130px;
+  text-align: center;
+  background-color: black;
+  margin-top: -13px;
+  margin-left: 2px;
+  letter-spacing: -1px;
+}
+.efb-Right-Conversion-Box-title2 {
+  font-size: 20px;
+  position: absolute;
+  width: 135px;
+  text-align: center;
+  background-color: black;
+  margin-top: -13px;
+  margin-left: 15px;
+  letter-spacing: -1px;
+}
+.efb-Center-Timezone-title {
+  font-size: 23px;
+  position: absolute;
+  width: 7px;
+  text-align: center;
+  background-color: black;
+  margin-top: 24px;
+  margin-left: 79px;
+ 
+}
+.efb-Center-Timezone-title2 {
+  font-size: 17px;
+  position: absolute;
+  width: 70px;
+  text-align: center;
+  background-color: black;
+  margin-top: 30px;
+  margin-left: 165px;
+ 
+}
+
+.efb-Center-Timezone-title5 {
+  font-size: 19px;
+  position: absolute;
+  width: 250px;
+  text-align: left;
+  
+  margin-top: 30px;
+  margin-left: 125px;
+  letter-spacing: 1px;
+}
+.efb-Center-Timezone-title3 {
+  font-size: 19px;
+  position: absolute;
+  width: 250px;
+  text-align: left;
+  
+  margin-top: 100px;
+  margin-left: -95px;
+  letter-spacing: 1px;
+}
+
+.efb-Center-TimeDisplay-Box {
+  font-size: 19px;
+  position: absolute;
+  width: 100px;
+  text-align: left;
+  
+  margin-top: 100px;
+  margin-left: 215px;
+  
+}
+.efb-Center-TimeDisplay2-Box {
+  font-size: 23px;
+  position: absolute;
+  width: 100px;
+  text-align: left;
+  
+  margin-top: 100px;
+  margin-left: 60px;
+  
+}
+.efb-Center-stopWatch-Box {
+  font-size: 23px;
+  position: absolute;
+  width: 300px;
+  text-align: left;
+  background-color: rgb(100, 22, 22);
+  margin-top: 00px;
+  margin-left: -100px;
+  
+}
+.efb-Center-stopWatch-Box2 {
+  font-size: 23px;
+  position: absolute;
+  width: 300px;
+  text-align: left;
+  background-color: rgb(100, 22, 22);
+  margin-top: -40px;
+  margin-left: -58px;
+  
+}
+.efb-Left-Stopwatch-Button {
+  font-size: 23px;
+  position: absolute;
+  width: 200px;
+  text-align: left;
+  background-color: transparent;
+  margin-top: 200px;
+  margin-left: -430px;
+  
+}
+.efb-Right-Stopwatch-Button {
+  font-size: 23px;
+  position: absolute;
+  width: 200px;
+  text-align: right;
+  background-color: transparent;
+  margin-top: 200px;
+  margin-left: 200px;
+  
+}
+.date-display {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+}
+
+.date-display span {
+  white-space: pre;
+  gap: 0px;
+}
+.time-month {
+  margin-right: 0px;
+}
+.time-date {
+  margin-left: -5px;
+}
+
+.efb-Center-DateDisplay-Box {
+  font-size: 19px;
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  
+  margin-top: 100px;
+  margin-left: 115px;
+ 
+}
+.efb-Center-Timezone-title4 {
+  font-size: 28px;
+  position: absolute;
+  width: 80px;
+  text-align: center;
+  background-color: black;
+  margin-top: 20px;
+  margin-left: 8px;
+  letter-spacing: 1px;
+}
+.efb-Center-stopwatch-title5 {
+  font-size: 23px;
+  position: absolute;
+  width: 200px;
+  text-align: left;
+  
+  margin-top: 100px;
+  margin-left: -110px;
+}
+.efb-Center-Timezone-title6 {
+  font-size: 18px;
+  position: absolute;
+  width: 280px;
+  text-align: center;
+  background-color: black;
+  margin-top: 170px;
+  margin-left: 4px;
+  letter-spacing: 1px;
+}
+
+
+
+ .left-side-dropdowns {
+   margin-top: 20px;
+   margin-left: 72px;
+ }
+ 
+ .right-side-dropdowns {
+   margin-top: 18px;
+   margin-left: 17px;
+ }
+ 
+ .efb-left-side {
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+   top: 80px;
+   padding: 0 10px;
+   justify-content: space-between;
+   width: 135px;
+ }
+ 
+ .efb-middle {
+   position: absolute;
+   width: 505px;
+   height: 950px;
+   left: 130px;
+   top: 50px;
+   border: 2px solid var(--b78x-efb-border-blue);
+ }
+.efb-middleARPT {
+  position: absolute;
+  width: 505px;
+  height: 55px;
+  left: 130px;
+  top: 55px;
+  border: 2px solid var(--b78x-efb-border-blue);
+}
+.efb-Data-Airport {
+ 
+ 
+  width: 70px;
+  text-align: center;
+  background-color: black;
+  margin-top: -16px;
+  margin-left: -30px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-Elevation {
+ 
+ 
+  width: 0px;
+  text-align: center;
+  background-color: black;
+  margin-top: 30px;
+  margin-left: 190px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-Runway {
+ 
+ 
+  width: 0px;
+  text-align: center;
+  background-color: black;
+  margin-top: -10px;
+  margin-left: 5px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-TORA {
+ 
+ 
+  width: 0px;
+  text-align: left;
+  background-color: black;
+  margin-top: 30px;
+  margin-left: 190px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-TODA {
+ 
+ 
+  width: 0px;
+  text-align: left;
+  background-color: black;
+  margin-top: 55px;
+  margin-left: 190px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-ASDA {
+ 
+ 
+  width: 0px;
+  text-align: left;
+  background-color: black;
+  margin-top: 80px;
+  margin-left: 190px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-LDA {
+ 
+ 
+  width: 0px;
+  text-align: left;
+  background-color: black;
+  margin-top: 130px;
+  margin-left: 203px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Data-Slope {
+ 
+ 
+  width: 0px;
+  text-align: left;
+  background-color: black;
+  margin-top: 105px;
+  margin-left: 192px;
+  letter-spacing: -1px;
+ 
+}
+.efb-Left-Conversion-Box {
+  position: absolute;
+  width: 260px;
+  height: 360px;
+  left: 80px;
+  top: 210px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Left-Conversion-Box-small {
+  position: absolute;
+  width: 260px;
+  height: 180px;
+  left: 80px;
+  top: 210px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Left-Conversion-Box-medium {
+  position: absolute;
+  width: 260px;
+  height: 240px;
+  left: 80px;
+  top: 210px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Left-TimeZone-Box-medium {
+  position: absolute;
+  width: 262px;
+  height: 81px;
+  left: 253px;
+  top: 150px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Left-StopWatch-Box-medium {
+  position: absolute;
+  width: 732px;
+  height: 81px;
+  left: 20px;
+  top: 500px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Left-TimeZone-Box-large {
+  position: absolute;
+  width: 600px;
+  height: 210px;
+  left: 90px;
+  top: 300px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Left-ConversionOption-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 55px;
+  left: 5px; 
+  top: 15px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Leftt-ConversionOption-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 230px;
+  height: 55px;
+  left: 5px; 
+  top: 15px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Center-ConversionOption-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 230px;
+  height: 55px;
+  left: 240px; 
+  top: 15px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Right-ConversionOption-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 230px;
+  height: 55px;
+  left: 490px; 
+  top: 15px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Center-Timezone-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 210px;
+  height: 55px;
+  left: 215px; 
+  top: 160px;
+  background-color: var(--b78x-efb-button-background);
+}
+
+.efb-TimeZone-DropDown-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 310px;
+  height: 55px;
+  left: 10px; 
+  top: 90px;
+ 
+}
+.efb-Left-ConversionOption-Box2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 55px;
+  left: 5px;
+  top: 75px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Left-ConversionOption-Box3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 55px;
+  left: 5px;
+  top: 135px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Left-ConversionOption-Box4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 55px;
+  left: 5px;
+  top: 195px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Left-ConversionOption-Box5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 55px;
+  left: 5px;
+  top: 255px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Center-ScratchpadPg-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 700px;
+  height: 55px;
+  left: 5px;
+  top: 255px;
+  background-color: var(--b78x-efb-button-background);
+}
+.efb-Left-ConversionOption-Box6 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 30px;
+  left: 5px;
+  top: 310px;
+  
+}
+.efb-Left-ConversionOption-Box7 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 30px;
+  left: 5px;
+  top: 130px;
+  
+}
+.efb-Left-TimeZone-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 50px;
+  
+  left: 12px;
+  top: 7px;
+  
+}
+.efb-Left-StopWatch-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 55px;
+  height: 50px;
+  
+  left: 280px;
+  top: 200px;
+  
+}
+.efb-Left-StopWatch-Point {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 55px;
+  height: 50px;
+  font-size: 30px;
+  left: 65px;
+  top: 5px;
+  
+}
+.efb-Middle-StopWatch-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 55px;
+  height: 50px;
+  
+  left: 360px;
+  top: 200px;
+  
+}
+.efb-Middle-StopWatch-Point {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 55px;
+  height: 50px;
+  font-size: 30px;
+  left: 65px;
+  top: 5px;
+  
+}
+.efb-Right-StopWatch-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 55px;
+  height: 50px;
+  
+  left: 440px;
+  top: 200px;
+ 
+}
+.efb-Right-StopWatch-Point {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 55px;
+  height: 50px;
+  font-size: 30px;
+  left: 65px;
+  top: 5px;
+  
+}
+.efb-Right-TimeZone-Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 50px;
+  
+  left: 95px;
+  top: 7px;
+  
+}
+.efb-Left-ConversionOption-Box8 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 245px;
+  height: 30px;
+  left: 5px;
+  top: 190px;
+  
+}
+.efb-Right-Conversion-Box {
+  position: absolute;
+  width: 260px;
+  height: 360px;
+  right: 80px;
+  top: 210px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Right-Conversion-Box-small {
+  position: absolute;
+  width: 260px;
+  height: 180px;
+  right: 80px;
+  top: 210px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-Right-Conversion-Box-medium {
+  position: absolute;
+  width: 260px;
+  height: 240px;
+  right: 80px;
+  top: 210px;
+  border: 2px solid var(--b78x-efb-border-white);
+}
+.efb-middleRNW1 {
+  position: absolute;
+  width: 505px;
+  height: 170px;
+  left: 130px;
+  top: 125px;
+  border: 2px solid var(--b78x-efb-border-blue);
+}
+ .efb-middle-top-left-box {
+   position: absolute;
+   width: 50%;
+   height: 472px;
+   border-bottom: 2px solid var(--b78x-efb-border-blue);
+   border-right: 2px solid var(--b78x-efb-border-blue);
+ }
+ 
+ .efb-middle-top-right-box {
+   position: absolute;
+   width: 51%;
+   height: 470px;
+   border-bottom: 2px solid var(--b78x-efb-border-blue);
+   left: 246px;
+   bottom: 474px;
+ }
+ 
+ .efb-middle-1st-middle-box {
+   position: absolute;
+   width: 100%;
+   height: 64px;
+   border-bottom: 2px solid var(--b78x-efb-border-blue);
+   bottom: 414px;
+ }
+ 
+ .efb-middle-2st-middle-box {
+   position: absolute;
+   width: 100%;
+   border-bottom: 2px solid var(--b78x-efb-border-blue);
+   bottom: 368px;
+   height: 50px;
+   padding-left: 394px;
+   margin-top: 10px;
+   padding-bottom: 50px;
+ }
+ 
+ .efb-middle-2st-middle-box-name-and-engine {
+   position: absolute;
+   width: 300px;
+   margin-left: -390px;
+   margin-top: 15px;
+   font-size: 23px;
+   letter-spacing: -1px;
+ }
+ 
+ .efb-middle-2st-middle-box-setting-buttons {
+   position: absolute;
+   width: 165px;
+   margin-left: -175px;
+   margin-top: 3px;
+ 
+   font-size: 20px;
+   letter-spacing: -1px;
+ }
+ 
+ .efb-middle-2st-middle-box-cg {
+   margin-left: 45px;
+ }
+ 
+ .efb-SendOutput-MainBox {
+   
+  background-color: #ad1111;
+   width:800px;
+   height: 1200px;
+  margin-left: -150px;
+  margin-top: -700px;
+   z-index: 99999999999999;
+ }
+ .efb-middle-3st-middle-box {
+  position: absolute;
+  width: 100%;
+  height: 39%;
+  bottom: 0;
+}
+ 
+ .efb-middle-3st-middle-box-contents {
+   height: 370px;
+ }
+ 
+ .efb-right-side {
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+  top: 80px;
+   padding: 0 10px;
+   justify-content: space-between;
+   width: 142px;
+   left: 632px;
+   text-align: right;
+   padding-left: 7px;
+ }
+ 
+ .right-side-making-space {
+   height: 20px;
+ }
+ 
+ .left-textfield-middle {
+   position: absolute;
+   width: 100%;
+   height: 64px;
+ 
+   margin-left: 70px;
+ }
+ .left-textfield-middle-Landing {
+  position: absolute;
+  width: 100%;
+  height: 64px;
+ 
+
+  margin-left: 160px;
+}
+ 
+ .right-textfield-middle {
+   position: absolute;
+   width: 100%;
+   height: 64px;
+   margin-left: 334px;
+ }
+ .right-textfield-middle-Landing {
+  position: absolute;
+  width: 100%;
+  height: 64px;
+  margin-left: 334px;
+}
+ 
+ .efb-text-area-flaps {
+   position: absolute;
+   left: 5px;
+   top: 1px;
+   font-size: 20px;
+ }
+ 
+ 
+ .efb-text-area-flaps-value {
+   font-size: 25px;
+   margin-top: 5px;
+ }
+ 
+ .efb-text-area-accel-ht {
+   position: absolute;
+   left: 105px;
+   top: 1px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-accel-ht-value {
+   margin-top: 5px;
+   margin-left: -18px;
+   width: 130px;
+   text-align: center;
+ }
+ 
+ .efb-text-area-rwy-intx {
+   position: absolute;
+   left: 5px;
+   top: 84px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-rwy-intx-value {}
+ 
+ .efb-text-area-togw {
+   position: absolute;
+   left: 5px;
+   top: 154px;
+   font-size: 20px;
+ }
+ 
+ 
+ .efb-text-area-togw-value {
+   margin-top: 5px;
+ }
+ 
+ .efb-text-area-thrust-rating {
+   position: absolute;
+   left: 145px;
+ 
+   top: 154px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-thrust-rating-value {
+   margin-top: 5px;
+   margin-left: -27px;
+   width: 80px;
+   text-align: center;
+ }
+ 
+ .efb-text-area-sel-temp {
+   position: absolute;
+   left: 225px;
+   top: 154px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-sel-temp-value {
+   margin-top: 5px;
+   margin-left: -0px;
+   width: 80px;
+   text-align: center;
+ }
+ 
+ .efb-text-area-runway-information {
+   position: absolute;
+   left: 5px;
+   top: 250px;
+   width: 450px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-v1-speed {
+   position: absolute;
+   left: 365px;
+   top: 15px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-vr-speed {
+   position: absolute;
+   left: 365px;
+   top: 70px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-v2-speed {
+   position: absolute;
+   left: 365px;
+   top: 125px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-v-speed-value {
+   margin-top: -23px;
+   margin-left: 30px;
+   font-size: 28px;
+   width: 100px;
+ }
+ 
+ .efb-text-area-vref {
+   position: absolute;
+   left: 330px;
+   top: 180px;
+   font-size: 20px;
+ }
+ 
+ .efb-text-area-vref-speed-value {
+   margin-top: -23px;
+   margin-left: 70px;
+   width: 100px;
+ }
+ 
+ .efb-text-area-big-setting-text {
+   font-size: 170px;
+   font-weight: 700;
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: var(--b78x-mfd-button-background);
+ }
+ 
+ .efb-result-value {
+   font-weight: 600;
+ }
+ 
+ .efb-text-area-runway-information-value {
+   position: absolute;
+   top: -170px;
+ }
+ .boeing-efb-dropdown-button {
+   display: flex;
+   flex-direction: column;
+   justify-content: left;
+   height: 55px;
+   background-color: var(--b78x-efb-button-background);
+   border: 2px solid black;
+   font-size: 22px;
+   font-weight: 600;
+   width: 160px;
+   color: var(--b78x-efb-green);
+   padding-top: 8px;
+   padding-left: 3px;
+   letter-spacing: -1px;
+   margin-top: 10px;
+ }
+.boeing-efb-dropdown2-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  height: 55px;
+  background-color: var(--boeing-colors-EFBCustom-gray);
+  
+  border: 3px solid var(--b78x-efb-button-background);
+  font-size: 22px;
+  font-weight: 600;
+  width: 160px;
+  color: var(--b78x-efb-green);
+  padding-top: 8px;
+  padding-left: 3px;
+  letter-spacing: -1px;
+  margin-top: 10px;
+}
+.boeing-efb-dropdown3-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 55px;
+  background-color: var(--b78x-efb-button-background);
+  
+  
+  font-size: 22px;
+  font-weight: 600;
+  width: 160px;
+  
+  padding-top: 8px;
+  padding-left: 3px;
+  letter-spacing: -1px;
+  margin-top: 10px;
+}
+.boeing-efb-Scroll-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 13px;
+ 
+  
+  
+  font-size: 22px;
+  font-weight: 600;
+  width: 1px;
+  
+  padding-top: 8px;
+  padding-left: 3px;
+  letter-spacing: -1px;
+  margin-top: -10px;
+}
+.boeing-efb-Scroll2-button {
+ 
+  flex-direction: column;
+  justify-content: center;
+  height: 262px;
+  background-color: var(--b78x-efb-button-background);
+  
+  
+ 
+  
+  width: 49px;
+  
+  
+  
+  margin-top: -262px;
+  margin-left: 518px;
+}
+.boeing-efb-ArrowUP-Holder {
+ 
+  flex-direction: column;
+  justify-content: center;
+  height: 26px;
+  background-color: red;
+  z-index: 99999999;
+  
+ 
+  
+  width: 26px;
+  
+  
+  
+  
+  
+}
+ .boeing-efb-dropdown-button:active,
+ .boeing-efb-dropdown-button-selected {
+  background-color: var(--boeing-max-efb-dark-green); 
+   outline-color: var(--boeing-colors-magenta);
+  border-top: 2px solid var(--boeing-colors-magenta);
+  border-right: 2px solid var(--boeing-colors-magenta);
+  border-bottom: 2px solid var(--boeing-colors-magenta);
+  border-left: 2px solid var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-efb-dropdown-button:hover {
+   outline-color: 3px solid var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-efb-dropdown-button-alerted {
+   color: solid var(--boeing-colors-amber);
+   outline-color: var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-efb-dropdown-button-disabled {
+   background-color: transparent;
+   border: 3px solid var(--b78x-efb-border-blue);
+   
+  }
+  .boeing-efb-dropdown-button-disabled>span {
+    
+    color: var(--b78x-efb-border-blue);
+    
+   }
+
+ 
+ .boeing-efb-dropdown-button-disabled:hover {
+   outline: 3px solid var(--b78x-efb-border-blue);
+ }
+ 
+ .boeing-efb-dropdown-button-disabled:active {
+  background-color: transparent;
+  border: 3px solid var(--b78x-efb-border-blue);
+ }
+ 
+ .boeing-efb-dropdown-button>span {
+  
+   font-size: inherit;
+   height: 32px;
+   line-height: 40px;
+ }
+.boeing-efb-dropdown2-buttonspan {
+  font-size: inherit;
+  height: 60px;
+  line-height: 40px;
+}
+ 
+ .boeing-efb-dropdown-arrow {
+   margin-left: 140px;
+   margin-top: -24px;
+ }
+.boeing-efb-dropdown-arrow2 {
+  margin-left: 530px;
+  margin-top: -39px;
+  transform: rotate(90deg);
+}
+ 
+ .dropdown-items {
+   z-index: 99999;
+   flex-direction: column;
+   justify-content: left;
+   background-color: var(--b78x-efb-button-background);
+   border: 2px solid black;
+   font-size: 22px;
+   width: 120px;
+   color: var(--b78x-efb-green);
+   letter-spacing: -1px;
+   margin-top: -57px;
+   margin-left: 170px;
+   position: fixed;
+ }
+
+.dropdown-items2 {
+  z-index: 99999;
+  flex-direction: column;
+  justify-content: left;
+  background-color: var(--boeing-colors-EFBCustom-gray);
+  border: 2px solid rgb(255, 255, 255);
+  font-size: 22px;
+  width: 577px;
+  color: var(--b78x-efb-green);
+  letter-spacing: -1px;
+  margin-top: 5px;
+  margin-left: 0px;
+  position: fixed;
+}
+ 
+ .dropdown-items:hover {
+   outline-color: var(--b78x-efb-green);
+ }
+ 
+ .boeing-efb-dropdown-item {
+   color: white;
+   margin-top: 0px;
+   height: 55px;
+   padding-top: 15px;
+   width: 170px;
+   margin-left: -9px;
+ }
+.boeing-efb-dropdown2-item {
+  color: white;
+  margin-top: 3px;
+  height: 50px;
+ 
+  width: 515px;
+  margin-left: 3px;
+}
+ .boeing-efb-dropdown-item:hover {
+   outline-color: var(--boeing-colors-magenta);
+ }
+
+ 
+ .dropdown-button-name-left {
+   position: absolute;
+   font-size: 23px;
+   margin-left: -70px;
+   text-align: right;
+   align-content: right;
+   margin-top: 10px;
+   width: 65px;
+ }
+ 
+ .dropdown-button-name-right {
+   position: absolute;
+   font-size: 23px;
+   margin-left: 165px;
+   text-align: left;
+   align-content: left;
+   margin-top: 10px;
+   width: 65px;
+ }
+ .progress {
+   width: 120px;
+   height: 60px;
+   background-color: #050505;
+   border: 3px solid var(--boeing-colors-magenta);
+ }
+ 
+ .progress-bar {
+   transition: width 0.2s linear;
+   height: 100%;
+   background-color: var(--b78x-efb-green);
+ }
+ 
+ .data-in-progress-bar {
+   font-size: 22px;
+   padding-top: 3px;
+   padding-right: 2px;
+   font-weight: 600;
+ }
+ .boeing-efb-button {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   min-height: 62px;
+   height: 60px;
+   background-color: var(--b78x-efb-button-background);
+   outline: 3px solid black;
+   margin-bottom: 57px;
+   font-size: 21px;
+   font-weight: 700;
+   padding-left: 2px;
+   padding-right: 2px;
+   font-family: "";
+ }
+ 
+ .efb-main-menu2-blank {
+  
+  min-height: 62px;
+  height: 60px;
+  
+  outline: 3px solid black;
+  margin-bottom: 57px;
+  font-size: 21px;
+  font-weight: 700;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+ .boeing-efb-button:active,
+ .boeing-efb-button-selected {
+ /*  background-color: var(--boeing-max-efb-dark-green); */
+ 
+   border-top: 3px solid var(--b78x-efb-button-border-dark);
+   border-right: 3px solid var(--b78x-efb-button-border-light);
+   border-bottom: 3px solid var(--b78x-efb-button-border-light);
+   border-left: 3px solid var(--b78x-efb-button-border-dark);
+ }
+ 
+ .boeing-efb-button:hover {
+   outline-color: var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-efb-button-alerted {
+   color: var(--boeing-colors-amber);
+ }
+ 
+ .boeing-efb-button-disabled {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ 
+ .boeing-efb-button-disabled:hover {
+   outline: none !important;
+ }
+ 
+ .boeing-efb-button-disabled:active {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+.nd-map-menu-dropdown-section-checkbox-container {
+  display: flex;
+  height: 40px;
+  min-height: 40px;
+  align-items: center;
+}
+
+
+.nd-map-menu-dropdown-section-checkbox-container>.nd-map-menu-checkbox-svg-container {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  margin-bottom: 8px;
+}
+.nd-map-menu-dropdown-section-checkbox-container>.nd-map-menu-checkbox-svg-container-Placeholder {
+  width: 70px;
+  height: 70px;
+  margin-left: 5px;
+  margin-top: 33px;
+}
+
+.nd-map-menu-dropdown-section-checkbox-container>label.checkbox-label {
+  padding-top: 10px;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.nd-map-menu-dropdown-section-checkbox-container.placeholder>label.checkbox-label {
+  color: var(--boeing-colors-white);
+  font-size: 22px;
+  margin-left: 10px;
+}
+ .boeing-efb-textfield-button {
+   display: flex;
+   height: 35px;
+   background-color: black;
+   border: 2px solid white;
+   font-size: 22px;
+   width: 160px;
+   margin-top: 5px;
+   outline-offset: 1px;
+ 
+ }
+
+.boeing-efb-textbox-button {
+  display: flex;
+  height: 35px;
+  background-color: black;
+  border: 2px solid white;
+  font-size: 26px;
+  width: 160px;
+  margin-top: 5px;
+
+
+  
+  
+  
+  color: white;
+ 
+  background-color: rgb(0, 0, 0);
+  resize: none;
+  
+  
+  text-align: center;
+
+  
+
+  padding-bottom: 13px;
+  padding-top: 13px;
+  padding-left: 13px;
+  padding-right: 13px;
+  
+
+  
+
+
+
+
+}
+ 
+ .boeing-efb-top-textfield {
+   margin-top: 10px;
+ }
+ 
+ .boeing-efb-textfield-button:active,
+ .boeing-efb-textfield-button-selected {
+   border: 3px solid var(--boeing-colors-magenta);
+   outline-color: 3px solid var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-efb-textfield-button:hover {
+   outline-color: solid var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-efb-textfield-button-alerted {
+   color: var(--boeing-colors-amber);
+ }
+ 
+ .boeing-efb-textfield-button-disabled {
+   background-color: var(--b78x-efb-button-border-dark);
+   border: none;
+   color: var(--b78x-efb-button-background);
+ }
+ 
+ .boeing-efb-textfield-button-disabled {
+   background-color: var(--b78x-efb-button-border-dark);
+   border: none;
+   color: var(--b78x-efb-button-background);
+ }
+ 
+ .boeing-efb-textfield-button-disabled:hover {
+   outline: none !important;
+ }
+ 
+ .boeing-efb-textfield-button-disabled:active {
+   background-color: var(--b78x-efb-button-border-dark);
+   border: none;
+   color: var(--b78x-efb-button-background);
+ }
+ 
+ .boeing-efb-textfield-button>span {
+   font-size: inherit;
+   height: 32px;
+   line-height: 40px;
+ }
+ 
+ .boeing-efb-textfield-arrow {
+   margin-left: 140px;
+   margin-top: -24px;
+ }
+ 
+ 
+ .textfield-button-name-left {
+   z-index: 99998;
+   position: absolute;
+   font-size: 23px;
+   margin-left: -70px;
+   text-align: right;
+   align-content: right;
+   width: 65px;
+ }
+ 
+ .textfield-button-name-right {
+   z-index: 99998;
+   position: absolute;
+   font-size: 23px;
+   margin-left: 165px;
+   text-align: left;
+   align-content: left;
+   margin-top: 5px;
+   width: 65px;
+ }
+ 
+ .text-under-text-field {
+   font-size: 15px;
+   text-align: center;
+   width: 160px;
+   height: 13px;
+   padding-top: 2px;
+ }
+
+
+ 
+ .boeing-efb-text-field-keyboard-input {
+   font-size: 26px;
+   width: 100%;
+   color: white;
+   background-color: black;
+   align-content: left;
+   justify-content: left;
+   text-align: left;
+   margin-bottom: 0px;
+   border: 0px;
+   margin-left: 3px;
+}
+.boeing-efbPad-text-field-keyboard-input {
+  font-size: 26px;
+  width: 95%;
+  height: 900px;
+  color: white;
+ 
+  background-color: rgb(0, 0, 0);
+  resize: none;
+  
+  
+  text-align: left;
+  margin-top: 100px;
+  margin-bottom: 0px;
+  border: 2px solid white;
+  padding-bottom: 13px;
+  padding-top: 13px;
+  padding-left: 13px;
+  padding-right: 13px;
+  margin-left: 20px;
+}
+
+ :root {
+   --b78x-mfd-button-background: #777777;
+   --b78x-mfd-button-border-dark: #555555;
+   --b78x-mfd-button-border-light: #aaaaaa;
+ }
+ 
+ .boeing-mfd-button {
+   z-index: 9999999;
+   display: inline-block;
+   width: 75px;
+   justify-content: center;
+   align-items: center;
+   height: 45px;
+   padding-left: 13px;
+   background-color: var(--b78x-mfd-button-background);
+   font-size: inherit;
+   border: 3px solid black;
+ }
+ 
+ .boeing-mfd-button:active,
+ .boeing-mfd-button-selected {
+   background-color: var(--boeing-max-efb-dark-green);
+ }
+ 
+ .boeing-mfd-button:hover {
+   outline-color: var(--boeing-colors-magenta);
+ }
+ 
+ .boeing-mfd-button-alerted {
+   color: var(--boeing-colors-amber);
+ }
+ 
+ .boeing-mfd-button-disabled {
+   background-color: var(--b78x-mfd-button-border-dark);
+   border: none;
+   color: var(--b78x-mfd-button-background);
+ }
+ 
+ .boeing-mfd-button-inactive {
+   background-color: transparent;
+   border: none;
+   outline: 3px solid var(--b78x-efb-border-blue);
+ 
+   pointer-events: none;
+ }
+ 
+ .boeing-mfd-button-disabled:active {
+   background-color: var(--b78x-mfd-button-border-dark);
+   border: none;
+   color: var(--b78x-mfd-button-background);
+ }
+ 
+ .boeing-mfd-button>span {
+   font-size: inherit;
+   height: 32px;
+   line-height: 40px;
+ }
+ .efb-main-menu .efb-title-page {
+   font-size: 32px;
+   margin-top: 8px;
+ }
+ 
+ .efb-main-menu .boeing-efb-button {
+   font-size: 28px;
+   padding-top: 8px;
+   padding-bottom: 9px;
+   padding-left: 7px;
+   padding-right: 7px;
+   border: 2px solid transparent;
+   font-weight: 500;
+ }
+.boeing-efb-BackingGray {
+  width: 250px;
+  height: 60px;
+  padding-top: 8px;
+  padding-bottom: 9px;
+  padding-left: 7px;
+  padding-right: 7px;
+  border: 2px solid transparent;
+  font-weight: 500;
+}
+ 
+ .efb-main-menu .boeing-efb-button.boeing-efb-button-disabled {
+   background-color: transparent;
+   color: var(--b78x-efb-border-blue);
+   border-color: var(--b78x-efb-border-blue);
+   font-weight: 600;
+ }
+ 
+ .efb-main-menu-button-column {
+   width: 290px;
+ 
+   position: absolute;
+   top: 0;
+   left: 0;
+ 
+   display: flex;
+   flex-direction: column;
+   padding-top: 82px;
+   padding-left: 5px;
+ }
+ 
+ .efb-main-menu-button-column-right {
+   left: 455px;
+   text-align: right;
+ }
+ 
+ .efb-main-menu-button-column>*:not(:last-child) {
+   margin-bottom: 48px;
+ }
+ 
+ .efb-main-menu-blank {
+   height: 70px;
+ }
+ .efb-perf-blank {
+  height: 65px;
+}
+ :root {
+   --boeing-max-efb-dark-green: #005800;
+   --b78x-efb-button-background: #585858;
+   --b78x-efb-button-background1:rgba(0, 0, 0, 0)8;
+   --b78x-efb-button-border-dark: #555555;
+   --b78x-efb-button-border-light: #aaaaaa;
+   --b78x-efb-button-border-dark1: #55555500;
+   --b78x-efb-button-border-light1: #aaaaaa00;
+   --b78x-efb-border-blue: rgb(0, 111, 174);
+   --b78x-efb-border-white: rgb(255, 255, 255);
+   --b78x-efb-border-blue1: rgb(0, 13, 192);
+   --b78x-efb-border-green1: rgb(0, 255, 42);
+   --b78x-efb-green: rgb(4, 197, 54);
+   --b78x-efb-cyan: hsl(209, 100%, 50%);
+ }
+ 
+ .hud-container {
+   position: absolute;
+   left: 0px;
+   top: 0px;
+ }
+ /* k-EFB-Doors */
+ .door-label {
+   color: var(--boeing-colors-cyan);
+   font-size: 30px;
+ }
+ 
+ .door-label.nose {
+   position: absolute;
+   top: 226px;
+   left: 297px;
+ }
+ 
+ .door-label.main {
+   position: absolute;
+   top: 353px;
+   left: -75px;
+ }
+ 
+ .hottest-brake {
+   background: var(--boeing-colors-white);
+ }
+ 
+ .brake-overtemp {
+   background: var(--boeing-colors-amber);
+   border: 3px solid var(--boeing-colors-amber);
+ }
+ 
+ .gear-door-transit {
+   background-image: linear-gradient(-45deg, white 10%, black 10%, black 50%, white 50%, white 60%, black 60%, black 100%);
+   background-size: 18px 18px;
+ }
+ .doors-page-container {
+   position: absolute;
+   left: 0px;
+   top: 0px;
+   transform: scale(0.775);
+   font-size: 30px;
+   margin-top: -150px;
+   margin-left: -90px;
+   color: var(--boeing-colors-cyan);
+ }
+ 
+ .doors-page-left-column-grid {
+   position: absolute;
+   top: 250px;
+   left: 50px;
+   display: grid;
+   grid-template-rows: 80px 110px 420px 60px 120px 60px;
+ }
+ 
+ .doors-page-lavatory {
+   position: absolute;
+   top: 150px;
+   left: 50px;
+   color: var(--boeing-colors-green);
+ }
+ 
+ .doors-page-lavatory.occupied {
+   color: var(--boeing-colors-white);
+ }
+ 
+ .doors-page-grid-container {
+   display: flex;
+   width: 340px;
+ }
+ 
+ .doors-page-grid-container>div {
+   padding-right: 10px;
+ }
+ 
+ .doors-page-pointer {
+   flex-grow: 1;
+   margin-top: 10px;
+   height: 1px;
+   border: 2px solid var(--boeing-colors-cyan);
+   margin-right: 0px;
+ }
+ 
+ .doors-page-right-column-grid {
+   position: absolute;
+   top: 160px;
+   right: 50px;
+   display: grid;
+   grid-template-rows: 60px 110px 50px 60px 480px 60px 120px;
+ }
+ 
+ .right-aligned>div {
+   text-align: right;
+   padding-left: 10px;
+   margin-right: -0px;
+ }
+ 
+ .doors-page-refuel {
+   position: absolute;
+   top: 555px;
+   left: 50px;
+ }
+ 
+ .doors-page-refuel-pointer {
+   border-right: 4px solid var(--boeing-colors-cyan);
+   height: 65px;
+   width: 45px;
+ }
+ 
+ .doors-page-refuel-panel {
+   position: absolute;
+   top: 662px;
+   left: 70px;
+   width: 60px;
+   height: 25px;
+   transform: rotate(-28deg);
+ }
+ 
+ .doors-page-fd-ovhd {
+   position: absolute;
+   top: 214px;
+   left: 503px;
+ }
+ 
+ .doors-page-fwd-ee-access {
+   position: absolute;
+   top: 244px;
+   left: 465px;
+ }
+ 
+ .doors-page-entry-1L {
+   position: absolute;
+   top: 323px;
+   left: 420px;
+ }
+ 
+ .doors-page-entry-1R {
+   position: absolute;
+   top: 323px;
+   left: 510px;
+ }
+ 
+ .doors-page-entry-2L {
+   position: absolute;
+   top: 433px;
+   left: 420px;
+ }
+ 
+ .doors-page-fwd-cargo {
+   position: absolute;
+   top: 367px;
+   left: 463px;
+   width: 80px;
+   height: 55px;
+ }
+ 
+ .doors-page-entry-2R {
+   position: absolute;
+   top: 433px;
+   left: 510px;
+ }
+ 
+ .doors-page-aft-ee-access {
+   position: absolute;
+   top: 613px;
+   left: 450px;
+ }
+ 
+ .doors-page-entry-3L {
+   position: absolute;
+   top: 913px;
+   left: 420px;
+ }
+ 
+ .doors-page-entry-3R {
+   position: absolute;
+   top: 913px;
+   left: 510px;
+ }
+ 
+ .doors-page-aft-cargo {
+   position: absolute;
+   top: 964px;
+   left: 463px;
+   width: 80px;
+   height: 55px;
+ }
+ 
+ .doors-page-bulk-cargo {
+   position: absolute;
+   top: 1035px;
+   left: 415px;
+   width: 70px;
+   height: 35px;
+ }
+ 
+ .doors-page-entry-4L {
+   position: absolute;
+   top: 1093px;
+   left: 420px;
+ }
+ 
+ .doors-page-entry-4R {
+   position: absolute;
+   top: 1093px;
+   left: 510px;
+ }
+ 
+ .doors-page-entry-1L.entry-door-unlocked,
+ .doors-page-entry-2L.entry-door-unlocked,
+ .doors-page-entry-3L.entry-door-unlocked {
+   left: 412px;
+ }
+ 
+ .doors-page-entry-4L.entry-door-unlocked {
+   left: 415px;
+ }
+ 
+ .doors-page-entry-1R.entry-door-unlocked,
+ .doors-page-entry-2R.entry-door-unlocked,
+ .doors-page-entry-3R.entry-door-unlocked {
+   left: 485px;
+ }
+ 
+ 
+ .doors-page-entry-4R.entry-door-unlocked {
+   left: 482px;
+ }
+ 
+ .square-sized-door {
+   width: 28px;
+   height: 34px;
+ }
+ 
+ .entry-door-closed {
+   width: 28px;
+   height: 34px;
+   background: black;
+   text-align: center;
+   padding-top: 3px;
+   font-size: 34px;
+ }
+ 
+ .entry-door-closed.entry-door-auto {
+   color: var(--boeing-colors-green);
+ }
+ 
+ .entry-door-closed.entry-door-manual {
+   color: var(--boeing-colors-white);
+ }
+ 
+ .entry-door-unlocked {
+   background-color: var(--boeing-colors-black);
+   border-radius: 17px;
+   border: 3px solid var(--boeing-colors-amber);
+   width: 60px;
+   height: 34px;
+ }
+ 
+ .other-door-closed {
+   border: none;
+   background: none;
+ }
+ 
+ .door-not-locked {
+   border: 3px solid var(--boeing-colors-amber);
+   background: black;
+ }
+ 
+ .door-refuel-unlocked {
+   border: 3px solid var(--boeing-colors-cyan);
+   border-top: none;
+   background: black;
+ }
+ 
+ .efb-main-menu-blankL {
+   height: 117px;
+ }
+ .efb-main-menu-blankR {
+   height: 117px;
+ }
+ 
+ .efb-left-side2 {
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+  top: 80px;
+   padding: 0 10px;
+   justify-content: space-between;
+  width: 138px;
+ }
+ 
+ .efb-right-side2 {
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+  top: 80px;
+   padding: 0 10px;
+   justify-content: space-between;
+  width: 145px;
+  left: 632px;
+   text-align: right;
+   padding-left: 7px;
+ }
+ .efb-title-page2 {
+   width: 100%;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   font-size: 32px;
+   top: 15px;
+   position: absolute;
+   text-align: center;
+ }
+ 
+ 
+
+ .efb-main-menu-button-column1 {
+   width: 290px;
+ 
+   position: absolute;
+   top: 0;
+   left: 0;
+ 
+   display: flex;
+   flex-direction: column;
+   padding-top: 82px;
+   padding-left: 5px;
+ }
+ 
+ /**VIDEO*/
+ body {
+   margin: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+ }
+ 
+ #static-image {
+   position: absolute;
+   top: 100px; 
+   left: 300px; 
+   transform: translate(-50%, -50%);
+ }
+ .efb-title-page3 {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 23px;
+  top: 50px;
+  position: absolute;
+  text-align: center;
+}
+
+.AircraftModel {
+ 
+  font-size: 25px;
+  position: absolute;
+  width: 400px;
+  text-align: left;
+  background-color: black;
+  margin-top: 130px;
+  margin-left: 40px;
+ 
+}
+ .efb-title-page6 {
+   width: 100%;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   font-size: 20px;
+   top: 25px;
+   position: absolute;
+   text-align: center;
+ }
+ .efb-middle-top-left-title8 {  
+   font-size: 20px;
+   position: absolute;
+   width: 100px;
+   text-align: center;
+   background-color: black;
+   margin-top: 530px;
+   margin-left: 325px;
+   letter-spacing: -1px;
+ }
+ 
+ .efb-middle-top-left-title9 { 
+   font-size: 20px;
+   position: absolute;
+   width: 100px;
+   text-align: center;
+   background-color: black;
+   margin-top: 865px;
+   margin-left: 325px;
+   letter-spacing: -1px;
+ }
+ 
+ .efb-middle-top-left-title10 { 
+   font-size: 20px;
+   position: absolute;
+   width: 150px;
+   text-align: center;
+   background-color: black;
+   margin-top: 865px;
+   margin-left: 60px;
+   letter-spacing: -1px;
+ }
+ .TAILID {
+ 
+  font-size: 25px;
+  position: absolute;
+  width: 400px;
+  text-align: left;
+  background-color: black;
+  margin-top: 185px;
+  margin-left: 40px;
+  
+}
+.DATE {
+  
+  font-size: 25px;
+  position: absolute;
+  width: 800px;
+  text-align: left;
+  background-color: black;
+  margin-top: 240px;
+  margin-left: 40px;
+  
+}
+.DATEREAL {
+  
+  font-size: 25px;
+  position: absolute;
+  width: 800px;
+  text-align: left;
+  background-color: black;
+  margin-top: 240px;
+  margin-left: 110px;
+  
+} 
+.date-container {
+  display: inline-block;
+}
+.TIME {
+  
+  font-size: 25px;
+  position: absolute;
+  width: 400px;
+  text-align: center;
+  background-color: black;
+  margin-top: 240px;
+  margin-left: 315px;
+  
+}
+ .efb-middle-top-left-title11 { 
+   font-size: 20px;
+   position: absolute;
+   width: 150px;
+   text-align: center;
+   background-color: black;
+   margin-top: 865px;
+   margin-left: 560px;
+   letter-spacing: -1px;
+ }
+
+ .boeing-efb-button1 {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   min-height: 100px;
+   height: 100px;
+   background-image: url('/Pages/VCockpit/Instruments/Airliners/HSB787_10/Assets/images/efb/center_default.png'); 
+   background-size: cover; 
+   background-position: center; 
+   outline: 0px solid black;
+   margin-bottom: 100px;
+   font-size: 21px;
+   font-weight: 700;
+   padding-left: 2px;
+   padding-right: 2px;
+ }
+ 
+ .boeing-efb-button1:active,
+ .boeing-efb-button-selected1 {
+   background-color: var(--boeing-colors-green);
+ 
+   border-top: 3px solid var(--b78x-efb-button-border-dark);
+   border-right: 3px solid var(--b78x-efb-button-border-light);
+   border-bottom: 3px solid var(--b78x-efb-button-border-light);
+   border-left: 3px solid var(--b78x-efb-button-border-dark);
+ }
+ 
+ .boeing-efb-button1:hover {
+   outline-color: var(--boeing-colors-green);
+ }
+ 
+ .boeing-efb-button-alerted1 {
+   color: var(--boeing-colors-amber);
+ }
+ 
+ .boeing-efb-button-disabled1 {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ 
+ .boeing-efb-button-disabled1:hover {
+   outline: none !important;
+ }
+ 
+ .boeing-efb-button-disabled1:active {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ /**VIDEO IMAGE 2**/
+ .boeing-efb-button2 {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   min-height: 100px;
+   height: 100px;
+   background-image: url('/Pages/VCockpit/Instruments/Airliners/HSB787_10/Assets/images/efb/right_side_default.jpg'); 
+   background-size: cover; 
+   background-position: right; 
+   outline: 0px solid black;
+   margin-bottom: 100px;
+   font-size: 21px;
+   font-weight: 700;
+   padding-left: 2px;
+   padding-right: 2px;
+ }
+ 
+ .boeing-efb-button2:active,
+ .boeing-efb-button-selected2 {
+   background-color: var(--boeing-colors-green);
+ 
+   border-top: 3px solid var(--b78x-efb-button-border-dark);
+   border-right: 3px solid var(--b78x-efb-button-border-light);
+   border-bottom: 3px solid var(--b78x-efb-button-border-light);
+   border-left: 3px solid var(--b78x-efb-button-border-dark);
+ }
+ 
+ .boeing-efb-button2:hover {
+   outline-color: var(--boeing-colors-green);
+ }
+ 
+ .boeing-efb-button-alerted2 {
+   color: var(--boeing-colors-amber);
+ }
+ 
+ .boeing-efb-button-disabled2 {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ 
+ .boeing-efb-button-disabled2:hover {
+   outline: none !important;
+ }
+ 
+ .boeing-efb-button-disabled2:active {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ /**VIDEO IMAGE 3**/
+ .boeing-efb-button3 {
+   display: absolute;
+   flex-direction: column;
+   justify-content: right;
+   min-height: 100px;
+   height: 100px;
+   background-image: url('/Pages/VCockpit/Instruments/Airliners/HSB787_10/Assets/images/efb/left_side_default.jpg'); 
+   background-size: cover; 
+   background-position: left; 
+   outline: 0px solid black;
+   margin-bottom: 100px;
+   font-size: 21px;
+   font-weight: 700;
+   padding-left: 2px;
+   padding-right: 2px;
+ }
+ 
+ .boeing-efb-button3:active,
+ .boeing-efb-button-selected3 {
+   background-color: var(--boeing-colors-green);
+ 
+   border-top: 3px solid var(--b78x-efb-button-border-dark);
+   border-right: 3px solid var(--b78x-efb-button-border-light);
+   border-bottom: 3px solid var(--b78x-efb-button-border-light);
+   border-left: 3px solid var(--b78x-efb-button-border-dark);
+ }
+ 
+ .boeing-efb-button3:hover {
+   outline-color: var(--boeing-colors-green);
+ }
+ 
+ .boeing-efb-button-alerted3 {
+   color: var(--boeing-colors-amber);
+ }
+ 
+ .boeing-efb-button-disabled3 {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ 
+ .boeing-efb-button-disabled3:hover {
+   outline: none !important;
+ }
+ 
+ .boeing-efb-button-disabled3:active {
+   background-color: black;
+   border: 2px solid var(--b78x-efb-border-blue);
+   color: var(--b78x-efb-border-blue);
+ }
+ 
+ .efb-right-side6 {
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+   top: 650px;
+   padding: 0 10px;
+   justify-content: space-between;
+   width: 142px;
+   left: 500px;
+   text-align: right;
+   padding-left: 7px;
+ }
+ 
+ .efb-main-menu-button-column7 {
+   width: 210px;
+ 
+   position: absolute;
+   top: 0;
+   left: 0;
+ 
+   display: flex;
+   flex-direction: column;
+   padding-top: 650px;
+   padding-left: 265px;
+ }
+ 
+ .efb-main-menu-button-column8 {
+   width: -210px;
+ 
+   position: absolute;
+   top: 0;
+   left: 210;
+ 
+   display: flex;
+   flex-direction: column;
+   padding-top: 650px;
+   padding-left: 25px;
+ }
+ 
+ .efb-main-menu-button-column9 {
+   width: 10px;
+ 
+   position: absolute;
+   top: 0;
+   left: 0;
+ 
+   display: flex;
+   flex-direction: column;
+   padding-top: 418px;
+   padding-left: 5px;
+ }
+ 
+ .efb-middle6 {
+   position: absolute;
+   width: 658px;
+   height: 458px;
+   left: 60px;
+   top: 66px;
+   border: 4px solid var(--b78x-efb-border-green1);
+ }
+ 
+ .efb-middle7 {
+   position: absolute;
+   width: 236px;
+   height: 201px;
+   left: 262px;
+   top: 647px;
+   border: 2px solid var(--b78x-efb-border-green1);
+ }
+ .efb-middle8 {
+   position: absolute;
+   width: 236px;
+   height: 202px;
+   left: 22px;
+   top: 647px;
+   border: 2px solid var(--b78x-efb-border-green1);
+ }
+ .efb-middle9 {
+   position: absolute;
+   width: 236px;
+   height: 202px;
+   left: 504px;
+   top: 647px;
+   border: 2px solid var(--b78x-efb-border-green1);
+ }
+ 
+ .efb-main-menu-button-column-right1 {
+   left: 593px;
+   text-align: right;
+ }
+ 
+ .efb-main-menu-button-column1>*:not(:last-child) {
+   margin-bottom: 48px;
+ }
+ .TIMEREAL {
+ 
+  font-size: 25px;
+  position: absolute;
+  width: 400px;
+  text-align: center;
+ 
+  margin-top: 240px;
+  margin-left: 390px;
+  
+}
+.EFBCONNECTIVTYTEXT {
+  
+  font-size: 27px;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  background-color: black;
+  margin-top: 390px;
+  margin-left: 17px;
+  
+}
+ .efb-middle-top-left-title30 {  
+   font-size: 20px;
+   position: absolute;
+   width: 200px;
+   text-align: center;
+   background-color: black;
+   margin-top: 530px;
+   margin-left: 290px;
+   letter-spacing: -1px;
+ }
+ .efb-middle-top-left-title31 {  
+   font-size: 20px;
+   position: absolute;
+   width: 200px;
+   text-align: center;
+   background-color: black;
+   margin-top: 530px;
+   margin-left: 290px;
+   letter-spacing: -1px;
+ }
+
+/**DATA load*/
+.efb-middle-top-left-title6 {
+  font-size: 23px;
+  position: absolute;
+  width: 500px;
+  text-align: center;
+  background-color: black;
+  margin-top: 300px;
+  margin-left: 150px;
+  letter-spacing: -1px;
+}
+
+.efb-middle-top-left-title7 {
+  font-size: 23px;
+  position: absolute;
+  width: 500px;
+  text-align: center;
+  background-color: black;
+  margin-top: 400px;
+  margin-left: 150px;
+  letter-spacing: -1px;
+}
+
+.efb-title-page7 {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 25px;
+  top: 25px;
+  position: absolute;
+  text-align: center;
+}

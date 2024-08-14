@@ -1,0 +1,61 @@
+﻿<link rel="stylesheet" href="CS777-200LR_EICAS.css" />
+
+<script type="text/html" id="B777_EICAS">
+    <glasscockpit-highlight id="highlight"></glasscockpit-highlight>
+    <div id="Mainframe">
+        <div id="Electricity" state="off">
+            <div id="TopScreen">
+                <b777-upper-eicas></b777-upper-eicas>
+            </div>
+
+            <div id="BottomScreen">
+                <b777-lower-eicas-fuel style="display:none"></b777-lower-eicas-fuel>
+                <b777-lower-eicas-engine style="display:none"></b777-lower-eicas-engine>
+                <b777-lower-eicas-stat style="display:none"></b777-lower-eicas-stat>
+                <b777-lower-eicas-hyd style="display:none"></b777-lower-eicas-hyd>
+                <b777-lower-eicas-fctl style="display:none"></b777-lower-eicas-fctl>
+                <b777-lower-eicas-drs style="display:none"></b777-lower-eicas-drs>
+                <b777-lower-eicas-elec style="display:none"></b777-lower-eicas-elec>
+                <b777-lower-eicas-gear style="display:none"></b777-lower-eicas-gear>
+                <b777-lower-eicas-ecl style="display:none"></b777-lower-eicas-ecl>
+                <b777-lower-eicas-info style="display:none"></b777-lower-eicas-info>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" import-script="/JS/SimPlane.js"></script>
+
+<script type="text/html" import-script="/Pages/HorizonSim/HorizonSimUtils.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/Utils/RadioNav.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/FlightElements/FlightPlan.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/FlightElements/FlightPlanManager.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/FlightElements/GeoCalc.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/LogicElements/SearchField.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/LogicElements/SelectableElement.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/HorizonSim_NavSystem.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/NavSystems/Shared/LogicElements/GaugeElement.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/Shared/HorizonSim_BaseAirliners.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Boeing777_Common.js"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_EICASGauge.js"></script>
+
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_UpperEICAS.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_Fuel.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_HYD.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_Engine.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_Stat.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_FCTL.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/CS777-200LR/EICAS/Pages/CS777-200LR_LowerEICAS_DRS.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_ELEC.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/CS777-200LR/EICAS/Pages/CS777-200LR_LowerEICAS_GEAR.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_ECL.html"></script>
+<script type="text/html" import-template="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/Pages/B777_LowerEICAS_INFO.html"></script>
+
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B777/EICAS/B777_EICAS.js"></script>
