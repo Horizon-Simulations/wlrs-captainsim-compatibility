@@ -91,6 +91,26 @@
       "date": 133302996999509076
     },
     {
+      "path": "effects/texture/FLASHLIGHT.dds",
+      "size": 1048704,
+      "date": 133302996999549074
+    },
+    {
+      "path": "effects/texture/FLASHLIGHT.DDS.json",
+      "size": 102,
+      "date": 133302996999509076
+    },
+    {
+      "path": "effects/texture/FLASHLIGHTMASK2.TIF.dds",
+      "size": 1048704,
+      "date": 133302996999589075
+    },
+    {
+      "path": "effects/texture/FLASHLIGHTMASK2.TIF.DDS.json",
+      "size": 102,
+      "date": 133302996999549074
+    },
+    {
       "path": "effects/texture/LIGHT.dds",
       "size": 1048704,
       "date": 133302996999639075
