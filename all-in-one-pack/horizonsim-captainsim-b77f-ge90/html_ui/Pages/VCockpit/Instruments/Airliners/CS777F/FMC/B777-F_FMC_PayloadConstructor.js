@@ -429,7 +429,7 @@ function getZfwcg() {
     const currentPaxWeight = PAX_WEIGHT + BAG_WEIGHT;
 
     const leMacZ = -0.94; // Value from Debug Weight
-    const macSize = 36.68; // Value from Debug Aircraft Sim Tunning??
+    const macSize = 44; // Value from Debug Aircraft Sim Tunning??
 
     const emptyWeight = 318300 * 0.453592; // Value from flight_model.cfg to kgs
     const emptyPosition = -9.73; // Value from flight_model.cfg
@@ -439,14 +439,14 @@ function getZfwcg() {
         .map((station) => SimVar.GetSimVarValue(`L:${station.simVar}_REQUEST`, "KG") * currentPaxWeight)
         .reduce((acc, cur) => acc + cur, 0);
     const paxTotalMoment = Object.values(paxStations)
-        .map((station) => SimVar.GetSimVarValue(`L:${station.simVar}_REQUEST`, "Number") * currentPaxWeight * station.position)
+        .map((station) => SimVar.GetSimVarValue(`L:${station.simVar}_REQUEST`, "KG") * currentPaxWeight * station.position)
         .reduce((acc, cur) => acc + cur, 0);
 
     const cargoTotalMass = Object.values(cargoStations)
         .map((station) => SimVar.GetSimVarValue(`PAYLOAD STATION WEIGHT:${station.stationIndex}`, "KG"))
         .reduce((acc, cur) => acc + cur, 0);
     const cargoTotalMoment = Object.values(cargoStations)
-        .map((station) => SimVar.GetSimVarValue(`PAYLOAD STATION WEIGHT:${station.stationIndex}`, "Number") * station.position)
+        .map((station) => SimVar.GetSimVarValue(`PAYLOAD STATION WEIGHT:${station.stationIndex}`, "KG") * station.position)
         .reduce((acc, cur) => acc + cur, 0);
 
     const totalMass = emptyWeight + paxTotalMass + cargoTotalMass;

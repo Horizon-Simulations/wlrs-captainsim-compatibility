@@ -113,7 +113,7 @@ function getZfwcg() {
         .map((station) => SimVar.GetSimVarValue(`PAYLOAD STATION WEIGHT:${station.stationIndex}`, "KG"))
         .reduce((acc, cur) => acc + cur, 0);
     const cargoTotalMoment = Object.values(cargoStations)
-        .map((station) => SimVar.GetSimVarValue(`PAYLOAD STATION WEIGHT:${station.stationIndex}`, "Number") * station.position)
+        .map((station) => SimVar.GetSimVarValue(`PAYLOAD STATION WEIGHT:${station.stationIndex}`, "KG") * station.position)
         .reduce((acc, cur) => acc + cur, 0);
 
     const totalMass = emptyWeight + paxTotalMass + cargoTotalMass;

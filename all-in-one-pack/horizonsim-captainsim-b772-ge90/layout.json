@@ -377,8 +377,8 @@
     },
     {
       "path": "html_ui/Pages/HorizonSim/teeveeAnimHandler.js",
-      "size": 5426,
-      "date": 133678725167791915
+      "size": 4726,
+      "date": 133681301444851941
     },
     {
       "path": "html_ui/Pages/HorizonSim/fpm/LzUtf8.js",
@@ -711,11 +711,6 @@
       "date": 133590671871009907
     },
     {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B767_FMC_MainDisplay.js",
-      "size": 61761,
-      "date": 133680500237561120
-    },
-    {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/B777_FMCMainDisplay.js",
       "size": 108512,
       "date": 133669580341265286
@@ -1041,21 +1036,6 @@
       "date": 133620959568222234
     },
     {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B764/B764_Boarding.js",
-      "size": 10519,
-      "date": 133664784987214072
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B764/B764_FMC_Fuel.js",
-      "size": 7190,
-      "date": 133666726772459294
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B764/B764_FMC_Payload.js",
-      "size": 9665,
-      "date": 133666726772529699
-    },
-    {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B772/B772_Boarding.js",
       "size": 11343,
       "date": 133665093056116810
@@ -1069,51 +1049,6 @@
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B772/B772_FMC_Payload.js",
       "size": 11742,
       "date": 133675156113809354
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77F/B77F_Boarding.js",
-      "size": 14176,
-      "date": 133665093107481179
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77F/B77F_FMC_Fuel.js",
-      "size": 7187,
-      "date": 133666726772746620
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77F/B77F_FMC_Payload.js",
-      "size": 19575,
-      "date": 133675153069984222
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77L/B77L_Boarding.js",
-      "size": 11343,
-      "date": 133665860203860812
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77L/B77L_FMC_Fuel.js",
-      "size": 7201,
-      "date": 133666726772866818
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77L/B77L_FMC_Payload.js",
-      "size": 9605,
-      "date": 133666726772916847
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77W/B77W_Boarding.js",
-      "size": 11387,
-      "date": 133674257977855311
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77W/B77W_FMC_Fuel.js",
-      "size": 7170,
-      "date": 133666726772996888
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/PAYLOAD/B77W/B77W_FMC_Payload.js",
-      "size": 11742,
-      "date": 133675155622594347
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/SAT/B777_FMC_SAT_Directory.js",
@@ -1131,11 +1066,6 @@
       "date": 133620959568232235
     },
     {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/UTILS/B767_FMC_PayloadManager-400ER.js",
-      "size": 20262,
-      "date": 133662504265919609
-    },
-    {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/UTILS/B777_FMC_Atis.js",
       "size": 2360,
       "date": 133667422873865286
@@ -1149,11 +1079,6 @@
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/UTILS/B777_FMC_Misc.js",
       "size": 2191,
       "date": 133667424732529567
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/UTILS/B777_FMC_PayloadManager-200LR.js",
-      "size": 23050,
-      "date": 133662504103763654
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B777/FMC/UTILS/B777_FMC_Simbrief.js",
@@ -1657,8 +1582,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/CS777-200ER_EICAS.css",
-      "size": 1888,
-      "date": 133590671870419909
+      "size": 1884,
+      "date": 133681274566880675
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/EICAS/CS777-200ER_EICAS.html",
@@ -1697,8 +1622,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/FMC/B777-200ER_FMC_PayloadConstructor.js",
-      "size": 5462,
-      "date": 133675154002303155
+      "size": 5466,
+      "date": 133681644885707816
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-200ER/FMC/B777_FMC_Doors.js",
@@ -1832,8 +1757,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/flight_model.cfg",
-      "size": 38363,
-      "date": 133672785831496418
+      "size": 38359,
+      "date": 133681325717151962
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/gameplay.cfg",
@@ -1867,13 +1792,13 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201.xml",
-      "size": 30176,
-      "date": 133677947032433776
+      "size": 29742,
+      "date": 133681327297491332
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/model/m772_201_interior.xml",
-      "size": 306788,
-      "date": 133680529061735385
+      "size": 306786,
+      "date": 133681172198586159
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-200ER_GE90B/panel/Captain_Sim.m777.sys.wasm",
