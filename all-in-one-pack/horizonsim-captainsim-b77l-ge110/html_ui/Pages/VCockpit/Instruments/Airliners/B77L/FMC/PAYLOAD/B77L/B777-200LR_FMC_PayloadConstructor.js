@@ -52,7 +52,7 @@ class PayloadConstructor {
         this.cargoStations = {
             fwdBag: {
                 name: 'Foward Cargo',
-                weight: 28000,
+                weight: 57500,
                 load: 0,
                 stationIndex: 7 + 1,
                 position: 45.083,
@@ -61,7 +61,7 @@ class PayloadConstructor {
             },
             aftBag: {
                 name: 'Rear Cargo',
-                weight: 24000,
+                weight: 39000,
                 load: 0,
                 stationIndex: 8 + 1,
                 position: -35.75,
@@ -70,7 +70,7 @@ class PayloadConstructor {
             },
             bulkBag: {
                 name: 'Bulk Cargo',
-                weight: 4034,
+                weight: 8000,
                 load: 0,
                 stationIndex: 9 + 1,
                 position: -65,
