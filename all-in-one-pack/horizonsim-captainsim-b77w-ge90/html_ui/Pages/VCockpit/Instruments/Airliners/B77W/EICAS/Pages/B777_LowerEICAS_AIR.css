@@ -18,86 +18,35 @@ src: url("/Fonts/BoeingEFIS.ttf") format("truetype");
 font-weight: normal;
 font-style: normal; }
 
-b777-lower-eicas-hyd {
+b777-lower-eicas-air {
 position: relative;
 left: 0%;
 width: 100%;
 top: auto;
 height:100%;
 display: block; }
-b777-lower-eicas-hyd svg {
+b777-lower-eicas-air svg {
   width: 100%;
   height: 100%; }
-b777-lower-eicas-hyd text {
+b777-lower-eicas-air text {
   fill: var(--eicasWhite);
   font-size: 19px; }
 
-b777-lower-eicas-hyd #Frame #Box rect{
+b777-lower-eicas-air #Frame #Box rect{
   stroke: var(--eicasFrameBlue);
   stroke-width: 2px;
 }
-b777-lower-eicas-hyd #Frame #Text text{
+b777-lower-eicas-air #Frame #Text text{
   font-size: 17px;
   fill: var(--eicasBlu);
 }
-b777-lower-eicas-hyd #Frame #pressBox rect{
-  stroke: var(--eicasFrameBorderDarkBlue);
-  stroke-width: 2px;
-  fill: var(--eicasGrei);
-}
-b777-lower-eicas-hyd #Frame #borderPressBox rect{
-  fill: var(--eicasFrameBlue);
-}
-b777-lower-eicas-hyd #Frame #textBox rect{
-  fill: var(--eicasBlack);
-}
 
-b777-lower-eicas-hyd #value text{
-  font-size: 19px;
-  fill: var(--eicasWhite);
-  text-anchor: "end";
-}
-
-b777-lower-eicas-hyd #Frame #pumps rect{
-  fill: none;
-  stroke-width: 2.5px;
-  stroke: var(--eicasWhite);
-}
-
-b777-lower-eicas-hyd #Frame #baseHydLine line{
-  stroke-width: 2.5px;
-  stroke: var(--eicasWhite);
-}
-
-b777-lower-eicas-hyd #Frame #triangleDirections polygon{
-  stroke-width: 1.5px;
-  stroke: var(--eicasWhite);
-  fill: none;
-}
-
-b777-lower-eicas-hyd #Frame #valves circle{
-  fill: none;
-  stroke-width: 2.5px;
-  stroke: limegreen;
-}
-
-
-
-b777-lower-eicas-hyd #Active #activeHydLine line{
+b777-lower-eicas-air #Active #activeLine line{
   stroke-width: 5px;
   stroke: limegreen;
 }
 
-b777-lower-eicas-hyd #Active #pumps rect{
-  fill: none;
-  stroke-width: 5px;
-  stroke: limegreen;
-}
-b777-lower-eicas-hyd #Active #triangleDirections polygon{
-  fill: limegreen;
-}
-
-b777-lower-eicas-hyd text.VLabel {
+b777-lower-eicas-air text.VLabel {
   fill: var(--eicasBlu);
   font-size: 15px;
   glyph-orientation-vertical: 0;
