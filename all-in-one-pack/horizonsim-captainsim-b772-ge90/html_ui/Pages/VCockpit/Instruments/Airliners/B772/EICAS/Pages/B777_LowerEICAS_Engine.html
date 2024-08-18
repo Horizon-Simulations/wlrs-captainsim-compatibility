@@ -1,0 +1,61 @@
+﻿<link rel="stylesheet" href="./B777_LowerEICAS_Engine.css" />
+
+<script type="text/html" id="B777LowerEICASEngineTemplate">
+    <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+        <g id="EngineStates">
+            <text id="Engine1_State" x="10%" y="22%"></text>
+            <text id="Engine2_State" x="40%" y="22%"></text>
+        </g>
+
+        <g id="Labels">
+            <text class="Label" x="23.5%" y="20%">N</text>
+            <text class="Label" x="25%" y="21%">2</text>
+            <text class="Label" x="24.5%" y="31%">FF</text>
+            <text class="Label" x="17.25%" y="43%">OIL P</text>
+            <text class="Label" x="17.25%" y="58%">OIL T</text>
+            <text class="Label" x="17.25%" y="74%">OIL Q</text>
+            <text class="Label" x="17.25%" y="79%">VIB</text>
+        </g>
+        <g id="GaugeTemplate2" class="gauge" transform="translate(-20, -80) scale(0.65)"> 
+            <path class="mainArc" d="M41 12 A96 96 0 1 0 220 60" />
+            <path class="fill" d="M41 12 A96 96 0 0 0 220 60 L124 60" />
+            <rect x="127px" y="5px" width="120px" height="50px" />
+            <text class="valueText" x="240px" y="38px">0.0</text>
+            <line class="normalMarker" x1="0px" x2="111px" transform="translate(124, 60)" />
+            <line class="dangerMarker" x1="96px" x2="112px" transform="translate(124, 60)" />
+        </g>
+        <g id="PrimaryEngine">
+            <g id="N2_1_GAUGE" transform="translate(0, 90)"></g>
+            <g id="N2_2_GAUGE" transform="translate(180, 90)"></g>
+        </g>
+
+        <g id="FFBox">
+            <rect x="30px" y="170px" width="75px" height="35px" />
+            <rect x="206px" y="170px" width="75px" height="35px" />
+        </g>
+
+        <g id="FFValue">
+            <text id="FFValue1" x="67px" y="190px">0.9</text>
+            <text id="FFValue2" x="242px" y="190px">0.9</text>
+        </g>
+    </svg>
+
+    <div id="OilPGauges" class="gauges">
+
+    </div>
+
+    <div id="OilTGauges" class="gauges">
+
+    </div>
+
+    <div id="OilQGauges" class="gauges">
+
+    </div>
+
+    <div id="VIBGauges" class="gauges">
+
+    </div>
+</script>
+
+<script type="text/html" import-script="/Pages/B772_HorizonSim/WT/DataStore.js"></script> <!-- WT -->
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B772/EICAS/Pages/B777_LowerEICAS_Engine.js"></script>

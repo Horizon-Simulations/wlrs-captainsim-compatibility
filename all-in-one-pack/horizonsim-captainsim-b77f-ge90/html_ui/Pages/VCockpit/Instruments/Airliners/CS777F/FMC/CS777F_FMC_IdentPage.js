@@ -1,7 +1,7 @@
 class FMCIdentPage {
-    //https://www.atlasair.com/wp-content/uploads/2023/01/777-200F-One-Sheet_012418.pdf
     static ShowPage1(fmc) {
         fmc.clearDisplay();
+
         fmc.activeSystem = "FMC";
         let model = SimVar.GetSimVarValue("ATC MODEL", "string", "FMC");
         if (!model) {
@@ -18,8 +18,8 @@ class FMCIdentPage {
             ["", date.toString()],
             ["\xa0OP PROGRAM", "CO DATA"],
             ["1.9.7-b5fd72d", "VS1001"],
-            ["\xa0", "DRAG/FF"],
-            ["", "+0.0/+0.0"],
+            ["\xa0HS PROGRAM", "DRAG/FF"],
+            ["v0.7.0", "+0.0/+0.0"],
             ["__FMCSEPARATOR"],
             ["<INDEX", "POS INIT>"]
         ]);

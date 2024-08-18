@@ -35,7 +35,7 @@ class FMC_Payload {
         }
        
         //all weight are stored in tons, convert to lbs on display only
-        const maxCargo = 40000  //kgs calibrate later
+        const maxCargo = 47540;  //kgs 
         SimVar.SetSimVarValue("L:B777_MAX_CARGO", "Number", maxCargo);
 
         const requestCargo = SimVar.GetSimVarValue("L:B777_CARGO_REQUEST", "KG");
@@ -50,7 +50,7 @@ class FMC_Payload {
         const paxTarget = this.getPaxTarget();
         const currentPax = this.getCurrentPax();
 
-        const selectedPaxText = paxTarget === 0 ? `□□□/{small}${maxPax}` : `${paxTarget}/{small}${maxPax}`;
+        const selectedPaxText = paxTarget == 0 ? `□□□/{small}${maxPax}` : `${paxTarget}/{small}${maxPax}`;
     
         fmc.setTemplate([
             ["PAYLOAD"],
@@ -107,7 +107,7 @@ class FMC_Payload {
                 if (fmc.simbrief.cargo || fmc.simbrief.paxCount) {
                     Coherent.call("PLAY_INSTRUMENT_SOUND", "Chime");        //inop
 
-                    if (fmc.simbrief.aircraftBaseType !== "B772") {
+                    if (fmc.simbrief.aircraftBaseType !== "B77L") {
                         fmc.showErrorMessage('WRONG AIRCRAFT TYPE');
                         return;
                     }
@@ -120,7 +120,7 @@ class FMC_Payload {
                     } else {
                         HorizonSimBoarding.setTargetPax(fmc.simbrief.paxCount);
                     }
-                } else fmc.showErrorMessage("WRONG PILOT ID");
+                } else fmc.showErrorMessage("WRONG SIMBRIEF ID/USERNAME");
 
                 FMC_Payload.ofpRequestText = "SEND>";
             }, fmc.getInsertDelay());
