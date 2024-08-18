@@ -972,7 +972,7 @@ class WT_VerticalAutopilot {
                         }
                     }
                 }
-                Coherent.call('GENERAL_ENG_THROTTLE_MANAGED_MODE_SET', ThrottleMode.AUTO);  //used to be nothing
+                //Coherent.call('GENERAL_ENG_THROTTLE_MANAGED_MODE_SET', ThrottleMode.AUTO);  //used to be nothing //idle on climb?
                 break;
             case ConstraintStatus.OBSERVING_DESCENT:
                 if (this._activeConstraintIndex < this._vnav.flightplan.activeWaypointIndex) {
