@@ -241,11 +241,9 @@ b777-upper-eicas {
         stroke-width: 4px; }
     b777-upper-eicas .gauge path.mainArc path.predArc {
         stroke-width: 2px; }
-    b777-upper-eicas .gauge .throttleMarker {
-        stroke: var(--eicasWhite); }
     b777-upper-eicas .gauge .dangerMarker {
         stroke: var(--eicasRed); }
-    b777-upper-eicas .gauge .warningMarker {
+    b777-upper-eicas .gauge .amberMarker {
         stroke: var(--eicasYellow); }
     b777-upper-eicas .gauge .greenMarker {
         stroke: var(--eicasGreen); }
