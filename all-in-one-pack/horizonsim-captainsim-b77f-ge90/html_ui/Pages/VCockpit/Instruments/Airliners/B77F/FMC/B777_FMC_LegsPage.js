@@ -117,7 +117,7 @@ class B777_FMC_LegsPage {
                 distance = distance.toFixed(0);
 
                 //Get and Format FMC CRZ speed
-                let crzMode = SimVar.GetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "Enum");
+                let crzMode = SimVar.GetSimVarValue("L:B777_VNAV_CRZ_MODE", "Enum");
                 let crzSpeedCell = ""
                 let crzSpeed = this._fmc.getCrzManagedSpeed();
                 let crzMach = this._fmc.getCrzMach();
@@ -141,7 +141,7 @@ class B777_FMC_LegsPage {
                     crzSpeedCell = crzSpeed.toFixed(0);
                 }
                 else if (crzMode === 4) {
-                    crzSpeedCell = SimVar.GetSimVarValue("L:SALTY_CRZ_MACH", "mach").toFixed(3).substring(1);
+                    crzSpeedCell = SimVar.GetSimVarValue("L:B777_CRZ_MACH", "mach").toFixed(3).substring(1);
                 }
 
                 if (isNaN(crzSpeedCell)) {
@@ -664,10 +664,10 @@ class B777_FMC_LegsPage {
         const offset = Math.floor((this._currentPage - 1) * 5);
         let activeWaypointIndex = this._fmc.flightPlanManager.getActiveWaypointIndex();
         if (disconWasJumped) {
-            SimVar.SetSimVarValue("L:SALTY_PLAN_VIEW_WAYPOINT", "number", activeWaypointIndex + this.step + offset - this.disconsJumped - 1);
+            SimVar.SetSimVarValue("L:B777_PLAN_VIEW_WAYPOINT", "number", activeWaypointIndex + this.step + offset - this.disconsJumped - 1);
         }
         else {
-            SimVar.SetSimVarValue("L:SALTY_PLAN_VIEW_WAYPOINT", "number", activeWaypointIndex + this.step + offset - this.disconsJumped);
+            SimVar.SetSimVarValue("L:B777_PLAN_VIEW_WAYPOINT", "number", activeWaypointIndex + this.step + offset - this.disconsJumped);
         }
     }
     addHold() {

@@ -29,9 +29,9 @@ class B777_FMC_VNAVPage {
             clbPageTitle = "ACT ";
         }
         let clbSpeedModeCell = "\xa0SEL SPD";
-        let clbMode = SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_MODE", "Enum");
+        let clbMode = SimVar.GetSimVarValue("L:B777_VNAV_CLB_MODE", "Enum");
         if (SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number") == 1) {
-            SimVar.SetSimVarValue("L:SALTY_VNAV_CLB_MODE", "Enum", 1);
+            SimVar.SetSimVarValue("L:B777_VNAV_CLB_MODE", "Enum", 1);
         }
         switch (clbMode) {
             case 0:
@@ -42,7 +42,7 @@ class B777_FMC_VNAVPage {
                 clbPageTitle += "MCP SPD CLB";
                 break;
             case 2:
-                clbPageTitle += SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_SPEED", "knots").toFixed(0) + "KT CLB";
+                clbPageTitle += SimVar.GetSimVarValue("L:B777_VNAV_CLB_SPEED", "knots").toFixed(0) + "KT CLB";
                 break;
             case 3:
                 clbPageTitle += "CLB";
@@ -72,7 +72,7 @@ class B777_FMC_VNAVPage {
         let clbSpeedCell = fmc.getClbManagedSpeed(true).toFixed(0);
         let machMode = Simplane.getAutoPilotMachModeActive();
         if (clbMode === 2) {
-            clbSpeedCell = SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_SPEED", "knots").toFixed(0);
+            clbSpeedCell = SimVar.GetSimVarValue("L:B777_VNAV_CLB_SPEED", "knots").toFixed(0);
         }
         if (Simplane.getAltitude() > 10000 && Simplane.getCurrentFlightPhase() === FlightPhase.FLIGHT_PHASE_CLIMB) {
             clbSpeedCell += "[color]magenta";
@@ -105,15 +105,15 @@ class B777_FMC_VNAVPage {
             let value = fmc.inOut;
             if (value === "DELETE" && !SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number")) {
                 fmc.inOut = "";
-                SimVar.SetSimVarValue("L:SALTY_VNAV_CLB_MODE" , "Enum", 0);
+                SimVar.SetSimVarValue("L:B777_VNAV_CLB_MODE" , "Enum", 0);
                 B777_FMC_VNAVPage.ShowPage1(fmc);
             }
             else {
                 value = parseFloat(fmc.inOut);
                 fmc.clearUserInput();
                 if (150 < value && value < 360) {
-                    SimVar.SetSimVarValue("L:SALTY_VNAV_CLB_SPEED", "knots", value);
-                    SimVar.SetSimVarValue("L:SALTY_VNAV_CLB_MODE" , "Enum", 2);
+                    SimVar.SetSimVarValue("L:B777_VNAV_CLB_SPEED", "knots", value);
+                    SimVar.SetSimVarValue("L:B777_VNAV_CLB_MODE" , "Enum", 2);
                     B777_FMC_VNAVPage.ShowPage1(fmc);
                 }
                 else {
@@ -126,8 +126,8 @@ class B777_FMC_VNAVPage {
         let spdTransCell = "---";
         let flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:B777_VREF30", "knots") + 80;
         let transSpeed = Math.max(flapsUPmanueverSpeed + 20, 250);
-        let spdRestr = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION", "knots");
-        let spdRestrAlt = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION_ALT", "feet");
+        let spdRestr = SimVar.GetSimVarValue("L:B777_SPEED_RESTRICTION", "knots");
+        let spdRestrAlt = SimVar.GetSimVarValue("L:B777_SPEED_RESTRICTION_ALT", "feet");
         if (isFinite(transSpeed)) {
             spdTransCell = transSpeed.toFixed(0);
             if (Simplane.getAltitude() < 10000 && Simplane.getAltitude() > spdRestrAlt && Simplane.getCurrentFlightPhase() === FlightPhase.FLIGHT_PHASE_CLIMB) {
@@ -191,7 +191,7 @@ class B777_FMC_VNAVPage {
         ]
         fmc.onLeftInput[4] = () => {
             if (clbMode !== 0 && clbMode !== 1) {
-                SimVar.SetSimVarValue("L:SALTY_VNAV_CLB_MODE" , "Enum", 0);
+                SimVar.SetSimVarValue("L:B777_VNAV_CLB_MODE" , "Enum", 0);
                 B777_FMC_VNAVPage.ShowPage1(fmc);
             }
         };
@@ -233,16 +233,16 @@ class B777_FMC_VNAVPage {
         };
 
         /* Cruise Page Title, 0 - ECON, 1 - LRC, 2 - MCP SPD, 3 - Fixed CAS, 4 - Fixed Mach, 5 - Envelope Limited */
-        let crzMode = SimVar.GetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "Enum");
+        let crzMode = SimVar.GetSimVarValue("L:B777_VNAV_CRZ_MODE", "Enum");
         let crzPageTitle = "\xa0\xa0\xa0\xa0";
         let crzSpeedModeCell = "\xa0SEL SPD";
         if (Simplane.getCurrentFlightPhase() === FlightPhase.FLIGHT_PHASE_CRUISE) {
             crzPageTitle = "ACT ";
         }
         if (SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number") == 1) {
-            SimVar.SetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "Enum", 2);
+            SimVar.SetSimVarValue("L:B777_VNAV_CRZ_MODE", "Enum", 2);
         }
-        switch (SimVar.GetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "Enum")) {
+        switch (SimVar.GetSimVarValue("L:B777_VNAV_CRZ_MODE", "Enum")) {
             case 0:
                 crzPageTitle += "ECON CRZ";
                 crzSpeedModeCell = "\xa0ECON SPD";
@@ -256,11 +256,11 @@ class B777_FMC_VNAVPage {
                 crzSpeedModeCell = "\xa0SEL SPD";
                 break;
             case 3:
-                crzPageTitle +=  SimVar.GetSimVarValue("L:SALTY_CRZ_SPEED", "knots").toFixed(0) + "KT CRZ";
+                crzPageTitle +=  SimVar.GetSimVarValue("L:B777_CRZ_SPEED", "knots").toFixed(0) + "KT CRZ";
                 crzSpeedModeCell = "\xa0SEL SPD";
                 break;
             case 4:
-                let machString = SimVar.GetSimVarValue("L:SALTY_CRZ_MACH", "mach").toFixed(3);
+                let machString = SimVar.GetSimVarValue("L:B777_CRZ_MACH", "mach").toFixed(3);
                 crzPageTitle += "M." + machString.slice(2 , 5) + " CRZ";
                 crzSpeedModeCell = "\xa0SEL SPD";
                 break;
@@ -310,7 +310,7 @@ class B777_FMC_VNAVPage {
             crzSpeedCell = crzSpeed.toFixed(0);
         }
         else if (crzMode === 4) {
-            crzSpeedCell = SimVar.GetSimVarValue("L:SALTY_CRZ_MACH", "mach").toFixed(3).substring(1);
+            crzSpeedCell = SimVar.GetSimVarValue("L:B777_CRZ_MACH", "mach").toFixed(3).substring(1);
         }
         if (Simplane.getCurrentFlightPhase() === FlightPhase.FLIGHT_PHASE_CRUISE) {
             crzSpeedCell += "[color]magenta";
@@ -334,17 +334,17 @@ class B777_FMC_VNAVPage {
                     value = value.substring(0);
                     value = parseFloat(value);
                     let speedFromMach = SimVar.GetGameVarValue("FROM MACH TO KIAS", "number", value);
-                    SimVar.SetSimVarValue("L:SALTY_CRZ_MACH", "mach", value);
-                    SimVar.SetSimVarValue("L:SALTY_CRZ_SPEED", "knots", speedFromMach);
-                    SimVar.SetSimVarValue("L:SALTY_VNAV_CRZ_MODE" , "Enum", 4);
+                    SimVar.SetSimVarValue("L:B777_CRZ_MACH", "mach", value);
+                    SimVar.SetSimVarValue("L:B777_CRZ_SPEED", "knots", speedFromMach);
+                    SimVar.SetSimVarValue("L:B777_VNAV_CRZ_MODE" , "Enum", 4);
                     if (Simplane.getCurrentFlightPhase() === FlightPhase.FLIGHT_PHASE_CRUISE) {
                         fmc.managedMachOn();
                     }
                 }
                 else if (150 < value && value < 360) {
                     value = parseFloat(value);
-                    SimVar.SetSimVarValue("L:SALTY_CRZ_SPEED", "knots", value);
-                    SimVar.SetSimVarValue("L:SALTY_VNAV_CRZ_MODE" , "Enum", 3);
+                    SimVar.SetSimVarValue("L:B777_CRZ_SPEED", "knots", value);
+                    SimVar.SetSimVarValue("L:B777_VNAV_CRZ_MODE" , "Enum", 3);
                     if (Simplane.getCurrentFlightPhase() === FlightPhase.FLIGHT_PHASE_CRUISE) {
                         fmc.managedMachOff();
                     }
@@ -376,7 +376,7 @@ class B777_FMC_VNAVPage {
         ]
         fmc.onLeftInput[4] = () => {
             if (crzMode !== 0 && crzMode !== 2) {
-                SimVar.SetSimVarValue("L:SALTY_VNAV_CRZ_MODE" , "Enum", 0);
+                SimVar.SetSimVarValue("L:B777_VNAV_CRZ_MODE" , "Enum", 0);
                 B777_FMC_VNAVPage.ShowPage2(fmc);
             }
         };
@@ -413,7 +413,7 @@ class B777_FMC_VNAVPage {
         };
 
         /* Descent Page Title, 0 - ECON, 1 - MCP SPD, 2 - Fixed CAS, 3 - Fixed Mach, 4 - Envelope Limited, 5 - End of Descent */
-        let desMode = SimVar.GetSimVarValue("L:SALTY_VNAV_DES_MODE", "Enum");
+        let desMode = SimVar.GetSimVarValue("L:B777_VNAV_DES_MODE", "Enum");
         let altitude = Simplane.getAltitude();
         let desPageTitle = "\xa0\xa0\xa0\xa0";
         let desSpeedModeCell = "\xa0SEL SPD";
@@ -421,9 +421,9 @@ class B777_FMC_VNAVPage {
             desPageTitle = "ACT ";
         }
         if (SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number") == 1) {
-            SimVar.SetSimVarValue("L:SALTY_VNAV_DES_MODE", "Enum", 1);
+            SimVar.SetSimVarValue("L:B777_VNAV_DES_MODE", "Enum", 1);
         }
-        switch (SimVar.GetSimVarValue("L:SALTY_VNAV_DES_MODE", "Enum")) {
+        switch (SimVar.GetSimVarValue("L:B777_VNAV_DES_MODE", "Enum")) {
             case 0:
                 desPageTitle += "ECON DES";
                 desSpeedModeCell = "\xa0ECON SPD";
@@ -433,11 +433,11 @@ class B777_FMC_VNAVPage {
                 desSpeedModeCell = "\xa0SEL SPD";
                 break;
             case 2:
-                desPageTitle += SimVar.GetSimVarValue("L:SALTY_DES_SPEED", "knots").toFixed(0) + "KT DES";
+                desPageTitle += SimVar.GetSimVarValue("L:B777_DES_SPEED", "knots").toFixed(0) + "KT DES";
                 desSpeedModeCell = "\xa0SEL SPD";
                 break;
             case 3:
-                let machString = SimVar.GetSimVarValue("L:SALTY_DES_MACH", "mach").toFixed(3);
+                let machString = SimVar.GetSimVarValue("L:B777_DES_MACH", "mach").toFixed(3);
                 desPageTitle += "M." + machString.slice(2, 5) + " DES";
                 desSpeedModeCell = "\xa0SEL SPD";
                 break;
@@ -452,7 +452,7 @@ class B777_FMC_VNAVPage {
         }
 
         /* LSK 2L  - Descent Speed */
-        let desSpeedCell = SimVar.GetSimVarValue("L:SALTY_DES_SPEED", "knots").toFixed(0);
+        let desSpeedCell = SimVar.GetSimVarValue("L:B777_DES_SPEED", "knots").toFixed(0);
         let machMode = Simplane.getAutoPilotMachModeActive();
         if (Simplane.getCurrentFlightPhase() >= FlightPhase.FLIGHT_PHASE_DESCENT && SimVar.GetSimVarValue("L:AP_VNAV_ACTIVE", "bool") && desMode === 1) {
             if (machMode) {
@@ -484,7 +484,7 @@ class B777_FMC_VNAVPage {
             desSpeedCell = fmc.getDesManagedSpeed(true).toFixed(0);
         }
         if (desMode === 2) {
-            desSpeedCell = SimVar.GetSimVarValue("L:SALTY_DES_SPEED", "knots").toFixed(0);
+            desSpeedCell = SimVar.GetSimVarValue("L:B777_DES_SPEED", "knots").toFixed(0);
             if (altitude > 10500) {
                 desSpeedCell += "[color]magenta";
             }
@@ -500,15 +500,15 @@ class B777_FMC_VNAVPage {
             }
             else if (value === "DELETE" && !SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number")) {
                 fmc.inOut = "";
-                SimVar.SetSimVarValue("L:SALTY_VNAV_DES_MODE" , "Enum", 0);
+                SimVar.SetSimVarValue("L:B777_VNAV_DES_MODE" , "Enum", 0);
                 B777_FMC_VNAVPage.ShowPage3(fmc);
             }
             else {
                 fmc.clearUserInput();
                 if (150 < value && value < 360) {
                     value = parseFloat(value);
-                    SimVar.SetSimVarValue("L:SALTY_DES_SPEED", "knots", value);
-                    SimVar.SetSimVarValue("L:SALTY_VNAV_DES_MODE" , "Enum", 2);
+                    SimVar.SetSimVarValue("L:B777_DES_SPEED", "knots", value);
+                    SimVar.SetSimVarValue("L:B777_VNAV_DES_MODE" , "Enum", 2);
                 }
                 else {
                     fmc.showErrorMessage("INVALID ENTRY");
@@ -517,8 +517,8 @@ class B777_FMC_VNAVPage {
         };
 
         /* LSK 3L  - Speed Transition */
-        let spdRestr = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION_DES", "knots");
-        let spdRestrAlt = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION_DES_ALT", "feet");
+        let spdRestr = SimVar.GetSimVarValue("L:B777_SPEED_RESTRICTION_DES", "knots");
+        let spdRestrAlt = SimVar.GetSimVarValue("L:B777_SPEED_RESTRICTION_DES_ALT", "feet");
         let speedTransCell = "240/10000";
         if (altitude < 10500 && Simplane.getCurrentFlightPhase() >= FlightPhase.FLIGHT_PHASE_DESCENT) {
             speedTransCell = "{magenta}240{end}/10000";

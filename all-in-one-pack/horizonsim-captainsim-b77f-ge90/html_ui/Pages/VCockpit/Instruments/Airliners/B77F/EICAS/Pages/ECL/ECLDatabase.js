@@ -407,7 +407,7 @@ const normalChecklists = [
                     {
                         simvar: "TRAILING EDGE FLAPS LEFT ANGLE",
                         simvarType: "degrees",
-                        specialCondition: "L:SALTY_SELECTED_APPROACH_FLAP",
+                        specialCondition: "L:B777_SELECTED_APPROACH_FLAP",
                         specialSimvarType: "number",
                     }
                 ],

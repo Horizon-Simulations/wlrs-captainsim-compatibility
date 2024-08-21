@@ -182,7 +182,7 @@ var B777_LowerEICAS_Fuel;
 
                     this.querySelector('#JettTime').setAttribute("style", "opacity: 100;");
 
-                    this.querySelector('#JettTimeValue').textContent = Math.ceil(SimVar.GetSimVarValue("L:SALTY_JETTISON_MIN_REMAINING", "TYPE_FLOAT64")).toFixed(0) + " MIN";
+                    this.querySelector('#JettTimeValue').textContent = Math.ceil(SimVar.GetSimVarValue("L:B777_JETTISON_MIN_REMAINING", "TYPE_FLOAT64")).toFixed(0) + " MIN";
                     this.querySelector('#JettTimeValue').setAttribute("style", "opacity: 100;");
 
                 if (SimVar.GetSimVarValue("L:B777_FUEL_JETTISON_ACTIVE_R", "Enum") > 0)
