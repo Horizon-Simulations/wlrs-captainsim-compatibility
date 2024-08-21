@@ -626,12 +626,12 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
     /* Sets VNAV CLB or DES speed restriction and altitude */
     setSpeedRestriction(_speed, _altitude, _isDescent) {
         if (!_isDescent) {
-            SimVar.SetSimVarValue("L:SALTY_SPEED_RESTRICTION", "knots", _speed);
-            SimVar.SetSimVarValue("L:SALTY_SPEED_RESTRICTION_ALT", "feet", _altitude);
+            SimVar.SetSimVarValue("L:B777_SPEED_RESTRICTION", "knots", _speed);
+            SimVar.SetSimVarValue("L:B777_SPEED_RESTRICTION_ALT", "feet", _altitude);
         }
         else {
-            SimVar.SetSimVarValue("L:SALTY_SPEED_RESTRICTION_DES", "knots", _speed);
-            SimVar.SetSimVarValue("L:SALTY_SPEED_RESTRICTION_DES_ALT", "feet", _altitude);
+            SimVar.SetSimVarValue("L:B777_SPEED_RESTRICTION_DES", "knots", _speed);
+            SimVar.SetSimVarValue("L:B777_SPEED_RESTRICTION_DES_ALT", "feet", _altitude);
         }
     }
 
@@ -643,9 +643,9 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         let speedTrans = 10000; //revise here
         let speed = flapLimitSpeed - 5;
         let flapsUPmanueverSpeed = SimVar.GetSimVarValue("L:B777_VREF30", "knots") + 80;
-        let speedRestr = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION", "knots");
-        let speedRestrAlt = SimVar.GetSimVarValue("L:SALTY_SPEED_RESTRICTION_ALT", "feet");
-        let clbMode = SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_MODE", "Enum");
+        let speedRestr = SimVar.GetSimVarValue("L:B777_SPEED_RESTRICTION", "knots");
+        let speedRestrAlt = SimVar.GetSimVarValue("L:B777_SPEED_RESTRICTION_ALT", "feet");
+        let clbMode = SimVar.GetSimVarValue("L:B777_VNAV_CLB_MODE", "Enum");
         let mach = this.getCrzMach();
         let machCross = SimVar.GetGameVarValue("FROM MACH TO KIAS", "number", mach);
         let machMode = Simplane.getAutoPilotMachModeActive();
@@ -665,7 +665,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             }
         }
         if (clbMode == 2) {
-            speed = SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_SPEED", "knots");
+            speed = SimVar.GetSimVarValue("L:B777_VNAV_CLB_SPEED", "knots");
             if (machMode && !isSpeedIntervention) {
                 this.managedMachOff();
             }
@@ -688,7 +688,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         let mach = this.getCrzMach();
         let machlimit = SimVar.GetGameVarValue("FROM MACH TO KIAS", "number", mach);
         let machMode = Simplane.getAutoPilotMachModeActive();
-        let crzMode = SimVar.GetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "Enum");
+        let crzMode = SimVar.GetSimVarValue("L:B777_VNAV_CRZ_MODE", "Enum");
         let speed = Math.min(flapsUPmanueverSpeed + 100, 350, machlimit);
         let isSpeedIntervention = SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number");
         if (crzMode == 0) {
@@ -700,13 +700,13 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             }
         }
         else if (crzMode == 3) {
-            speed = SimVar.GetSimVarValue("L:SALTY_CRZ_SPEED", "knots");
+            speed = SimVar.GetSimVarValue("L:B777_CRZ_SPEED", "knots");
             if (machMode && !isSpeedIntervention && !cduSpeedRequest) {
                 this.managedMachOff();
             }
         }
         else if (crzMode == 4) {
-            let mach = SimVar.GetSimVarValue("L:SALTY_CRZ_MACH", "mach");
+            let mach = SimVar.GetSimVarValue("L:B777_CRZ_MACH", "mach");
             speed = SimVar.GetGameVarValue("FROM MACH TO KIAS", "knots", mach);
             if (!machMode && !isSpeedIntervention && !cduSpeedRequest) {
                 this.managedMachOn();
@@ -723,7 +723,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         let mach = this.getCrzMach();
         let machlimit = SimVar.GetGameVarValue("FROM MACH TO KIAS", "number", mach);
         let altitude = Simplane.getAltitude();
-        let desMode = SimVar.GetSimVarValue("L:SALTY_VNAV_DES_MODE" , "Enum");
+        let desMode = SimVar.GetSimVarValue("L:B777_VNAV_DES_MODE" , "Enum");
         let machMode = Simplane.getAutoPilotMachModeActive();
         let speed = Math.min(280, machlimit);
         let isSpeedIntervention = SimVar.GetSimVarValue("L:AP_SPEED_INTERVENTION_ACTIVE", "number");
@@ -744,13 +744,13 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             return speed = 240;
         }
         else if (desMode == 2) {
-            speed = SimVar.GetSimVarValue("L:SALTY_DES_SPEED", "knots");
+            speed = SimVar.GetSimVarValue("L:B777_DES_SPEED", "knots");
             if (machMode && !isSpeedIntervention) {
                 this.managedMachOff();
             }
         }
         else if (desMode == 3) {
-            let mach = SimVar.GetSimVarValue("L:SALTY_ECON_DES_MACH", "mach");
+            let mach = SimVar.GetSimVarValue("L:B777_ECON_DES_MACH", "mach");
             speed = SimVar.GetGameVarValue("FROM MACH TO KIAS", "knots", mach);
         }
         else if (desMode == 0) {
@@ -921,7 +921,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         if (isFinite(flap) || isFinite(speed)) {
             if (isFinite(flap) && flap >= 0 && flap < 60) {
                 this.selectedApproachFlap = flap;
-                SimVar.SetSimVarValue("L:SALTY_SELECTED_APPROACH_FLAP", "number", this.selectedApproachFlap);
+                SimVar.SetSimVarValue("L:B777_SELECTED_APPROACH_FLAP", "number", this.selectedApproachFlap);
                 SimVar.SetSimVarValue("H:B777_EICAS_2_UPDATE_ECL", "bool", 1);
             }
             if (isFinite(speed) && speed >= 100 && speed < 300) {
@@ -1231,23 +1231,23 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         }
     }
     updateAltitudeAlerting() {
-        let alertState = SimVar.GetSimVarValue("L:SALTY_ALT_ALERT", "bool");
+        let alertState = SimVar.GetSimVarValue("L:B777_ALT_ALERT", "bool");
         let mcpAlt = Simplane.getAutoPilotDisplayedAltitudeLockValue();
         let alt = Simplane.getAltitude();
         let vSpeed = Simplane.getVerticalSpeed();
         if (vSpeed > 400) {
             if (mcpAlt - alt <= 900 && mcpAlt - alt >= 200) {
-                SimVar.SetSimVarValue("L:SALTY_ALT_ALERT", "bool", 1);
+                SimVar.SetSimVarValue("L:B777_ALT_ALERT", "bool", 1);
             } 
         }
         else if (vSpeed < -400) {
             if (alt - mcpAlt <= 900 && alt - mcpAlt >= 200) {
-                SimVar.SetSimVarValue("L:SALTY_ALT_ALERT", "bool", 1);
+                SimVar.SetSimVarValue("L:B777_ALT_ALERT", "bool", 1);
             }
         }
         if (alertState !== 0) {
             if (Math.abs(mcpAlt - alt) < 200 || Math.abs(mcpAlt - alt) > 900) {
-                SimVar.SetSimVarValue("L:SALTY_ALT_ALERT", "bool", 0);
+                SimVar.SetSimVarValue("L:B777_ALT_ALERT", "bool", 0);
             }
         }
     }

@@ -762,14 +762,14 @@
       SimVar.SetSimVarValue("L:AP_VNAV_ACTIVE", "number", this.isVNAVOn ? 1 : 0);
       SimVar.SetSimVarValue("L:AP_VNAV_ARMED", "number", this.isVNAVOn ? 1 : 0);
       
-      if (SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_MODE", "number") == 1) {
-        SimVar.SetSimVarValue("L:SALTY_VNAV_CLB_MODE", "number", 0);
+      if (SimVar.GetSimVarValue("L:B777_VNAV_CLB_MODE", "number") == 1) {
+        SimVar.SetSimVarValue("L:B777_VNAV_CLB_MODE", "number", 0);
       }
-      if (SimVar.GetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "number") == 1) {
-        SimVar.SetSimVarValue("L:SALTY_VNAV_CRZ_MODE", "number", 0);
+      if (SimVar.GetSimVarValue("L:B777_VNAV_CRZ_MODE", "number") == 1) {
+        SimVar.SetSimVarValue("L:B777_VNAV_CRZ_MODE", "number", 0);
       }
-      if (SimVar.GetSimVarValue("L:SALTY_VNAV_DES_MODE", "number") == 1) {
-        SimVar.SetSimVarValue("L:SALTY_VNAV_DES_MODE", "number", 0);
+      if (SimVar.GetSimVarValue("L:B777_VNAV_DES_MODE", "number") == 1) {
+        SimVar.SetSimVarValue("L:B777_VNAV_DES_MODE", "number", 0);
       }
 
       if (this.currentVerticalActiveState === VerticalNavModeState.ALTCAP || this.currentVerticalActiveState === VerticalNavModeState.ALTS

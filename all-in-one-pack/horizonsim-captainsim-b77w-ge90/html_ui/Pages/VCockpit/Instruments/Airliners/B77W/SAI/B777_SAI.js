@@ -27,7 +27,7 @@ class B777_SAI_Baro extends NavSystemElement {
     onUpdate(_deltaTime) {
         this.baroElement.update(_deltaTime);
 
-        const isInitDone = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool");
+        const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
 
         // Hide baro if init is not done
         if (isInitDone) {
@@ -550,7 +550,7 @@ class B777_SAI_AirspeedIndicator extends HTMLElement {
         this.updateCursorScrolling(indicatedSpeed);
 
         let graduations = document.querySelector("#Graduations");
-        const isInitDone = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool");
+        const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
         const initSequenceTimerValue = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_TIMER", "Enum");
 
         // Show "lines" and numbers on the IAS indicator a while into the init sequence
@@ -810,7 +810,7 @@ class B777_SAI_AltimeterIndicator extends HTMLElement {
         this.updateBaroPressure();
 
         let graduations = document.querySelector("#graduationGroup");
-        const isInitDone = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool");
+        const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
         const initSequenceTimerValue = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_TIMER", "Enum");
         
         // Show "lines" and numbers on altitude indicator a while into the init sequence
@@ -897,7 +897,7 @@ class B777_SAI_Attitude extends NavSystemElement {
         }
 
         const isISFDOn = SimVar.GetSimVarValue("L:B777_SAI_State", "Bool");
-        const isInitDone = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool");
+        const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
         const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
 
         /* _deltaTime provides the wrong value if the screen refresh rate is set to low or medium in the settings - 
@@ -907,9 +907,9 @@ class B777_SAI_Attitude extends NavSystemElement {
         var deltaTime = timeNow - this.lastTime;
         this.lastTime = timeNow;
 
-        if (IRSState == 2) SimVar.SetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool", 1);
+        if (IRSState == 2) SimVar.SetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool", 1);
 
-        if (!this.initSequenceStarted && isISFDOn && !SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool")) {
+        if (!this.initSequenceStarted && isISFDOn && !SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool")) {
             this.initBox.style.display = "block";
             this.initSequenceTimer = 90;
             this.initSequenceStarted = true;
@@ -921,7 +921,7 @@ class B777_SAI_Attitude extends NavSystemElement {
             this.initSequenceTimer -= deltaTime / 1000;
             if (this.initSequenceTimer <= 0) {
                 this.initBox.style.display = "none";
-                SimVar.SetSimVarValue("L:SALTY_ISFD_INIT_DONE", "Bool", 1);
+                SimVar.SetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool", 1);
             }
             SimVar.SetSimVarValue("L:SALTY_ISFD_INIT_TIMER", "Enum", Math.round(this.initSequenceTimer));
         }
