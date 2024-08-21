@@ -53,11 +53,11 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
     }
     showFPV(_active) {
         if (!this.isFPVon) {
-            SimVar.SetSimVarValue("L:SALTY_FPV_ON", "bool", true);
+            SimVar.SetSimVarValue("L:B777_FPV_ON", "bool", true);
             this.isFPVon = true;
         }
         else {
-            SimVar.SetSimVarValue("L:SALTY_FPV_ON", "bool", false);
+            SimVar.SetSimVarValue("L:B777_FPV_ON", "bool", false);
             this.isFPVon = false;
         }
     }
@@ -773,7 +773,7 @@ var Jet_PFD_FlightDirector;
     }
     class CommandBarsDisplay_Airbus extends CommandBarsDisplay {
     }
-    class CommandBarsDisplay_B747 extends CommandBarsDisplay {
+    class CommandBarsDisplay_B777 extends CommandBarsDisplay {
         getColour() { return "#D570FF"; }
         getFDBankLimit() { return 30; }
         getFDBankDisplayLimit() { return 50; }
@@ -925,12 +925,12 @@ var Jet_PFD_FlightDirector;
     Jet_PFD_FlightDirector.A320_Neo_Handler = A320_Neo_Handler;
     class B777_Handler extends Handler {
         createDisplayModes(_group) {
-            this.displayMode.push(new CommandBarsDisplay_B747(_group));
+            this.displayMode.push(new CommandBarsDisplay_B777(_group));
             this.displayMode.push(new FPV_Boeing(_group));
         }
         refreshActiveModes() {
             var fdActive = (Simplane.getAutoPilotFlightDirectorActive(1));
-            var fpvActive = SimVar.GetSimVarValue("L:SALTY_FPV_ON", "bool");
+            var fpvActive = SimVar.GetSimVarValue("L:B777_FPV_ON", "bool");
             this.setModeActive(0, fdActive);
             this.setModeActive(1, fpvActive);
         }

@@ -623,7 +623,7 @@ class MapInstrument extends ISvgMapRootElement {
                     }
                     needCenterOnPlane = true;
                     if (this.bEnableCenterOnFplnWaypoint) {
-                        const airlinerMcduCurrentFplnWaypointIndex = SimVar.GetSimVarValue("L:SALTY_PLAN_VIEW_WAYPOINT", "number");
+                        const airlinerMcduCurrentFplnWaypointIndex = SimVar.GetSimVarValue("L:B777_PLAN_VIEW_WAYPOINT", "number");
                         if (airlinerMcduCurrentFplnWaypointIndex >= 0) {
                             if (this.flightPlanManager) {
                                 const airlinerMcduCurrentFplnWaypoint = this.flightPlanManager.getWaypoint(airlinerMcduCurrentFplnWaypointIndex, viewingTempFP, true);

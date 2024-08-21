@@ -39,9 +39,9 @@ class SvgMapConfig {
         this.cityLabelDistance = 0.25;
         this.cityIconSize = 10;
         this.airplaneIconSize = 32;
-        this.airplaneIcon1 = "ICON_MAP_PLANE_B747";
-        this.airplaneIcon2 = "ICON_MAP_PLANE_B747";
-        this.airplaneIcon3 = "ICON_MAP_PLANE_B747";
+        this.airplaneIcon1 = "ICON_MAP_PLANE_B777";
+        this.airplaneIcon2 = "ICON_MAP_PLANE_B777";
+        this.airplaneIcon3 = "ICON_MAP_PLANE_B777";
         this.imagesDir = "./";
         this.delay = 0;
         this.runwayFillColor = "#ffffff";
