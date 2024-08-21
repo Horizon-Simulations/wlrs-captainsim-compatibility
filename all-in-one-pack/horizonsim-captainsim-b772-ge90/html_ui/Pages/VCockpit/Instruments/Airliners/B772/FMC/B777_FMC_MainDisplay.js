@@ -634,7 +634,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             }
         }
         if (clbMode == 2) {
-            speed = SimVar.GetSimVarValue("L:SALTY_VNAV_CLB_SPEED", "knots");
+            speed = SimVar.GetSimVarValue("L:B777_VNAV_CLB_SPEED", "knots");
             if (machMode && !isSpeedIntervention) {
                 this.managedMachOff();
             }

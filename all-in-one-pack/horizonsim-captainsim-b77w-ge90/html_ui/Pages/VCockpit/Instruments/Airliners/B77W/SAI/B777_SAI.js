@@ -551,7 +551,7 @@ class B777_SAI_AirspeedIndicator extends HTMLElement {
 
         let graduations = document.querySelector("#Graduations");
         const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
-        const initSequenceTimerValue = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_TIMER", "Enum");
+        const initSequenceTimerValue = SimVar.GetSimVarValue("L:B777_ISFD_INIT_TIMER", "Enum");
 
         // Show "lines" and numbers on the IAS indicator a while into the init sequence
         if (initSequenceTimerValue > 75 && !isInitDone) {
@@ -811,7 +811,7 @@ class B777_SAI_AltimeterIndicator extends HTMLElement {
 
         let graduations = document.querySelector("#graduationGroup");
         const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
-        const initSequenceTimerValue = SimVar.GetSimVarValue("L:SALTY_ISFD_INIT_TIMER", "Enum");
+        const initSequenceTimerValue = SimVar.GetSimVarValue("L:B777_ISFD_INIT_TIMER", "Enum");
         
         // Show "lines" and numbers on altitude indicator a while into the init sequence
         if (initSequenceTimerValue > 75 && !isInitDone) {
@@ -923,7 +923,7 @@ class B777_SAI_Attitude extends NavSystemElement {
                 this.initBox.style.display = "none";
                 SimVar.SetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool", 1);
             }
-            SimVar.SetSimVarValue("L:SALTY_ISFD_INIT_TIMER", "Enum", Math.round(this.initSequenceTimer));
+            SimVar.SetSimVarValue("L:B777_ISFD_INIT_TIMER", "Enum", Math.round(this.initSequenceTimer));
         }
 
         // Remove SPD and ALT boxes 15 seconds into INIT sequence, also remove ATT if it is done
