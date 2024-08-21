@@ -104,7 +104,7 @@
       </Parameter>
     </Animation>
   </PartInfo>
-  
+
   <PartInfo>
     <Name>l_truck</Name>
     <AnimLength>200</AnimLength>
@@ -282,7 +282,7 @@
     <Animation>
       <Parameter>
         <Code>
-          (A:WING FLEX PCT:1, percent over 100) 126 * 38.5 + 0 max 100 min
+          (L:ext777_wing_flex_l, position)  <!--(A:WING FLEX PCT:1, percent over 100) 126 * 38.5 + 0 max 100 min-->
         </Code>
       </Parameter>
     </Animation>
@@ -294,7 +294,7 @@
     <Animation>
       <Parameter>
         <Code>
-          (A:WING FLEX PCT:2, percent over 100) 126 * 38.5 + 0 max 100 min
+          (L:ext777_wing_flex_r, position) <!--(A:WING FLEX PCT:2, percent over 100) 126 * 38.5 + 0 max 100 min-->
         </Code>
       </Parameter>
     </Animation>
@@ -502,7 +502,6 @@
     </Animation>
   </PartInfo>
 
-
   <PartInfo>
     <Name>ext777_lt_nose_vis</Name>
     <AnimLength>100</AnimLength>
@@ -519,23 +518,20 @@
       </Parameter>
     </Visibility>
   </PartInfo>
-  
-  
-  
-  <!-- antennas -->
-<PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_003_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_004_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_005_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_006_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_007_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_008_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_009_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_010_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_011_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>
 
-  
+
+  <!-- antennas -->
+<PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>(L:KU_DISP)</Code></Parameter></Visibility></PartInfo>   <!--KU-->
+<PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--VHF L-->
+<PartInfo><Name>A01_003_VIS</Name><Visibility><Parameter><Code>(L:KU_MID_DISP)</Code></Parameter></Visibility></PartInfo>   <!--KU MID-->
+<PartInfo><Name>A01_004_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--ADF L & C-->
+<PartInfo><Name>A01_005_VIS</Name><Visibility><Parameter><Code>(L:2KU_DISP)</Code></Parameter></Visibility></PartInfo>   <!--2KU-->
+<PartInfo><Name>A01_006_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--VHF C-->
+<PartInfo><Name>A01_007_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--ELT-->
+<PartInfo><Name>A01_008_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--?-->
+<PartInfo><Name>A01_009_VIS</Name><Visibility><Parameter><Code>(L:DME_ANT_DISP)</Code></Parameter></Visibility></PartInfo>   <!--could be DME-->
+<PartInfo><Name>A01_010_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--VHF R-->
+<PartInfo><Name>A01_011_VIS</Name><Visibility><Parameter><Code>(L:TELEPHONE_DISP)</Code></Parameter></Visibility></PartInfo>   <!--telephone-->
   
 
   <Behaviors>
@@ -544,10 +540,9 @@
     <Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
     <Include ModelBehaviorFile="RobSim\index.xml"/>
     <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
-        
-    
+
    	<Component ID="ENGINE">
-      <OverrideTemplateParameters>  <!--test-->
+      <OverrideTemplateParameters>
         <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
         <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
       </OverrideTemplateParameters>
@@ -561,7 +556,6 @@
 			</UseTemplate>
       <UseTemplate Name="ASOBO_GT_Anim">
 				<ANIM_NAME>thrust_rev_1</ANIM_NAME>
-				<!--<ANIM_CODE>(A:GENERAL ENG THROTTLE LEVER POSITION:1, Percent) 0 &lt; 100 *</ANIM_CODE>-->
 				<ANIM_CODE>(L:B777_ENGINE_REVERSER:1, Enum)</ANIM_CODE>
 				<ANIM_LAG>95</ANIM_LAG>
 			</UseTemplate>
@@ -1165,21 +1159,9 @@
           <ANIM_CODE>(L:cs777_anim_ctrl_apu_cowl, bool) 100 *</ANIM_CODE>
         </UseTemplate>
       </Component>
-      
+
 
     </Component>
-
-    
-    
-    <!--
-    <UseTemplate Name="ASOBO_GT_Update">
-      <UPDATE_ONCE>True</UPDATE_ONCE>
-      <UPDATE_CODE></UPDATE_CODE>
-    </UseTemplate>
-    -->
-   
-    
-    
     
   </Behaviors>
 
