@@ -44,7 +44,7 @@
   "airplaneIcon1": "ICON_MAP_PLANE_B777",
   "airplaneIcon2": "ICON_MAP_PLANE_B777",
 
-  "imagesDir": "/Pages/VCockpit/Instruments/Airliners/B77W_PW/MFD/Images/",
+  "imagesDir": "/Pages/VCockpit/Instruments/Airliners/B773_PW/MFD/Images/",
 
   "runwayFillColor": "white",
   "runwayStrokeColor": "gray",
