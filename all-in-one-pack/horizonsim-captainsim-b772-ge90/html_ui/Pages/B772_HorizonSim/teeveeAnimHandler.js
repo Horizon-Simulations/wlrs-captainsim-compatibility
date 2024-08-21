@@ -74,6 +74,70 @@ class teeveeAnimHanlder {
             SimVar.SetSimVarValue("L:cs777_anim_ctrl_apu_intake", "Bool", false);
         }
 
+        //Antennas visiblity, CS don't have a satcom exterior
+        if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 0) { 
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", false);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 1){ //KU
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", true);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", false);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 2) {    //2KU
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", true);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", false);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 3) {    //KU + SATCOM
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", true);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", true);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 4) {    //2KU + SATCOM
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", true);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", true);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 5) {    //SATCOM
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", true);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 6) {    //KU MID + SATCOM
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", true);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", true);
+        }
+        else if (WTDataStore.get("WIFI SATCOM ATN MODE", -1) == 7) {    //KU MID
+            SimVar.SetSimVarValue("L:KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:KU_MID_DISP", "Bool", true);
+            SimVar.SetSimVarValue("L:2KU_DISP", "Bool", false);
+            SimVar.SetSimVarValue("L:SATCOM_DISP", "Bool", false);
+        }
+
+        if (WTDataStore.get("TELEPHONE MODE", false)) {
+            SimVar.SetSimVarValue("L:TELEPHONE_DISP", "Bool", true);
+        }
+        else {
+            SimVar.SetSimVarValue("L:TELEPHONE_DISP", "Bool", false);
+        }
+
+        if (WTDataStore.get("DME ANTENNA MODE", false)) {
+            SimVar.SetSimVarValue("L:DME_ANT_DISP", "Bool", true);
+        }
+        else {
+            SimVar.SetSimVarValue("L:DME_ANT_DISP", "Bool", false);
+        }
+
         //lighting controls
         //SimVar.SetSimVarValue("LIGHT GLARESHIELD POWER SETTING:2", "");
         
@@ -85,12 +149,11 @@ class teeveeAnimHanlder {
     }
 }
 
-//references: https://hsi.arc.nasa.gov/flightcognition/download/appendix/B772/10_B777%20AirDataSystemFailure%20.pdf
+//references: https://hsi.arc.nasa.gov/flightcognition/download/appendix/B777/10_B777%20AirDataSystemFailure%20.pdf
 
 /*
 some note: 
-- if Pitot plugs are still on, EICAS display: NAV AIR DATA SYS 
+- if Pitot plugs are still on, EICAS display: NAV AIR DATA SYS (added). Add ADIRU state = -1 to fail
 - RAM air control anims are there, but AC control are ...:) auto would be wild to code, but okay cool
-- external power var: (A:EXTERNAL POWER AVAILABLE:#ID#, Bool)
 - removed the exterior control in m773 xml file
 */

@@ -292,7 +292,7 @@
     <Animation>
       <Parameter>
         <Code>
-          (A:WING FLEX PCT:1, percent over 100) 126 * 38.5 + 0 max 100 min
+          (L:ext777_wing_flex_l, position)  <!--(A:WING FLEX PCT:1, percent over 100) 126 * 38.5 + 0 max 100 min-->
         </Code>
       </Parameter>
     </Animation>
@@ -304,7 +304,7 @@
     <Animation>
       <Parameter>
         <Code>
-          (A:WING FLEX PCT:2, percent over 100) 126 * 38.5 + 0 max 100 min
+          (L:ext777_wing_flex_r, position) <!--(A:WING FLEX PCT:2, percent over 100) 126 * 38.5 + 0 max 100 min-->
         </Code>
       </Parameter>
     </Animation>
@@ -553,7 +553,7 @@
     <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
 
    	<Component ID="ENGINE">
-      <OverrideTemplateParameters>  <!--test-->
+      <OverrideTemplateParameters>
         <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
         <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
         <MAGIC>2465</MAGIC>
@@ -568,7 +568,6 @@
 			</UseTemplate>
       <UseTemplate Name="ASOBO_GT_Anim">
 				<ANIM_NAME>thrust_rev_1</ANIM_NAME>
-				<!--<ANIM_CODE>(A:GENERAL ENG THROTTLE LEVER POSITION:1, Percent) 0 &lt; 100 *</ANIM_CODE>-->
 				<ANIM_CODE>(L:B777_ENGINE_REVERSER:1, Enum)</ANIM_CODE>
 				<ANIM_LAG>95</ANIM_LAG>
 			</UseTemplate>
@@ -612,6 +611,11 @@
         <ID>12</ID>
         <NODE_ID>GROUND_FUELPIPE</NODE_ID>
       </UseTemplate>
+      <!--<UseTemplate Name="ASOBO_FuelHose_InteractivePoint_Template">
+        <ID>15</ID>
+        <NODE_ID>GROUND_GPUPIPE</NODE_ID>
+      </UseTemplate>
+      -->
     </Component>
     
     <Component ID="FX_CONTRAIL_QUAD">
