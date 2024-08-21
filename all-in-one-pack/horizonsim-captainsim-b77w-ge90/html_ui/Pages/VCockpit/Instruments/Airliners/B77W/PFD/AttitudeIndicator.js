@@ -773,7 +773,7 @@ var Jet_PFD_FlightDirector;
     }
     class CommandBarsDisplay_Airbus extends CommandBarsDisplay {
     }
-    class CommandBarsDisplay_B747 extends CommandBarsDisplay {
+    class CommandBarsDisplay_B777 extends CommandBarsDisplay {
         getColour() { return "#D570FF"; }
         getFDBankLimit() { return 30; }
         getFDBankDisplayLimit() { return 50; }
@@ -925,7 +925,7 @@ var Jet_PFD_FlightDirector;
     Jet_PFD_FlightDirector.A320_Neo_Handler = A320_Neo_Handler;
     class B777_Handler extends Handler {
         createDisplayModes(_group) {
-            this.displayMode.push(new CommandBarsDisplay_B747(_group));
+            this.displayMode.push(new CommandBarsDisplay_B777(_group));
             this.displayMode.push(new FPV_Boeing(_group));
         }
         refreshActiveModes() {
