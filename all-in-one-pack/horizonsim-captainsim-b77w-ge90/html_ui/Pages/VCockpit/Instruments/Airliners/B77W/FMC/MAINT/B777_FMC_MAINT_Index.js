@@ -34,7 +34,7 @@ class FMC_MAINT_Index {
         
         /* LSK2 */
         fmc.onLeftInput[1] = () => {
-            FMC_MAINT_AirlinePol.ShowPage(fmc);
+            FMC_MAINT_AirlinePol.ShowPage1(fmc);
         }
 
         /* LSK3 */
