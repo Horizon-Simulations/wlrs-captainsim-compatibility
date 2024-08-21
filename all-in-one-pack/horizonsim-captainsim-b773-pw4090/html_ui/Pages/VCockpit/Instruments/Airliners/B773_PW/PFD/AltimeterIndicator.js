@@ -774,16 +774,16 @@ class Jet_PFD_AltimeterIndicator extends HTMLElement {
         var currentY = 0;
         if (minimumMode === MinimumReferenceMode.BARO) {
             currentY = this.valueToSvg(indicatedAltitude, minimumAltitude);
-            SimVar.SetSimVarValue("L:SALTY_MINIMUMS_ALT", "feet", minimumAltitude);
+            SimVar.SetSimVarValue("L:B777_MINIMUMS_ALT", "feet", minimumAltitude);
         }
         else {
             currentY = this.valueToSvg(indicatedAltitude, minimumAltitude - Simplane.getAltitudeAboveGround() + indicatedAltitude);
-            SimVar.SetSimVarValue("L:SALTY_MINIMUMS_ALT", "feet", minimumAltitude - Simplane.getAltitudeAboveGround() + indicatedAltitude);
+            SimVar.SetSimVarValue("L:B777_MINIMUMS_ALT", "feet", minimumAltitude - Simplane.getAltitudeAboveGround() + indicatedAltitude);
         }
         this.minimumReferenceCursor.setAttribute("transform", "translate(0, " + currentY.toFixed(1) + ")");
     }
     updateAltitudeAlerting() {
-        let alertState = SimVar.GetSimVarValue("L:SALTY_ALT_ALERT", "bool");
+        let alertState = SimVar.GetSimVarValue("L:B777_ALT_ALERT", "bool");
         if (alertState) {
             this.cursorSVGShape.setAttribute("stroke-width", this.strokeSize * 3);
             this.targetAltitudeAlertBox.setAttribute("stroke", "white");
