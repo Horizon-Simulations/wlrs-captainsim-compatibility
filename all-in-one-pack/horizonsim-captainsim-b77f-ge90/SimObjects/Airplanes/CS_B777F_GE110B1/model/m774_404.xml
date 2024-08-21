@@ -7,9 +7,9 @@
 	</LODS>
 
   <Animation name="c_wheel" guid="BC935F16-43CD-4046-8EF3-06E44A5940AB" length="200" type="Sim" typeparam2="c_wheel" typeparam="AutoPlay"/>
-	<Animation name="c_gear"  guid="8A779552-8B34-463A-A90E-C3A4C0955B70" length="200" type="Sim" typeparam2="c_gear"  typeparam="AutoPlay" />
-	<Animation name="l_gear"  guid="49ED3D27-9973-4A98-AD88-37F4E88FC7BA" length="200" type="Sim" typeparam2="l_gear"  typeparam="AutoPlay" />  
-	<Animation name="r_gear"  guid="6C2C051F-1506-4338-B5E0-11EF204BE323" length="200" type="Sim" typeparam2="r_gear"  typeparam="AutoPlay" />
+  <Animation name="c_gear"  guid="8A779552-8B34-463A-A90E-C3A4C0955B70" length="200" type="Sim" typeparam2="c_gear"  typeparam="AutoPlay" />
+  <Animation name="l_gear"  guid="49ED3D27-9973-4A98-AD88-37F4E88FC7BA" length="200" type="Sim" typeparam2="l_gear"  typeparam="AutoPlay" />  
+  <Animation name="r_gear"  guid="6C2C051F-1506-4338-B5E0-11EF204BE323" length="200" type="Sim" typeparam2="r_gear"  typeparam="AutoPlay" />
   <Animation name="l_truck" guid="D6F82005-D9AE-469C-8E02-966722EB3DEB" length="200" type="Sim" typeParam2="l_truck" typeParam="AutoPlay"/>
   <Animation name="r_truck" guid="50CDFFE3-9A04-4D5A-ACF5-33F5D76B1709" length="200" type="Sim" typeParam2="r_truck" typeParam="AutoPlay"/>
   <Animation name="tire_anim" guid="3135D6DB-CEC5-43B8-A1DD-5F9125632437" length="100" type="Sim" typeParam2="tire_anim" typeParam="AutoPlay"/>
@@ -502,31 +502,36 @@
     </Animation>
   </PartInfo>
 
-
   <PartInfo>
     <Name>ext777_lt_nose_vis</Name>
+    <AnimLength>100</AnimLength>
+    <Animation>
+      <Parameter>
+        <Code>0</Code>
+      </Parameter>
+    </Animation>
     <Visibility>
       <Parameter>
         <Code>
-          (L:ext777_lt_nose_vis)
+          (A:GEAR CENTER POSITION, Percent) 97.0 &gt;
         </Code>
       </Parameter>
     </Visibility>
   </PartInfo>
-  <!-- antennas -->
-<PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x1 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x2 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_003_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x4 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_004_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x8 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_005_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x10 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_006_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x20 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_007_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x40 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_008_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x80 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_009_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x100 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_010_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x200 &amp;</Code></Parameter></Visibility></PartInfo>
-<PartInfo><Name>A01_011_VIS</Name><Visibility><Parameter><Code>(L:A01_000_VIS) 0x400 &amp;</Code></Parameter></Visibility></PartInfo>
 
-  
+
+  <!-- antennas -->
+<PartInfo><Name>A01_001_VIS</Name><Visibility><Parameter><Code>(L:KU_DISP)</Code></Parameter></Visibility></PartInfo>   <!--KU-->
+<PartInfo><Name>A01_002_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--VHF L-->
+<PartInfo><Name>A01_003_VIS</Name><Visibility><Parameter><Code>(L:KU_MID_DISP)</Code></Parameter></Visibility></PartInfo>   <!--KU MID-->
+<PartInfo><Name>A01_004_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--ADF L & C-->
+<PartInfo><Name>A01_005_VIS</Name><Visibility><Parameter><Code>(L:2KU_DISP)</Code></Parameter></Visibility></PartInfo>   <!--2KU-->
+<PartInfo><Name>A01_006_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--VHF C-->
+<PartInfo><Name>A01_007_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--ELT-->
+<PartInfo><Name>A01_008_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--?-->
+<PartInfo><Name>A01_009_VIS</Name><Visibility><Parameter><Code>(L:DME_ANT_DISP)</Code></Parameter></Visibility></PartInfo>   <!--could be DME-->
+<PartInfo><Name>A01_010_VIS</Name><Visibility><Parameter><Code>1</Code></Parameter></Visibility></PartInfo>   <!--VHF R-->
+<PartInfo><Name>A01_011_VIS</Name><Visibility><Parameter><Code>(L:TELEPHONE_DISP)</Code></Parameter></Visibility></PartInfo>   <!--telephone--> 
   
 
   <Behaviors>
@@ -538,7 +543,7 @@
 
 
     <Component ID="ENGINE">
-      <OverrideTemplateParameters>  <!--test-->
+      <OverrideTemplateParameters>
         <MIN_RPM_FOR_SLOW>(L:MIN_RPM_FOR_SLOW, Number)</MIN_RPM_FOR_SLOW>
         <MIN_RPM_FOR_BLUR>(L:MIN_RPM_FOR_BLUR, Number)</MIN_RPM_FOR_BLUR>
         <MAGIC>1902</MAGIC>
@@ -553,7 +558,6 @@
 			</UseTemplate>
       <UseTemplate Name="ASOBO_GT_Anim">
 				<ANIM_NAME>thrust_rev_1</ANIM_NAME>
-				<!--<ANIM_CODE>(A:GENERAL ENG THROTTLE LEVER POSITION:1, Percent) 0 &lt; 100 *</ANIM_CODE>-->
 				<ANIM_CODE>(L:B777_ENGINE_REVERSER:1, Enum)</ANIM_CODE>
 				<ANIM_LAG>95</ANIM_LAG>
 			</UseTemplate>
@@ -606,7 +610,6 @@
       </Component>
     </Component>
 
-
     <Component ID="FX_CONTRAIL_QUAD">
       <OverrideTemplateParameters>
         <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
@@ -625,6 +628,7 @@
         </UseTemplate>
       </Component>
     </Component>
+    
     <Component ID="FX_CONTRAIL_RIBBON">
       <OverrideTemplateParameters>
         <FX_CODE>(A:CONTRAILS CONDITIONS MET:1, Keyframe) 0 &gt;</FX_CODE>
