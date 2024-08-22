@@ -1,0 +1,1498 @@
+<ModelBehaviors>
+	<Include ModelBehaviorFile="ASOBO\Inputs\Helpers.xml"/>
+	<!-- GENERIC-->
+	<Template Name="ASOBO_BOEING_Push_CANCRCL_Template">
+		<UseTemplate Name="ASOBO_BOEING_Push_HTML_Generic_Template">
+			<SYSTEM_NAME>MFD</SYSTEM_NAME>
+			<ID_BTN>CANCRCL</ID_BTN>
+			<PLANE_PREFIX>B777</PLANE_PREFIX>
+			<TOOLTIP_TITLE>@TT_Package.CANCEL_RECALL</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.CANCEL_RECALL</TT_DESCRIPTION_ID>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_Airliner_LVar_Switch_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<SEQ1_NODE_ID>#NODE_ID#_SEQ1</SEQ1_NODE_ID>
+			<SEQ2_NODE_ID>#NODE_ID#_SEQ2</SEQ2_NODE_ID>
+			<IE_NAME></IE_NAME>
+			<NODE_ID></NODE_ID>
+			<ANIM_NAME></ANIM_NAME>
+			<LVAR></LVAR>
+			<IS_AIRLINER>True</IS_AIRLINER>
+			<IS_MOMENTARY>False</IS_MOMENTARY>
+			<PART_ID>#NODE_ID#</PART_ID>
+		</Parameters>
+		<Parameters Type="Default">
+			<SET_STATE_EXTERNAL>(L:#LVAR#, Bool) ! (&gt;L:#LVAR#)</SET_STATE_EXTERNAL>
+			<GET_STATE_EXTERNAL>(L:#LVAR#, Bool)</GET_STATE_EXTERNAL>
+			<SEQ1_EMISSIVE_CODE>(L:#LVAR#, Bool)</SEQ1_EMISSIVE_CODE>
+			<SEQ2_EMISSIVE_CODE>(L:#LVAR#, Bool) !</SEQ2_EMISSIVE_CODE>
+			<TT_VALUE>(L:#LVAR#, Bool) @TT_OnOff_Cond</TT_VALUE>
+			<TT_VALUE_IS_DYNAMIC>True</TT_VALUE_IS_DYNAMIC>
+			<WWISE_EVENT_1>fuel_pump_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>fuel_pump_push_button_off</WWISE_EVENT_2>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
+			<Condition Check="IS_MOMENTARY" Match="True">
+				<True>
+					<SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
+				</True>
+			</Condition>
+			<INTERACTION_TYPE>Push</INTERACTION_TYPE>
+			<LOCAL_VAR_TO_WATCH_0>#LVAR#</LOCAL_VAR_TO_WATCH_0>
+		</UseTemplate>
+	</Template>
+
+	<!-- Battery Switch -->
+	<Template Name="WT_B777_Battery_Switch_Template">
+		<Parameters Type="Default">
+			<MAIN_HOT_BATT_BUS_ID>6</MAIN_HOT_BATT_BUS_ID>
+			<APU_HOT_BATT_BUS_ID>7</APU_HOT_BATT_BUS_ID>
+			<MAIN_BATT_BUS_ID>2</MAIN_BATT_BUS_ID>
+			<APU_BATT_BUS_ID>3</APU_BATT_BUS_ID>
+
+			<NODE_ID>push_ovhd_electrics_battery</NODE_ID>
+			<ANIM_NAME>ovhd_push_electrics_battery</ANIM_NAME>
+			<PART_ID>ELECTRICAL_Switch_Battery_Master</PART_ID>
+			<SEQ2_NODE_ID>push_ovhd_electrics_battery_seq2</SEQ2_NODE_ID>
+
+			<WWISE_EVENT_1>battery_switch_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>battery_switch_off</WWISE_EVENT_2>
+
+			<IE_NAME_EXT>Battery_Switch</IE_NAME_EXT>
+			<LVAR_NAME>XMLVAR_Battery_Switch_State</LVAR_NAME>
+		</Parameters>
+
+		<Parameters Type="Override">
+			<FULL_IE_NAME>ELECTRICAL_#IE_NAME_EXT#</FULL_IE_NAME>
+
+			<!--
+				Both main and APU batteries should always be on in order to power the hot battery buses.
+				The switch toggles the connections between each hot battery bus to its respective battery bus.
+			-->
+			<UPDATE_STATE>
+				1 (&gt;K:MASTER_BATTERY_ON)
+				2 (&gt;K:MASTER_BATTERY_ON)
+
+				#MAIN_BATT_BUS_ID# (A:1:BUS CONNECTION ON:#MAIN_HOT_BATT_BUS_ID#, Bool) l0 != if{
+					#MAIN_BATT_BUS_ID# #MAIN_HOT_BATT_BUS_ID# (&gt;K:2:ELECTRICAL_BUS_TO_BUS_CONNECTION_TOGGLE)
+				}
+				#APU_BATT_BUS_ID# (A:1:BUS CONNECTION ON:#APU_HOT_BATT_BUS_ID#, Bool) l0 != if{
+					#APU_BATT_BUS_ID# #APU_HOT_BATT_BUS_ID# (&gt;K:2:ELECTRICAL_BUS_TO_BUS_CONNECTION_TOGGLE)
+				}
+			</UPDATE_STATE>
+		</Parameters>
+
+		<UseInputEvent ID="ELECTRICAL">
+			<BTN_ID>#IE_NAME_EXT#</BTN_ID>
+			<INPUT_EVENT_ID_SOURCE>ELECTRICAL</INPUT_EVENT_ID_SOURCE>
+
+			<ON_AFTER_INIT_CODE>
+				(O:#FULL_IE_NAME#_Position) sp0 #UPDATE_STATE#
+			</ON_AFTER_INIT_CODE>
+			<GET_STATE_EXTERNAL>(L:#LVAR_NAME#) sp0</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>
+				(O:#FULL_IE_NAME#_Position) s0 (&gt;L:#LVAR_NAME#) #UPDATE_STATE#
+			</SET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#LVAR_NAME#</LOCAL_VAR_TO_WATCH_0>
+
+			<TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_BATTERY_MASTER_ACTION_SET</TT_DESCRIPTION_ID>
+			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_ON)</TT_VALUE_ON>
+			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_OFF)</TT_VALUE_OFF>
+
+			<!-- Intercept battery set/toggle key events to set the switch state instead. -->
+
+			<BINDING_SET_3>BATTERY1_SET</BINDING_SET_3>
+			<BINDING_SET_3_EVENT_ID>BATTERY1_SET</BINDING_SET_3_EVENT_ID>
+			<BINDING_SET_3_EVENT_ID_ONLY>True</BINDING_SET_3_EVENT_ID_ONLY>
+
+			<BINDING_SET_4>MASTER_BATTERY_OFF</BINDING_SET_4>
+			<BINDING_SET_4_EVENT_ID>MASTER_BATTERY_OFF</BINDING_SET_4_EVENT_ID>
+			<BINDING_SET_4_EVENT_ID_ONLY>True</BINDING_SET_4_EVENT_ID_ONLY>
+			<BINDING_SET_4_PARAM_0_IS_DYNAMIC>True</BINDING_SET_4_PARAM_0_IS_DYNAMIC>
+			<!-- p1: battery index -->
+			<BINDING_SET_4_PARAM_0>
+				p1 0 == p1 1 == or if{
+					0
+				} els{
+					(B:#FULL_IE_NAME#)
+				}
+			</BINDING_SET_4_PARAM_0>
+
+			<BINDING_SET_5>MASTER_BATTERY_ON</BINDING_SET_5>
+			<BINDING_SET_5_EVENT_ID>MASTER_BATTERY_ON</BINDING_SET_5_EVENT_ID>
+			<BINDING_SET_5_EVENT_ID_ONLY>True</BINDING_SET_5_EVENT_ID_ONLY>
+			<BINDING_SET_5_PARAM_0_IS_DYNAMIC>True</BINDING_SET_5_PARAM_0_IS_DYNAMIC>
+			<!-- p1: battery index -->
+			<BINDING_SET_5_PARAM_0>
+				p1 0 == p1 1 == or if{
+					1
+				} els{
+					(B:#FULL_IE_NAME#)
+				}
+			</BINDING_SET_5_PARAM_0>
+
+			<BINDING_SET_6>MASTER_BATTERY_SET</BINDING_SET_6>
+			<BINDING_SET_6_EVENT_ID>MASTER_BATTERY_SET</BINDING_SET_6_EVENT_ID>
+			<BINDING_SET_6_EVENT_ID_ONLY>True</BINDING_SET_6_EVENT_ID_ONLY>
+			<BINDING_SET_6_PARAM_0_IS_DYNAMIC>True</BINDING_SET_6_PARAM_0_IS_DYNAMIC>
+			<!-- p1: toggle flag; p2: battery index -->
+			<BINDING_SET_6_PARAM_0>
+				p2 0 == p2 1 == or if{
+					p1
+				} els{
+					(B:#FULL_IE_NAME#)
+				}
+			</BINDING_SET_6_PARAM_0>
+
+			<BINDING_SET_7>TOGGLE_MASTER_BATTERY</BINDING_SET_7>
+			<BINDING_SET_7_EVENT_ID>TOGGLE_MASTER_BATTERY</BINDING_SET_7_EVENT_ID>
+			<BINDING_SET_7_EVENT_ID_ONLY>True</BINDING_SET_7_EVENT_ID_ONLY>
+			<BINDING_SET_7_PARAM_0_IS_DYNAMIC>True</BINDING_SET_7_PARAM_0_IS_DYNAMIC>
+			<!-- p1: battery index -->
+			<BINDING_SET_7_PARAM_0>
+				p1 0 == p1 1 == or if{
+					1 0 (B:#FULL_IE_NAME#) 0 == ?
+				} els{
+					(B:#FULL_IE_NAME#)
+				}
+			</BINDING_SET_7_PARAM_0>
+		</UseInputEvent>
+
+		<UseTemplate Name="ASOBO_GT_Push_Button_Airliner">
+			<LEFT_SINGLE_CODE>(&gt;B:#FULL_IE_NAME#_Toggle)</LEFT_SINGLE_CODE>
+			<NORMALIZED_TIME_1>0.1</NORMALIZED_TIME_1>
+			<NORMALIZED_TIME_2>0.5</NORMALIZED_TIME_2>
+
+			<SEQ1_EMISSIVE_CODE>#MAIN_BATT_BUS_ID# (A:1:BUS CONNECTION ON:#MAIN_HOT_BATT_BUS_ID#, Bool)</SEQ1_EMISSIVE_CODE>
+			<SEQ2_EMISSIVE_CODE>#MAIN_BATT_BUS_ID# (A:1:BUS CONNECTION ON:#MAIN_HOT_BATT_BUS_ID#, Bool) !</SEQ2_EMISSIVE_CODE>
+			<FAILURE_CIRCUIT>74</FAILURE_CIRCUIT>
+
+			<TOOLTIP_TITLE>@TT_Package.ELECTRICAL_BATTERY_TITLE</TOOLTIP_TITLE>
+			<TOOLTIP_ENTRY_0>#FULL_IE_NAME#</TOOLTIP_ENTRY_0>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_Airliner_Ext_Pwr_Switch_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+		</Parameters>
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IS_MOMENTARY>True</IS_MOMENTARY>
+			<IE_NAME>ext_pwr_#ID#</IE_NAME>
+			<LVAR>EXT_PWR_COMMANDED:#ID#</LVAR>
+			<LEFT_LEAVE_CODE>#ID# (&gt;K:TOGGLE_EXTERNAL_POWER)</LEFT_LEAVE_CODE>		<!--different approach here. It's not js controlled.-->
+			<SEQ1_EMISSIVE_CODE>(A:EXTERNAL POWER AVAILABLE:#ID#, Bool) (A:EXTERNAL POWER ON:#ID#, Bool) ! and</SEQ1_EMISSIVE_CODE>
+			<SEQ2_EMISSIVE_CODE>(A:EXTERNAL POWER ON:#ID#, Bool)</SEQ2_EMISSIVE_CODE>
+			<SEQ1_CODE_DRIVES_DOWN_STATE>False</SEQ1_CODE_DRIVES_DOWN_STATE>
+			<SEQ1_NOT_DIMMABLE>True</SEQ1_NOT_DIMMABLE>
+			<FAILURE>1</FAILURE>
+			<WWISE_EVENT_1>externalpower_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>externalpower_push_button_off</WWISE_EVENT_2>
+			<TOOLTIP_TITLE>@TT_Package.ELECTRICAL_SWITCH_EXTERNAL_POWER_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.ELECTRICAL_EXTERNAL_POWER_ACTION_SET</TT_DESCRIPTION_ID>
+			<TT_VALUE>(A:EXTERNAL POWER ON:#ID#, Bool) @TT_OnOff_Cond</TT_VALUE>
+			<TT_VALUE_IS_DYNAMIC>True</TT_VALUE_IS_DYNAMIC>
+			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_PASSENGER_Knob_Template">	<!--temperature knob-->
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<INCREMENT>1</INCREMENT>
+			<LOCAL_VAR></LOCAL_VAR>
+			<IE></IE>
+			<NODE_ID></NODE_ID>
+			<INIT_VALUE>0</INIT_VALUE>
+		</Parameters>
+		<UseTemplate Name="ASOBO_Interaction_Base_Template">
+			<IE_NAME>#IE#_#ID#</IE_NAME>
+			<INPUT_EVENT_ID_SOURCE>PASSENGER</INPUT_EVENT_ID_SOURCE>
+			<USE_INPUT_EVENT_ID>PASSENGER</USE_INPUT_EVENT_ID>
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#)</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>
+					p0 (L:#LOCAL_VAR#) &gt; if{
+							(L:#LOCAL_VAR#) #INCREMENT# + 100 min (&gt;L:#LOCAL_VAR#)
+					} els{
+							(L:#LOCAL_VAR#) #INCREMENT# - 0.0 max (&gt;L:#LOCAL_VAR#)
+					}
+			</SET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
+			<COUNT>100</COUNT>
+			<WWISE_EVENT>lighting_knob_generic</WWISE_EVENT>
+			<ANIM_NAME>#NODE_ID#</ANIM_NAME>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Update">
+			<UPDATE_ONCE>True</UPDATE_ONCE>
+			<UPDATE_CODE>
+				#INIT_VALUE# (&gt;L:#LOCAL_VAR#)
+			</UPDATE_CODE>
+		</UseTemplate>
+	</Template>
+
+	<!-- HYDRAULICS -->
+	<Template Name="WT_B777_Hydraulics_Switch_Template">
+		<Parameters Type="Default">
+			<PRESS_WARNING_THRESHOLD_PSI>2600</PRESS_WARNING_THRESHOLD_PSI>
+		</Parameters>
+		<UseTemplate Name="ASOBO_ENGINE_Switch_Hydraulic_Template">
+			<EMISSIVE_DRIVES_VISIBILITY>False</EMISSIVE_DRIVES_VISIBILITY>
+			<WWISE_EVENT_1>fuel_pump_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>fuel_pump_push_button_off</WWISE_EVENT_2>
+			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+			<NODE_ID>#FAULT_LIGHT#</NODE_ID>
+			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
+			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt;</EMISSIVE_CODE>
+		</UseTemplate>
+	</Template>
+
+	<!-- Anti-Ice -->
+
+	<Template Name="WT_B777_Engine_Anti_Ice_Knob_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<ANIM_ID>0</ANIM_ID>
+			<WWISE_PREFIX>deice_engine</WWISE_PREFIX>
+		</Parameters>
+		<Parameters Type="Default">
+			<IE_NAME>Knob_Engine_#ID#</IE_NAME>
+			<NODE_ID>switch_ovhd_anti_ice_nacelle_0#ID#</NODE_ID>
+			<ANIM_NAME>overhead_anti_ice_switch_eng#ANIM_ID#</ANIM_NAME>
+			<PART_ID>DEICE_Engine</PART_ID>
+			<OTHER_PART_ID>DEICE_Engine_#ID#</OTHER_PART_ID>
+		</Parameters>
+
+		<Parameters Type="Override">
+			<VAR_NAME>B777_Engine_AntiIce_Knob_State:#ID#</VAR_NAME>
+		</Parameters>
+
+		<UseTemplate Name="ASOBO_Interaction_Base_Template">
+			<INPUT_EVENT_ID_SOURCE>DEICE</INPUT_EVENT_ID_SOURCE>
+			<USE_INPUT_EVENT_ID>DEICE</USE_INPUT_EVENT_ID>
+			<KNOB_TYPE>X_STATES</KNOB_TYPE>
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<NUM_STATES>3</NUM_STATES>
+			<STR_STATE_0>Off</STR_STATE_0>
+			<STR_STATE_1>Auto</STR_STATE_1>
+			<STR_STATE_2>On</STR_STATE_2>
+			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
+			<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
+			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
+			<GET_STATE_EXTERNAL>(L:#VAR_NAME#)</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>(O:DEICE_#IE_NAME#_Position) (&gt;L:#VAR_NAME#)</SET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#VAR_NAME#</LOCAL_VAR_TO_WATCH_0>
+			<TOOLTIP_TITLE>@TT_Package.DEICE_ANTI_ICE_ENGINE_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.DEICE_ANTI_ICE_ENGINE_ACTION_SET</TT_DESCRIPTION_ID>
+			<TT_DESCRIPTION_INDEX>#ID#</TT_DESCRIPTION_INDEX>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_Wing_Anti_Ice_Knob_Template">
+		<Parameters Type="Default">
+			<WWISE_PREFIX>deice_engine</WWISE_PREFIX>
+		</Parameters>
+		<Parameters Type="Default">
+			<IE_NAME>Knob_Wing</IE_NAME>
+			<NODE_ID>switch_ovhd_anti_ice_wing</NODE_ID>
+			<ANIM_NAME>ovhd_switch_anti_ice_wing</ANIM_NAME>
+			<PART_ID>DEICE_Switch_Airframe</PART_ID>
+		</Parameters>
+		<Parameters Type="Override">
+			<VAR_NAME>B777_Wing_AntiIce_Knob_State</VAR_NAME>
+		</Parameters>
+		<UseTemplate Name="ASOBO_Interaction_Base_Template">
+			<INPUT_EVENT_ID_SOURCE>DEICE</INPUT_EVENT_ID_SOURCE>
+			<USE_INPUT_EVENT_ID>DEICE</USE_INPUT_EVENT_ID>
+			<KNOB_TYPE>X_STATES</KNOB_TYPE>
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<NUM_STATES>3</NUM_STATES>
+			<STR_STATE_0>Off</STR_STATE_0>
+			<STR_STATE_1>Auto</STR_STATE_1>
+			<STR_STATE_2>On</STR_STATE_2>
+			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
+			<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
+			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
+			<ARROW_TYPE>Curved</ARROW_TYPE>
+			<GET_STATE_EXTERNAL>(L:#VAR_NAME#)</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>(O:DEICE_#IE_NAME#_Position) (&gt;L:#VAR_NAME#)</SET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#VAR_NAME#</LOCAL_VAR_TO_WATCH_0>
+			<TOOLTIP_TITLE>@TT_Package.DEICE_SWITCH_AIRFRAME_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.DEICE_SWITCH_AIRFRAME_ACTION_SET</TT_DESCRIPTION_ID>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_Deice_Windshield_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<NODE_ID></NODE_ID>
+			<ANIM_NAME></ANIM_NAME>
+			<PART_ID>Window_Heat</PART_ID>
+		</Parameters>
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>Windshield_#ID#</IE_NAME>
+			<LVAR>XMLVAR_DeiceWindshield:#ID#</LVAR>
+			<WWISE_EVENT_1>deice_windshield_switch_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>deice_windshield_switch_off</WWISE_EVENT_2>
+			<TOOLTIP_TITLE>@TT_Package.DEICE_SWITCH_WINDSHIELD_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.DEICE_SWITCH_WINDSHIELD_PILOT_TITLE</TT_DESCRIPTION_ID>
+			<SEQ2_EMISSIVE_CODE>(L:XMLVAR_DeiceWindshield:#ID#, Bool) !</SEQ2_EMISSIVE_CODE>
+		</UseTemplate>
+	</Template>
+
+	<!--inop, no anim-->
+	<Template Name="WT_ELECTRICAL_Switch_EmerLights_Template">
+		<Parameters Type="Default">
+			<ANIM_NAME>SWITCH_OVH_EMERLIGHTS</ANIM_NAME>
+			<NODE_ID>SWITCH_OVH_EMERLIGHTS</NODE_ID>
+			<PART_ID>SWITCH_OVH_EMERLIGHTS</PART_ID>
+			<COVER_NODE_ID>LOCK_OVH_EMERLIGHTS</COVER_NODE_ID>
+			<COVER_ANIM_NAME>LOCK_OVH_EMERLIGHTS</COVER_ANIM_NAME>
+			<BTN_ID>EmerLights</BTN_ID>
+			<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_OVHD_PUSH_MISC_EMER_LIGHT_ACTION</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AIRLINER_OVHD_PUSH_MISC_EMER_LIGHT_TITLE</TOOLTIP_TITLE>
+		</Parameters>
+		<Parameters Type="Default">
+			<COVER_IE_NAME>#BTN_ID#_Cover</COVER_IE_NAME>
+			<COVER_VAR_NAME>XMLVAR_ELECTRICAL_#BTN_ID#_Cover_Opened</COVER_VAR_NAME>
+			<COVER_VAR_TYPE>L</COVER_VAR_TYPE>
+			<COVER_INIT_VALUE>(A:ELECTRICAL MASTER BATTERY, bool) !</COVER_INIT_VALUE>
+			<LOCAL_VAR>XMLVAR_EMER_LIGHTS_ARMED</LOCAL_VAR>
+			<TOOLTIP_ENTRY_0>ELECTRICAL_#BTN_ID#</TOOLTIP_ENTRY_0>
+			<ON_COVER_CLOSED>(&gt;B:ELECTRICAL_#BTN_ID#_ARMED)</ON_COVER_CLOSED>
+		</Parameters>
+		<UseTemplate Name="ASOBO_GT_Switch_Covered">
+			<NUM_STATES>3</NUM_STATES>
+			<INPUT_EVENT_ID>ELECTRICAL</INPUT_EVENT_ID>
+			<COVER_IE_ID_SOURCE>ELECTRICAL</COVER_IE_ID_SOURCE>
+			<SWITCH_NODE_ID>#NODE_ID#</SWITCH_NODE_ID>
+			<SWITCH_ANIM_NAME>#ANIM_NAME#</SWITCH_ANIM_NAME>
+			<CODE_POS_0>(&gt;B:ELECTRICAL_#BTN_ID#_OFF)</CODE_POS_0>
+			<CODE_POS_1>(&gt;B:ELECTRICAL_#BTN_ID#_ARMED)</CODE_POS_1>
+			<CODE_POS_2>(&gt;B:ELECTRICAL_#BTN_ID#_ON)</CODE_POS_2>
+			<STATE0_TEST>(B:ELECTRICAL_#BTN_ID#, Number) 0 ==</STATE0_TEST>
+			<STATE1_TEST>(B:ELECTRICAL_#BTN_ID#, Number) 1 ==</STATE1_TEST>
+			<STATE2_TEST>(B:ELECTRICAL_#BTN_ID#, Number) 2 ==</STATE2_TEST>
+			<STR_STATE_0>OFF</STR_STATE_0>
+			<STR_STATE_1>ARMED</STR_STATE_1>
+			<STR_STATE_2>ON</STR_STATE_2>
+			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
+			<TT_VALUE_1>@TT_Package.GT_STATE_ARMED</TT_VALUE_1>
+			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
+			<SET_STATE_0>0 (&gt;L:#LOCAL_VAR#)</SET_STATE_0>
+			<SET_STATE_1>1 (&gt;L:#LOCAL_VAR#)</SET_STATE_1>
+			<SET_STATE_2>2 (&gt;L:#LOCAL_VAR#)</SET_STATE_2>
+			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#, Number)</GET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
+			<WWISE_COVER_EVENT_OPEN>cover_open</WWISE_COVER_EVENT_OPEN>
+			<WWISE_COVER_EVENT_CLOSE>cover_close</WWISE_COVER_EVENT_CLOSE>
+			<WWISE_EVENT>light_switch</WWISE_EVENT>
+		</UseTemplate>
+	</Template>
+
+	<!-- B777 Engine Throttle -->
+	<!-- Ideally we would just change 'ASOBO_ENGINE_Throttle_SubTemplate' to support the new THROTTLE_VAR param,
+			 but I don't want to pull in such a generic and large file into our repo as an override, so we will just do
+			 this copy-paste until we can change the asobo template in perforce.
+	 -->
+
+	<!--teevee: since the original throttle from wlrs mod is working, there will be no change to this-->
+
+	<InputEvent ID="WT_B777_Throttle_Reverser">
+		<Presets>
+			<Preset ID="ENGINE_Throttle_Reverser_#REVERSER_ID#">
+				<Parameters Type="Default">
+					<INCREMENT>256</INCREMENT>
+					<ON_BEFORE_SET/>
+				</Parameters>
+				<Parameters Type="Override">
+					<LOWER_LIMIT>(A:THROTTLE LOWER LIMIT, position 16k)</LOWER_LIMIT>
+					<UPPER_LIMIT>0</UPPER_LIMIT>
+				</Parameters>
+				<Parameters Type="Override">
+					<CAN_SET_THROTTLE>(#THROTTLE_VAR_FULL#) 0.02 &lt;</CAN_SET_THROTTLE>
+					<ON_BEFORE_SET>#ON_BEFORE_SET#
+						(E:IS IN VR, Boolean) (E:IS USING MOTION CONTROLLERS, Boolean) (E:IS USING JOYSTICK THROTTLE, Boolean) ! (L:XMLVAR_IE_Throttle_Reverser_VR_Handled) ! and and and if{
+							1 (&gt;L:XMLVAR_IE_Throttle_Reverser_VR_Handled)
+							p0 #LOWER_LIMIT# / (&gt;L:XMLVAR_IE_Throttle_Reverser_VR_Value) (&gt;B:Set_All_Throttle_Reverser)
+							0 (&gt;L:XMLVAR_IE_Throttle_Reverser_VR_Handled)
+							quit
+						}
+					</ON_BEFORE_SET>
+				</Parameters>
+				<Tooltip>
+					<Icon>MOVE_AXIS_Y</Icon>
+					<Interaction>PRIMARY_DOWN+Y_AXIS</Interaction>
+					<InteractionLockable>Y_AXIS</InteractionLockable>
+					<TTDescription RPN="True">#REVERSER_ID# (R:1:@TT_Package.ENGINE_THROTTLE_REVERSE) @sprintf</TTDescription>
+					<TTValue RPN="True">(B:ENGINE_Throttle_Reverser_#REVERSER_ID#, percent) '%.2f%%' @sprintf</TTValue>
+				</Tooltip>
+				<Value>
+					<Units>percent</Units>
+					<Code>(O:ENGINE_Throttle_Reverser_#REVERSER_ID#_Position) #LOWER_LIMIT# / 100 *</Code>
+					<Init>(#THROTTLE_VAR_FULL#, position 16k) #LOWER_LIMIT# max #UPPER_LIMIT# min (&gt;O:ENGINE_Throttle_Reverser_#REVERSER_ID#_Position)</Init>
+					<WatchVars>
+						<Switch Param="THROTTLE_VAR_TYPE">
+							<Case Value="A">
+								<Simvar ID="#THROTTLE_VAR#"/>
+							</Case>
+							<Default>
+								<LocalVar ID="#THROTTLE_VAR#"/>
+							</Default>
+						</Switch>
+					</WatchVars>
+				</Value>
+				<Inc>
+					<Code>(#THROTTLE_VAR_FULL#, position 16k) p0 - #LOWER_LIMIT# max #UPPER_LIMIT# min #LOWER_LIMIT# / (&gt;B:ENGINE_Throttle_Reverser_#REVERSER_ID#_Set)</Code>
+					<Parameters>
+						<Param Type="Float" RPN="True">p0 #INCREMENT# *</Param>
+					</Parameters>
+				</Inc>
+				<Dec>
+					<Code>(#THROTTLE_VAR_FULL#, position 16k) p0 + #LOWER_LIMIT# max #UPPER_LIMIT# min #LOWER_LIMIT# / (&gt;B:ENGINE_Throttle_Reverser_#REVERSER_ID#_Set)</Code>
+					<Parameters>
+						<Param Type="Float" RPN="True">p0 #INCREMENT# *</Param>
+					</Parameters>
+				</Dec>
+				<Set>
+					<Code>#ON_BEFORE_SET# p0 #LOWER_LIMIT# max #UPPER_LIMIT# min sp0 #CAN_SET_THROTTLE# if{ l0 (&gt;K:THROTTLE#REVERSER_ID#_SET) } els{ #UPPER_LIMIT# (&gt;O:ENGINE_Throttle_Reverser_#REVERSER_ID#_Position) }</Code>
+					<Parameters>
+						<Param Type="Float" RPN="True">p0 #LOWER_LIMIT# *</Param>
+					</Parameters>
+					<Bindings>
+						<Binding Alias="Set_All_Throttle_Reverser">
+							<Param Type="Float" RPN="True">(L:XMLVAR_IE_Throttle_Reverser_VR_Value)</Param>
+						</Binding>
+						<Binding Alias="ENGINE_All_Throttle_Reverser_Full_Reverse"><!-- event manipulating all throttles (declared for each throttle preset) -->
+							<Param>1</Param>
+						</Binding>
+						<Binding Alias="ENGINE_All_Throttle_Reverser_Idle"><!-- event manipulating all throttles (declared for each throttle preset) -->
+							<Param>0</Param>
+						</Binding>
+						<Binding Alias="ENGINE_Throttle_Reverser_#REVERSER_ID#_Full_Reverse">
+							<Param>1</Param>
+						</Binding>
+						<Binding Alias="ENGINE_Throttle_Reverser_#REVERSER_ID#_Idle">
+							<Param>0</Param>
+						</Binding>
+					</Bindings>
+				</Set>
+			</Preset>
+		</Presets>
+	</InputEvent>
+
+	<Template Name="WT_B777_Engine_Throttle_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<ID_NODE>#ID#</ID_NODE>
+			<REVERSER_LOCKOUT_DETENT>0.1</REVERSER_LOCKOUT_DETENT>
+			<REVERSER_LOCKOUT_ANIM_POS>50</REVERSER_LOCKOUT_ANIM_POS>
+			<MIN_TIME_HELD_BEFORE_REVERSE>0.75</MIN_TIME_HELD_BEFORE_REVERSE>
+		</Parameters>
+		<Parameters Type="Default">
+			<NODE_ID>ENGINE_#INTERACTION_TYPE#_Throttle_#ID_NODE#</NODE_ID>
+			<ANIM_NAME>ENGINE_#INTERACTION_TYPE#_Throttle_#ID_NODE#</ANIM_NAME>
+			<PART_ID>ENGINE_#INTERACTION_TYPE#_Throttle</PART_ID>
+			<THROTTLE_VAR_TYPE>A</THROTTLE_VAR_TYPE>
+			<THROTTLE_VAR>GENERAL ENG THROTTLE LEVER POSITION:#ID#</THROTTLE_VAR>
+			<Switch Param="INTERACTION_TYPE">
+				<Case Value="Lever">
+					<RESET_LIMITS/>
+					<PROCESS_LIMITS>
+						(A:THROTTLE LOWER LIMIT, position 16k) (&gt;O:XMLVAR_MIN_Limit)
+						16384 (&gt;O:XMLVAR_MAX_Limit)
+					</PROCESS_LIMITS>
+					<DRAG_AXIS_SCALE>-450</DRAG_AXIS_SCALE>
+					<POSITION_TYPE>O</POSITION_TYPE>
+					<POSITION_VAR>Position</POSITION_VAR>
+					<DELTA_MIN>0.00025</DELTA_MIN>
+					<AXIS>Y</AXIS>
+					<USE_TRAJECTORY_DRAG_MODE>true</USE_TRAJECTORY_DRAG_MODE>
+					<NO_ARROWS/>
+					<GATE_MARGIN>256</GATE_MARGIN>
+				</Case>
+			</Switch>
+			<TOOLTIPID>TT:COCKPIT.TOOLTIPS.THROTTLE_CONTROL</TOOLTIPID>
+			<INCREMENT>163.84</INCREMENT>
+			<SCROLL_INCREMENT>701</SCROLL_INCREMENT>
+			<CURSOR>Hand</CURSOR>
+		</Parameters>
+		<Parameters Type="Override">
+			<THROTTLE_VAR_FULL>#THROTTLE_VAR_TYPE#:#THROTTLE_VAR#</THROTTLE_VAR_FULL>
+
+			<Switch Param="INTERACTION_TYPE">
+				<Case Value="Lever">
+					<Switch>
+						<Case Check="LEVER_TYPE" Match="BOEING">
+							<DRAG_MAX_VALUE>16384</DRAG_MAX_VALUE>
+							<DRAG_MIN_VALUE>0</DRAG_MIN_VALUE>
+						</Case>
+						<Default>
+							<DRAG_MAX_VALUE>16384</DRAG_MAX_VALUE>
+							<DRAG_MIN_VALUE Process="Int">(A:THROTTLE LOWER LIMIT, position 16k)</DRAG_MIN_VALUE>
+						</Default>
+					</Switch>
+				</Case>
+			</Switch>
+		</Parameters>
+		<Parameters Type="Default">
+			<Switch Param="INTERACTION_TYPE">
+				<Case Value="Lever">
+					<MIN_DIFF_POS_16K>819.2</MIN_DIFF_POS_16K>
+					<Condition Valid="USE_TRAJECTORY_DRAG_MODE">
+						<DRAG_ANIM_NAME>#ANIM_NAME#</DRAG_ANIM_NAME>
+					</Condition>
+					<MAIN_LEVER_REVERSE_POSITION Process="Int">(A:THROTTLE LOWER LIMIT, position 16k)</MAIN_LEVER_REVERSE_POSITION>
+					<MAIN_LEVER_REVERSE_POSITION_PCT Process="Int">(A:THROTTLE LOWER LIMIT, percent)</MAIN_LEVER_REVERSE_POSITION_PCT>
+					<SNAP_DISTANCE>1</SNAP_DISTANCE>
+					<DRAG_VALUE_OVERRIDE/>
+				</Case>
+			</Switch>
+		</Parameters>
+		<Parameters Type="Override">
+			<Switch Param="INTERACTION_TYPE">
+				<Case Value="Lever">
+					<!--<THROTTLE_ANIM_CODE>(B:ENGINE_Throttle_#ID#, percent)</THROTTLE_ANIM_CODE>-->
+					<MAIN_LEVER_REVERSE_POSITION>0</MAIN_LEVER_REVERSE_POSITION>
+					<USE_SEPARATE_REVERSER>True</USE_SEPARATE_REVERSER>
+				</Case>
+			</Switch>
+		</Parameters>
+		<Component ID="#NODE_ID#" Node="#NODE_ID#">
+			<Parameters Type="Default">
+				<TOOLTIP_THROTTLE_TITLE>@TT_Package.ENGINE_THROTTLE_TITLE</TOOLTIP_THROTTLE_TITLE>
+				<THROTTLE_ON_AFTER_SET/>
+				<RIGHT_SINGLE_CODE/>
+				<ENTRIES_COUNT>1</ENTRIES_COUNT>
+			</Parameters>
+			<Switch Param="INTERACTION_TYPE">
+				<Case Value="Lever">
+					<Condition Check="ANIM_NAME_REVERSE_LOCK">
+						<UseTemplate Name="ASOBO_GT_Anim_Code">
+							<ANIM_CODE>
+								(A:GENERAL ENG REVERSE THRUST ENGAGED:#ID#, bool) 100 *
+							</ANIM_CODE>
+							<ANIM_NAME>#ANIM_NAME_REVERSE_LOCK#</ANIM_NAME>
+						</UseTemplate>
+						<UseTemplate Name = "ASOBO_GT_AnimTriggers_2SoundEvents">
+							<ANIM_NAME>#ANIM_NAME_REVERSE_LOCK#</ANIM_NAME>
+							<WWISE_EVENT_1>throttle_lever_lock_on</WWISE_EVENT_1>
+							<WWISE_EVENT_2>throttle_lever_lock_off</WWISE_EVENT_2>
+						</UseTemplate>
+					</Condition>
+
+					<UseInputEvent ID="ENGINE">
+						<THROTTLE_ID>#ID#</THROTTLE_ID>
+						<GET_THROTTLE>(#THROTTLE_VAR_FULL#, position 16k)</GET_THROTTLE>
+						<Condition NotEmpty="THROTTLE_ON_AFTER_SET">
+							<ON_AFTER_SET>#THROTTLE_ON_AFTER_SET#</ON_AFTER_SET>
+						</Condition>
+						<Condition NotEmpty="THROTTLE_ON_AFTER_INC">
+							<ON_AFTER_INC>#THROTTLE_ON_AFTER_INC#</ON_AFTER_INC>
+						</Condition>
+						<Condition NotEmpty="THROTTLE_ON_AFTER_DEC">
+							<ON_AFTER_DEC>#THROTTLE_ON_AFTER_DEC#</ON_AFTER_DEC>
+						</Condition>
+						<RESET_LIMITS>
+							#PROCESS_LIMITS#
+						</RESET_LIMITS>
+						<Condition Valid="CLAMP_IE">
+							<CLAMP_UPPER_LIMIT>(O:XMLVAR_MAX_Limit)</CLAMP_UPPER_LIMIT>
+							<CLAMP_LOWER_LIMIT>(O:XMLVAR_MIN_Limit)</CLAMP_LOWER_LIMIT>
+							<ON_AFTER_INIT>#PROCESS_LIMITS#</ON_AFTER_INIT>
+						</Condition>
+
+						<!--
+							This ensures that "holding" a throttle decrease key event never locks out reverse thrust range. Note that
+							the key must still be held for #MIN_TIME_HELD_BEFORE_REVERSE# seconds at idle before the throttle will
+							enter reverse thrust range.
+						-->
+						<ON_BEFORE_DEC_SET>
+							1 (&gt;O:_ReverseInputsAllowed)
+						</ON_BEFORE_DEC_SET>
+					</UseInputEvent>
+
+					<UseTemplate Name="ASOBO_GT_Anim_Code">
+						<Condition Valid="OVERRIDE_ANIM_CODE">
+							<True>
+								<ANIM_CODE>#OVERRIDE_ANIM_CODE#</ANIM_CODE>
+							</True>
+							<False>
+								<ANIM_CODE>#THROTTLE_ANIM_CODE#</ANIM_CODE>
+							</False>
+						</Condition>
+					</UseTemplate>
+					<Update Once="True">
+						#RESET_LIMITS#
+					</Update>
+					<UseTemplate Name="ASOBO_GT_Interaction_WheelLeftDrag_Axis">
+						<LOCK_CODE>
+							#PROCESS_LIMITS#
+						</LOCK_CODE>
+						<UNLOCK_CODE>
+							#RESET_LIMITS#
+						</UNLOCK_CODE>
+						<HELPID>HELPID_GAUGE_THROTTLE_THROTTLE</HELPID>
+						<DRAG_SIMVAR>#THROTTLE_VAR_FULL#</DRAG_SIMVAR>
+						<Condition Valid="USE_TRAJECTORY_DRAG_MODE">
+							<True>
+								<DRAG_CODE>
+									(M:InputType) 1 == if{
+										(O:_ResetLimitsTime) (E:SIMULATION TIME, second) &lt; if{
+											(#THROTTLE_VAR_FULL#, position 16k) abs #MIN_DIFF_POS_16K# &lt; if{
+												#RESET_LIMITS#
+											}
+										}
+										(E:SIMULATION TIME, second) 0.1 + (&gt;O:_ResetLimitsTime)
+									}
+									16384 #MAIN_LEVER_REVERSE_POSITION# - (M:DragPercent) #ADJUST_RAW_DRAG_VALUE# * #MAIN_LEVER_REVERSE_POSITION# + sp0
+									#DRAG_VALUE_OVERRIDE#
+									l0 #DRAG_MAX_VALUE# min #DRAG_MIN_VALUE# max 16384 / (&gt;B:ENGINE_Throttle_#ID#_Set)
+									(#THROTTLE_VAR_FULL#, position 16k) abs #MIN_DIFF_POS_16K# &gt; if{
+										#PROCESS_LIMITS#
+									}
+								</DRAG_CODE>
+							</True>
+							<False>
+								<DRAG_CODE>
+									(#THROTTLE_VAR_FULL#, position 16k) #INCREMENT# (O:DragScale) * + #DRAG_MAX_VALUE# min #DRAG_MIN_VALUE# max 16384 / (&gt;B:ENGINE_Throttle_#ID#_Set)
+									(#THROTTLE_VAR_FULL#, position 16k) abs #MIN_DIFF_POS_16K# &gt; if{
+										#PROCESS_LIMITS#
+									}
+								</DRAG_CODE>
+							</False>
+						</Condition>
+						<POSITIVE_AXIS_CODE>1 (&gt;B:ENGINE_Throttle_#ID#_Inc)</POSITIVE_AXIS_CODE>
+						<NEGATIVE_AXIS_CODE>1 (&gt;B:ENGINE_Throttle_#ID#_Dec)</NEGATIVE_AXIS_CODE>
+					</UseTemplate>
+					<UseTemplate Name="ASOBO_GT_Visibility_Code">
+						<VISIBILITY_CODE>(L:XMLVAR_LeverThrottleHidden#ID#) !</VISIBILITY_CODE>
+					</UseTemplate>
+				</Case>
+			</Switch>
+		</Component>
+		<Condition Check="LEVER_TYPE" Match="BOEING">
+			<True>
+				<Component ID="#NODE_ID_REVERSER#" Node="#NODE_ID_REVERSER#">
+					<Parameters Type="Override">
+						<ANIM_NAME>#ANIM_NAME_REVERSER#</ANIM_NAME>
+						<DRAG_ANIM_NAME>#ANIM_NAME_REVERSER#</DRAG_ANIM_NAME>
+						<DRAG_NODE_ID>#NODE_ID_REVERSER#</DRAG_NODE_ID>
+						<Condition Valid="REVERSER_INVERT_IM_DRAG_INPUT_SCALAR">
+							<INVERT_IM_DRAG_INPUT_SCALAR>#REVERSER_INVERT_IM_DRAG_INPUT_SCALAR#</INVERT_IM_DRAG_INPUT_SCALAR>
+						</Condition>
+
+						<REVERSE_THROTTLE_RANGE>1 #REVERSER_LOCKOUT_DETENT# -</REVERSE_THROTTLE_RANGE>
+						<REVERSE_LEVER_ANIM_RANGE>100 #REVERSER_LOCKOUT_ANIM_POS# -</REVERSE_LEVER_ANIM_RANGE>
+					</Parameters>
+					<Parameters Type="Default">
+						<TOOLTIP_THROTTLE_REVERSER_TITLE>@TT_Package.ENGINE_THROTTLE_REVERSE_TITLE</TOOLTIP_THROTTLE_REVERSER_TITLE>
+					</Parameters>
+					<Parameters Type="Override">
+						<TOOLTIP_TITLE>#TOOLTIP_THROTTLE_REVERSER_TITLE#</TOOLTIP_TITLE>
+						<TOOLTIP_ENTRY_0>ENGINE_Throttle_Reverser_#ID#</TOOLTIP_ENTRY_0>
+					</Parameters>
+					<UseInputEvent ID="WT_B78_Throttle_Reverser">
+						<REVERSER_ID>#ID#</REVERSER_ID>
+					</UseInputEvent>
+					<UseTemplate Name="ASOBO_GT_Anim_Code">
+						<ANIM_CODE>
+							(B:ENGINE_Throttle_Reverser_#ID#, percent over 100) sp0
+							l0 0 &gt; if{
+								l0 #REVERSER_LOCKOUT_DETENT# &lt; if{
+									#REVERSER_LOCKOUT_ANIM_POS# sp0
+								} els{
+									l0 #REVERSER_LOCKOUT_DETENT# - #REVERSE_THROTTLE_RANGE# / #REVERSE_LEVER_ANIM_RANGE# * #REVERSER_LOCKOUT_ANIM_POS# + sp0
+								}
+							}
+							l0
+						</ANIM_CODE>
+					</UseTemplate>
+					<UseTemplate Name="ASOBO_GT_Interaction_WheelLeftDrag_Axis">
+						<POSITION_TYPE>O</POSITION_TYPE>
+						<POSITION_VAR>XMLVAR_Reverser#ID#_Position</POSITION_VAR>
+						<DRAG_CODE>(M:DragPercent) (&gt;B:ENGINE_Throttle_Reverser_#ID#_Set)</DRAG_CODE>
+						<POSITIVE_AXIS_CODE>1 (&gt;B:ENGINE_Throttle_Reverser_#ID#_Inc)</POSITIVE_AXIS_CODE>
+						<NEGATIVE_AXIS_CODE>1 (&gt;B:ENGINE_Throttle_Reverser_#ID#_Dec)</NEGATIVE_AXIS_CODE>
+					</UseTemplate>
+				</Component>
+			</True>
+		</Condition>
+		<Condition Check="HIGHLIGHT_NODE_ID">
+			<UseTemplate Name="ASOBO_GT_ComponentWith_PART_ID">
+				<NODE_ID>#HIGHLIGHT_NODE_ID#</NODE_ID>
+			</UseTemplate>
+		</Condition>
+	</Template>
+
+	<!-- Params: SCREEN_NODE_ID, BUTTON_NODE_PREFIX -->		<!--since CS name is a bit weird, something might need modification-->
+	<Template Name="WT_B777_EFB_Template">
+		<Component ID="EFB_#BUTTON_NODE_PREFIX#">
+			<!-- Screen emissive -->
+			<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+				<NODE_ID>#SCREEN_NODE_ID#</NODE_ID>
+				<EMISSIVE_CODE>(A:GLASSCOCKPIT AUTOMATIC BRIGHTNESS, Percent over 100)</EMISSIVE_CODE>
+				<FAILURE>(A:CIRCUIT ON:33, Bool)</FAILURE>
+			</UseTemplate>
+
+			<!-- Buttons Left-->	
+			<Loop>
+				<Setup>
+					<Param>BUTTON_ID</Param>
+					<From>1</From>
+					<To>8</To>
+					<Inc>1</Inc>
+				</Setup>
+				<Do>
+					<Component ID="EFB_#BUTTON_NODE_PREFIX#_LSK_#BUTTON_ID#" Node="V07_02#BUTTON_ID#_SW2">
+						<UseTemplate Name="ASOBO_GT_Push_Button">
+							<!-- TODO: Need "HUD symbology" tooltip -->
+							<!--<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>-->
+							<TOOLTIPID>Left EFB softkey #BUTTON_ID#</TOOLTIPID>
+							<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+							<LEFT_SINGLE_CODE>(&gt;H:B777_EFB_#BUTTON_NODE_PREFIX#_LSK_#BUTTON_ID#)</LEFT_SINGLE_CODE>
+						</UseTemplate>
+					</Component>
+				</Do>
+			</Loop>
+
+			<!-- Buttons Right-->	
+			<Loop>
+				<Setup>
+					<Param>BUTTON_ID</Param>
+					<From>1</From>
+					<To>8</To>
+					<Inc>1</Inc>
+				</Setup>
+				<Do>
+					<Component ID="EFB_#BUTTON_NODE_PREFIX#_RSK_#BUTTON_ID#" Node="V07_03#BUTTON_ID#_SW2">
+						<UseTemplate Name="ASOBO_GT_Push_Button">
+							<!-- TODO: Need "HUD symbology" tooltip -->
+							<!--<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>-->
+							<TOOLTIPID>Right EFB softkey #BUTTON_ID#</TOOLTIPID>
+							<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+							<LEFT_SINGLE_CODE>(&gt;H:B777_EFB_#BUTTON_NODE_PREFIX#_RSK_#BUTTON_ID#)</LEFT_SINGLE_CODE>
+						</UseTemplate>
+					</Component>
+				</Do>
+			</Loop>
+
+			<!-- PWR key -->
+			<Component ID="EFB_#BUTTON_NODE_PREFIX#_PWR">
+				<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+					<ID>1</ID>
+					<NODE_ID>V07_011_SW2</NODE_ID>
+					<ANIM_NAME>V07_011_SW2</ANIM_NAME>
+					<PART_ID>Btn_touchpad_#BUTTON_NODE_PREFIX#_pwr</PART_ID>
+					<IE_NAME>EFB_PWR_#BUTTON_NODE_PREFIX#</IE_NAME>
+					<LVAR>B777_EFB_POWER</LVAR>
+					<WWISE_EVENT_1>fpv_push_button_on</WWISE_EVENT_1>
+					<WWISE_EVENT_2>fpv_push_button_off</WWISE_EVENT_2>
+					<TOOLTIP_TITLE>@TT_Package.AS510_SWITCH_POWER_TITLE</TOOLTIP_TITLE>
+					<TT_DESCRIPTION>@TT_Package.ELECTRICAL_SWITCH_AVIONICS_DISPLAY_ACTION</TT_DESCRIPTION>
+					<IS_MOMENTARY>True</IS_MOMENTARY>
+				</UseTemplate>
+			</Component>
+
+			<!-- MENU key -->
+			<Component ID="EFB_#BUTTON_NODE_PREFIX#_MENU" Node="V07_005_SW2">
+				<UseTemplate Name="ASOBO_GT_Push_Button">
+					<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>
+					<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+					<LEFT_SINGLE_CODE>(&gt;H:B777_EFB_#BUTTON_NODE_PREFIX#_MENU)</LEFT_SINGLE_CODE>
+				</UseTemplate>
+			</Component>
+
+			<!-- BACK key -->
+			<Component ID="EFB_#BUTTON_NODE_PREFIX#_BACK" Node="V07_006_SW2">
+				<UseTemplate Name="ASOBO_GT_Push_Button">
+					<TOOLTIP_TITLE>@TT_Package.HUD_SWITCH_DAY_NIGHT_TITLE</TOOLTIP_TITLE>
+					<!-- <TOOLTIP_ENTRY_0>#IE_NAME_FULL#</TOOLTIP_ENTRY_0> -->
+					<LEFT_SINGLE_CODE>(&gt;H:B777_EFB_#BUTTON_NODE_PREFIX#_BACK)</LEFT_SINGLE_CODE>
+				</UseTemplate>
+			</Component>
+		</Component>
+	</Template>
+
+	<Template Name="WT_BOEING_Knob_Mins_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+		</Parameters>
+		<Parameters Type="Default">
+			<NODE_ID></NODE_ID>
+			<ANIM_NAME></ANIM_NAME>
+			<BUTTON_NODE_ID></BUTTON_NODE_ID>
+			<BUTTON_ANIM_NAME></BUTTON_ANIM_NAME>
+			<PART_ID>B777_Knob_Mins_#ID#</PART_ID>
+			<SYSTEM_NAME>PFD</SYSTEM_NAME>
+			<WWISE_EVENT>autopilot_knob</WWISE_EVENT>
+			<WWISE_PREFIX>autopilot_knob</WWISE_PREFIX>
+			<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_KNOB_BARO_KNOB_MINS_ACTION</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AIRLINER_KNOB_BARO_KNOB_MINS_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID_BUTTON>@TT_Package.AIRLINER_KNOB_BARO_PUSH_MINS_ACTION</TT_DESCRIPTION_ID_BUTTON>
+			<TOOLTIP_TITLE_BUTTON>@TT_Package.AIRLINER_KNOB_BARO_PUSH_MINS_TITLE</TOOLTIP_TITLE_BUTTON>
+		</Parameters>
+		<Parameters Type="Override">
+			<IE_NAME_KNOB>Mins_#ID#</IE_NAME_KNOB>
+			<IE_NAME_BTN>Mins_Button_#ID#</IE_NAME_BTN>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<IE_NAME>#IE_NAME_KNOB#</IE_NAME>
+			<SET_STATE_EXTERNAL>p0 0 &gt; if{ (&gt;H:#PLANE_PREFIX#_#SYSTEM_NAME#_Mins_INC) } els{ (&gt;H:#PLANE_PREFIX#_#SYSTEM_NAME#_Mins_DEC) }</SET_STATE_EXTERNAL>	<!--should be use?-->
+			<IS_INFINITE>True</IS_INFINITE>
+			<COUNT>36</COUNT>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
+			<INTERACTION_TYPE>Push</INTERACTION_TYPE>
+			<IE_NAME>#IE_NAME_BTN#</IE_NAME>
+			<SET_STATE_EXTERNAL>if{ (&gt;H:#PLANE_PREFIX#_#SYSTEM_NAME#_Mins_Press) }</SET_STATE_EXTERNAL>
+			<ANIM_NAME>#BUTTON_ANIM_NAME#</ANIM_NAME>
+			<NODE_ID>#BUTTON_NODE_ID#</NODE_ID>
+			<TT_DESCRIPTION_ID>#TT_DESCRIPTION_ID_BUTTON#</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>#TOOLTIP_TITLE_BUTTON#</TOOLTIP_TITLE>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_Stby_Baro_Knob_Template">
+		<Parameters Type="Default">
+			<ID>3</ID>
+			<BARO_ID>2</BARO_ID>
+			<NODE_ID>knob_IFSD_baro</NODE_ID>
+			<PART_ID>AUTOPILOT_Knob_Baro</PART_ID>
+    	</Parameters>
+
+		<Parameters Type="Default">
+			<KNOB_ID>Baro_#ID#</KNOB_ID>
+			<BTN_ID_EXTERNAL>Baro_#ID#_Sync</BTN_ID_EXTERNAL>
+			<INPUT_EVENT_ID_SOURCE>AUTOPILOT</INPUT_EVENT_ID_SOURCE>
+			<WWISE_EVENT_1>autopilot_knob_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>autopilot_knob_push_button_off</WWISE_EVENT_2>
+			<COUNT>36</COUNT>
+			<ANIM_NAME_KNOB>ifsd_knob_baro</ANIM_NAME_KNOB>
+			<ANIM_NAME_PUSH>ifsd_knob_baro_push</ANIM_NAME_PUSH>
+			<THRESHOLD_X_INPUT>0.05</THRESHOLD_X_INPUT>
+			<THRESHOLD_X_MOUSE>0.01</THRESHOLD_X_MOUSE>
+			<THRESHOLD_INPUT>0.05</THRESHOLD_INPUT>
+			<THRESHOLD_MOUSE>0.01</THRESHOLD_MOUSE>
+			<WWISE_EVENT>autopilot_knob</WWISE_EVENT>
+		</Parameters>
+
+		<Parameters Type="Default">
+			<SET_STATE_EXTERNAL>p0 0 &gt; if{ #BARO_ID# (&gt;K:KOHLSMAN_INC) } els{ #BARO_ID# (&gt;K:KOHLSMAN_DEC) }</SET_STATE_EXTERNAL>
+			<PUSH_SET_STATE_EXTERNAL>#BARO_ID# (&gt;K:BAROMETRIC_STD_PRESSURE)</PUSH_SET_STATE_EXTERNAL>
+			<GET_BARO>(A:KOHLSMAN SETTING HG:#BARO_ID#, inHg)</GET_BARO>
+		</Parameters>
+
+		<Component ID="#NODE_ID#" Node="#NODE_ID#">
+			<UseTemplate Name="ASOBO_AUTOPILOT_Push_Event_Only_Template">
+				<BTN_ID>#BTN_ID_EXTERNAL#</BTN_ID>
+				<EVENT_TYPE>PUSH</EVENT_TYPE>
+				<SET_STATE_EXTERNAL>#PUSH_SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
+				<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION_SET</TT_DESCRIPTION_ID>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_AUTOPILOT_Knob_Template">
+				<SET_STATE_EXTERNAL>#SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
+				<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION</TT_DESCRIPTION_ID>
+				<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_KNOB_BARO_TITLE</TOOLTIP_TITLE>
+				<GET_TT_VALUE_STATE>#GET_BARO# sp0</GET_TT_VALUE_STATE>
+				<FORMAT_VALUE>l0 '%.2fIN' @sprintf</FORMAT_VALUE>
+			</UseTemplate>
+		</Component>
+  	</Template>
+
+	<Template Name="WT_AUTOPILOT_Autopilot_Engage_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<DEFAULT_NAME>Autopilot_Engage</DEFAULT_NAME>
+			<POS>l</POS>
+		</Parameters>
+		<Parameters Type="Default">
+			<BTN_ID>Autopilot_Engage_#ID#</BTN_ID>
+			<NODE_ID>btn_autopilot_ap_engage_#POS#</NODE_ID>
+			<ANIM_NAME>autopilot_push_ap_engage_#POS#</ANIM_NAME>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
+			<NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
+			<EMISSIVE_SIMVAR_ACTIVE>AUTOPILOT MASTER</EMISSIVE_SIMVAR_ACTIVE>
+			<ACTIVE_NODE_ID>btn_autopilot_ap_engage_#POS#_seq2</ACTIVE_NODE_ID> 
+			<GET_STATE_EXTERNAL>(A:AUTOPILOT MASTER, Bool) sp0</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>(A:AUTOPILOT DISENGAGED, Bool) ! if{ (&gt;K:AUTOPILOT_ON) }</SET_STATE_EXTERNAL>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_PUSH_AUTOPILOT_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_PUSH_AUTOPILOT_ACTION_SET</TT_DESCRIPTION_ID>
+			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_OFF)</TT_VALUE_OFF>
+			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_ON)</TT_VALUE_ON>
+			<SIMVAR_TO_WATCH_0>AUTOPILOT MASTER</SIMVAR_TO_WATCH_0>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_AUTOPILOT_Push_Speed_Template">
+		<Parameters Type="Default">
+		<DEFAULT_NAME>Speed</DEFAULT_NAME>
+		<IS_MACH_CODE>0</IS_MACH_CODE>
+		<ON_SPEED_MODE_SWITCH/>
+		<TT_DESCRIPTION_ID_SPEED>@TT_Package.AUTOPILOT_PUSH_SPEEDMODE_ACTION_SET</TT_DESCRIPTION_ID_SPEED>
+		<TOOLTIP_TITLE_SPEED>@TT_Package.AUTOPILOT_PUSH_SPEEDMODE_TITLE</TOOLTIP_TITLE_SPEED>
+		</Parameters>
+		<Parameters Type="Override">
+		<Switch Param="TYPE">
+			<Case Value="B747">
+			<IS_USING_L_VAR_FOR_STATE>True</IS_USING_L_VAR_FOR_STATE>
+			<KEY_PREFIX>B747_8</KEY_PREFIX>
+			<EMISSIVE_CODE_ACTIVE>(L:AP_SPD_ACTIVE)</EMISSIVE_CODE_ACTIVE>
+			<IS_SWITCH_ON>(L:AP_SPD_ACTIVE)</IS_SWITCH_ON>
+			</Case>
+			<Case Value="AS01B">
+			<IS_USING_L_VAR_FOR_STATE>True</IS_USING_L_VAR_FOR_STATE>
+			<KEY_PREFIX>AS01B</KEY_PREFIX>
+			<EMISSIVE_CODE_ACTIVE>(L:WT_Boeing_Autothrottle_Status) 3 ==</EMISSIVE_CODE_ACTIVE>
+			<IS_SWITCH_ON>(L:WT_Boeing_Autothrottle_Status) 3 ==</IS_SWITCH_ON>
+			<SIMVAR_TO_WATCH_0>AUTOPILOT AIRSPEED HOLD</SIMVAR_TO_WATCH_0>
+			<SIMVAR_TO_WATCH_1>AUTOPILOT MACH HOLD</SIMVAR_TO_WATCH_1>
+			<SIMVAR_TO_WATCH_2>AUTOPILOT THROTTLE ARM</SIMVAR_TO_WATCH_2>
+			</Case>
+		</Switch>
+		<ON_AP_MODE_STATE_CHANGED>#ON_SPEED_MODE_SWITCH#</ON_AP_MODE_STATE_CHANGED>
+		</Parameters>
+		<Parameters Type="Override">
+		<Condition Valid="IS_USING_L_VAR_FOR_STATE">
+			<True>
+			<SET_STATE_EXTERNAL>(&gt;H:#KEY_PREFIX#_FMC_1_AP_AT_ENGAGE)</SET_STATE_EXTERNAL>
+			<TT_DESCRIPTION_ID>COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_ENGAGE_AUTOTHROTTLE</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_PUSH_AUTOTHROTTLE_TITLE</TOOLTIP_TITLE>
+			<BTN_ID>IAS_Mode</BTN_ID>
+			<LOCAL_VAR_TO_WATCH_0>WT_Boeing_Autothrottle_Status</LOCAL_VAR_TO_WATCH_0>
+			<BINDING_SET_0_EVENT_ID>AP_AIRSPEED_HOLD</BINDING_SET_0_EVENT_ID>
+			</True>
+			<False>
+			<Switch Param="TYPE">
+				<Case Value="AS04F">
+				<SET_STATE_EXTERNAL>
+									(A:AUTOPILOT AIRSPEED HOLD, Bool) (A:AUTOPILOT MACH HOLD, Bool) or if{
+									(&gt;K:AP_AIRSPEED_OFF)
+									} els{
+									(A:FLAPS HANDLE INDEX, Number) 0 == if{
+									(&gt;K:AP_PANEL_SPEED_HOLD_TOGGLE)
+									} els{
+									(A:TRAILING EDGE FLAPS LEFT ANGLE,degree) 27 &gt; (A:TRAILING EDGE FLAPS RIGHT ANGLE,degree) 27 &gt; and if{
+									(A:DESIGN SPEED VS1, knots) sqr (A:TOTAL WEIGHT, pounds) (A:MAX GROSS WEIGHT, pounds) / * sqrt (&gt;K:AP_SPD_VAR_SET)
+									(&gt;K:AP_AIRSPEED_ON)
+									}
+									}
+									}
+				</SET_STATE_EXTERNAL>
+				<BINDING_SET_0_EVENT_ID>AP_AIRSPEED_HOLD</BINDING_SET_0_EVENT_ID>
+				</Case>
+				<Default>
+				<SET_STATE_EXTERNAL>#IS_MACH_CODE# if{ (&gt;K:AP_PANEL_MACH_HOLD) } els{ (&gt;K:AP_PANEL_SPEED_HOLD) }</SET_STATE_EXTERNAL>
+				</Default>
+			</Switch>
+			<IS_SWITCH_ON>(A:AUTOPILOT AIRSPEED HOLD, Bool) (A:AUTOPILOT MACH HOLD, Bool) or</IS_SWITCH_ON>
+			<SIMVAR_TO_WATCH_0>AUTOPILOT AIRSPEED HOLD</SIMVAR_TO_WATCH_0>
+			<SIMVAR_TO_WATCH_1>AUTOPILOT MACH HOLD</SIMVAR_TO_WATCH_1>
+			<EMISSIVE_CODE_ACTIVE>(A:AUTOPILOT AIRSPEED HOLD, Bool) (A:AUTOPILOT MACH HOLD, Bool) or</EMISSIVE_CODE_ACTIVE>
+			<TT_DESCRIPTION_ID>#TT_DESCRIPTION_ID_SPEED#</TT_DESCRIPTION_ID>
+			<TT_DESCRIPTION_IS_DYNAMIC>True</TT_DESCRIPTION_IS_DYNAMIC>
+			<TOOLTIP_TITLE>#TOOLTIP_TITLE_SPEED#</TOOLTIP_TITLE>
+			<BTN_ID>Speed_Mode</BTN_ID>
+			</False>
+		</Condition>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
+		<SIM_STATE_IS_ON_EXTERNAL>l0</SIM_STATE_IS_ON_EXTERNAL>
+		<GET_STATE_EXTERNAL>#IS_SWITCH_ON# sp0</GET_STATE_EXTERNAL>
+		<SET_STATE_EXTERNAL>#SET_STATE_EXTERNAL# #ON_AP_MODE_STATE_CHANGED#</SET_STATE_EXTERNAL>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_BOEING_Push_VS_FPA_Template">
+		<Parameters Type="Default">
+		<NODE_ID>G04_007_SW2</NODE_ID>
+		<ANIM_NAME>G04_007_SW2</ANIM_NAME>
+		<PART_ID>Btn_VS_FPA_mode</PART_ID>
+		<STATE_VAR_NAME>XMLVAR_FPA_MODE_ACTIVE</STATE_VAR_NAME>
+		<TOOLTIP_TITLE>@TT_Package.AIRLINER_AUTOPILOT_PUSH_VS_FPA_TITLE</TOOLTIP_TITLE>
+		<TT_DESCRIPTION_ID>@TT_Package.AIRLINER_AUTOPILOT_PUSH_VS_FPA_ACTION</TT_DESCRIPTION_ID>
+		<WWISE_EVENT_1>autopilot_knob_push_button_on</WWISE_EVENT_1>
+		<WWISE_EVENT_2>autopilot_knob_push_button_off</WWISE_EVENT_2>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
+		<IE_NAME>VS_FPA</IE_NAME>
+		<INTERACTION_TYPE>Push</INTERACTION_TYPE>
+		<SET_STATE_EXTERNAL>p0 (&gt;L:#STATE_VAR_NAME#)</SET_STATE_EXTERNAL>
+		<GET_STATE_EXTERNAL>(L:#STATE_VAR_NAME#) sp0</GET_STATE_EXTERNAL>
+		<LOCAL_VAR_TO_WATCH_0>#STATE_VAR_NAME#</LOCAL_VAR_TO_WATCH_0>
+		<STR_STATE_ON>FPA</STR_STATE_ON>
+		<STR_STATE_OFF>VS</STR_STATE_OFF>
+		<TT_VALUE_ON>'FPA'</TT_VALUE_ON>
+		<TT_VALUE_OFF>'VS'</TT_VALUE_OFF>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_AUTOPILOT_Push_STD_Template">
+    	<Parameters Type="Default">
+			<ID>1</ID>
+			<POS>l</POS>
+		</Parameters>
+
+		<Parameters Type="Default">
+			<BARO_ID>#ID#</BARO_ID>
+		</Parameters>
+
+		<Parameters Type="Default">
+			<NODE_ID>btn_afds_std_#POS#</NODE_ID>
+			<ANIM_NAME>afds_push_std_#POS#</ANIM_NAME>
+			<IE_NAME>AUTOPILOT_Push_STD_#ID#</IE_NAME>
+		</Parameters>
+
+		<UseTemplate Name="ASOBO_AUTOPILOT_Base_Template">
+			<SET_STATE_EXTERNAL>#BARO_ID# (&gt;K:BAROMETRIC_STD_PRESSURE)</SET_STATE_EXTERNAL>
+			<GET_STATE_EXTERNAL>(L:XMLVAR_Baro#BARO_ID#_ForcedToSTD) sp0</GET_STATE_EXTERNAL>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_PUSH_BARO_STD_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_BARO_ACTION_SET_STD</TT_DESCRIPTION_ID>
+			<INTERACTION_TYPE>Push</INTERACTION_TYPE>
+      		<LOCAL_VAR_TO_WATCH_0>XMLVAR_Baro#BARO_ID#_ForcedToSTD</LOCAL_VAR_TO_WATCH_0>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="WT_B777_MCP_Knob_VsFpa">
+    <Parameters Type="Default">
+      <VS_INDEX>1</VS_INDEX>
+      <MIN_FPA>-9.9</MIN_FPA>
+      <MAX_FPA>9.9</MAX_FPA>
+      <FPA_INCREMENT>0.1</FPA_INCREMENT>
+      <VS_INCREMENT>100</VS_INCREMENT>
+    </Parameters>
+    <UseTemplate Name="ASOBO_GT_Helper_Suffix_ID_Appender">
+      <TEMPLATE_TO_CALL>WT_B777_MCP_Knob_VsFpa_SubTemplate</TEMPLATE_TO_CALL>
+    </UseTemplate>
+  </Template>
+
+  	<Template Name="WT_B777_MCP_Knob_VsFpa_SubTemplate">
+		<Parameters Type="Default">
+		<INPUT_EVENT_ID_SOURCE>AUTOPILOT</INPUT_EVENT_ID_SOURCE>
+		<NODE_ID>wheel_autopilot_vert_speed</NODE_ID>
+		<ANIM_NAME>autopilot_wheel_vert_speed</ANIM_NAME>
+		<PART_ID>AUTOPILOT_Knob_VerticalSpeed</PART_ID>
+		<WWISE_EVENT>autopilot_verticalspeed_knob</WWISE_EVENT>
+		<COUNT>36</COUNT>
+		<CLOCKWISE_DIR>INC</CLOCKWISE_DIR>
+		<ANTICLOCKWISE_DIR>DEC</ANTICLOCKWISE_DIR>
+		<CLOCKWISE_DIR_PITCH>UP</CLOCKWISE_DIR_PITCH>
+		<ANTICLOCKWISE_DIR_PITCH>DN</ANTICLOCKWISE_DIR_PITCH>
+		<SWITCH_DIRECTION>Vertical</SWITCH_DIRECTION>
+		<THRESHOLD_Y_MOUSE>0.005</THRESHOLD_Y_MOUSE>
+		<SET_STATE_EXTERNAL>
+					1 -1 p0 0 &gt; ? sp0
+					(L:XMLVAR_FPA_MODE_ACTIVE) if{
+						(L:WT_AP_FPA_Target:#VS_INDEX#, degree) #FPA_INCREMENT# l0 * + #MAX_FPA# min #MIN_FPA# max (&gt;L:WT_AP_FPA_Target:#VS_INDEX#, degree)
+					} els{
+						#VS_INDEX# (A:AUTOPILOT VERTICAL HOLD VAR:#VS_INDEX#, feet per minute) #VS_INCREMENT# l0 * + (&gt;K:2:AP_VS_VAR_SET_ENGLISH)
+					}
+		</SET_STATE_EXTERNAL>
+		<FORMAT_VS_VALUE>(L:XMLVAR_FPA_MODE_ACTIVE) if{ l0 '%.1f FPA' (F:Format) } els{ l0 '%d ft/min' (F:Format) }</FORMAT_VS_VALUE>
+		</Parameters>
+		<Parameters Type="Override">
+		<KNOB_ID>VerticalSpeed</KNOB_ID>
+		</Parameters>
+		<Component ID="#NODE_ID#" Node="#NODE_ID#">
+		<UseTemplate Name="ASOBO_AUTOPILOT_Knob_Template">
+			<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_VERTICALSPEED_ACTION_SET</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_KNOB_VERTICALSPEED_TITLE</TOOLTIP_TITLE>
+			<GET_TT_VALUE_STATE>(L:XMLVAR_FPA_MODE_ACTIVE) if{ (L:WT_AP_FPA_Target:#VS_INDEX#, degree) } els{ (A:AUTOPILOT VERTICAL HOLD VAR:#VS_INDEX#, feet per minute) } sp0</GET_TT_VALUE_STATE>
+			<FORMAT_VALUE>#FORMAT_VS_VALUE#</FORMAT_VALUE>
+		</UseTemplate>
+		</Component>
+	</Template>
+
+	<!--	NOT IN 3D MODEL
+	also I'll just leave it here for fun
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>elec_util_ife</IE_NAME>
+			<LVAR>XMLVAR_Utility_Ife</LVAR>
+			<NODE_ID>Btn_ovh_ELectrical_IFE</NODE_ID>
+			<ANIM_NAME>Btn_ovh_electrical_ife</ANIM_NAME>
+			<SEQ1_NODE_ID>DECALS_Text_131</SEQ1_NODE_ID>
+			<SEQ2_NODE_ID>DECALS_Text_129</SEQ2_NODE_ID>
+			<TOOLTIP_TITLE>@TT_Package.IFE_PASS_SEATS_POWER_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION>@TT_Package.IFE_PASS_SEATS_POWER_ACTION</TT_DESCRIPTION>
+			<PART_ID>Btn_ovh_electrical_ife</PART_ID>
+		</UseTemplate>
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>elec_util_cabin</IE_NAME>
+			<LVAR>XMLVAR_Utility_Cabin</LVAR>
+			<NODE_ID>Btn_ovh_ELectrical_Cabin</NODE_ID>
+			<ANIM_NAME>Btn_ovh_ELectrical_Cabin</ANIM_NAME>
+			<SEQ1_NODE_ID>DECALS_Text_132</SEQ1_NODE_ID>
+			<SEQ2_NODE_ID>DECALS_Text_130</SEQ2_NODE_ID>
+			<TOOLTIP_TITLE>@TT_Package.CABIN_UTILITY_POWER_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION>@TT_Package.CABIN_UTILITY_POWER_ACTION</TT_DESCRIPTION>
+			<PART_ID>Btn_ovh_electrical_cabin</PART_ID>
+		</UseTemplate>
+	-->
+
+	<Template Name="teevee_AUTOPILOT_Knob_Altitude_Template">
+		<Parameters Type="Override">
+			<Condition Check="PUSH">
+				<TYPE>PUSH</TYPE>
+			</Condition>
+		</Parameters>
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<INPUT_EVENT_ID_SOURCE>AUTOPILOT</INPUT_EVENT_ID_SOURCE>
+			<PART_ID>AUTOPILOT_Knob_Altitude</PART_ID>
+			<Condition Check="INCREMENT">
+				<False>
+					<Condition Check="INCREMENT">
+						<False>
+							<INCREMENT_VAR>XMLVAR_Autopilot_Altitude_Increment</INCREMENT_VAR>
+						</False>
+					</Condition>
+					<INCREMENT>(L:XMLVAR_Autopilot_Altitude_Increment)</INCREMENT>
+					<SET_INCREMENT>(&gt;L:XMLVAR_Autopilot_Altitude_Increment)</SET_INCREMENT>
+					<DYN_INCREMENT_INIT>100</DYN_INCREMENT_INIT>
+					<NODE_ID>AUTOPILOT_Knob_Altitude#SUFFIX_ID#</NODE_ID>
+					<ANIM_NAME>AUTOPILOT_Knob_Altitude#SUFFIX_ID#</ANIM_NAME>
+					<WWISE_EVENT>autopilot_altitude_knob</WWISE_EVENT>
+					<COUNT>36</COUNT>
+					<THRESHOLD_X_INPUT>0.05</THRESHOLD_X_INPUT>
+					<THRESHOLD_X_MOUSE>0.01</THRESHOLD_X_MOUSE>
+				</False>
+			</Condition>
+
+			<Switch Param="TYPE">
+				<Case Value="AS01B">
+					<HEADING_INDEX>3</HEADING_INDEX>
+				</Case>
+				<Default>
+					<HEADING_INDEX>0</HEADING_INDEX>
+				</Default>
+			</Switch>
+			<WWISE_EVENT_1>autopilot_knob_push_button_on</WWISE_EVENT_1>
+			<NORMALIZED_TIME_1>0.1</NORMALIZED_TIME_1>
+			<WWISE_EVENT_2>autopilot_knob_push_button_off</WWISE_EVENT_2>
+			<NORMALIZED_TIME_2>0.3</NORMALIZED_TIME_2>
+			<Switch Param="ALT_PUSH_TYPE">
+				<Case Value="ALT_FINE_TUNE">
+					<FINE_TUNE_INCREMENT>100</FINE_TUNE_INCREMENT>		
+				</Case>
+			</Switch>
+		</Parameters>
+		<Parameters Type="Override">
+			<Condition Check="INCREMENT_IN_KNOB_ID">
+				<True>
+					<KNOB_ID>Altitude_#INCREMENT#</KNOB_ID>
+				</True>
+				<False>
+					<KNOB_ID>Altitude</KNOB_ID>
+				</False>
+			</Condition>
+			<Switch Param="TYPE">
+				<Case Value="AS01B">
+					<SET_STATE_EXTERNAL>
+						1 -1 p0 0 &gt; ? sp0
+						#HEADING_INDEX# (A:AUTOPILOT ALTITUDE LOCK VAR:#HEADING_INDEX#, feet) #INCREMENT# l0 * + (&gt;K:2:AP_ALT_VAR_SET_ENGLISH)
+						p0 0 &gt; if{ (&gt;H:AP_KNOB_Up) } els{ (&gt;H:AP_KNOB_Down) }
+					</SET_STATE_EXTERNAL>
+					<ADDITIONAL_EVENT_TYPE>PUSH</ADDITIONAL_EVENT_TYPE>
+					<BTN_ID_EXTERNAL>Altitude_Sync</BTN_ID_EXTERNAL>
+					<BTN_SET_STATE_EXTERNAL>(&gt;H:B777_FMC_1_AP_ALT_INTERVENTION)</BTN_SET_STATE_EXTERNAL>
+					<TT_DESCRIPTION_ID_BTN>@TT_Package.AUTOPILOT_KNOB_ALTITUDESELECTED_ACTION_PUSH</TT_DESCRIPTION_ID_BTN>				
+				</Case>
+				<Default>
+					<SET_STATE_EXTERNAL>
+						1 -1 p0 0 &gt; ? sp0
+						#HEADING_INDEX# (A:AUTOPILOT ALTITUDE LOCK VAR:#HEADING_INDEX#, feet) #INCREMENT# l0 * + (&gt;K:2:AP_ALT_VAR_SET_ENGLISH)
+						p0 0 &gt; if{ (&gt;H:AP_KNOB_Up) } els{ (&gt;H:AP_KNOB_Down) }
+					</SET_STATE_EXTERNAL>
+				</Default>
+			</Switch>
+		</Parameters>
+		<Component ID="#NODE_ID#" Node="#NODE_ID#">
+			<Condition Valid="IS_DYN_INCREMENT">
+				<UseTemplate Name="ASOBO_GT_Update">
+					<UPDATE_ONCE>True</UPDATE_ONCE>
+					<UPDATE_CODE>#DYN_INCREMENT_INIT# #SET_INCREMENT#</UPDATE_CODE>
+				</UseTemplate>
+			</Condition>
+			<Switch Param="ADDITIONAL_EVENT_TYPE">
+				<Case Value="PUSH">
+					<UseTemplate Name="ASOBO_AUTOPILOT_Push_Event_Only_Template">
+						<BTN_ID>#BTN_ID_EXTERNAL#</BTN_ID>
+						<EVENT_TYPE>PUSH</EVENT_TYPE>
+						<SET_STATE_EXTERNAL>#BTN_SET_STATE_EXTERNAL#</SET_STATE_EXTERNAL>
+						<TT_DESCRIPTION_ID>#TT_DESCRIPTION_ID_BTN#</TT_DESCRIPTION_ID>
+						<Condition NotEmpty="BTN_VALUE_CODE">
+							<VALUE_CODE>#BTN_VALUE_CODE#</VALUE_CODE>
+							<TT_VALUE>#BTN_VALUE_CODE# if{ #BTN_TT_VALUE_ON# } els{ #BTN_TT_VALUE_OFF# }</TT_VALUE>
+							<TT_VALUE_IS_DYNAMIC>True</TT_VALUE_IS_DYNAMIC>
+						</Condition>
+						<Condition NotEmpty="BTN_LOCAL_VAR_TO_WATCH_0">
+							<LOCAL_VAR_TO_WATCH_0>#BTN_LOCAL_VAR_TO_WATCH_0#</LOCAL_VAR_TO_WATCH_0>
+						</Condition>
+					</UseTemplate>
+					<Condition NotEmpty="PUSH_ANIM_HANDLED_SEPARATELY">
+						<UseTemplate Name="ASOBO_GT_Anim_Code">
+							<ANIM_CODE>#BTN_ANIM_CODE#</ANIM_CODE>
+							<ANIM_NAME>#ANIM_NAME_PUSH#</ANIM_NAME>
+							<ANIM_LAG>100</ANIM_LAG>
+						</UseTemplate>
+					</Condition>
+				</Case>
+			</Switch>
+			<UseTemplate Name="ASOBO_AUTOPILOT_Knob_Template">
+				<BINDING_INC_0>Inc_Event</BINDING_INC_0>
+				<BINDING_INC_0_PARAM_0>1</BINDING_INC_0_PARAM_0>
+				<BINDING_INC_0_EVENT_ID>AP_ALT_VAR_INC</BINDING_INC_0_EVENT_ID>
+				<BINDING_INC_0_EVENT_ID_ONLY>True</BINDING_INC_0_EVENT_ID_ONLY>
+				<BINDING_DEC_0>Dec_Event</BINDING_DEC_0>
+				<BINDING_DEC_0_PARAM_0>1</BINDING_DEC_0_PARAM_0>
+				<BINDING_DEC_0_EVENT_ID>AP_ALT_VAR_DEC</BINDING_DEC_0_EVENT_ID>
+				<BINDING_DEC_0_EVENT_ID_ONLY>True</BINDING_DEC_0_EVENT_ID_ONLY>
+				<TT_DESCRIPTION_ID>@TT_Package.AUTOPILOT_KNOB_ALTITUDESELECTED_ACTION_ADJUST</TT_DESCRIPTION_ID>
+				<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_KNOB_ALTITUDESELECTED_TITLE</TOOLTIP_TITLE>
+				<GET_TT_VALUE_STATE>(A:AUTOPILOT ALTITUDE LOCK VAR:#HEADING_INDEX#, feet) sp0</GET_TT_VALUE_STATE>
+				<FORMAT_VALUE>l0 '%d ft' @sprintf</FORMAT_VALUE>
+			</UseTemplate>
+			<Condition Check="EMISSIVE_KNOB">
+				<UseTemplate Name="ASOBO_GT_Emissive_Gauge"/>
+			</Condition>
+		</Component>
+	</Template>
+
+	<Template Name="teevee_AUTOPILOT_AutoThrottle_Arm_Template">
+		<Parameters Type="Default">
+			<BTN_ID>AutoThrottle_Arm_</BTN_ID>
+			<PART_ID>AUTOPILOT_Push_AutoThrottle</PART_ID>
+			<NODE_ID>switch_autopilot_at_arm</NODE_ID>
+			<ANIM_NAME>autopilot_switch_at_arm</ANIM_NAME>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
+			<GET_STATE_EXTERNAL>(L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE, Bool) sp0</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>(&gt;K:AUTO_THROTTLE_ARM)</SET_STATE_EXTERNAL>
+			<ANIM_CODE>(L:XMLVAR_AUTO_THROTTLE_ARM_0_STATE, Bool) 100 *</ANIM_CODE>		<!--code controlled-->
+			<TT_DESCRIPTION_ID>COCKPIT.TOOLTIPS.AUTOPILOT_PANEL_AUTOTHROTTLE_OFF</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.AUTOPILOT_PUSH_AUTOTHROTTLE_TITLE</TOOLTIP_TITLE>
+			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_OFF)</TT_VALUE_OFF>
+			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_ARMED)</TT_VALUE_ON>
+			<LOCAL_VAR_TO_WATCH_0>XMLVAR_AUTO_THROTTLE_ARM_0_STATE</LOCAL_VAR_TO_WATCH_0>
+			<NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
+			<NO_INDICATOR>True</NO_INDICATOR>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+          <NODE_ID>btn_autopilot_spd_seq2</NODE_ID>
+          <EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
+          <EMISSIVE_CODE>(L:CJ4_THR_ACTIVE, bool) 1 ==</EMISSIVE_CODE>
+        </UseTemplate>
+	</Template>
+
+	<Template Name="teevee_APU_Starter_Knob_Template">
+		<Parameters Type="Default">
+    	</Parameters>
+		<UseTemplate Name="ASOBO_ELECTRICAL_Switch_APU_Starter_Template">
+			<NODE_ID>knob_ovhd_electrics_apu</NODE_ID>
+			<ANIM_NAME>ovhd_knob_electrics_apu</ANIM_NAME>
+          	<EMISSIVE_NODE_SIMVAR_POWER_SETTING>LIGHT PANEL POWER SETTING:1</EMISSIVE_NODE_SIMVAR_POWER_SETTING>
+			<SWITCH_POSITION_TYPE>L</SWITCH_POSITION_TYPE>
+			<SWITCH_POSITION_VAR>XMLVAR_APU_StarterKnob_Pos</SWITCH_POSITION_VAR>
+			<ACTIVE_FUEL_PUMP_ON_RPM>7</ACTIVE_FUEL_PUMP_ON_RPM>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="teevee_B777_ADIRU_Switch_Template">
+		<Parameters Type="Default">
+			<NODE_ID>O01_002_BUT</NODE_ID>
+			<ANIM_NAME>O01_002_BUT</ANIM_NAME>
+			<PART_ID>ADIRU_SW</PART_ID>
+		</Parameters>
+		
+		<UseTemplate Name="WT_B777_Airliner_LVar_Switch_Template">
+			<IE_NAME>B777_ADIRU_SWITCH</IE_NAME>
+			<LVAR>B777_ADIRU_BUTTON_STATE</LVAR>
+			<WWISE_EVENT_1>deice_windshield_switch_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>deice_windshield_switch_off</WWISE_EVENT_2>
+			<SET_STATE_EXTERNAL>
+				(L:B777_ADIRU_BUTTON_STATE, Bool) ! (&gt;L:B777_ADIRU_BUTTON_STATE)
+			</SET_STATE_EXTERNAL>
+			<GET_STATE_EXTERNAL>(L:B777_ADIRU_BUTTON_STATE, Bool)</GET_STATE_EXTERNAL>
+			<TT_DESCRIPTION_ID>@TT_Package.PRIMARY_FLIGHT_COMPUTERS_ACTION</TT_DESCRIPTION_ID>	<!--change later-->
+			<TOOLTIP_TITLE>@TT_Package.PRIMARY_FLIGHT_COMPUTERS_TITLE</TOOLTIP_TITLE>
+		</UseTemplate>
+
+		<UseTemplate Name="ASOBO_GT_Anim_Code">
+			<ANIM_LAG>100</ANIM_LAG>
+          	<ANIM_CODE>(L:B777_ADIRU_BUTTON_STATE, Bool) 200 *</ANIM_CODE>
+		</UseTemplate>
+
+		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+			<NODE_ID>O01_002_LT2</NODE_ID>
+			<EMISSIVE_CODE>(L:B777_IRS_STATE, Bool) !</EMISSIVE_CODE>
+		</UseTemplate>
+	</Template>
+
+
+	<Template Name="teevee_B777_RAT_Switch_Template">
+	<!--  INOP
+        <Component ID="RAT_press_lt" Node="O07_001_LT1">
+          <UseTemplate Name="ASOBO_GT_Visibility">
+            <VISIBILITY_CODE>(L:O07_001_LT1, Bool)</VISIBILITY_CODE>
+          </UseTemplate>
+        </Component>
+
+        <Component ID="RAT_unlkd_lt" Node="O07_001_LT2">
+          <UseTemplate Name="ASOBO_GT_Visibility">
+            <VISIBILITY_CODE>(L:O07_001_LT2, Bool)</VISIBILITY_CODE>
+          </UseTemplate>
+        </Component>
+        -->
+		<Parameters Type="Default">
+			<ANIM_NAME>O07_001_BUT</ANIM_NAME>
+			<NODE_ID>O07_001_BUT</NODE_ID>
+			<PART_ID>switch_ovhd_air_data_fuel_xfer_reserve</PART_ID>
+			<COVER_NODE_ID>O07_001_CAP</COVER_NODE_ID>
+			<COVER_ANIM_NAME>O07_001_CAP</COVER_ANIM_NAME>
+			<BTN_ID>FuelResXfer</BTN_ID>
+			<TT_DESCRIPTION_ID>@TT_Package.FUEL_PUSH_XFER_MAIN_ACTION</TT_DESCRIPTION_ID>
+			<TOOLTIP_TITLE>@TT_Package.FUEL_PUSH_XFER_MAIN_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_INDEX>4 1</TT_DESCRIPTION_INDEX>
+
+			<COVER_IE_NAME>#BTN_ID#_Cover</COVER_IE_NAME>
+			<COVER_VAR_NAME>XMLVAR_ELECTRICAL_#BTN_ID#_Cover_Opened</COVER_VAR_NAME>
+			<COVER_VAR_TYPE>L</COVER_VAR_TYPE>
+			<COVER_INIT_VALUE>0</COVER_INIT_VALUE>
+			<LOCAL_VAR>XMLVAR_RAT_BTN_PUSH</LOCAL_VAR>
+			<ON_COVER_CLOSED>0 (&gt;L:WT_748_FUEL_MAIN_RESERVE_XFER_ON)</ON_COVER_CLOSED>
+
+		</Parameters>
+		<UseTemplate Name="ASOBO_GT_Switch_Covered">
+			<NUM_STATES>2</NUM_STATES>
+			<INPUT_EVENT_ID>FUEL</INPUT_EVENT_ID>
+			<COVER_IE_ID_SOURCE>FUEL</COVER_IE_ID_SOURCE>
+			<SWITCH_NODE_ID>#NODE_ID#</SWITCH_NODE_ID>
+			<SWITCH_ANIM_NAME>#ANIM_NAME#</SWITCH_ANIM_NAME>
+			<SWITCH_ANIM_CODE>(L:#LOCAL_VAR#, Number) 100 *</SWITCH_ANIM_CODE>
+			<STR_STATE_OFF>AUTO</STR_STATE_OFF>
+			<STR_STATE_ON>ON</STR_STATE_ON>
+			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_AUTO)</TT_VALUE_OFF>
+			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_ON)</TT_VALUE_ON>
+			<SET_STATE_ON>1 (&gt;L:#LOCAL_VAR#)</SET_STATE_ON>
+			<SET_STATE_OFF>0 (&gt;L:#LOCAL_VAR#)</SET_STATE_OFF>
+			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#, Number) sp0</GET_STATE_EXTERNAL>
+			<TOGGLE_STATE>(&gt;B:FUEL_#BTN_ID#_TOGGLE)</TOGGLE_STATE>
+			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
+			<WWISE_COVER_EVENT_OPEN>cover_open</WWISE_COVER_EVENT_OPEN>
+			<WWISE_COVER_EVENT_CLOSE>cover_close</WWISE_COVER_EVENT_CLOSE>
+			<WWISE_EVENT_1>battery_switch_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>battery_switch_off</WWISE_EVENT_2>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="teevee_AUTOPILOT_Yoke_Autopilot_Disc_Template">
+		<Parameters Type="Default">
+			<ID>1</ID>
+			<DEFAULT_NAME>Yoke_Autopilot_Disconnect</DEFAULT_NAME>
+		</Parameters>
+
+		<UseTemplate Name="ASOBO_AUTOPILOT_Push_Template">
+			<BTN_ID>Yoke_Autopilot_Disconnect_#ID#</BTN_ID>
+			<NO_INDICATOR>True</NO_INDICATOR>
+			<NO_TEXT_EMISSIVE>True</NO_TEXT_EMISSIVE>
+			<GET_STATE_EXTERNAL>
+				2 1 0 (L:B777_Boeing_Autopilot_Disconnected, Bool) ? (A:AUTOPILOT MASTER, Bool) ? sp0
+			</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>(&gt;K:AUTOPILOT_OFF)</SET_STATE_EXTERNAL>
+			<SIM_STATE_IS_ON_EXTERNAL>l0 1 ==</SIM_STATE_IS_ON_EXTERNAL>
+			<WWISE_EVENT_1>yoke_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>yoke_push_button_off</WWISE_EVENT_2>
+			<TOOLTIP_TITLE>@TT_Package.YOKE_PUSH_AP_TRIM_DISC_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.YOKE_PUSH_AP_TRIM_DISC_ACTION</TT_DESCRIPTION_ID>
+			<TT_VALUE>(R:1:@TT_Package.GT_STATE_ON) (R:1:@TT_Package.GT_STATE_DISCONNECTED) (R:1:@TT_Package.GT_STATE_OFF) (L:B777_Boeing_Autopilot_Disconnected, Bool) ? (A:AUTOPILOT MASTER, Bool) ?</TT_VALUE>
+			<SIMVAR_TO_WATCH_0>AUTOPILOT MASTER</SIMVAR_TO_WATCH_0>
+			<LOCAL_VAR_TO_WATCH_0>B777_Boeing_Autopilot_Disconnected</LOCAL_VAR_TO_WATCH_0>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="teevee_B777_PASSENGER_SIGN_KNOB">
+		<Parameters Type="Default">
+			<LOCALVAR_TO_WATCH_0></LOCALVAR_TO_WATCH_0>
+		</Parameters>
+		<UseTemplate Name="ASOBO_Interaction_Base_Template">
+			<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
+			<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
+			<KNOB_TYPE>X_STATES</KNOB_TYPE>
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<NUM_STATES>3</NUM_STATES>
+			<STR_STATE_0>OFF</STR_STATE_0>
+			<STR_STATE_1>AUTO</STR_STATE_1>
+			<STR_STATE_2>ON</STR_STATE_2>
+			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
+			<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
+			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>	
+			<ARROW_TYPE>Curved</ARROW_TYPE>
+			<GET_STATE_EXTERNAL>(L:#LOCALVAR_TO_WATCH_0#) sp0</GET_STATE_EXTERNAL>
+			<WWISE_EVENT>autopilot_knob</WWISE_EVENT>
+			<LOCALVAR_TO_WATCH_0>L:#LOCALVAR_TO_WATCH_0#</LOCALVAR_TO_WATCH_0>
+			<SET_STATE_0>0 (&gt;L:#LOCALVAR_TO_WATCH_0#)</SET_STATE_0>
+			<SET_STATE_1>1 (&gt;L:#LOCALVAR_TO_WATCH_0#)</SET_STATE_1>
+			<SET_STATE_2>2 (&gt;L:#LOCALVAR_TO_WATCH_0#)</SET_STATE_2>
+		</UseTemplate>
+	</Template>
+
+	<Template Name="teevee_B777_CABIN_CHIME_BTN">	<!--sound inop-->
+		<UseTemplate Name="Asobo_Interaction_Base_Template">
+			<NODE_ID>O11_003_KNB01</NODE_ID>
+			<USE_INPUT_EVENT_ID>AIRLINER</USE_INPUT_EVENT_ID>
+			<INPUT_EVENT_ID_SOURCE>AIRLINER</INPUT_EVENT_ID_SOURCE>
+			<WWISE_EVENT_1>autopilot_push_button_on</WWISE_EVENT_1>
+			<WWISE_EVENT_2>autopilot_push_button_off</WWISE_EVENT_2>
+			<IE_NAME>Switch_Cabin_Chime</IE_NAME>
+			<INTERACTION_TYPE>Push</INTERACTION_TYPE>
+			<IS_MOMENTARY>True</IS_MOMENTARY>
+			<TOOLTIP_TITLE>@TT_Package.CABIN_CHIME_TITLE</TOOLTIP_TITLE>
+			<TT_DESCRIPTION_ID>@TT_Package.CABIN_CHIME_ACTION</TT_DESCRIPTION_ID>
+			<LOCALVAR_TO_WATCH>B777_CABIN_CHIME_TOGGLE</LOCALVAR_TO_WATCH>
+			<GET_STATE_EXTERNAL>(L:B777_CABIN_CHIME_TOGGLE) sp0</GET_STATE_EXTERNAL>
+			<SET_STATE_EXTERNAL>(L:B777_CABIN_CHIME_TOGGLE) ! (&gt;L:B777_CABIN_CHIME_TOGGLE)</SET_STATE_EXTERNAL>
+			<TT_VALUE_ON>(R:1:@TT_Package.GT_STATE_NA)</TT_VALUE_ON>
+			<TT_VALUE_OFF>(R:1:@TT_Package.GT_STATE_NA)</TT_VALUE_OFF>
+        </UseTemplate>
+	</Template>
+
+	<Template Name="teevee_B777_Hydraulics_Elec_Knob_Template">
+		<Parameters Type="Default">
+			<EMISSIVE_DRIVES_VISIBILITY>True</EMISSIVE_DRIVES_VISIBILITY>
+			<FAULT_LIGHT></FAULT_LIGHT>
+			<PRESS_WARNING_THRESHOLD_PSI>2600</PRESS_WARNING_THRESHOLD_PSI>
+			<LOCAL_VAR></LOCAL_VAR>
+		</Parameters>
+		<UseTemplate Name="ASOBO_AIRLINER_Base_Template">
+			<ARROW_TYPE>Curved</ARROW_TYPE>		
+			<IE_NAME>hydraulic_elec_pump_#ID#</IE_NAME>
+			<KNOB_TYPE>X_STATES</KNOB_TYPE>
+			<INTERACTION_TYPE>Knob</INTERACTION_TYPE>
+			<NUM_STATES>3</NUM_STATES>
+			<STR_STATE_0>OFF</STR_STATE_0>
+			<STR_STATE_1>AUTO</STR_STATE_1>
+			<STR_STATE_2>ON</STR_STATE_2>
+			<TT_VALUE_0>@TT_Package.GT_STATE_OFF</TT_VALUE_0>
+			<TT_VALUE_1>@TT_Package.GT_STATE_AUTO</TT_VALUE_1>
+			<TT_VALUE_2>@TT_Package.GT_STATE_ON</TT_VALUE_2>
+			<SET_STATE_0>0 (&gt;L:#LOCAL_VAR#)</SET_STATE_0>
+			<SET_STATE_1>1 (&gt;L:#LOCAL_VAR#)</SET_STATE_1>
+			<SET_STATE_2>2 (&gt;L:#LOCAL_VAR#)</SET_STATE_2>
+			<GET_STATE_EXTERNAL>(L:#LOCAL_VAR#, Number)</GET_STATE_EXTERNAL>
+			<LOCAL_VAR_TO_WATCH_0>#LOCAL_VAR#</LOCAL_VAR_TO_WATCH_0>
+			<WWISE_EVENT>engine_starter_switch</WWISE_EVENT>
+		</UseTemplate>
+		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
+			<NODE_ID>#FAULT_LIGHT#</NODE_ID>
+			<EMISSIVE_CODE>(A:HYDRAULIC PRESSURE:#ID#, psi) #PRESS_WARNING_THRESHOLD_PSI# (A:HYDRAULIC RESERVOIR PERCENT:#ID#, percent over 100) * &lt; (A:HYDRAULIC SWITCH:#ID#, Bool) and (L:#LOCAL_VAR#, Number) 0 == or</EMISSIVE_CODE>
+		</UseTemplate>
+	</Template>
+
+</ModelBehaviors>

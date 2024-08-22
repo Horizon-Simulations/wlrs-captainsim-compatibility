@@ -1,0 +1,63 @@
+:root {
+  --eicasWhite: white;
+  --eicasBlack: black;
+  --eicasGrei: #646464;
+  --eicasBlu: #00b7ff;
+  --eicasFrameBlue: #00c3ff;
+  --eicasFrameBorderDarkBlue: #003444;
+  --eicasGreen: lime;
+  --eicasOrange: #db7200;
+  --eicasRed: red;
+  --eicasYellow: rgba(255, 242, 0, 0.863);
+  --eicasMagenta: #D570FF; }
+  :root text {
+    font-family: "BoeingEFIS"; }
+
+@font-face {
+font-family: "BoeingEFIS";
+src: url("/Fonts/BoeingEFIS.ttf") format("truetype");
+font-weight: normal;
+font-style: normal; }
+
+b777-lower-eicas-elec {
+  position: relative;
+  left: 0%;
+  width: 100%;
+  top: auto;
+  height: 100%;
+  display: block; 
+}
+b777-lower-eicas-elec svg {
+    width: 100%;
+    height: 100%; 
+}
+
+b777-lower-eicas-elec #Frame #Boxes rect {
+  stroke: var(--eicasWhite);
+  stroke-width: 3.75px;
+}
+
+b777-lower-eicas-elec #Frame #Text text{
+  font-size: 17px;
+  fill: var(--eicasBlu);
+}
+
+b777-lower-eicas-elec #Frame #ElecText text{
+  font-size: 17px;
+  fill: white;
+}
+
+b777-lower-eicas-elec #Frame #FaultText text{
+  font-size: 17px;
+  fill: var(--eicasYellow);
+}
+
+b777-lower-eicas-elec #Frame #Line line{
+  stroke-width: 4px;
+  stroke: white;
+}
+
+b777-lower-eicas-elec #Values text{
+  font-size: 19px;
+  fill: var(--eicasWhite);
+}
