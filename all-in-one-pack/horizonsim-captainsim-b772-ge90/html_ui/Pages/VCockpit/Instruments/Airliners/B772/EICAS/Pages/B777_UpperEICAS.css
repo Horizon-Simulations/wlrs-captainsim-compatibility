@@ -75,6 +75,7 @@ b777-upper-eicas {
   b777-upper-eicas text.ValueGreenSmall {
     font-size: 15px; }
   b777-upper-eicas text.ValueGreenMed {
+    text-anchor: end;
     fill: lime;
     font-size: 22px; }
   b777-upper-eicas text.Hidden {
