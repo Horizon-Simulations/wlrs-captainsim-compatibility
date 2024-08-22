@@ -33,6 +33,7 @@ html body {
   height: 100%;
   width: 100%;
   z-index: 10;
+  pointer-events: none;
 }
 
 #Electricity {
@@ -63,7 +64,7 @@ html body {
 @font-face {
   font-family: "MCP-704";
   src: url("/Fonts/MCP-704.ttf") format("truetype");
-  font-weight: normal;
+  font-weight: 0;
   font-style: normal;
 }
 b777-com-element {
@@ -86,16 +87,10 @@ b777-com-element #Content svg {
 }
 b777-com-element #Content text {
   font-family: "MCP-704";
-  font-size: 40px;
+  font-size: 300px;
   fill: white;
-  letter-spacing: -2px;
+  letter-spacing: -4px;
   alignment-baseline: central;
-}
-b777-com-element #Content #Frequency {
-  text-anchor: start;
-}
-b777-com-element #Content #Status {
-  text-anchor: start;
 }
 b777-com-element #Content #Active {
   text-anchor: middle;

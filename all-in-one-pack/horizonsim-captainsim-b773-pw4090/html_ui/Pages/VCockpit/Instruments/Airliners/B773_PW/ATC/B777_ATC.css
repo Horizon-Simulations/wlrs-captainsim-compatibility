@@ -33,6 +33,7 @@ html body {
   height: 100%;
   width: 100%;
   z-index: 10;
+  pointer-events: none;
 }
 
 #Electricity {
@@ -86,7 +87,7 @@ b777-atc #Content svg {
 }
 b777-atc #Content text {
   font-family: "MCP-704";
-  font-size: 70px;
+  font-size: 700px;
   text-anchor: start;
   fill: white;
   letter-spacing: 0px;
