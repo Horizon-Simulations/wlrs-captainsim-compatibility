@@ -870,7 +870,7 @@
           <Component ID="Radio">
 
             <UseTemplate Name="ASOBO_COM_Template_Boeing">
-              <PANEL_NAME>B747_8_Com</PANEL_NAME>
+              <PANEL_NAME>B777_Com</PANEL_NAME>
               <COM_INDEX>1</COM_INDEX>
             </UseTemplate>
 
@@ -926,7 +926,7 @@
         <Component ID="Radio_2">
 
           <UseTemplate Name="ASOBO_COM_Template_Boeing">
-            <PANEL_NAME>B747_8_Com</PANEL_NAME>
+            <PANEL_NAME>B777_Com</PANEL_NAME>
             <COM_INDEX>2</COM_INDEX>
           </UseTemplate>
 
@@ -979,7 +979,7 @@
         <Component ID="Radio_3">
 
           <UseTemplate Name="ASOBO_COM_Template_Boeing">
-            <PANEL_NAME>B747_8_Com</PANEL_NAME>
+            <PANEL_NAME>B777_Com</PANEL_NAME>
             <COM_INDEX>3</COM_INDEX>
           </UseTemplate>
 
@@ -1525,7 +1525,7 @@
 
         <DefaultTemplateParameters>
           <TYPE>BOEING</TYPE>
-          <VARIANT>747</VARIANT>
+          <VARIANT>777</VARIANT>
         </DefaultTemplateParameters>
 
         <OverrideTemplateParameters>
