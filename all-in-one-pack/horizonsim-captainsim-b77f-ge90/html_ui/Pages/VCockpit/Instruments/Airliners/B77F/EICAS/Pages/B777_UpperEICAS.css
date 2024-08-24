@@ -108,7 +108,7 @@ b777-upper-eicas {
     
   b777-upper-eicas #FuelTankInfo rect {
     stroke-width: 1.4px;
-    stroke: var(--eicasBlu);
+    stroke: var(--eicasBluee);
     fill: none; }
   b777-upper-eicas #FuelTankInfo #textBox {
     stroke-width: 0px;
