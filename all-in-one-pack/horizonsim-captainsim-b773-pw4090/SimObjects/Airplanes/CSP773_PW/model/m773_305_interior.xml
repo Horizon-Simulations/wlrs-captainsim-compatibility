@@ -38,7 +38,7 @@
         <ANIM_NAME>door_passenger</ANIM_NAME>
       </UseTemplate>
       <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
-        <ID>1</ID>
+        <ID>9</ID>
         <ANIM_NAME>door_rear</ANIM_NAME>
       </UseTemplate>
     </Component>

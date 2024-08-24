@@ -2,17 +2,17 @@ class FMC_Utils_Doors {
     static ShowPage(fmc) {
         fmc.clearDisplay();
         let door1L = "OPEN";
-        let door4R = "OPEN";
-        let doorFowCargo = "OPEN";
+        let door5R = "OPEN";
+        let doorFwdCargo = "OPEN";
 
         if (SimVar.GetSimVarValue("INTERACTIVE POINT GOAL:0", "percent") > 40) {
             door1L = "CLOSE";
         }
-        if (SimVar.GetSimVarValue("INTERACTIVE POINT GOAL:1", "percent") > 40) {
-            door4R = "CLOSE";
+        if (SimVar.GetSimVarValue("INTERACTIVE POINT GOAL:9", "percent") > 40) {
+            door5R = "CLOSE";
         }
-        if (SimVar.GetSimVarValue("INTERACTIVE POINT GOAL:2", "percent") > 40) {
-            doorFowCargo = "CLOSE";
+        if (SimVar.GetSimVarValue("INTERACTIVE POINT GOAL:12", "percent") > 40) {
+            doorFwdCargo = "CLOSE";
         }
         
         const updateView = () => {
@@ -21,13 +21,13 @@ class FMC_Utils_Doors {
                 ["DOOR 1L", "DOOR 1R[color]inop"],
                 [`<${door1L}`, "INOP[color]inop"],
                 ["","CARGO FOWARD DOOR"],
-                ["",`${doorFowCargo}>`],
+                ["",`${doorFwdCargo}>`],
                 [],
                 [],
-                ["", "DOOR 4R"],
-                ["", `${door4R}>`],
                 [],
                 [],
+                ["", "DOOR 5R"],
+                ["", `${door5R}>`],
                 ["\xa0RETURN TO", ""],
                 ["<UTILS", ""]
             ]);
@@ -48,22 +48,22 @@ class FMC_Utils_Doors {
 
         /* RSK1 */
         fmc.onRightInput[1] = () => {
-            if (doorFowCargo == "OPEN") {
-                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:2", "percent", 100);
+            if (doorFwdCargo == "OPEN") {
+                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:12", "percent", 100);
             }
             else {
-                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:2", "percent", 0);
+                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:12", "percent", 0);
             }
             FMC_Utils_Doors.ShowPage(fmc);
         };
 
         /* RSK3 */
-        fmc.onRightInput[3] = () => {
-            if (door4R == "OPEN") {
-                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:1", "percent", 100);
+        fmc.onRightInput[4] = () => {
+            if (door5R == "OPEN") {
+                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:9", "percent", 100);
             }
             else {
-                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:1", "percent", 0);
+                SimVar.SetSimVarValue("INTERACTIVE POINT GOAL:9", "percent", 0);
             }
             FMC_Utils_Doors.ShowPage(fmc);
         };
