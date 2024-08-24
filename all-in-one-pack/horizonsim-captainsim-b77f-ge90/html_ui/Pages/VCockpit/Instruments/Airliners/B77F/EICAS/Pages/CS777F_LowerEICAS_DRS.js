@@ -28,10 +28,14 @@ var B777_LowerEICAS_DRS;
             var fwdCargoOpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:2", "percent");
             var mainCargoROpen = SimVar.GetSimVarValue("INTERACTIVE POINT OPEN:1", "percent");
 
-            if (entry1LOpen >= 40) {
+            if (entry1LOpen >= 10) {
                 this.entry1LRect.style.visibility = "visible";
+                document.querySelector("#entry1L-auto-rect").style.visibility = "hidden";
+                document.querySelector("#entry1L-auto").style.visibility = "hidden";
             } else {
                 this.entry1LRect.style.visibility = "hidden";
+                document.querySelector("#entry1L-auto-rect").style.visibility = "visible";
+                document.querySelector("#entry1L-auto").style.visibility = "visible";
             }
             if (fwdCargoOpen >= 40) {
                 this.fwdCargoRect.style.visibility = "visible";
