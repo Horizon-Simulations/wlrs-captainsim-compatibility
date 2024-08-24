@@ -261,6 +261,34 @@
 		</Annunciation>
 
 		<Annunciation>
+			<Type>Caution</Type>
+			<Text>| ENG FAIL L</Text>
+			<Condition>
+				<And>
+					<Simvar name="ENG FAILED:1" unit="Bool"/>
+					<LowerEqual>
+						<Simvar name="TURB ENG N1:1" unit="Percent"/>
+						<Constant>30</Constant>
+					</LowerEqual>
+				</And>
+			</Condition>
+		</Annunciation>
+
+		<Annunciation>
+			<Type>Caution</Type>
+			<Text>| ENG FAIL R</Text>
+			<Condition>
+				<And>
+					<Simvar name="ENG FAILED:2" unit="Bool"/>
+					<LowerEqual>
+						<Simvar name="TURB ENG N1:2" unit="Percent"/>
+						<Constant>30</Constant>
+					</LowerEqual>
+				</And>
+			</Condition>
+		</Annunciation>
+
+		<Annunciation>
 			<Type>Warning</Type>
 			<Text>CONFIG RUDDER</Text>
 			<Condition>
