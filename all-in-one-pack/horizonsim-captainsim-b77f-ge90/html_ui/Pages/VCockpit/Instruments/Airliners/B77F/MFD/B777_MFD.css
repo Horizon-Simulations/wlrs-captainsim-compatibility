@@ -172,7 +172,7 @@ b777-mfd-element {
         fill: white; }
       b777-mfd-element #Mainframe #TopBox text.ValueVor {
         font-size: 42px;
-        fill: #00b7ff; }
+        fill: #00ccff; }
       b777-mfd-element #Mainframe #TopBox text.ValueIls {
         font-size: 42px;
         fill: #D570FF; }
@@ -184,7 +184,7 @@ b777-mfd-element {
         fill: white; }
       b777-mfd-element #Mainframe #TopBox text.Units {
         font-size: 32px;
-        fill: #00b7ff; }
+        fill: #00ccff; }
   b777-mfd-element #Mainframe #VORDMENavaids {
     font-family: "BoeingEFIS"; }
     b777-mfd-element #Mainframe #VORDMENavaids div {
@@ -226,7 +226,7 @@ b777-mfd-element {
       stroke-width: 4px; }
     b777-mdf-element #Mainframe #VORDMENavaids #ArrowAdf {
       fill: none;
-      stroke: #00b7ff;
+      stroke: #00ccff;
       stroke-width: 4px; }
     b777-mfd-element #Mainframe #Symbols {
       top: 65%;
@@ -243,10 +243,10 @@ b777-mfd-element {
         font-family: "BoeingEFIS"; }
       b777-mfd-element #Mainframe #Symbols text.Small {
         font-size: 32px;
-        fill: #00b7ff; }
+        fill: #00ccff; }
       b777-mfd-element #Mainframe #Symbols text.Large {
         font-size: 42px;
-        fill: #00b7ff; }
+        fill: #00ccff; }
       b777-mfd-element #Mainframe #Symbols text.Yellow {
         font-size: 38px;
         fill: rgb(255, 208, 0); }
