@@ -26,7 +26,7 @@ var B777_LowerEICAS_DRS;
 
             this.fwdCargoRect = document.querySelector("#fwdcargo-rect");
             this.aftCargoRect = document.querySelector("#aftcargo-rect");
-            this.bulkCargoRect = document.querySelector("#bulkcargo-rect");           
+            this.bulkCargoRect = document.querySelector("#bulkcargo-rect");
         }
         update(_deltaTime) {
             if (!this.isInitialised) {

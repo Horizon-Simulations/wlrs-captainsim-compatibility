@@ -29,6 +29,14 @@
 					<ON_PUSH_EVENT>(&gt;H:B777_MFD_KNOB_RANGE_TFC)</ON_PUSH_EVENT>
 					<PUSH_IE_NAME>ND_Range_TFC</PUSH_IE_NAME>
 				</Case>
+				<Case Value="AS01B">
+					<TT_DESCRIPTION_ID_PUSH>@TT_Package.AIRLINER_KNOB_ND_CTR_ACTION</TT_DESCRIPTION_ID_PUSH>
+					<IE_CW_CODE>(&gt;H:AS01B_MFD_#ID#_Range_INC)</IE_CW_CODE>
+					<IE_CCW_CODE>(&gt;H:AS01B_MFD_#ID#_Range_DEC)</IE_CCW_CODE>
+					<ON_PUSH_EVENT>(&gt;H:AS01B_MFD_#ID#_AUTOPILOT_CTR)</ON_PUSH_EVENT>
+					<PUSH_IE_NAME>ND_Range_CTR</PUSH_IE_NAME>
+					<COUNT>36</COUNT>
+				</Case>
 			</Switch>
 		</Parameters>
 		<Component ID="#NODE_ID#_Group">
