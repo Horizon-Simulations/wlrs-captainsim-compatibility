@@ -14,7 +14,7 @@
         <g id="labels-l">
             <text x="70" y="45">FWD ACCESS</text>
             <text x="75" y="105">ENTRY 1L</text>
-            <text x="75" y="198">ENTRY 2L</text>
+            <text x="75" y="200">ENTRY 2L</text>
             <text x="75" y="423">ENTRY 3L</text>
             <text x="75" y="530">ENTRY 4L</text>
         </g>
@@ -22,7 +22,7 @@
             <text x="441" y="65">E/E ACCESS</text>
             <text x="445" y="105">ENTRY 1R</text>
             <text x="438" y="152">FWD CARGO</text>
-            <text x="445" y="198">ENTRY 2R</text>
+            <text x="445" y="200">ENTRY 2R</text>
             <text x="445" y="423">ENTRY 3R</text>
             <text x="441" y="460">AFT CARGO</text>
             <text x="436" y="495">BULK CARGO</text>
@@ -46,11 +46,49 @@
             <line x1="440" y1="521" x2="375" y2="521" />
         </g>
         <g id="open-rects">
-            <rect x="239" y="87" width="40" height="20" rx="10" ry="10" id="entry1-rect" />
+            <!--left entries-->
+            <rect x="239" y="87" width="40" height="20" rx="10" ry="10" id="entry1L-rect" />
+            <rect x="239" y="183" width="40" height="20" rx="10" ry="10" id="entry2L-rect" />
+            <rect x="239" y="410" width="40" height="20" rx="10" ry="10" id="entry3L-rect" />
+            <rect x="239" y="510" width="40" height="20" rx="10" ry="10" id="entry4L-rect" />
+
+            <!--right entries-->
+            <rect x="322" y="87" width="40" height="20" rx="10" ry="10" id="entry1R-rect" />
+            <rect x="322" y="187" width="40" height="20" rx="10" ry="10" id="entry2R-rect" />
+            <rect x="322" y="410" width="40" height="20" rx="10" ry="10" id="entry3R-rect" />
+            <rect x="322" y="510" width="40" height="20" rx="10" ry="10" id="entry4R-rect" />
+
             <rect x="305" y="125" width="55" height="35" id="fwdcargo-rect" />
-            <rect x="322" y="510" width="40" height="20" rx="10" ry="10" id="entry5-rect" />
+            <rect x="305" y="437" width="55" height="35" id="aftcargo-rect" />
+            <rect x="320" y="477" width="40" height="20" id="bulkcargo-rect" />
+        </g>
+
+        <g id="auto-rects">
+            <!--left entries-->
+            <rect x="255" y="87" width="15" height="20" id="entry1L-auto-rect" />
+            <rect x="255" y="183" width="15" height="20" id="entry2L-auto-rect" />
+            <rect x="255" y="407" width="15" height="20" id="entry3L-auto-rect" />
+            <rect x="255" y="510" width="15" height="20" id="entry4L-auto-rect" />
+
+            <!--right entries-->
+            <rect x="330" y="87" width="15" height="20" id="entry1R-auto-rect" />
+            <rect x="330" y="183" width="15" height="20" id="entry2R-auto-rect" />
+            <rect x="330" y="407" width="15" height="20" id="entry3R-auto-rect" />
+            <rect x="330" y="510" width="15" height="20" id="entry4R-auto-rect" />
+        </g>
+
+        <g id="labels-auto">
+            <text x="256" y="106" id="entry1L-auto">A</text> <!--entry 1L-->
+            <text x="256" y="202" id="entry2L-auto">A</text> <!--entry 2L-->
+            <text x="256" y="427" id="entry3L-auto">A</text> <!--entry 4L-->
+            <text x="256" y="529" id="entry4L-auto">A</text> <!--entry 5L-->
+
+            <text x="331" y="106" id="entry1R-auto">A</text> <!--entry 1R-->
+            <text x="331" y="202" id="entry2R-auto">A</text> <!--entry 2R-->
+            <text x="331" y="427" id="entry3R-auto">A</text> <!--entry 4R-->
+            <text x="331" y="529" id="entry4R-auto">A</text> <!--entry 5R-->
         </g>
     </svg>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/CS777-200LR/EICAS/Pages/CS777-200LR_LowerEICAS_DRS.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77L/EICAS/Pages/CS777-200LR_LowerEICAS_DRS.js"></script>
