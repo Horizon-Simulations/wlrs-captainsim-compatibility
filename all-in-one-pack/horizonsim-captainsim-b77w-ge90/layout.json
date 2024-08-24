@@ -377,8 +377,8 @@
     },
     {
       "path": "html_ui/Pages/B77W_HorizonSim/teeveeAnimHandler.js",
-      "size": 8910,
-      "date": 133685511901902348
+      "size": 8907,
+      "date": 133689377334963299
     },
     {
       "path": "html_ui/Pages/B77W_HorizonSim/fpm/LzUtf8.js",
@@ -492,8 +492,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/ATC/B777_ATC.html",
-      "size": 879,
-      "date": 133687572926261725
+      "size": 876,
+      "date": 133689320280166545
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/ATC/B777_ATC.js",
@@ -522,8 +522,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/COM/B777_Com.html",
-      "size": 1302,
-      "date": 133687561885641335
+      "size": 1296,
+      "date": 133689320150772924
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/COM/B777_Com.js",
@@ -697,18 +697,33 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/B777_UpperEICAS.css",
-      "size": 8058,
-      "date": 133684599638436659
+      "size": 8081,
+      "date": 133687644713879636
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/B777_UpperEICAS.html",
       "size": 9066,
-      "date": 133684608523100901
+      "date": 133689332681124062
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/B777_UpperEICAS.js",
-      "size": 30053,
-      "date": 133684674290223514
+      "size": 29884,
+      "date": 133689332502334549
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.css",
+      "size": 1178,
+      "date": 133689308091192088
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.html",
+      "size": 6254,
+      "date": 133689344224480985
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.js",
+      "size": 9333,
+      "date": 133689347293404892
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/ECL/ECLDatabase.js",
@@ -757,8 +772,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/FMC/B777_FMC_IdentPage.js",
-      "size": 1042,
-      "date": 133684217300270859
+      "size": 1041,
+      "date": 133687714960243461
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/FMC/B777_FMC_InitRefIndexPage.js",
@@ -867,8 +882,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/FMC/CS777-300ER_FMC.html",
-      "size": 14397,
-      "date": 133684816130848930
+      "size": 14152,
+      "date": 133689319074054217
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/FMC/ACMS/B777_FMC_ACMS_Index.js",
@@ -1622,23 +1637,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/CS777-300ER_EICAS.html",
-      "size": 4670,
-      "date": 133686763429228974
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.css",
-      "size": 1125,
-      "date": 133619395340869814
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.html",
-      "size": 4473,
-      "date": 133619395495961916
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.js",
-      "size": 5195,
-      "date": 133672733436954532
+      "size": 4662,
+      "date": 133689320509489775
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_GEAR.css",
@@ -1767,8 +1767,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/flight_model.cfg",
-      "size": 37147,
-      "date": 133686752648149457
+      "size": 36944,
+      "date": 133689337883318838
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/gameplay.cfg",
@@ -1797,13 +1797,13 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/model/m773_305.xml",
-      "size": 47649,
-      "date": 133686727223472593
+      "size": 44120,
+      "date": 133689375999516900
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/model/m773_305_interior.xml",
-      "size": 398847,
-      "date": 133687585425782075
+      "size": 401023,
+      "date": 133689379211574461
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/Captain_Sim.m773.sys.wasm",
@@ -1812,8 +1812,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/panel.cfg",
-      "size": 2568,
-      "date": 133687585703686410
+      "size": 2647,
+      "date": 133689053863078436
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/panel.xml",
