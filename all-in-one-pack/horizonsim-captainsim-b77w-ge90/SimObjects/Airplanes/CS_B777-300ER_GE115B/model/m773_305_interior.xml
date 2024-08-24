@@ -32,6 +32,49 @@
     <Include ModelBehaviorFile="RobSim\index.xml"/>
     <Include ModelBehaviorFile="TeeVeeTemplate\index.xml"/>
 
+    <Component ID="INTERACTIVE_POINTS">
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>0</ID>
+          <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>1</ID>
+          <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>2</ID>
+          <ANIM_NAME>cs777_l_emer_door</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>3</ID>
+          <ANIM_NAME>cs777_l_door_3</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>4</ID>
+          <ANIM_NAME>cs777_l_door_4</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>5</ID>
+          <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>6</ID>
+          <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>7</ID>
+          <ANIM_NAME>cs777_r_emer_door</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>8</ID>
+          <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>9</ID>
+          <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
+        </UseTemplate>
+      </Component>    
+
     <Component ID="Yoke_Controls">
       <UseTemplate Name="ASOBO_HANDLING_RudderPedals_Template">
         <RUDDERPEDALS_TYPE>MIXED</RUDDERPEDALS_TYPE>
@@ -8243,83 +8286,6 @@
        -->
     </Component>
 
-    <Component ID="Cabin_Doors">
-      <Component ID="Door_1L">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_2L">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_3L">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_l_door_3</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_3_a) (A:INTERACTIVE POINT OPEN:4, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_4L">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_l_door_4</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_4_a)  (A:INTERACTIVE POINT OPEN:3, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_emerL">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_l_emer_door</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_emer_door_a)</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_1R">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_2R">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_3R">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_4R">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:8, percent) max</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-      <Component ID="Door_emerR">
-        <UseTemplate Name="ASOBO_GT_Anim">
-          <ANIM_NAME>cs777_r_emer_door</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_emer_door_a)</ANIM_CODE>
-        </UseTemplate>
-      </Component>
-
-    </Component>
-    
-    
-    
-
-
     <Component ID="Ext_Anim_Controls">
 
       
@@ -8407,14 +8373,25 @@
       <Component ID="anim_ctrl_btn_l_door_1" Node="anim_ctrl_btn_l_door_1">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_l_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:0, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_l_door_1, bool) ! (&gt;L:cs777_anim_ctrl_l_door_1, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:0, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:0, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:0, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:0, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8422,14 +8399,25 @@
       <Component ID="anim_ctrl_btn_l_door_2" Node="anim_ctrl_btn_l_door_2">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_l_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:1, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_l_door_2, bool) ! (&gt;L:cs777_anim_ctrl_l_door_2, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:1, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:1, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:1, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:1, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8437,14 +8425,25 @@
       <Component ID="anim_ctrl_btn_l_emer_door" Node="anim_ctrl_btn_l_emer_door">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_l_emer_door</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_emer_door, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:2, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_l_emer_door, bool) ! (&gt;L:cs777_anim_ctrl_l_emer_door, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:2, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:2, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:2, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:2, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8452,14 +8451,25 @@
       <Component ID="anim_ctrl_btn_l_door_3" Node="anim_ctrl_btn_l_door_3">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_l_door_3</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_3, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:3, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_l_door_3, bool) ! (&gt;L:cs777_anim_ctrl_l_door_3, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:3, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:3, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:3, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:3, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8467,14 +8477,25 @@
       <Component ID="anim_ctrl_btn_l_door_4" Node="anim_ctrl_btn_l_door_4">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_l_door_4</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_l_door_4, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:4, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_l_door_4, bool) ! (&gt;L:cs777_anim_ctrl_l_door_4, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:4, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:4, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:4, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:4, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8707,14 +8728,25 @@
       <Component ID="anim_ctrl_btn_r_door_1" Node="anim_ctrl_btn_r_door_1">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_r_door_1</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:5, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_r_door_1, bool) ! (&gt;L:cs777_anim_ctrl_r_door_1, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:5, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:5, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:5, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:5, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8722,14 +8754,25 @@
       <Component ID="anim_ctrl_btn_r_door_2" Node="anim_ctrl_btn_r_door_2">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_r_door_2</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:6, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_r_door_2, bool) ! (&gt;L:cs777_anim_ctrl_r_door_2, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:6, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:6, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:6, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:6, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8737,14 +8780,25 @@
       <Component ID="anim_ctrl_btn_r_emer_door" Node="anim_ctrl_btn_r_emer_door">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_r_emer_door</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_emer_door, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:7, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_r_emer_door, bool) ! (&gt;L:cs777_anim_ctrl_r_emer_door, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:7, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:7, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:7, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:7, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8752,14 +8806,25 @@
       <Component ID="anim_ctrl_btn_r_door_3" Node="anim_ctrl_btn_r_door_3">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_r_door_3</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:8, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_r_door_3, bool) ! (&gt;L:cs777_anim_ctrl_r_door_3, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:8, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:8, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:8, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:8, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>
@@ -8767,14 +8832,25 @@
       <Component ID="anim_ctrl_btn_r_door_4" Node="anim_ctrl_btn_r_door_4">
         <UseTemplate Name="ASOBO_GT_Anim">
           <ANIM_NAME>anim_ctrl_btn_r_door_4</ANIM_NAME>
-          <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4, bool) 100 *</ANIM_CODE>
+          <ANIM_CODE>(A:INTERACTIVE POINT OPEN:9, percent) 100 *</ANIM_CODE>
         </UseTemplate>
         <UseTemplate Name="ASOBO_GT_MouseRect">
           <NO_HIGHLIGHT_NODE_ID>True</NO_HIGHLIGHT_NODE_ID>
           <CURSOR>Hand</CURSOR>
           <MouseFlags>LeftSingle+LeftRelease+LeftDrag+WheelUp+WheelDown+Lock+Unlock</MouseFlags>
           <CALLBACKCODE>
-            (M:Event) 'LeftSingle' scmi 0 == if{ (L:cs777_anim_ctrl_r_door_4, bool) ! (&gt;L:cs777_anim_ctrl_r_door_4, bool) }
+            (M:Event) 'LeftSingle' scmi 0 ==
+            if{
+                (A:INTERACTIVE POINT OPEN:9, percent) 100 == 
+                if{
+                    0 (&gt;A:INTERACTIVE POINT GOAL:9, percent)
+                } els{
+                    (A:INTERACTIVE POINT OPEN:9, percent) 0 == 
+                    if{
+                        100 (&gt;A:INTERACTIVE POINT GOAL:9, percent)
+                    }
+                }
+            }
           </CALLBACKCODE>
         </UseTemplate>
       </Component>

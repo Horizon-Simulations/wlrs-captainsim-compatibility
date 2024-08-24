@@ -681,30 +681,7 @@
       </UseTemplate>
     </Component>
 
-
-
-
-
-    <Component ID="Misc_Animations">
-      <!--Fixing weird FS Bug. <ANIM_LAG> does not work on some animations. Simulating lag manually.-->
-      <UseTemplate Name="ASOBO_GT_Update">
-        <FREQUENCY>100</FREQUENCY>
-        <UPDATE_CODE>
-          (L:cs777_anim_ctrl_l_door_1, bool) if{ (L:cs777_anim_ctrl_l_door_1_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_l_door_1_a) } els{ (L:cs777_anim_ctrl_l_door_1_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_l_door_1_a) }
-          (L:cs777_anim_ctrl_l_door_2, bool) if{ (L:cs777_anim_ctrl_l_door_2_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_l_door_2_a) } els{ (L:cs777_anim_ctrl_l_door_2_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_l_door_2_a) }
-          (L:cs777_anim_ctrl_l_door_3, bool) if{ (L:cs777_anim_ctrl_l_door_3_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_l_door_3_a) } els{ (L:cs777_anim_ctrl_l_door_3_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_l_door_3_a) }
-          (L:cs777_anim_ctrl_l_door_4, bool) if{ (L:cs777_anim_ctrl_l_door_4_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_l_door_4_a) } els{ (L:cs777_anim_ctrl_l_door_4_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_l_door_4_a) }
-          (L:cs777_anim_ctrl_l_emer_door, bool) if{ (L:cs777_anim_ctrl_l_emer_door_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_l_emer_door_a) } els{ (L:cs777_anim_ctrl_l_emer_door_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_l_emer_door_a) }
-          (L:cs777_anim_ctrl_r_door_1, bool) if{ (L:cs777_anim_ctrl_r_door_1_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_r_door_1_a) } els{ (L:cs777_anim_ctrl_r_door_1_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_r_door_1_a) }
-          (L:cs777_anim_ctrl_r_door_2, bool) if{ (L:cs777_anim_ctrl_r_door_2_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_r_door_2_a) } els{ (L:cs777_anim_ctrl_r_door_2_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_r_door_2_a) }
-          (L:cs777_anim_ctrl_r_door_3, bool) if{ (L:cs777_anim_ctrl_r_door_3_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_r_door_3_a) } els{ (L:cs777_anim_ctrl_r_door_3_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_r_door_3_a) }
-          (L:cs777_anim_ctrl_r_door_4, bool) if{ (L:cs777_anim_ctrl_r_door_4_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_r_door_4_a) } els{ (L:cs777_anim_ctrl_r_door_4_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_r_door_4_a) }
-          (L:cs777_anim_ctrl_r_emer_door, bool) if{ (L:cs777_anim_ctrl_r_emer_door_a) 1 + 100 min (&gt;L:cs777_anim_ctrl_r_emer_door_a) } els{ (L:cs777_anim_ctrl_r_emer_door_a) 1 - 0 max (&gt;L:cs777_anim_ctrl_r_emer_door_a) }
-        </UPDATE_CODE>
-      </UseTemplate>
-      
-      
-      
+    <Component ID="Misc_Animations">  
     <!--
       <UseTemplate Name="ASOBO_GT_Update">
         <FREQUENCY>1</FREQUENCY>
@@ -838,83 +815,52 @@
         </UseTemplate>
       </Component>
       
-      
-
-      <Component ID="Cabin_Doors">
-        <Component ID="Door_1L">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_1_a) (A:INTERACTIVE POINT OPEN:0, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_2L">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_2_a) (A:INTERACTIVE POINT OPEN:1, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_3L">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_l_door_3</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_3_a) (A:INTERACTIVE POINT OPEN:4, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_4L">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_l_door_4</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_door_4_a)  (A:INTERACTIVE POINT OPEN:3, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_emerL">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_l_emer_door</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_l_emer_door_a)</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_1R">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
-            <!--revise here-->
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_1_a) (A:INTERACTIVE POINT OPEN:5, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_2R">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_2_a) (A:INTERACTIVE POINT OPEN:6, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_3R">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_3_a) (A:INTERACTIVE POINT OPEN:7, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_4R">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_door_4_a) (A:INTERACTIVE POINT OPEN:8, percent) max</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-        <Component ID="Door_emerR">
-          <UseTemplate Name="ASOBO_GT_Anim">
-            <ANIM_NAME>cs777_r_emer_door</ANIM_NAME>
-            <ANIM_CODE>(L:cs777_anim_ctrl_r_emer_door_a)</ANIM_CODE>
-          </UseTemplate>
-        </Component>
-
-      </Component>
-
-      
+      <Component ID="INTERACTIVE_POINTS">
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>0</ID>
+          <ANIM_NAME>cs777_l_door_1</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>1</ID>
+          <ANIM_NAME>cs777_l_door_2</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>2</ID>
+          <ANIM_NAME>cs777_l_emer_door</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>3</ID>
+          <ANIM_NAME>cs777_l_door_3</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>4</ID>
+          <ANIM_NAME>cs777_l_door_4</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>5</ID>
+          <ANIM_NAME>cs777_r_door_1</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>6</ID>
+          <ANIM_NAME>cs777_r_door_2</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>7</ID>
+          <ANIM_NAME>cs777_r_emer_door</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>8</ID>
+          <ANIM_NAME>cs777_r_door_3</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_DOOR_InteractivePoint_Template">
+          <ID>9</ID>
+          <ANIM_NAME>cs777_r_door_4</ANIM_NAME>
+        </UseTemplate>
+        <UseTemplate Name="ASOBO_FuelHose_InteractivePoint_Template">
+          <ID>12</ID>
+          <NODE_ID>GROUND_FUELPIPE</NODE_ID>
+        </UseTemplate>
+      </Component>     
 
       <Component ID="Gear_service_doors">
         <UseTemplate Name="ASOBO_GT_Anim">
