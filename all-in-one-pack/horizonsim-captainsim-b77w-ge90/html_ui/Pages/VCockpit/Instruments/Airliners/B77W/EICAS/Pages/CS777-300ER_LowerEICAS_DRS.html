@@ -11,24 +11,24 @@
             <path d="M147.13,260.15c-1.13.35-15.74,0-15.74,0A81.66,81.66,0,0,1,133,202.5h39a82.72,82.72,0,0,1,6,27,81.67,81.67,0,0,1-.67,15.17Z"/>
             <path d="M457.76,260.15c1.13.35,15.74,0,15.74,0a81.66,81.66,0,0,0-1.61-57.65h-39a82,82,0,0,0-5.34,42.17Z"/>
         </g>
-        <g id="labels-l"> 
+        <g id="labels-l">
             <text x="70" y="45">FWD ACCESS</text>
             <text x="75" y="105">ENTRY 1L</text>
             <text x="75" y="200">ENTRY 2L</text>
-            <text x="-5" y="303">EMER L</text>
-            <text x="75" y="423">ENTRY 3L</text>
-            <text x="75" y="530">ENTRY 4L</text>
+            <text x="-25" y="303">ENTRY 3L</text>
+            <text x="75" y="423">ENTRY 4L</text>
+            <text x="75" y="530">ENTRY 5L</text>
         </g>
         <g id="labels-r">
             <text x="441" y="65">E/E ACCESS</text>
             <text x="445" y="105">ENTRY 1R</text>
             <text x="438" y="152">FWD CARGO</text>
-            <text x="445" y="198">ENTRY 2R</text>
-            <text x="545" y="303">EMER R</text>
-            <text x="445" y="423">ENTRY 3R</text>
+            <text x="445" y="200">ENTRY 2R</text>
+            <text x="542" y="303">ENTRY 3R</text>
+            <text x="445" y="423">ENTRY 4R</text>
             <text x="441" y="460">AFT CARGO</text>
             <text x="436" y="495">BULK CARGO</text>
-            <text x="445" y="530">ENTRY 4R</text>
+            <text x="445" y="530">ENTRY 5R</text>
         </g>
         <g id="lines-l">
             <line x1="182" y1="39" x2="240" y2="39" />
@@ -52,23 +52,53 @@
         <g id="open-rects">
             <!--left entries-->
             <rect x="239" y="87" width="40" height="20" rx="10" ry="10" id="entry1L-rect" />
-            <rect x="239" y="185" width="40" height="20" rx="10" ry="10" id="entry2L-rect" />
-            <rect x="239" y="265" width="40" height="20" rx="10" ry="10" id="emerL-rect" />
-            <rect x="239" y="407" width="40" height="20" rx="10" ry="10" id="entry3L-rect" />
-            <rect x="239" y="510" width="40" height="20" rx="10" ry="10" id="entry4L-rect" />
+            <rect x="239" y="183" width="40" height="20" rx="10" ry="10" id="entry2L-rect" />
+            <rect x="239" y="287" width="40" height="20" rx="10" ry="10" id="entry3L-rect" />
+            <rect x="239" y="405" width="40" height="20" rx="10" ry="10" id="entry4L-rect" />
+            <rect x="239" y="510" width="40" height="20" rx="10" ry="10" id="entry5L-rect" />
 
             <!--right entries-->
             <rect x="322" y="87" width="40" height="20" rx="10" ry="10" id="entry1R-rect" />
             <rect x="322" y="187" width="40" height="20" rx="10" ry="10" id="entry2R-rect" />
-            <rect x="322" y="265" width="40" height="20" rx="10" ry="10" id="emerR-rect" />
-            <rect x="322" y="407" width="40" height="20" rx="10" ry="10" id="entry3R-rect" />
-            <rect x="322" y="510" width="40" height="20" rx="10" ry="10" id="entry4R-rect" />
+            <rect x="322" y="287" width="40" height="20" rx="10" ry="10" id="entry3R-rect" />
+            <rect x="322" y="405" width="40" height="20" rx="10" ry="10" id="entry4R-rect" />
+            <rect x="322" y="510" width="40" height="20" rx="10" ry="10" id="entry5R-rect" />
 
             <rect x="305" y="125" width="55" height="35" id="fwdcargo-rect" />
             <rect x="305" y="437" width="55" height="35" id="aftcargo-rect" />
             <rect x="320" y="477" width="40" height="20" id="bulkcargo-rect" />
         </g>
+
+        <g id="auto-rects">
+            <!--left entries-->
+            <rect x="255" y="87" width="15" height="20" id="entry1L-auto-rect" />
+            <rect x="255" y="183" width="15" height="20" id="entry2L-auto-rect" />
+            <rect x="255" y="285" width="15" height="20" id="entry3L-auto-rect" />
+            <rect x="255" y="407" width="15" height="20" id="entry4L-auto-rect" />
+            <rect x="255" y="510" width="15" height="20" id="entry5L-auto-rect" />
+
+            <!--right entries-->
+            <rect x="330" y="87" width="15" height="20" id="entry1R-auto-rect" />
+            <rect x="330" y="183" width="15" height="20" id="entry2R-auto-rect" />
+            <rect x="330" y="285" width="15" height="20" id="entry3R-auto-rect" />
+            <rect x="330" y="407" width="15" height="20" id="entry4R-auto-rect" />
+            <rect x="330" y="510" width="15" height="20" id="entry5R-auto-rect" />
+        </g>
+
+        <g id="labels-auto">
+            <text x="256" y="106" id="entry1L-auto">A</text> <!--entry 1L-->
+            <text x="256" y="202" id="entry2L-auto">A</text> <!--entry 2L-->
+            <text x="256" y="304" id="entry3L-auto">A</text> <!--entry 3L-->
+            <text x="256" y="427" id="entry4L-auto">A</text> <!--entry 4L-->
+            <text x="256" y="529" id="entry5L-auto">A</text> <!--entry 5L-->
+
+            <text x="331" y="106" id="entry1R-auto">A</text> <!--entry 1R-->
+            <text x="331" y="202" id="entry2R-auto">A</text> <!--entry 2R-->
+            <text x="331" y="304" id="entry3R-auto">A</text> <!--entry 3R-->
+            <text x="331" y="427" id="entry4R-auto">A</text> <!--entry 4R-->
+            <text x="331" y="529" id="entry5R-auto">A</text> <!--entry 5R-->
+        </g>
     </svg>
 </script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/EICAS/Pages/CS777-300ER_LowerEICAS_DRS.js"></script>
