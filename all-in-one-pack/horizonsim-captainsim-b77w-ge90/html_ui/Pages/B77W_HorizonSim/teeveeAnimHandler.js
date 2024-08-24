@@ -157,8 +157,7 @@ class teeveeAnimHanlder {
         }
         else {
             SimVar.SetSimVarValue("L:cs777_anim_ctrl_radar", "Bool", false);
-        }
-        
+        }       
         
         //update with electricity
         let electricityIsAvail = SimVar.GetSimVarValue("CIRCUIT GENERAL PANEL ON", "Bool");
