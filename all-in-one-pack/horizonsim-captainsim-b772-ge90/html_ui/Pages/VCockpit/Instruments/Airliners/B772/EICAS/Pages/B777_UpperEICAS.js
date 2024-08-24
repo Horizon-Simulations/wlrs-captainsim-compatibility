@@ -79,11 +79,12 @@ var B777_UpperEICAS;
             this.fuelTankLeft = this.querySelector("#tankL");
             this.fuelTankCenter = this.querySelector("#tankC");
             this.fuelTankRight = this.querySelector("#tankR");
+
             this.isInitialised = true;
         }
         update(_deltaTime) {
             //debug section
-            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("AUTOPILOT THROTTLE ARM", "Bool");
+            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("A:AUTOPILOT TAKEOFF POWER ACTIVE", "Bool");
 
             const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
 
@@ -276,8 +277,10 @@ var B777_UpperEICAS;
             this.engineIndex = 0;
             this.currentValue = 0;
             this.valueText = null;
+            this.valueTextBox = null;
             this.fill = null;
             this.predArc = null;
+            this.mainArc = null;
             this.predArcRadius = 0;
             this.fillPathD = "";
             this.fillCenter = new Vec2();
@@ -295,12 +298,14 @@ var B777_UpperEICAS;
             if ((this.root != null) && (_template != null)) {
                 this.root.appendChild(_template.cloneNode(true));
                 this.valueText = this.root.querySelector(".valueText");
+                this.valueTextBox = this.root.querySelector(".valueTextBox");
                 this.fill = this.root.querySelector(".fill");
                 this.predArc = this.root.querySelector(".predArc");
+                this.mainArc = this.root.querySelector(".mainArc");
                 this.whiteMarker = this.root.querySelector(".normalMarker");
                 this.throttleMarker = this.root.querySelector(".throttleMarker");
                 this.redMarker = this.root.querySelector(".dangerMarker");
-                this.orangeMarker = this.root.querySelector(".warningMarker");
+                this.orangeMarker = this.root.querySelector(".amberMarker");
                 this.greenMarker = this.root.querySelector(".greenMarker");
                 if (this.fill != null) {
                     var fillPathDSplit = this.fill.getAttribute("d").split(" ");
@@ -332,9 +337,9 @@ var B777_UpperEICAS;
                 if (this.redMarker != null) {
                     this.redMarker.setAttribute("transform", this.defaultMarkerTransform + " rotate(" + B777_EICAS_CircleGauge.MAX_ANGLE + ")");
                 }
-                // if (this.orangeMarker != null) {
-                //     diffAndSetStyle(this.orangeMarker, StyleProperty.display, 'none');
-                // }
+                if (this.orangeMarker != null) {
+                    //diffAndSetStyle(this.orangeMarker, StyleProperty.display, 'none');
+                }
                 // if (this.greenMarker != null) {
                 //     diffAndSetStyle(this.greenMarker, StyleProperty.display, 'none');
                 // }
@@ -345,10 +350,15 @@ var B777_UpperEICAS;
             this.refresh(this.getCurrentValue());
         }
         refresh(_value, _force = false) {
+            //from FMA
+            //const fmaValues = localStorage.getItem("CJ4_fmaValues");
+            //const parsedFmaValues = JSON.parse(fmaValues);
+            //this.lateralMode = parsedFmaValues.lateralMode;
+
             if ((_value != this.currentValue) || _force) {
                 this.currentValue = _value;
                 let hide = false;
-                if (this.hideIfN1IsZero && SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent") < 0.2) {
+                if (this.hideIfN1IsZero && SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent") < 0.1) {
                     this.currentValue = -1;
                     hide = true;
                 }
@@ -357,12 +367,50 @@ var B777_UpperEICAS;
                         this.valueText.textContent = "";
                     }
                     else {
-                        this.valueText.textContent = this.currentValue.toFixed(1);
+                        this.valueText.textContent = this.currentValue.toFixed(this.getCustomToFixed());
                     }
                 }
-                var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
-                var angleo = Math.max((this.getN1LimitValue() * 0.0095) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);      //0.01 = 100% of the max angle (210)
-                var anglet = Math.max((this.getN1CommandedValue() * 0.01) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                
+                if (this.currentValue >= this.getWarningValue()) {
+                    this.valueText.style.fill = "red";
+                    this.valueTextBox.style.stroke = "red";
+                    diffAndSetStyle(this.throttleMarker, 'stroke', 'red');
+                    diffAndSetStyle(this.whiteMarker, 'stroke', 'red');
+                    diffAndSetStyle(this.fill, 'fill', 'red');
+                    diffAndSetStyle(this.mainArc, 'stroke', 'red');
+                    diffAndSetStyle(this.predArc, 'stroke', 'red');
+                    
+                }
+                else if (this.currentValue >= this.getAmberValue() && this.currentValue < this.getWarningValue()) {
+                    if (this.getDisableWarningOnTOGA()) {
+                        //WILL BE IMPLEMENT LATER
+                        //if (condition) {
+                        //  return;
+                        //}
+                    }
+                    this.valueText.style.fill = "gold";
+                    this.valueTextBox.style.stroke = "gold";
+                    diffAndSetStyle(this.throttleMarker, 'stroke', 'gold');
+                    diffAndSetStyle(this.whiteMarker, 'stroke', 'gold');
+                    diffAndSetStyle(this.fill, 'fill', 'gold');
+                    diffAndSetStyle(this.mainArc, 'stroke', 'gold');
+                    diffAndSetStyle(this.predArc, 'stroke', 'gold');
+                }
+                else {
+                    this.valueText.style.fill = "white";
+                    this.valueTextBox.style.stroke = "white";       //will be implemented to be red until recall is press. recall inop:)
+                    diffAndSetStyle(this.throttleMarker, 'stroke', 'white');
+                    diffAndSetStyle(this.whiteMarker, 'stroke', 'white');
+                    diffAndSetStyle(this.fill, 'fill', '#413d5d');
+                    diffAndSetStyle(this.mainArc, 'stroke', 'white');
+                    diffAndSetStyle(this.predArc, 'stroke', 'white');
+                }
+
+
+                //REMODEL THIS. SHOULD HAVE 2 STAGE: 0-100, 100+ (basically the max, but before 100 uses the 0.00856, after 100 uses a different scale (0.000145 or smt), only for engine)                
+                var angle = Math.max((this.valueToPercentage(this.currentValue) * 0.0085) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                var angleo = Math.max((this.getLimitValue() * 0.009) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
+                var anglet = Math.max((this.getCommandedValue() * 0.00856) * B777_EICAS_CircleGauge.MAX_ANGLE, 0.001);
                 
                 if (this.whiteMarker != null) {
                     this.whiteMarker.setAttribute("transform", this.defaultMarkerTransform + " rotate(" + angle + ")");
@@ -396,30 +444,33 @@ var B777_UpperEICAS;
     }
     
     B777_EICAS_CircleGauge.MAX_ANGLE = 210;
-    B777_EICAS_CircleGauge.WARNING_ANGLE = 202;
+    B777_EICAS_CircleGauge.WARNING_ANGLE = 180;     //only for EGT
     B777_EICAS_CircleGauge.DEG_TO_RAD = (Math.PI / 180);
-
-    class B777_EICAS_Gauge_TPR extends B777_EICAS_CircleGauge {
-        getCurrentValue() {
-            return Utils.Clamp(SimVar.GetSimVarValue("ENG PRESSURE RATIO:" + this.engineIndex, "ratio") * (100 / 1.7), 0, 100);
-        }
-        valueToPercentage(_value) {
-            return _value;
-        }
-    }
 
     class B777_EICAS_Gauge_N1 extends B777_EICAS_CircleGauge {
         getCurrentValue() {
             return SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent");
         }
         valueToPercentage(_value) {
-            return Utils.Clamp(_value, 0, 110);
+            return Utils.Clamp(_value, 0, 120);
         }
-        getN1LimitValue() {
+        getLimitValue() {
             return Math.abs(Simplane.getEngineThrottleMaxThrust(this.engineIndex - 1));
         }
-        getN1CommandedValue() {
+        getCommandedValue() {
             return Math.abs(Simplane.getEngineThrottleCommandedN1(this.engineIndex - 1));
+        }
+        getWarningValue() {
+            return 105.0;
+        }
+        getAmberValue() {
+            return 999.0;       //basically disabled
+        }
+        getDisableWarningOnTOGA() {
+            return false;
+        }
+        getCustomToFixed() {
+            return 1;
         }
     }
     
@@ -428,12 +479,25 @@ var B777_UpperEICAS;
             return SimVar.GetSimVarValue("ENG EXHAUST GAS TEMPERATURE:" + this.engineIndex, "celsius");
         }
         valueToPercentage(_value) {
-            return (Utils.Clamp(_value, 0, 1000) * 0.1);
+            return (Utils.Clamp(_value, 0, 800) * 0.11);
         }
-        getN1LimitValue() {
+        getLimitValue() {
             return 0;
         }
-        getN1CommandedValue() {
+        getCommandedValue() {
+            return 0;
+        }
+        getWarningValue() {     //temporary disable
+            return 999;
+            return 650.0;
+        }
+        getAmberValue() {
+            return 800;//607.0;
+        }
+        getDisableWarningOnTOGA() {
+            return true;
+        }
+        getCustomToFixed() {
             return 0;
         }
     }
