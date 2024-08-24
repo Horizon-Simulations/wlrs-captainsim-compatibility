@@ -219,9 +219,6 @@ class B777_EICAS extends Airliners.BaseEICAS {
         this.updateAnnunciations();
         this.updateEngines(_deltaTime);
         this.updateElapsedTime(_deltaTime);
-        
-        //WTDataStore.getStoreKey("OPTIONS_UNITS", "LBS");    //broke\
-
     }
 
     updateElapsedTime(_deltaTime) {
