@@ -367,7 +367,7 @@ var B777_UpperEICAS;
                         this.valueText.textContent = "";
                     }
                     else {
-                        this.valueText.textContent = this.currentValue.toFixed(1);
+                        this.valueText.textContent = this.currentValue.toFixed(this.getCustomToFixed());
                     }
                 }
                 
@@ -447,15 +447,6 @@ var B777_UpperEICAS;
     B777_EICAS_CircleGauge.WARNING_ANGLE = 180;     //only for EGT
     B777_EICAS_CircleGauge.DEG_TO_RAD = (Math.PI / 180);
 
-    class B777_EICAS_Gauge_TPR extends B777_EICAS_CircleGauge {
-        getCurrentValue() {
-            return Utils.Clamp(SimVar.GetSimVarValue("ENG PRESSURE RATIO:" + this.engineIndex, "ratio") * (100 / 1.7), 0, 100);
-        }
-        valueToPercentage(_value) {
-            return _value;
-        }
-    }
-
     class B777_EICAS_Gauge_N1 extends B777_EICAS_CircleGauge {
         getCurrentValue() {
             return SimVar.GetSimVarValue("ENG N1 RPM:" + this.engineIndex, "percent");
@@ -477,6 +468,9 @@ var B777_UpperEICAS;
         }
         getDisableWarningOnTOGA() {
             return false;
+        }
+        getCustomToFixed() {
+            return 1;
         }
     }
     
@@ -502,6 +496,9 @@ var B777_UpperEICAS;
         }
         getDisableWarningOnTOGA() {
             return true;
+        }
+        getCustomToFixed() {
+            return 0;
         }
     }
     class B777_EICAS_Gauge_N2 extends B777_EICAS_CircleGauge {
