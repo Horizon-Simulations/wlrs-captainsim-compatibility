@@ -191,6 +191,12 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         // Maybe this gets rid of slowdown on first fpln mod
         this.flightPlanManager.copyCurrentFlightPlanInto(1);
         this.timer = 0;
+        this.currentSeatBeltChimeState = null;
+        this.lastSeatBeltChimeState = null;
+        this.currentNoSmokingChimeState = null;
+        this.lastNoSmokingChimeState = null;
+        this.currentCabinChimeState = null;
+        this.lastCabinChimeState = null;
         let oat = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "celsius");
         this._thrustTakeOffTemp = Math.ceil(oat / 10) * 10;
         this.aircraftType = Aircraft.B777;
@@ -332,18 +338,43 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         SimVar.SetSimVarValue("L:B777_Boeing_Autopilot_Disconnected", "Bool", isOn ? 0 : 1);
     }
     updatePaxSignal() {
+        this.currentSeatBeltChimeState = SimVar.GetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool");
+        this.currentNoSmokingChimeState = SimVar.GetSimVarValue("L:XMLVAR_NO_SMOKING_ON", "Bool");
+        this.currentCabinChimeState = SimVar.GetSimVarValue("L:B777_CABIN_CHIME_TOGGLE", "Bool")
         if ((SimVar.GetSimVarValue("L:SEAT_BELTS_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:SEAT_BELTS_MODE", "number") == 2) {
             SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", true);
+            SimVar.SetSimVarValue("CABIN SEATBELTS ALERT SWITCH", "Bool", true);
         }
         else {
             SimVar.SetSimVarValue("L:XMLVAR_SEAT_BELTS_ON", "Bool", false);
+            SimVar.SetSimVarValue("CABIN SEATBELTS ALERT SWITCH", "Bool", false);
+        }
+
+        //seatbelt chime
+        if (this.lastSeatBeltChimeState !== this.currentSeatBeltChimeState) {
+            SimVar.SetSimVarValue("K:CABIN_SEATBELTS_ALERT_SWITCH_TOGGLE", "Bool", true);
+            this.lastSeatBeltChimeState = this.currentSeatBeltChimeState;
         }
 
         if ((SimVar.GetSimVarValue("L:NO_SMOKING_MODE", "number") == 1 && SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet") < 10000) || SimVar.GetSimVarValue("L:NO_SMOKING_MODE", "number") == 2) {
             SimVar.SetSimVarValue("L:XMLVAR_NO_SMOKING_ON", "Bool", true);
+            SimVar.SetSimVarValue("CABIN NO SMOKING ALERT SWITCH", "Bool", true);
         }
         else {
             SimVar.SetSimVarValue("L:XMLVAR_NO_SMOKING_ON", "Bool", false);
+            SimVar.SetSimVarValue("CABIN NO SMOKING ALERT SWITCH", "Bool", false);
+        }
+
+        //no smoking chime
+        if (this.lastNoSmokingChimeState !== this.currentNoSmokingChimeState) {
+            SimVar.SetSimVarValue("K:CABIN_SEATBELTS_ALERT_SWITCH_TOGGLE", "Bool", true);
+            this.lastNoSmokingChimeState = this.currentNoSmokingChimeState;
+        }
+
+        //cabin chime button
+        if (this.lastCabinChimeState !== this.currentCabinChimeState) {
+            SimVar.SetSimVarValue("K:CABIN_SEATBELTS_ALERT_SWITCH_TOGGLE", "Bool", true);       //use the same sound:) since there's no sound in the pack
+            this.lastCabinChimeState = this.currentCabinChimeState;
         }
     }
     onInputAircraftSpecific(input) {
