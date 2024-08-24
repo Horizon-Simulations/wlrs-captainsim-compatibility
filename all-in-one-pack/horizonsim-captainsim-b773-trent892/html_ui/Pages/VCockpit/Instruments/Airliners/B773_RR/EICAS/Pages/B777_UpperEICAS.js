@@ -46,7 +46,15 @@ var B777_UpperEICAS;
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#THROTTLE1_Value"), Simplane.getEngineThrottleMaxThrust.bind(this, 0), 1, Airliners.DynamicValueComponent.formatValueToThrottleDisplay));
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#THROTTLE2_Value"), Simplane.getEngineThrottleMaxThrust.bind(this, 1), 1, Airliners.DynamicValueComponent.formatValueToThrottleDisplay));
             this.allValueComponents.push(new Airliners.DynamicValueComponent(this.querySelector("#TOTAL_FUEL_Value"), this.getTotalFuelInMegagrams.bind(this), 1));
-            var gaugeTemplate = this.querySelector("#GaugeTemplate1");
+            var gaugeTemplate = this.querySelector("#GaugeTemplate3");
+            if (gaugeTemplate != null) {
+                this.allEngineInfos.push(new B777_EICAS_Gauge_EPR(1, this.querySelector("#EPR_1_GAUGE"), gaugeTemplate, true));
+                this.allEngineInfos.push(new B777_EICAS_Gauge_EPR(2, this.querySelector("#EPR_2_GAUGE"), gaugeTemplate, true));
+                
+                gaugeTemplate.remove();
+            } 
+
+            gaugeTemplate = this.querySelector("#GaugeTemplate1");
             if (gaugeTemplate != null) {
                 this.allEngineInfos.push(new B777_EICAS_Gauge_N1(1, this.querySelector("#N1_1_GAUGE"), gaugeTemplate, true));
                 this.allEngineInfos.push(new B777_EICAS_Gauge_N1(2, this.querySelector("#N1_2_GAUGE"), gaugeTemplate, true));
@@ -367,7 +375,7 @@ var B777_UpperEICAS;
                         this.valueText.textContent = "";
                     }
                     else {
-                        this.valueText.textContent = this.currentValue.toFixed(1);
+                        this.valueText.textContent = this.currentValue.toFixed(this.getCustomToFixed());
                     }
                 }
                 
@@ -447,12 +455,32 @@ var B777_UpperEICAS;
     B777_EICAS_CircleGauge.WARNING_ANGLE = 180;     //only for EGT
     B777_EICAS_CircleGauge.DEG_TO_RAD = (Math.PI / 180);
 
-    class B777_EICAS_Gauge_TPR extends B777_EICAS_CircleGauge {
+    class B777_EICAS_Gauge_EPR extends B777_EICAS_CircleGauge {
         getCurrentValue() {
-            return Utils.Clamp(SimVar.GetSimVarValue("ENG PRESSURE RATIO:" + this.engineIndex, "ratio") * (100 / 1.7), 0, 100);
+            return SimVar.GetSimVarValue("ENG PRESSURE RATIO:" + this.engineIndex, "ratio");
         }
         valueToPercentage(_value) {
-            return _value;
+            return _value * 100 / 1.7;      //recalc later
+        }
+        getLimitValue() {
+            //return 1.5;
+            return Math.abs(Simplane.getEngineThrottleMaxThrust(this.engineIndex - 1));
+        }
+        getCommandedValue() {       //find a way to calc it based on N1?
+            //return 0.1;
+            return Math.abs(Simplane.getEngineThrottleCommandedN1(this.engineIndex - 1));
+        }
+        getWarningValue() {
+            return 1.7;
+        }
+        getAmberValue() {
+            return 999.0;       //basically disabled
+        }
+        getDisableWarningOnTOGA() {
+            return false;
+        }
+        getCustomToFixed() {
+            return 3;
         }
     }
 
@@ -478,6 +506,9 @@ var B777_UpperEICAS;
         getDisableWarningOnTOGA() {
             return false;
         }
+        getCustomToFixed() {
+            return 1;
+        }
     }
     
     class B777_EICAS_Gauge_EGT extends B777_EICAS_CircleGauge {
@@ -502,6 +533,9 @@ var B777_UpperEICAS;
         }
         getDisableWarningOnTOGA() {
             return true;
+        }
+        getCustomToFixed() {
+            return 0;
         }
     }
     class B777_EICAS_Gauge_N2 extends B777_EICAS_CircleGauge {

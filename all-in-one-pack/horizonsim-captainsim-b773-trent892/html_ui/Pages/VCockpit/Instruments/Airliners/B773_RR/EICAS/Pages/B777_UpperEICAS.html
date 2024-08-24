@@ -10,30 +10,40 @@
 
         <g id="ThrottleInfo">
             <text id="TMA_Value" class="ValueGreenMed" x="29.5%" y="3.5%">-</text>
-            <text id="THROTTLE1_Value" class="ValueGreenMed" x="23%" y="8%"></text>
-            <text id="THROTTLE2_Value" class="ValueGreenMed" x="50.5%" y="8%"></text>
-            <text id="THROTTLE1_Decimal" class="ValueGreenMed" x="22%" y="8.3%">.</text>
-            <text id="THROTTLE2_Decimal" class="ValueGreenMed" x="49.55%" y="8.3%">.</text>
+            <text id="THROTTLE1_Value" class="ValueGreenMed" x="23%" y="7.5%"></text>
+            <text id="THROTTLE2_Value" class="ValueGreenMed" x="50.5%" y="7.5%"></text>
+            <text id="THROTTLE1_Decimal" class="ValueGreenMed" x="22%" y="7.8%">.</text>
+            <text id="THROTTLE2_Decimal" class="ValueGreenMed" x="49.55%" y="7.8%">.</text>
         </g>
 
-        <g id="GaugeTemplate1" class="gauge" transform="translate(-10, 0)">
+        <g id="GaugeTemplate3" class="gauge" transform="translate(-10, 0)">
             <path class="mainArc" d="M41 12 A96 96 0 1 0 220 60" />
             <path class="predArc" d="M31 06 A108 108 0 1 0 232 60" />
             <path class="fill" d="M41 12 A96 96 0 0 0 220 60 L124 60" />
             <rect class="valueTextBox" x="125px" y="3px" width="120px" height="50px" />
             <text class="valueText" x="240px" y="44px">0.0</text>
             <line class="normalMarker" x1="0px" x2="111px" transform="translate(124, 60)" />
-            <line class="dangerMarker" x1="96px" x2="112px" transform="translate(124, 60)" />
             <line class="throttleMarker" x1="96px" x2="110px" transform="translate(124, 60)" />
+            <line class="amberMarker" x1="84px" x2="96px" transform="translate(124, 60)" />
+            <line class="dangerMarker" x1="96px" x2="112px" transform="translate(124, 60)" />
+        </g>
+
+        <g id="GaugeTemplate1" class="gauge" transform="translate(-10, 0)">
+            <path class="mainArc" d="M41 12 A96 96 0 1 0 220 60" />
+            <path class="fill" d="M41 12 A96 96 0 0 0 220 60 L124 60" />
+            <rect class="valueTextBox" x="125px" y="3px" width="120px" height="50px" />
+            <text class="valueText" x="240px" y="44px">0.0</text>
+            <line class="normalMarker" x1="0px" x2="111px" transform="translate(124, 60)" />
+            <line class="dangerMarker" x1="96px" x2="112px" transform="translate(124, 60)" />
             <!--<line class="amberMarker" x1="70px" x2="96px" transform="translate(124, 60)" />-->
-            <polyline class="greenMarker" points="120,10 100,0 120,-10" transform="translate(124, 60)" />
+            <!--<polyline class="greenMarker" points="120,10 100,0 120,-10" transform="translate(124, 60)" />-->
         </g>
 
         <g id="GaugeTemplate2" class="gauge" transform="translate(-10, 0)">
             <path class="mainArc" d="M41 12 A96 96 0 1 0 220 60" />
             <path class="fill" d="M41 12 A96 96 0 0 0 220 60 L124 60" />
-            <rect class="valueTextBox" x="125px" y="3px" width="120px" height="50px" />
-            <text class="valueText" x="240px" y="44px">0.0</text>
+            <rect class="valueTextBox" x="125px" y="3px" width="90px" height="50px" />
+            <text class="valueText" x="210px" y="44px">0.0</text>
             <line class="normalMarker" x1="0px" x2="111px" transform="translate(124, 60)" />
             <line class="amberMarker" x1="96px" x2="112px" transform="translate(124, 60)" />
             <line class="dangerMarker" x1="96px" x2="112px" transform="translate(124, 60)" />
@@ -41,19 +51,25 @@
 
         <g id="PrimaryEngine">
             <!--<rect x="0px" width="550px" y="85px" height="585px" style="fill:lightblue" />-->
-            <g id="N1_1_GAUGE" transform="translate(0, 90)"></g>
-            <g id="N1_2_GAUGE" transform="translate(280, 90)"></g>
-            <g id="EGT_1_GAUGE" transform="translate(0, 320)"></g>
-            <g id="EGT_2_GAUGE" transform="translate(280, 320)"></g>
+            <g id="EPR_1_GAUGE" transform="translate(0, 80) scale(1)"></g>
+            <g id="EPR_2_GAUGE" transform="translate(280, 80) scale(1)"></g>
+            <g id="N1_1_GAUGE" transform="translate(0, 280) scale(1)"></g>
+            <g id="N1_2_GAUGE" transform="translate(280, 280) scale(1)"></g>
+            <g id="EGT_1_GAUGE" transform="translate(0, 480) scale(1)"></g>
+            <g id="EGT_2_GAUGE" transform="translate(280, 480) scale(1)"></g>
+        </g>
+
+        <g id="EngineEPRs">
+            <text class="Label" x="24.5%" y="23.5%">EPR</text>
         </g>
 
         <g id="EngineN1RPMs">
-            <text class="Label" x="24.5%" y="25.5%">N</text>
-            <text class="Label" x="26%" y="26.25%">1</text>
+            <text class="Label" x="24.5%" y="43.5%">N</text>
+            <text class="Label" x="26%" y="44.25%">1</text>
         </g>
 
         <g id="EngineExhaustGasTemperatures">
-            <text class="Label" x="23.5%" y="48.5%">EGT</text>
+            <text class="Label" x="23.5%" y="63.5%">EGT</text>
         </g>
 
         <g id="EAI_Indicator">
@@ -117,7 +133,7 @@
             <text class="Label" x="76%" y="51.75%">GEAR</text>
         </g>
 
-        <g id="FlapsInfo" class="active">
+        <g id="FlapsInfo" class="active" transform="translate(0, 0)">
             <text class="VLabel" x="72%" y="60%">FLAPS</text>
             <rect id="FlapsGauge" class="innerBar" x="74.75%" y="57%" width="2.5%" height="4%"></rect>
             <rect id="FlapsBar" class="outerBar" x="74.75%" y="57%" width="2.5%" height="22%"></rect>
