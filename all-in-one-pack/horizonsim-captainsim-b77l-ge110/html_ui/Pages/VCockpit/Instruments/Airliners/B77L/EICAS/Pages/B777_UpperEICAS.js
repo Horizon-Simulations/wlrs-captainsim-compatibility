@@ -367,7 +367,7 @@ var B777_UpperEICAS;
                         this.valueText.textContent = "";
                     }
                     else {
-                        this.valueText.textContent = this.currentValue.toFixed(1);
+                        this.valueText.textContent = this.currentValue.toFixed(this.getCustomToFixed());
                     }
                 }
                 
@@ -478,6 +478,9 @@ var B777_UpperEICAS;
         getDisableWarningOnTOGA() {
             return false;
         }
+        getCustomToFixed() {
+            return 1;
+        }
     }
     
     class B777_EICAS_Gauge_EGT extends B777_EICAS_CircleGauge {
@@ -502,6 +505,9 @@ var B777_UpperEICAS;
         }
         getDisableWarningOnTOGA() {
             return true;
+        }
+        getCustomToFixed() {
+            return 0;
         }
     }
     class B777_EICAS_Gauge_N2 extends B777_EICAS_CircleGauge {
