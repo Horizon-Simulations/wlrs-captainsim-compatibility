@@ -1214,13 +1214,7 @@
           <UseTemplate Name="teevee_B777_ADIRU_Switch_Template">
           </UseTemplate>
         </Component>
-
-        <Component ID="O01_001_LT" Node="O01_001_LT">
-          <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(A:CIRCUIT ON:22, Bool) ! (A:CIRCUIT ON:16, Bool) and</VISIBILITY_CODE>
-          </UseTemplate>
-        </Component>
-
+        
       </Component>
 
       <Component ID="Pneumatics_Panel">
