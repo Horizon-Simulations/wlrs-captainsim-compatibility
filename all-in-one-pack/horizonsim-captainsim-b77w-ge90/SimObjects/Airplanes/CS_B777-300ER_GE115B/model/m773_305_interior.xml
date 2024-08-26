@@ -1237,12 +1237,6 @@
           </UseTemplate>
         </Component>
 
-        <Component ID="O01_001_LT" Node="O01_001_LT">
-          <UseTemplate Name="ASOBO_GT_Visibility">
-            <VISIBILITY_CODE>(A:CIRCUIT ON:22, Bool) ! (A:CIRCUIT ON:16, Bool) and</VISIBILITY_CODE>
-          </UseTemplate>
-        </Component>
-
       </Component>
 
       <Component ID="Pneumatics_Panel">
@@ -5431,15 +5425,6 @@
             <TOOLTIP_TITLE>@TT_Package.ECAM_LIGHTING_KNOB_LOWER_TITLE</TOOLTIP_TITLE>
           </UseTemplate>
           <UseTemplate Name="ASOBO_LIGHTING_Knob_Potentiometer_Template">
-            <POTENTIOMETER>50</POTENTIOMETER>
-            <EMISSIVE_KNOB>False</EMISSIVE_KNOB>
-            <!--777 INOP-->
-            <NODE_ID>knob_eicas_master_brt_upr2</NODE_ID>
-            <ANIM_NAME>eicas_master_knob_brt_upr2</ANIM_NAME>
-            <TT_DESCRIPTION_ID>@TT_Package.LIGHTING_KNOB_STDYINSTRUBRIGHTNESS_ACTION_SET</TT_DESCRIPTION_ID>
-            <TOOLTIP_TITLE>@TT_Package.LIGHTING_KNOB_STDYINSTRUBRIGHTNESS_TITLE</TOOLTIP_TITLE>
-          </UseTemplate>
-          <UseTemplate Name="ASOBO_LIGHTING_Knob_Potentiometer_Template">
             <POTENTIOMETER>27</POTENTIOMETER>
             <EMISSIVE_KNOB>False</EMISSIVE_KNOB>
             <NODE_ID>knob_eicas_master_brt_upr</NODE_ID>
@@ -6719,20 +6704,6 @@
         </UseTemplate>
       </Component>
 
-    </Component>
-
-
-
-
-    
-
-
-
-
-    <Component ID="O01_001_LT" Node="O01_001_LT">
-      <UseTemplate Name="ASOBO_GT_Visibility">
-        <VISIBILITY_CODE>(A:CIRCUIT ON:22, Bool) ! (A:CIRCUIT ON:16, Bool) and</VISIBILITY_CODE>
-      </UseTemplate>
     </Component>
 
     <Component ID="O15_003_FLAG" Node="O15_003_FLAG">
