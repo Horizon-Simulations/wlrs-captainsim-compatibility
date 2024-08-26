@@ -204,6 +204,8 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         this.HorizonSimBase = new HorizonSimBase();
         this.saltyModules = new SaltyModules();
         this.HorizonSimBase.init();
+        this.screenTimeInit = 240; //240s init screen
+        this.fmcScreenTimeInit = 60; //60s init screen, 2 stages: black, fade, full
         if (WTDataStore.get("OPTIONS_UNITS", "KG") == "KG") {
             this.units = true;
             this.useLbs = false;
@@ -279,7 +281,7 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
         //this.updateAutoThrottle();        //will implement with the switch later
         this.updateUnits();
         this.updateAltitudeAlerting();      //check this later
-        if (this.timer == 1000) {
+        if (this.timer == 100) {
             this.updateVREF20();
             this.updateVREF25();
             this.updateVREF30();
@@ -298,7 +300,56 @@ class B777_FMC_MainDisplay extends Boeing_FMC {
             //this.refreshPageCallback();
         }
 
+        //update screen state
+        var timeNow = Date.now();
+        if (this.lastTime == null) this.lastTime = timeNow;
+        var dTime = timeNow - this.lastTime;
+        this.lastTime = timeNow;
+        //anything but battery:)
+        let isExternalPowerAvailable = SimVar.GetSimVarValue("EXTERNAL POWER AVAILABLE", "bool");
+        let isExternalPowerOn = SimVar.GetSimVarValue("EXTERNAL POWER ON", "bool");
+        let isEngMasterAlternator1On = SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:1", "bool");
+        let isEngMasterAlternator2On = SimVar.GetSimVarValue("GENERAL ENG MASTER ALTERNATOR:2", "bool");
+        let isApuGeneratorSwitchOn = SimVar.GetSimVarValue("APU GENERATOR SWITCH", "bool");
+        let isApuRpmAbove95 = SimVar.GetSimVarValue("APU PCT RPM", "percent") > 90;
+        let powerNotFromBatt = 
+            (isExternalPowerAvailable && isExternalPowerOn) ||
+            isEngMasterAlternator1On || 
+            isEngMasterAlternator2On || 
+            (isApuGeneratorSwitchOn && isApuRpmAbove95);
+
+        if (powerNotFromBatt) {
+            this.updateScreenState(dTime);
+        }
+        else{
+            this.screenTimeInit = 240;
+            this.fmcScreenTimeInit = 60;
+        }
+
         this.HorizonSimBase.update(_deltaTime);
+    }
+    updateScreenState(dTime) {        
+        if (SimVar.GetSimVarValue("L:B777_SCREEN_STATE", "Number") == 0) {
+            this.screenTimeInit -= dTime / 1000;
+            this.fmcScreenTimeInit -= dTime / 1000;
+        }
+        if (this.screenTimeInit <= 0) {
+            SimVar.SetSimVarValue("L:B777_SCREEN_STATE", "Number", 1);
+        }
+        if (this.fmcScreenTimeInit <= 45) {
+            SimVar.SetSimVarValue("L:B777_FMC_SCREEN_STATE", "Number", 1);
+        }
+        if (this.fmcScreenTimeInit <= 0) {
+            SimVar.SetSimVarValue("L:B777_FMC_SCREEN_STATE", "Number", 2);
+        }
+
+        if (SimVar.GetSimVarValue("L:B777_Plane_Landed", "Bool") && !SimVar.GetSimVarValue("CIRCUIT GENERAL PANEL ON", "Bool")) {
+            SimVar.SetSimVarValue("L:B777_SCREEN_STATE", "Number", 0); //shutdown
+            SimVar.SetSimVarValue("L:B777_FMC_SCREEN_STATE", "Number", 0);
+
+            this.screenTimeInit = 240;
+            this.fmcScreenTimeInit = 60;
+        }
     }
     updateUnits() {
         if (WTDataStore.get("OPTIONS_UNITS", "KG") == "KG") {
