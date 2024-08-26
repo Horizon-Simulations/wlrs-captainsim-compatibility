@@ -140,10 +140,10 @@ class B777_EICAS extends Airliners.BaseEICAS {
         ];
         this.currentAPUIndex = 0;
         SimVar.SetSimVarValue("L:APU_EGT", "number", 0);
-        SimVar.SetSimVarValue("L:APU_RPM", "number", 0);
+        SimVar.SetSimVarValue("L:APU_RPM", "number", this.ambientTemp);
         SimVar.SetSimVarValue("L:APU_OIL_PRESS", "number", 0);
-        SimVar.SetSimVarValue("L:APU_OIL_TEMP", "number", 0);
-        SimVar.SetSimVarValue("L:APU_OIL_QTY", "number", 0);
+        SimVar.SetSimVarValue("L:APU_OIL_TEMP", "number", 54);
+        SimVar.SetSimVarValue("L:APU_OIL_QTY", "number", 5.9);
 
         setInterval(this.updateAPUData.bind(this), 152);
         setInterval(this.updateFuelTemperature.bind(this), this.delta_t);
@@ -204,6 +204,7 @@ class B777_EICAS extends Airliners.BaseEICAS {
         this.createLowerScreenPage("DRS", "BottomScreen", "b777-lower-eicas-drs");
         this.createLowerScreenPage("ELEC", "BottomScreen", "b777-lower-eicas-elec");
         this.createLowerScreenPage("HYD", "BottomScreen", "b777-lower-eicas-hyd");
+        this.createLowerScreenPage("AIR", "BottomScreen", "b777-lower-eicas-air");
         this.createLowerScreenPage("GEAR", "BottomScreen", "b777-lower-eicas-gear");
         this.createLowerScreenPage("CHKL", "BottomScreen", "b777-lower-eicas-ecl");
         this.createLowerScreenPage("INFO", "BottomScreen", "b777-lower-eicas-info");
@@ -216,6 +217,15 @@ class B777_EICAS extends Airliners.BaseEICAS {
 
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
+        if (SimVar.GetSimVarValue("L:B777_SCREEN_STATE", "Number") == 0) {
+            setTimeout(function() {
+                document.getElementById("BlackBox").style.display = "block";
+            }, 100);
+            return;
+        }
+        else {
+            document.getElementById("BlackBox").style.display = "none";
+        }  
         this.updateAnnunciations();
         this.updateEngines(_deltaTime);
         this.updateElapsedTime(_deltaTime);
@@ -288,7 +298,7 @@ class B777_EICAS extends Airliners.BaseEICAS {
         this.ambientTemp = (SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "Celsius")).toFixed(0);
         const apuStarted = SimVar.GetSimVarValue("APU SWITCH", "Bool");
         
-        if (SimVar.GetSimVarValue("APU PCT RPM", "percent") > 7) {
+        if (SimVar.GetSimVarValue("APU PCT RPM", "percent") > 5) {
             if (apuStarted) {                
                 this.currentAPUIndex++;
                 if (this.currentAPUIndex >= this.apuStart.length) {
