@@ -1338,17 +1338,22 @@
 		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
 			<NODE_ID>O01_001_LT</NODE_ID>
 			<EMISSIVE_CODE> 
-					(A:ELECTRICAL MASTER BATTERY, bool)
-					(A:EXTERNAL POWER AVAILABLE, bool) !
-					(A:EXTERNAL POWER ON, bool) !
-					or
-					(A:GENERAL ENG MASTER ALTERNATOR:1, bool) !
-					(A:GENERAL ENG MASTER ALTERNATOR:2, bool) !
-					and
-					(L:B777_ADIRU_BUTTON_STATE, number)
-					and and
+				(A:ELECTRICAL MASTER BATTERY, bool)
+				(A:EXTERNAL POWER AVAILABLE, bool) !
+				(A:EXTERNAL POWER ON, bool) !
+				or
+				(A:GENERAL ENG MASTER ALTERNATOR:1, bool) !
+				(A:GENERAL ENG MASTER ALTERNATOR:2, bool) !
+				and
+				(L:B777_ADIRU_BUTTON_STATE, number)
+				and and
+				(A:APU GENERATOR SWITCH, bool)
+				(A:APU RPM PERCENT, percent) 95 &gt;
+				and !
 			</EMISSIVE_CODE>
 		</UseTemplate>
+
+
 	</Template>
 
 
