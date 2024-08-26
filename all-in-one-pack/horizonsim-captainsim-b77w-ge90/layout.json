@@ -1068,7 +1068,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_AirlinePol.js",
       "size": 6747,
-      "date": 133691115661525383
+      "date": 133691673768742403
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_Index.js",
@@ -1558,7 +1558,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/PFD/AttitudeIndicator.js",
       "size": 48399,
-      "date": 133690072513118187
+      "date": 133691670182614801
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77W/PFD/B777_PFD.css",
@@ -1812,8 +1812,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/panel.cfg",
-      "size": 2633,
-      "date": 133691654753144556
+      "size": 2619,
+      "date": 133691655388810597
     },
     {
       "path": "SimObjects/Airplanes/CS_B777-300ER_GE115B/panel/panel.xml",
