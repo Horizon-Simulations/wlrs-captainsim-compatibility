@@ -83,15 +83,15 @@ var B777_LowerEICAS_Stat;
         }        
 
         updateAPUData() {
-            if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 3)
-                {
-                    this.apuEGTUnit.textContent = "C";
-                    this.apuEGT.textContent = SimVar.GetSimVarValue("L:APU_EGT", "number");
-                    this.apuRPM.textContent = SimVar.GetSimVarValue("L:APU_RPM", "number").toFixed(1);
-                    this.apuPress.textContent = SimVar.GetSimVarValue("L:APU_OIL_PRESS", "number");
-                    this.apuTemp.textContent = SimVar.GetSimVarValue("L:APU_OIL_TEMP", "number");
-                    this.apuQty.textContent = SimVar.GetSimVarValue("L:APU_OIL_QTY", "number").toFixed(1);
-                }
+            if ((SimVar.GetSimVarValue("APU PCT RPM", "percent")) > 3 || (SimVar.GetSimVarValue("L:XMLVAR_APU_StarterKnob_Pos", "Enum") == 1))
+            {
+                this.apuEGTUnit.textContent = "C";
+                this.apuEGT.textContent = SimVar.GetSimVarValue("L:APU_EGT", "number");
+                this.apuRPM.textContent = SimVar.GetSimVarValue("L:APU_RPM", "number").toFixed(1);
+                this.apuPress.textContent = SimVar.GetSimVarValue("L:APU_OIL_PRESS", "number");
+                this.apuTemp.textContent = SimVar.GetSimVarValue("L:APU_OIL_TEMP", "number");
+                this.apuQty.textContent = SimVar.GetSimVarValue("L:APU_OIL_QTY", "number").toFixed(1);
+            }
             else
             {
                 this.apuEGTUnit.textContent = "";

@@ -84,7 +84,7 @@ var B777_UpperEICAS;
         }
         update(_deltaTime) {
             //debug section
-            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("A:AUTOPILOT TAKEOFF POWER ACTIVE", "Bool");
+            //this.querySelector("#RIGHT_DUCT_Value").textContent = SimVar.GetSimVarValue("LIGHT POTENTIOMETER:42", "Percent");
 
             const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
 
