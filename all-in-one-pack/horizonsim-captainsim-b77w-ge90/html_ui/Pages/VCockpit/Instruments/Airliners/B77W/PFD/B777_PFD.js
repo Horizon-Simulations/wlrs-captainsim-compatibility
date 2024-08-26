@@ -19,6 +19,15 @@ class B777_PFD extends BaseAirliners {
     }
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
+        if (SimVar.GetSimVarValue("L:B777_SCREEN_STATE", "Number") == 0) {
+            setTimeout(function() {
+                document.getElementById("BlackBox").style.display = "block";
+            }, 500);
+            return;
+        }
+        else {
+            document.getElementById("BlackBox").style.display = "none";
+        }
     }
 }
 class B777_PFD_MainElement extends NavSystemElement {
@@ -62,9 +71,9 @@ class B777_PFD_MainPage extends NavSystemPage {
         this.ilsBox = document.querySelector("jet-pfd-ils-indicator");  
     }
     onUpdate(_deltaTime) {
-        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
+        const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
 
-        if (IRSState == 0) {
+        if (adiruState == 0) {
             this.attBox.setAttribute("style", "");
             this.attBoxText.style.display = "";
             this.attBoxRect.style.display = "";
@@ -74,7 +83,7 @@ class B777_PFD_MainPage extends NavSystemPage {
             this.compassElement.setAttribute("style", "display:none")
             this.ilsBox.setAttribute("style", "display:none")
         }
-        if (IRSState == 1) {
+        if (adiruState == 1) {
             this.attBox.setAttribute("style", "");
             this.attBoxText.style.display = "none";
             this.attBoxRect.style.display = "none";
@@ -85,7 +94,7 @@ class B777_PFD_MainPage extends NavSystemPage {
             this.ilsBox.setAttribute("style", "display:none")
 
         }
-        if (IRSState == 2) {
+        if (adiruState == 2) {
             this.attBox.setAttribute("style", "display:none");
             this.vertBox.setAttribute("style", "display:none");
             // this.noVspd.setAttribute("style", "display:none");
