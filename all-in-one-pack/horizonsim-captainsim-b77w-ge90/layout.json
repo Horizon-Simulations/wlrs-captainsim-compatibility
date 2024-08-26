@@ -1656,31 +1656,6 @@
       "date": 133671081285862081
     },
     {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/CS777-300ER_EICAS.css",
-      "size": 1784,
-      "date": 133690877042603130
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/CS777-300ER_EICAS.html",
-      "size": 4850,
-      "date": 133690715992599650
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_GEAR.css",
-      "size": 1659,
-      "date": 133627090502013614
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_GEAR.html",
-      "size": 5869,
-      "date": 133627726103424649
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/CS777-300ER/EICAS/Pages/CS777-300ER_LowerEICAS_GEAR.js",
-      "size": 7606,
-      "date": 133672733501944453
-    },
-    {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/Shared/HorizonSim_BaseAirliners.js",
       "size": 71339,
       "date": 133690820039051843
