@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="CS777-300ER_FMC.css" />
 <script type="text/html" id="B777_FMC">
+    <div id="BlackBox">
+        <svg viewBox="0 0 1200 1200">
+            <rect fill="black" x="0" y="0" width="100%" height="100%" id="blackInitBox"></rect>
+        </svg>
+    </div>
     <div id="Mainframe">
         <div id="Electricity" state="off">
         </div>
@@ -33,15 +38,15 @@
 <!-- BASE -->
 <script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimBase.js"></script>
 <script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimConnection.js"></script>
-<script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimFuelling.js"></script>    <!---->
-<script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimIRS.js"></script>
+<script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimFuelling.js"></script>
+<script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimADIRU.js"></script>
 <script type="text/html" import-script="/Pages/B77W_HorizonSim/HorizonSimJettison.js"></script>
 <script type="text/html" import-script="/Pages/B77W_HorizonSim/teeveeAnimHandler.js"></script>
 
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/Shared/HorizonSim_BaseAirliners.js"></script>
 <!-- B777 Modules -->
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/B777_FMCMainDisplay.js"></script>
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/Boeing777_FMC.js"></script> <!--modified-->
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/Boeing777_FMC.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/Shared/FMC/FMCDataManager.js"></script>
 
 <!-- WT -->
@@ -88,10 +93,10 @@
 
 <!-- PAYLOAD MANAGER -->
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/UTILS/B777_FMC_Utils.js"></script>
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B77W_FMC_Payload.js"></script>  <!---->
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B77W_FMC_Fuel.js"></script> <!---->
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B77W_Boarding.js"></script> <!---->
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B777-300ER_FMC_PayloadConstructor.js"></script>   <!---->
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B77W_FMC_Payload.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B77W_FMC_Fuel.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B77W_Boarding.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/PAYLOAD/B77W/B777-300ER_FMC_PayloadConstructor.js"></script>
 
 <!-- UTILS -->
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/UTILS/B777_FMC_Doors.js"></script>
@@ -148,5 +153,5 @@
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_Index.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_Options.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_AirlinePol.js"></script>
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_IrsMonitor.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_ADIRU_Monitor.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Airliners/B77W/FMC/MAINT/B777_FMC_MAINT_Sensors.js"></script>
