@@ -42744,7 +42744,7 @@ class IrsSystemSelector {
             for (let i = 0; i < this.irsOrder.length; i++) {
                 const index = this.irsOrder[i];
                 const state = this.irsEntries.get(index).state.get();
-                if (!bestState || IrsSystemSelector.compareIrsState(state, bestState) < 0) {
+                if (!bestState || IrsSystemSelector.compareadiruState(state, bestState) < 0) {
                     bestIndex = index;
                     bestState = state;
                 }
@@ -42788,7 +42788,7 @@ class IrsSystemSelector {
      * @returns A negative number of state `a` is more desirable than `b`, a positive number if state `b` is more
      * desirable than `a`, or zero if the two states are equally desirable.
      */
-    static compareIrsState(a, b) {
+    static compareadiruState(a, b) {
         // The data validity flags within the state array are ordered such that a false flag cannot precede a true flag,
         // so we can exploit this fact.
         return b.lastIndexOf(true) - a.lastIndexOf(true);
