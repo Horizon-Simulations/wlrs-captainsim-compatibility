@@ -862,7 +862,7 @@
 		  <Text>ADIRU ALIGN MODE</Text>
 		  <Condition>
 		  	<Equal>
-				<Simvar name="L:B777_IRS_STATE" unit="Enum"/>
+				<Simvar name="L:B777_ADIRU_STATE" unit="Enum"/>
 				<Constant>1</Constant>
 			</Equal>
 		  </Condition>
