@@ -29,6 +29,15 @@ class B777_MFD extends BaseAirliners {
     }
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
+        if (SimVar.GetSimVarValue("L:B777_SCREEN_STATE", "Number") == 0) {
+            setTimeout(function() {
+                document.getElementById("BlackBox").style.display = "block";
+            }, 800);
+            return;
+        }
+        else {
+            document.getElementById("BlackBox").style.display = "none";
+        }
     }
 }
 class B777_MFD_MainElement extends NavSystemElement {
@@ -104,21 +113,21 @@ class B777_MFD_MainPage extends NavSystemPage {
             this.fakePlaneForADIRU.style.display = "";
         }
 
-        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
-        const IRSMinutesLeft = Math.floor(SimVar.GetSimVarValue("L:B777_IRS_TIME_LEFT", "Enum"));
+        const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
+        const IRSMinutesLeft = Math.floor(SimVar.GetSimVarValue("L:B777_ADIRU_TIME_LEFT", "Enum"));
 
-        if (IRSState == 0) {
+        if (adiruState == 0) {
             this.trkBox.style.display = "";
             this.irsTimes.style.display = "none";
             this.mapInstrument.style.display = "none";
         }
-        if (IRSState == 1) {
+        if (adiruState == 1) {
             this.trkBox.style.display = "none";
             this.mapInstrument.style.display = "none";
             this.irsTimes.style.display = "";
             this.IRSValue.textContent = this._formatIRSTime(IRSMinutesLeft);
         }
-        if (IRSState == 2) {
+        if (adiruState == 2) {
             this.trkBox.style.display = "none";
             this.mapInstrument.style.display = "";
             this.irsTimes.style.display = "none";
@@ -568,7 +577,7 @@ class B777_MFD_NDInfo extends NavSystemElement {
         }
         */
 
-        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
+        const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
         const groundSpeed = Math.round(Simplane.getGroundSpeed());
         const utcTime = SimVar.GetGlobalVarValue("ZULU TIME", "seconds");
         let showData;
@@ -593,7 +602,7 @@ class B777_MFD_NDInfo extends NavSystemElement {
                 this.waypointDistance.textContent = nextWaypointDistance.toFixed(1);
             }
         }
-        if (IRSState != 2 || groundSpeed < 100) {
+        if (adiruState != 2 || groundSpeed < 100) {
             showData = false; 
         }
         else {
@@ -607,7 +616,7 @@ class B777_MFD_NDInfo extends NavSystemElement {
         this.windStrength.setAttribute("visibility", showData ? "visible" : "hidden");
         this.windArrow.setAttribute("visibility", showData ? "visible" : "hidden");
 
-        if (IRSState != 2) {
+        if (adiruState != 2) {
             this.gsBig.textContent = "--";
             this.gsSmall.textContent = "--";
             this.gsSmall.setAttribute("visibility", "hidden");
