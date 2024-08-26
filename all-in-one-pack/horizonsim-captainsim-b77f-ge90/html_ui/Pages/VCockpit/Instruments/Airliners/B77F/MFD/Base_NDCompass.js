@@ -359,7 +359,7 @@ class Jet_NDCompass extends HTMLElement {
                         this.selectedHeadingGroup.classList.toggle('hide', false);
                     if (this.selectedHeadingLine)
                         this.selectedHeadingLine.classList.toggle('hide', !showSelectedHeading);
-                        if (SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum") !== 2 && this.selectedHeadingGroup) {
+                        if (SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum") !== 2 && this.selectedHeadingGroup) {
                             this.selectedHeadingGroup.classList.toggle('hide', true);
                         }
                 }
@@ -738,7 +738,7 @@ class Jet_NDCompass extends HTMLElement {
         }
     }
     applyRotation() {
-        if (SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum") != 2) {
+        if (SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum") != 2) {
             return;
         }
         let course = Number(this.getAttribute('rotation'));

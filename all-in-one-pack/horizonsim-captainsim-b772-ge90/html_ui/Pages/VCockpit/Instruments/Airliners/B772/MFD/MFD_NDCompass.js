@@ -353,8 +353,8 @@ class Jet_MFD_NDCompass extends Jet_NDCompass {
         }
     }
     updateIRS() {
-        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
-        if (IRSState == 0) {
+        const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
+        if (adiruState == 0) {
             if (this.displayMode === Jet_NDCompass_Display.ARC) {
                 this.currentRefValue.setAttribute("display", "none");
                 this.currentRefType.setAttribute("display", "none");
@@ -364,7 +364,7 @@ class Jet_MFD_NDCompass extends Jet_NDCompass {
                 this.textHeading.setAttribute("display", "none");  //not working for some reason, check this later 
             }
         }
-        if (IRSState == 1) {
+        if (adiruState == 1) {
             if (this.displayMode === Jet_NDCompass_Display.ARC) {
                 this.currentRefValue.setAttribute("display", "");
                 this.currentRefValue.textContent = "---";
@@ -376,7 +376,7 @@ class Jet_MFD_NDCompass extends Jet_NDCompass {
                 this.textHeading.setAttribute("display", "");   //not working for some reason, check this later 
             }
         }
-        if (IRSState == 2) {
+        if (adiruState == 2) {
             if (this.displayMode === Jet_NDCompass_Display.ARC) {
                 this.currentRefValue.setAttribute("display", "");
                 this.currentRefType.setAttribute("display", "");

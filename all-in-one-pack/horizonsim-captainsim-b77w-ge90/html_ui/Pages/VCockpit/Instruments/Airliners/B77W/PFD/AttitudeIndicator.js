@@ -614,8 +614,8 @@ class Jet_PFD_AttitudeIndicator extends HTMLElement {
         }
     }
     updatePLI() {
-        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
-        if (IRSState == 2) {
+        const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
+        if (adiruState == 2) {
             if ((SimVar.GetSimVarValue("TRAILING EDGE FLAPS LEFT ANGLE", "percent over 100") > 0) || Simplane.getIndicatedSpeed() < SimVar.GetSimVarValue("L:B777_VREF30", "knots") + 60) {
                 let alpha = SimVar.GetSimVarValue("INCIDENCE ALPHA", "degrees");
                 if(Simplane.getGroundSpeed() < 5) {
