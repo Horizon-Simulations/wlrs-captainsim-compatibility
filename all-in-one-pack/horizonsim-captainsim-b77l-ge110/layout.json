@@ -346,6 +346,11 @@
       "date": 133662468365427168
     },
     {
+      "path": "html_ui/Pages/B77L_HorizonSim/HorizonSimADIRU.js",
+      "size": 3373,
+      "date": 133690835242482968
+    },
+    {
       "path": "html_ui/Pages/B77L_HorizonSim/HorizonSimBase.js",
       "size": 1040,
       "date": 133672500638484483
@@ -359,11 +364,6 @@
       "path": "html_ui/Pages/B77L_HorizonSim/HorizonSimFuelling.js",
       "size": 6342,
       "date": 133681654195265256
-    },
-    {
-      "path": "html_ui/Pages/B77L_HorizonSim/HorizonSimIRS.js",
-      "size": 3183,
-      "date": 133691644772461345
     },
     {
       "path": "html_ui/Pages/B77L_HorizonSim/HorizonSimJettison.js",
@@ -907,8 +907,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77L/FMC/CS777-200LR_FMC.html",
-      "size": 14252,
-      "date": 133689229970013639
+      "size": 14299,
+      "date": 133691679470361214
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77L/FMC/CS777-200LR_FMC_IdentPage.js",
