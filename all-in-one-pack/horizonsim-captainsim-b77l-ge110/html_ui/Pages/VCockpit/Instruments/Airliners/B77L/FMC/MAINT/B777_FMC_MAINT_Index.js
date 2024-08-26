@@ -11,7 +11,7 @@ class FMC_MAINT_Index {
                 ["", ""],
                 ["<AIRLINE POL", "DISCRETES>[color]inop"],
                 ["", ""],
-                ["<IRS MONITOR", ""],
+                ["<ADIRU MONITOR", ""],
                 ["", ""],
                 ["", ""],
                 ["", ""],
@@ -39,7 +39,7 @@ class FMC_MAINT_Index {
 
         /* LSK3 */
         fmc.onLeftInput[2] = () => {
-            FMC_MAINT_IrsMonitor.ShowPage(fmc);
+            FMC_MAINT_ADIRU_Monitor.ShowPage(fmc);
         }
         
         /* LSK6 */
