@@ -401,12 +401,12 @@ class FMCMainDisplay extends BaseAirliners {
         this.refHeading = nHeading;
         return true;
     }
-    async tryUpdateIrsCoordinatesDisplay(newIrsCoordinatesDisplay) {
-        if (!this.dataManager.IsValidLatLon(newIrsCoordinatesDisplay)) {
+    async tryUpdateADIRUCoordinatesDisplay(newADIRUCoordinatesDisplay) {
+        if (!this.dataManager.IsValidLatLon(newADIRUCoordinatesDisplay)) {
             this.showErrorMessage(this.defaultInputErrorMessage);
             return false;
         }
-        this.initCoordinates = newIrsCoordinatesDisplay;
+        this.initCoordinates = newADIRUCoordinatesDisplay;
         this.lastPos = this.initCoordinates;
         return true;
     }
@@ -2407,6 +2407,23 @@ class FMCMainDisplay extends BaseAirliners {
         this.customV2Speed = false;
     }
     onUpdate(_deltaTime) {
+        if (SimVar.GetSimVarValue("L:B777_FMC_SCREEN_STATE", "Number") == 0) {
+            //setTimeout(function() {
+                document.getElementById("BlackBox").style.display = "block";
+            //}, 190);
+
+            return;
+        }
+        else if (SimVar.GetSimVarValue("L:B777_FMC_SCREEN_STATE", "Number") == 1) {
+            //document.querySelector("blackInitBox").style.opacity = "40"; //don't work for some reason, troubleshoot later
+            document.getElementById("BlackBox").style.display = "none";
+        }
+        else {
+            setTimeout(function() {
+                document.getElementById("BlackBox").style.display = "none";
+
+            }, 120);
+        }
         super.onUpdate(_deltaTime);
         if (this._debug++ > 180) {
             this._debug = 0;
