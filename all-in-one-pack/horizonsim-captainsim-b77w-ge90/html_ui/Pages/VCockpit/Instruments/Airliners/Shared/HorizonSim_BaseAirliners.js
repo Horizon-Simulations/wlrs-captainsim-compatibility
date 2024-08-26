@@ -18,6 +18,7 @@ class BaseAirliners extends NavSystem {
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
         BaseAirliners.isMetric = Simplane.getUnitIsMetric();
+        
     }
     static unitIsMetric(_plane) {
         switch (_plane) {

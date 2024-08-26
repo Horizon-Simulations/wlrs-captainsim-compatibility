@@ -301,6 +301,7 @@ class B777_SAI_HSIndicator extends HTMLElement {
             
             const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
 
+            // Compass visible / not visible depending on IRS
             if (adiruState <= 1) {
                 text.style.display = "none";
                 cursor.style.display = "none";
@@ -900,7 +901,7 @@ class B777_SAI_Attitude extends NavSystemElement {
         const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
 
         /* _deltaTime provides the wrong value if the screen refresh rate is set to low or medium in the settings - 
-        therefore, this method of getting the deltatime is being used here. In the future, this could be moved to Base or Utils.*/ 
+        therefore, this method of getting the deltatime is being used here. In the future, this could be moved to Salty Core or Utils.*/ 
         var timeNow = Date.now();
         if (this.lastTime == null) this.lastTime = timeNow;
         var deltaTime = timeNow - this.lastTime;
