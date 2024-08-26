@@ -299,10 +299,9 @@ class B777_SAI_HSIndicator extends HTMLElement {
                 text.setAttribute('font-size', "20");
             }
             
-            const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
+            const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
 
-            // Compass visible / not visible depending on IRS
-            if (IRSState <= 1) {
+            if (adiruState <= 1) {
                 text.style.display = "none";
                 cursor.style.display = "none";
                 let lines = document.getElementsByClassName("lines");
@@ -311,7 +310,7 @@ class B777_SAI_HSIndicator extends HTMLElement {
                 }
                 this.hdgBox.style.display = "";
             }
-            if (IRSState == 2) {
+            if (adiruState == 2) {
                 text.style.display = "";
                 cursor.style.display = "";
                 let lines = document.getElementsByClassName("lines");
@@ -898,16 +897,16 @@ class B777_SAI_Attitude extends NavSystemElement {
 
         const isISFDOn = SimVar.GetSimVarValue("L:B777_SAI_State", "Bool");
         const isInitDone = SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool");
-        const IRSState = SimVar.GetSimVarValue("L:B777_IRS_STATE", "Enum");
+        const adiruState = SimVar.GetSimVarValue("L:B777_ADIRU_STATE", "Enum");
 
         /* _deltaTime provides the wrong value if the screen refresh rate is set to low or medium in the settings - 
-        therefore, this method of getting the deltatime is being used here. In the future, this could be moved to B777 Core or Utils.*/ 
+        therefore, this method of getting the deltatime is being used here. In the future, this could be moved to Base or Utils.*/ 
         var timeNow = Date.now();
         if (this.lastTime == null) this.lastTime = timeNow;
         var deltaTime = timeNow - this.lastTime;
         this.lastTime = timeNow;
 
-        if (IRSState == 2) SimVar.SetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool", 1);
+        if (adiruState == 2) SimVar.SetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool", 1);
 
         if (!this.initSequenceStarted && isISFDOn && !SimVar.GetSimVarValue("L:B777_ISFD_INIT_DONE", "Bool")) {
             this.initBox.style.display = "block";
