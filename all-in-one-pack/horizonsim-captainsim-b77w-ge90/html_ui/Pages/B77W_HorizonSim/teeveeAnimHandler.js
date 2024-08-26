@@ -21,7 +21,6 @@ class teeveeAnimHanlder {
         this.entryDoorR4 = SimVar.GetSimVarValue("L:cs777_anim_ctrl_r_door_4", "bool");
         this.greaDoors = SimVar.GetSimVarValue("L:cs777_anim_ctrl_fwd_acc_door", "bool");
 
-        
         this.epHatch = SimVar.GetSimVarValue("L:L:cs777_anim_ctrl_ep_hatch", "bool");
         */
     }
