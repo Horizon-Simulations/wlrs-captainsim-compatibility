@@ -61,19 +61,19 @@ class FMC_MAINT_AirlinePol {
         /* LSK1 */
         fmc.onLeftInput[0] = () => {
 			WTDataStore.set("WIFI SATCOM ATN MODE", parseInt((wifiSatcom + 1) % 8));
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+            FMC_MAINT_AirlinePol.ShowPage1(fmc);
         }
 
         /* LSK2 */
         fmc.onLeftInput[1] = () => {
 			WTDataStore.set("TELEPHONE MODE", !telephone);
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+            FMC_MAINT_AirlinePol.ShowPage1(fmc);
         }
 
         /* LSK3 */
         fmc.onLeftInput[2] = () => {
 			WTDataStore.set("DME ANTENNA MODE", !dmeAntenna);
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+            FMC_MAINT_AirlinePol.ShowPage1(fmc);
         }
 
 
@@ -82,8 +82,8 @@ class FMC_MAINT_AirlinePol {
             FMC_MAINT_Index.ShowPage(fmc);
         }
 
-        fmc.onPrevPage = () => {
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+        fmc.onNextPage = () => {
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
     }
@@ -129,7 +129,7 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("COST_INDEX_POL", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* LSK2 */
@@ -137,7 +137,7 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("TO_EO_ACCEL_HT", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* RSK2 */
@@ -145,7 +145,7 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("TO_ACCEL_HT", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* LSK3 */
@@ -153,7 +153,7 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("TO_Q_CLB_AT", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* RSK3 */
@@ -161,7 +161,7 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("TO_CLB_AT", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* LSK4 */
@@ -169,7 +169,7 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("TO_THR_REDUCTION", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* RSK4 */
@@ -177,22 +177,22 @@ class FMC_MAINT_AirlinePol {
             let value = fmc.inOut;
             fmc.clearUserInput();
             WTDataStore.set("TO_CLB_BY", parseInt(value));
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
 
         /* LSK5 */
         fmc.onLeftInput[4] = () => {
             WTDataStore.set("aoaIndicator", (aoaIndicator === true) ? false : true);
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
         
         /* LSK6 */
         fmc.onLeftInput[5] = () => {
             FMC_MAINT_Index.ShowPage(fmc);
         }
-
-        fmc.onNextPage = () => {
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+        
+        fmc.onPrevPage = () => {
+            FMC_MAINT_AirlinePol.ShowPage1(fmc);
         }
     }
 }
