@@ -1,5 +1,93 @@
 class FMC_MAINT_AirlinePol {
     static ShowPage1(fmc) {
+        fmc.clearDisplay();
+        const installed = "\xa0{green}INSTALLED{end}";
+        const notInstalled = "\xa0{yellow}NOT INSTALLED{end}";
+
+        const wifiSatcom = WTDataStore.get("WIFI SATCOM ATN MODE", 0);
+        const telephone = WTDataStore.get("TELEPHONE MODE", false);
+        const dmeAntenna = WTDataStore.get("DME ANTENNA MODE", false);
+
+        let satcomDisplayOption;
+
+        switch (wifiSatcom) {
+            case 0:
+                satcomDisplayOption = "NOT INSTALLED";
+                break;
+            case 1:
+                satcomDisplayOption = "KU";
+                break;
+            case 2:
+                satcomDisplayOption = "2KU";
+                break;
+            case 3:
+                satcomDisplayOption = "KU + SATCOM";
+                break;
+            case 4:
+                satcomDisplayOption = "2KU + SATCOM";
+                break;
+            case 5:
+                satcomDisplayOption = "SATCOM";
+                break;
+            case 6:
+                satcomDisplayOption = "KU MID + SATCOM";
+                break;
+            case 7:
+                satcomDisplayOption = "KU MID";
+                break;
+            default:
+                satcomDisplayOption = "TEST";
+        }
+
+        const updateView = () => {
+            fmc.setTemplate([
+                ["AIRLINES POLICY", 1, 2],
+                ["\xa0SATCOM", ""],
+                [`[${satcomDisplayOption}]`, ""],
+                ["\xa0TELEPHONE", ""],
+                [telephone ? installed : notInstalled, ""],
+                ["\xa0DME", ""],
+                [dmeAntenna ? installed : notInstalled, ""],
+                ["", ""],
+                ["", ""],
+                ["", ""],
+                ["", ""],
+                ["", "", "__FMCSEPARATOR"],
+                ["<INDEX", ""]
+            ]);
+        }
+        updateView();
+        
+        /* LSK1 */
+        fmc.onLeftInput[0] = () => {
+			WTDataStore.set("WIFI SATCOM ATN MODE", parseInt((wifiSatcom + 1) % 8));
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+        }
+
+        /* LSK2 */
+        fmc.onLeftInput[1] = () => {
+			WTDataStore.set("TELEPHONE MODE", !telephone);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+        }
+
+        /* LSK3 */
+        fmc.onLeftInput[2] = () => {
+			WTDataStore.set("DME ANTENNA MODE", !dmeAntenna);
+            FMC_MAINT_AirlinePol.ShowPage2(fmc);
+        }
+
+
+        /* LSK6 */
+        fmc.onLeftInput[5] = () => {
+            FMC_MAINT_Index.ShowPage(fmc);
+        }
+
+        fmc.onPrevPage = () => {
+            FMC_MAINT_AirlinePol.ShowPage1(fmc);
+        }
+        
+    }
+    static ShowPage2(fmc) {
         //note: since WT datastore uses type comparison, I'll have to parseInt to use WTDataStore. Suggest writing a class without type check, but it won't error redundancy
         fmc.clearDisplay();
         const onGreen = "{green}ON{end}/{small}OFF{end}";
@@ -19,7 +107,7 @@ class FMC_MAINT_AirlinePol {
         
         const updateView = () => {
             fmc.setTemplate([
-                ["AIRLINES POLICY", 1, 2],
+                ["AIRLINES POLICY", 2, 2],
                 ["\xa0COST INDEX", ""],
                 [`[${costIndexPolicy}]`, ""],
                 ["EO ACCEL HT", "ACCEL HT"],
@@ -106,94 +194,5 @@ class FMC_MAINT_AirlinePol {
         fmc.onNextPage = () => {
             FMC_MAINT_AirlinePol.ShowPage2(fmc);
         }
-    }
-
-    static ShowPage2(fmc) {
-        fmc.clearDisplay();
-        const installed = "\xa0{green}INSTALLED{end}";
-        const notInstalled = "\xa0{yellow}NOT INSTALLED{end}";
-
-        const wifiSatcom = WTDataStore.get("WIFI SATCOM ATN MODE", 0);
-        const telephone = WTDataStore.get("TELEPHONE MODE", false);
-        const dmeAntenna = WTDataStore.get("DME ANTENNA MODE", false);
-
-        let satcomDisplayOption;
-
-        switch (wifiSatcom) {
-            case 0:
-                satcomDisplayOption = "NOT INSTALLED";
-                break;
-            case 1:
-                satcomDisplayOption = "KU";
-                break;
-            case 2:
-                satcomDisplayOption = "2KU";
-                break;
-            case 3:
-                satcomDisplayOption = "KU + SATCOM";
-                break;
-            case 4:
-                satcomDisplayOption = "2KU + SATCOM";
-                break;
-            case 5:
-                satcomDisplayOption = "SATCOM";
-                break;
-            case 6:
-                satcomDisplayOption = "KU MID + SATCOM";
-                break;
-            case 7:
-                satcomDisplayOption = "KU MID";
-                break;
-            default:
-                satcomDisplayOption = "TEST";
-        }
-
-        const updateView = () => {
-            fmc.setTemplate([
-                ["AIRLINES POLICY", 2, 2],
-                ["\xa0SATCOM", ""],
-                [`[${satcomDisplayOption}]`, ""],
-                ["\xa0TELEPHONE", ""],
-                [telephone ? installed : notInstalled, ""],
-                ["\xa0DME", ""],
-                [dmeAntenna ? installed : notInstalled, ""],
-                ["", ""],
-                ["", ""],
-                ["", ""],
-                ["", ""],
-                ["", "", "__FMCSEPARATOR"],
-                ["<INDEX", ""]
-            ]);
-        }
-        updateView();
-        
-        /* LSK1 */
-        fmc.onLeftInput[0] = () => {
-			WTDataStore.set("WIFI SATCOM ATN MODE", parseInt((wifiSatcom + 1) % 8));
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
-        }
-
-        /* LSK2 */
-        fmc.onLeftInput[1] = () => {
-			WTDataStore.set("TELEPHONE MODE", !telephone);
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
-        }
-
-        /* LSK3 */
-        fmc.onLeftInput[2] = () => {
-			WTDataStore.set("DME ANTENNA MODE", !dmeAntenna);
-            FMC_MAINT_AirlinePol.ShowPage2(fmc);
-        }
-
-
-        /* LSK6 */
-        fmc.onLeftInput[5] = () => {
-            FMC_MAINT_Index.ShowPage(fmc);
-        }
-
-        fmc.onPrevPage = () => {
-            FMC_MAINT_AirlinePol.ShowPage1(fmc);
-        }
-        
     }
 }
