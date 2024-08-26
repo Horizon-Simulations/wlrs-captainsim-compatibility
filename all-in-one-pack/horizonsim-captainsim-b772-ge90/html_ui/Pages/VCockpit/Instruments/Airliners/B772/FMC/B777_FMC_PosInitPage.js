@@ -23,9 +23,9 @@ class FMCPosInitPage {
         if (fmc.refHeading) {
             heading = fmc.refHeading.toFixed(0).padStart(3, "0") + "°";
         }
-        let irsPos = "□□□°□□.□ □□□□°□□.□";
+        let adiruPOS = "□□□°□□.□ □□□□°□□.□";
         if (fmc.initCoordinates) {
-            irsPos = fmc.initCoordinates;
+            adiruPOS = fmc.initCoordinates;
         }
         fmc.clearDisplay();
         fmc.setTemplate([
@@ -39,7 +39,7 @@ class FMCPosInitPage {
             ["\xa0UTC (GPS)", "GPS POS"],
             [dateString, gpsPos],
             ["\xa0SET HDG", "SET IRS POS"],
-            [heading, irsPos],
+            [heading, adiruPOS],
             ["__FMCSEPARATOR"],
             ["<INDEX", "ROUTE>"]
         ]);
@@ -91,7 +91,7 @@ class FMCPosInitPage {
         fmc.onRightInput[4] = async () => {
             let value = fmc.inOut;
             fmc.inOut = "";
-            if (await fmc.tryUpdateIrsCoordinatesDisplay(value)) {
+            if (await fmc.tryUpdateADIRUCoordinatesDisplay(value)) {
                 FMCPosInitPage.ShowPage1(fmc);
             }
         };
@@ -108,9 +108,9 @@ class FMCPosInitPage {
     static ShowPage2(fmc, store = {latBrgSwitch: "LAT/LON"}) {
         fmc.clearDisplay();
         let currPos = new LatLong(SimVar.GetSimVarValue("GPS POSITION LAT", "degree latitude"), SimVar.GetSimVarValue("GPS POSITION LON", "degree longitude")).toDegreeString();
-        let irsPos = "";
+        let adiruPOS = "";
         if (fmc.initCoordinates) {
-            irsPos = fmc.initCoordinates;
+            adiruPOS = fmc.initCoordinates;
         }
         const updateView = () => {
             fmc.setTemplate([
@@ -118,7 +118,7 @@ class FMCPosInitPage {
                 ["\xa0FMC (GPS L)", "UPDATE"],
                 [currPos, "ARM>"],
                 ["\xa0IRS(3)", "0.00NM"],
-                [irsPos, ""],
+                [adiruPOS, ""],
                 ["\xa0GPS", "0.00NM"],
                 [currPos, ""],
                 ["\xa0RADIO", "0.00NM"],
@@ -153,9 +153,9 @@ class FMCPosInitPage {
     static ShowPage3(fmc, store = {latBrgSwitch: "LAT/LON"}) {
         fmc.clearDisplay();
         let gpsPos = new LatLong(SimVar.GetSimVarValue("GPS POSITION LAT", "degree latitude"), SimVar.GetSimVarValue("GPS POSITION LON", "degree longitude")).toDegreeString();
-        let irsPos = "";
+        let adiruPOS = "";
         if (fmc.initCoordinates) {
-            irsPos = fmc.initCoordinates;
+            adiruPOS = fmc.initCoordinates;
         }
         const updateView = () => {
             fmc.setTemplate([
@@ -165,9 +165,9 @@ class FMCPosInitPage {
                 ["GPS R", ""],
                 [gpsPos, ""],
                 ["FMC L", ""],
-                [irsPos, ""],
+                [adiruPOS, ""],
                 ["FMC R", ""],
-                [irsPos, ""],
+                [adiruPOS, ""],
                 ["", ""],
                 ["", ""],
                 ["__FMCSEPARATOR"],
@@ -195,22 +195,22 @@ class FMCPosInitPage {
         };
     }
 
-    static ShowPage4(fmc, store = {irsPos: "", irsGs: "", infoSwitch: "BRG/DIS"}) {
+    static ShowPage4(fmc, store = {adiruPOS: "", irsGs: "", infoSwitch: "BRG/DIS"}) {
         fmc.clearDisplay();
         let currPos = new LatLong(SimVar.GetSimVarValue("GPS POSITION LAT", "degree latitude"), SimVar.GetSimVarValue("GPS POSITION LON", "degree longitude")).toDegreeString();
-        let irsPos = "";
+        let adiruPOS = "";
         if (fmc.initCoordinates) {
-            irsPos = fmc.initCoordinates;
+            adiruPOS = fmc.initCoordinates;
         }
         let irsGs = SimVar.GetSimVarValue("SURFACE RELATIVE GROUND SPEED", "knots").toFixed(0) + "KT";
         fmc.setTemplate([
             ["POS REF", "4", "4"],
             ["\xa0IRS L", "GS"],
-            [`${irsPos}`, `${irsGs}`],
+            [`${adiruPOS}`, `${irsGs}`],
             ["\xa0IRS C", "GS"],
-            [`${irsPos}`, `${irsGs}`],
+            [`${adiruPOS}`, `${irsGs}`],
             ["\xa0IRS R", "GS"],
-            [`${irsPos}`, `${irsGs}`],
+            [`${adiruPOS}`, `${irsGs}`],
             [""],
             [""],
             [""],
