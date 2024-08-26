@@ -1338,7 +1338,7 @@
 		<UseTemplate Name="ASOBO_GT_Component_Emissive_Gauge">
 			<NODE_ID>O01_001_LT</NODE_ID>
 			<EMISSIVE_CODE> 
-				(A:ELECTRICAL MASTER BATTERY, bool)
+				(A:ELECTRICAL MASTER BATTERY, bool) !
 				(A:EXTERNAL POWER AVAILABLE, bool) !
 				(A:EXTERNAL POWER ON, bool) !
 				or
