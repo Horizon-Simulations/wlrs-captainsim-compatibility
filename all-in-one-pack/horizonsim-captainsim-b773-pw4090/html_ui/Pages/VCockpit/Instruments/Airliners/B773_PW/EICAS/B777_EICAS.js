@@ -139,8 +139,8 @@ class B777_EICAS extends Airliners.BaseEICAS {
             [100.0,374,72,63,5.0], [100.0,374,72,63,5.0]
         ];
         this.currentAPUIndex = 0;
-        SimVar.SetSimVarValue("L:APU_EGT", "number", 0);
-        SimVar.SetSimVarValue("L:APU_RPM", "number", this.ambientTemp);
+        SimVar.SetSimVarValue("L:APU_EGT", "number", this.ambientTemp);
+        SimVar.SetSimVarValue("L:APU_RPM", "number", 0);
         SimVar.SetSimVarValue("L:APU_OIL_PRESS", "number", 0);
         SimVar.SetSimVarValue("L:APU_OIL_TEMP", "number", 54);
         SimVar.SetSimVarValue("L:APU_OIL_QTY", "number", 5.9);
