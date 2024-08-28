@@ -1383,7 +1383,7 @@
 		  <Text>DOOR MAIN CARGO</Text>
 		  <Condition>
 			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:2" unit="percent"/>
+			  <Simvar name="INTERACTIVE POINT OPEN:1" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
@@ -1394,7 +1394,7 @@
 		  <Text>DOOR FWD CARGO</Text>
 		  <Condition>
 			<Greater>
-			  <Simvar name="INTERACTIVE POINT OPEN:1" unit="percent"/>
+			  <Simvar name="INTERACTIVE POINT OPEN:2" unit="percent"/>
 			  <Constant>40</Constant>
 			</Greater>
 		  </Condition>
