@@ -563,7 +563,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77L/EICAS/B777_EICAS.js",
       "size": 28624,
-      "date": 133691690328627807
+      "date": 133692701320073637
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77L/EICAS/Boeing777_Common.js",
@@ -1792,8 +1792,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS772LR_GE110/systems.cfg",
-      "size": 25937,
-      "date": 133681191833582708
+      "size": 26580,
+      "date": 133692865668634926
     },
     {
       "path": "SimObjects/Airplanes/CS772LR_GE110/target_performance.cfg",
