@@ -1,6 +1,61 @@
 {
   "content": [
     {
+      "path": "effects/B77F_LIGHT_CSMASTB7_BeaconBelly.fx",
+      "size": 4689,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_BeaconTop.fx",
+      "size": 4703,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_BeaconTopdown.fx",
+      "size": 1264,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_LandingLarge+.fx",
+      "size": 1288,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_LandingLarge.fx",
+      "size": 4881,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_LogoLightLarge.fx",
+      "size": 3698,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_NavigationGreen.fx",
+      "size": 3544,
+      "date": 133302996999449090
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_NavigationRed.fx",
+      "size": 3523,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_NavigationWhite.fx",
+      "size": 3903,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_StrobeSimple.fx",
+      "size": 3561,
+      "date": 133302996999459094
+    },
+    {
+      "path": "effects/B77F_LIGHT_CSMASTB7_TaxiLarge.fx",
+      "size": 4870,
+      "date": 133302996999459094
+    },
+    {
       "path": "effects/fx_((.fx",
       "size": 1305,
       "date": 133302996999479092
@@ -9,61 +64,6 @@
       "path": "effects/fx_LED((.fx",
       "size": 1300,
       "date": 133302996999479092
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_BeaconBelly.fx",
-      "size": 4689,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_BeaconTop.fx",
-      "size": 4703,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_BeaconTopdown.fx",
-      "size": 1264,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_LandingLarge+.fx",
-      "size": 1288,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_LandingLarge.fx",
-      "size": 4881,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_LogoLightLarge.fx",
-      "size": 3698,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_NavigationGreen.fx",
-      "size": 3544,
-      "date": 133302996999449090
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_NavigationRed.fx",
-      "size": 3523,
-      "date": 133302996999459094
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_NavigationWhite.fx",
-      "size": 3903,
-      "date": 133302996999459094
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_StrobeSimple.fx",
-      "size": 3561,
-      "date": 133302996999459094
-    },
-    {
-      "path": "effects/LIGHT_CSMASTB7_TaxiLarge.fx",
-      "size": 4870,
-      "date": 133302996999459094
     },
     {
       "path": "effects/LIGHT_CSMASTB7_WingLarge.FX",
@@ -1787,8 +1787,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/systems.cfg",
-      "size": 26484,
-      "date": 133692865949112064
+      "size": 26662,
+      "date": 133693232640208557
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/taxi.FLT",
