@@ -42,8 +42,6 @@ class HorizonSimBoarding {
         await fillStation(paxStations["reliefPilot"], 0.17, numberOfPax);
         await fillStation(paxStations["jumpseatPilot"], 0.17, numberOfPax);
         await fillStation(paxStations["crew"], 1, paxRemaining);
-        //
-
     }
     
     static async setTargetCargo(cargo) {
@@ -87,7 +85,6 @@ class HorizonSimBoarding {
         await fillCargo(cargoStations["LL"], 0.015, loadableCargoWeight);
         await fillCargo(cargoStations["MR"], 0.065, loadableCargoWeight);
         await fillCargo(cargoStations["ML"], 0.065, loadableCargoWeight);
-        await fillCargo(cargoStations["ML"], 0.065, loadableCargoWeight);
         await fillCargo(cargoStations["N"], 0.155, loadableCargoWeight);
         await fillCargo(cargoStations["Lower12"], 0.0114, loadableCargoWeight);
         await fillCargo(cargoStations["Lower13"], 0.0114, loadableCargoWeight);
@@ -103,7 +100,6 @@ class HorizonSimBoarding {
         await fillCargo(cargoStations["Lower41"], 0.0114, loadableCargoWeight);
         await fillCargo(cargoStations["Lower42"], 0.0114, loadableCargoWeight);
         await fillCargo(cargoStations["bulk"], 1, remainingWeight);
-        /**/
     }
     
     async loadPaxPayload() {
@@ -296,9 +292,7 @@ class HorizonSimBoarding {
     }
 }
 
-
 //teevee replacement
-
 function userToKg(userInput) {
     const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
     if (storedUnits == "LBS") {
