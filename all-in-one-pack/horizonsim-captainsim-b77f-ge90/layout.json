@@ -557,8 +557,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/EICAS/B777_EICAS.html",
-      "size": 4830,
-      "date": 133691699298923516
+      "size": 4831,
+      "date": 133693686995936113
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/EICAS/B777_EICAS.js",
@@ -898,7 +898,7 @@
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/FMC/CS777F_FMC_IdentPage.js",
       "size": 1042,
-      "date": 133684218046461545
+      "date": 133693281023919090
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/FMC/ACMS/B777_FMC_ACMS_Index.js",
@@ -1097,8 +1097,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/FMC/PAYLOAD/B77F/B77F_Boarding.js",
-      "size": 14176,
-      "date": 133665093107481179
+      "size": 14075,
+      "date": 133693558850379044
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/FMC/PAYLOAD/B77F/B77F_FMC_Fuel.js",
@@ -1107,8 +1107,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/FMC/PAYLOAD/B77F/B77F_FMC_Payload.js",
-      "size": 19575,
-      "date": 133675153069984222
+      "size": 21754,
+      "date": 133693554878405348
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/FMC/SAT/B777_FMC_SAT_Directory.js",
@@ -1192,8 +1192,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/B777_MFD.html",
-      "size": 13134,
-      "date": 133691698847948846
+      "size": 13135,
+      "date": 133693686900311571
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/B777_MFD.js",
@@ -1204,6 +1204,11 @@
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/Base_NDCompass.js",
       "size": 39018,
       "date": 133691644767616000
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/HorizonSim_NavSystem.js",
+      "size": 127242,
+      "date": 133590671871384979
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/mapConfig.json",
@@ -1222,8 +1227,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/MapInstrument.js",
-      "size": 79879,
-      "date": 133687464467219582
+      "size": 79836,
+      "date": 133693692323687803
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/MFD/MFD_NDCompass.js",
@@ -1557,8 +1562,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/PFD/B777_PFD.html",
-      "size": 5509,
-      "date": 133691669041424223
+      "size": 5510,
+      "date": 133693686637597064
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/Airliners/B77F/PFD/B777_PFD.js",
@@ -1654,11 +1659,6 @@
       "path": "html_ui/Pages/VCockpit/Instruments/B77RS/PFD/instrument.js",
       "size": 757493,
       "date": 133634062740199201
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/NavSystems/Shared/HorizonSim_NavSystem.js",
-      "size": 127242,
-      "date": 133590671871384979
     },
     {
       "path": "ModelBehaviorDefs/RobSim/B777_Autopilot.xml",
@@ -1767,8 +1767,8 @@
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/flight_model.cfg",
-      "size": 33015,
-      "date": 133672785622028352
+      "size": 38787,
+      "date": 133693535019748947
     },
     {
       "path": "SimObjects/Airplanes/CS_B777F_GE110B1/gameplay.cfg",
