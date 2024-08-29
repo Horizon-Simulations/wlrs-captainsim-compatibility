@@ -477,6 +477,80 @@ class FMC_Payload {
         fmc.onPrevPage = () => {
             FMC_Payload.ShowDetailsPage6(fmc);
         }
+
+        fmc.onNextPage = () => {
+            FMC_Payload.ShowDetailsPage8(fmc);
+        }
+    }
+
+    static ShowDetailsPage8(fmc) {
+    
+        fmc.clearDisplay();
+
+        const updateView = () => {
+            FMC_Payload.ShowDetailsPage8(fmc);
+        };
+
+        fmc.refreshPageCallback = () => {
+            updateView();
+        };
+
+        SimVar.SetSimVarValue("L:FMC_UPDATE_CURRENT_PAGE", "number", 1);
+
+        const storedUnits = WTDataStore.get("OPTIONS_UNITS", "KG");
+        const PAX_WEIGHT = kgToUser(WTDataStore.get("PAYLOAD PAX WEIGHT", 84));  //kg
+        const BAG_WEIGHT = kgToUser(WTDataStore.get("PAYLOAD BAG WEIGHT", 22));  //kg
+        
+        fmc.setTemplate([
+            ["WEIGHT CUSTOMIZATION", "3", "3"],
+            ["CREW WEIGHT", ""],
+            [`${PAX_WEIGHT}{small}${storedUnits}`, ""],
+            ["LUGGAGE WEIGHT", ""],
+            [`${BAG_WEIGHT}{small}${storedUnits}`, ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["", ""],
+            ["\xa0RETURN TO"],
+            ["<PAYLOAD"],
+        ]);
+
+        fmc.onLeftInput[0] = () => {
+            let value = fmc.inOut;
+            if (value) {
+                value = parseInt(value);
+
+                if (userToKg(value) < 60) {
+                    value = 60;
+                }
+                if (value >= 60 && userToKg(value) <= 100) {
+                    WTDataStore.set("PAYLOAD PAX WEIGHT", value);
+                    fmc.clearUserInput();
+                } else fmc.showErrorMessage("NOT ALLOWED");
+            }
+        };
+
+        fmc.onLeftInput[1] = () => {
+            let value = fmc.inOut;
+            if (value) {
+                value = parseInt(value);
+
+                if (value >= 0 && userToKg(value) <= 28) {
+                    WTDataStore.set("PAYLOAD BAG WEIGHT", value);
+                    fmc.clearUserInput();
+                } else fmc.showErrorMessage("NOT ALLOWED");
+            }
+        };
+
+        fmc.onLeftInput[5] = () => {
+            FMC_Payload.ShowPage(fmc);
+        };
+
+        fmc.onPrevPage = () => {
+            FMC_Payload.ShowDetailsPage7(fmc);
+        }
     }
     
     static buildStationValue(station) {
