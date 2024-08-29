@@ -19,7 +19,7 @@ class FMCIdentPage {
             ["\xa0OP PROGRAM", "CO DATA"],
             ["1.9.7-b5fd72d", "VS1001"],
             ["\xa0HS PROGRAM", "DRAG/FF"],
-            ["v0.7.0", "+0.0/+0.0"],
+            ["v0.8.0", "+0.0/+0.0"],
             ["__FMCSEPARATOR"],
             ["<INDEX", "POS INIT>"]
         ]);
