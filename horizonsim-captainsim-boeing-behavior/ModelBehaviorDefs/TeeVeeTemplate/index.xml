@@ -1,4 +1,0 @@
-<ModelBehaviors>
-    <Include RelativeFile="B777_WT_templates.xml"/>
-    <Include RelativeFile="B777_HorizonSim_Engines.xml"/>
-</ModelBehaviors>
