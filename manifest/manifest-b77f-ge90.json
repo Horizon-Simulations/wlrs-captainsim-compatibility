@@ -9,7 +9,7 @@
   "title": "Horizon Simulations B777-200F-GE90",
   "manufacturer": "Boeing",
   "creator": "masterrob94, teevee",
-  "package_version": "0.7.0",
+  "package_version": "0.8.0",
   "minimum_game_version": "1.29.30",
   "release_notes": {
     "neutral": {
@@ -17,5 +17,5 @@
       "OlderHistory": ""
     }
   },
-  "total_package_size": "00000000000022951259"
+  "total_package_size": "00000000000036827016"
 }
