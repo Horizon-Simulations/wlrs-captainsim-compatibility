@@ -1,1 +1,7 @@
-Replace the model and the flight_model.cfg
+Replace the flight_model.cfg in the Community folder (you can find tutorial on Youtube)
+
+for store user:
+C:\Users\[username]\AppData\Local\Packages\Microsoft.FlightSimulator_8wekyb3d8bbwe\LocalCache\Packages\Community\horizonsim-captainsim-b77w-ge90\SimObjects\Airplanes\CS_B777-300ER_GE115B
+
+for steam user:
+C:\Users\[username]\AppData\Roaming\Microsoft Flight Simulator\Packages\Community\horizonsim-captainsim-b77w-ge90\SimObjects\Airplanes\CS_B777-300ER_GE115B
