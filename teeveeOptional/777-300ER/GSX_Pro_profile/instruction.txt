@@ -1,0 +1,28 @@
+HOW TO INSTALL THE PROFILE?
+
+Step 1: Go to C:\Users\[your user name]\AppData\Roaming\Virtuali\Airplanes
+Step 2: Drag and drop the folder CS_B777-300ER_GE115B.
+Step 3: Enjoy!
+
+ 
+
+HOW TO FIX "Simbrief plane don't match MSFS plane"?
+
+Step 1: Go to your community folder: (this always depend on where you install your game)
+
+     For Store user:
+C:\Users\| user name |\AppData\Local\Packages\Microsoft.FlightSimulator_8wekyb3d8bbwe\LocalCache\Packages\Community\captainsim-aircraft-m773\SimObjects\Airplanes\CS_B777-300ER_GE115B
+     For Steam user:
+C:\Users\|your user name|\AppData\Roaming\Microsoft Flight Simulator\Packages\Community\captainsim-aircraft-m773\SimObjects\Airplanes\CS_B777-300ER_GE115B
+
+Step 2: Open the aircraft.cfg file with any text editor
+Step 3: on line 13 and 14 change:
+
+icao_model = 777-300ER
+icao_type_designator = B77W
+
+Step 4: save as .cfg file
+
+OR
+
+Simply type in GSX Airplane Editor icao_type "B77W".
