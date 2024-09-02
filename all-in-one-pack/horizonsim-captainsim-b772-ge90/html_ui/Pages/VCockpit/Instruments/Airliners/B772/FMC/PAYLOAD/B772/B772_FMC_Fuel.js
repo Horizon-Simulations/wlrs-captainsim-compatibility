@@ -158,7 +158,7 @@ class FMC_Fuel {
 }
 
 async function setDesiredFuel(fmc, updateView, blockFuel) {
-    SimVar.SetSimVarValue("L:B777_FUEL_REQUEST", "KG", blockFuel);
+    SimVar.SetSimVarValue("L:B777_FUEL_REQUEST", "KG", userToKg(blockFuel));
 
     const centerTankCapacity = 27290;       //calibrate later
     const leftMainTankCapacity = 9300;
