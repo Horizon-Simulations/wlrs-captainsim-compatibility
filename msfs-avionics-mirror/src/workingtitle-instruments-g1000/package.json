@@ -14,13 +14,13 @@
   "author": "Working Title Simulations, LLC",
   "license": "ISC",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@types/geodesy": "^2.2.2",
     "garminsdk": "file:../garminsdk/dist",
     "geodesy": "^2.2.1",
     "msfssdk": "file:../sdk/dist",
     "msfstypes": "file:../msfstypes",
-    "rollup-plugin-import-css": "^2.0.1",
+    "rollup-plugin-import-css": "^3.5.2",
     "typescript": "~4.5.5"
   }
 }
